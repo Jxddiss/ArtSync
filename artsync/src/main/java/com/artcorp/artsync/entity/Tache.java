@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 public class Tache {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     private String titre;
     private String description;
     private String etat;
@@ -19,7 +19,7 @@ public class Tache {
     public Tache() {
     }
 
-    public Tache(int id, String titre, String description, String etat, String dateCreation, String dateModification, Utilisateur utilisateur) {
+    public Tache(Long id, String titre, String description, String etat, String dateCreation, String dateModification, Utilisateur utilisateur) {
         this.id = id;
         this.titre = titre;
         this.description = description;
@@ -29,11 +29,11 @@ public class Tache {
         this.utilisateur = utilisateur;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

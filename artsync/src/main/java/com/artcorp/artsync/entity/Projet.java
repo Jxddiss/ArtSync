@@ -2,29 +2,26 @@ package com.artcorp.artsync.entity;
 
 
 import jakarta.persistence.*;
-import org.springframework.data.annotation.Id;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Entity
 public class Projet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(unique =true , nullable = false)
-    @OneToOne
+
     private String titre;
     @Column(nullable = false)
-    @OneToOne
     private String description;
-    @OneToOne
+
     private String projetPhoto;
-    @OneToOne
     private boolean publique;
-    @OneToOne
     private LocalDateTime dateCreation;
-    @OneToOne
+
     private LocalDateTime dateModification;
-    @OneToOne
     private LocalDateTime dateSuppression;
     @OneToOne
     private Conversation conversation;

@@ -2,6 +2,8 @@ package com.artcorp.artsync.entity;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 public class Tache {
     @Id
@@ -10,8 +12,8 @@ public class Tache {
     private String titre;
     private String description;
     private String etat;
-    private String dateCreation;
-    private String dateModification;
+    private LocalDateTime dateCreation;
+    private LocalDateTime dateModification;
     @ManyToOne
     @JoinColumn (name = "utilisateur_id")
     private Utilisateur utilisateur;
@@ -19,7 +21,7 @@ public class Tache {
     public Tache() {
     }
 
-    public Tache(Long id, String titre, String description, String etat, String dateCreation, String dateModification, Utilisateur utilisateur) {
+    public Tache(Long id, String titre, String description, String etat, LocalDateTime dateCreation, LocalDateTime dateModification, Utilisateur utilisateur) {
         this.id = id;
         this.titre = titre;
         this.description = description;
@@ -61,19 +63,19 @@ public class Tache {
         this.etat = etat;
     }
 
-    public String getDateCreation() {
+    public LocalDateTime getDateCreation() {
         return dateCreation;
     }
 
-    public void setDateCreation(String dateCreation) {
+    public void setDateCreation(LocalDateTime dateCreation) {
         this.dateCreation = dateCreation;
     }
 
-    public String getDateModification() {
+    public LocalDateTime getDateModification() {
         return dateModification;
     }
 
-    public void setDateModification(String dateModification) {
+    public void setDateModification(LocalDateTime dateModification) {
         this.dateModification = dateModification;
     }
 

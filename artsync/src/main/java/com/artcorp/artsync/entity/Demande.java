@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 public class Demande {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     @ManyToOne
     @JoinColumn (name = "idProjet")
     private Projet projet;
@@ -18,18 +18,18 @@ public class Demande {
     public Demande() {
     }
 
-    public Demande(int id, Projet projet, String status, Utilisateur utilisateur) {
+    public Demande(Long id, Projet projet, String status, Utilisateur utilisateur) {
         this.id = id;
         this.projet = projet;
         this.status = status;
         this.utilisateur = utilisateur;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -24,10 +24,13 @@ public class Projet {
     private LocalDateTime dateModification;
     private LocalDateTime dateSuppression;
     @OneToOne
+    @JoinColumn (name = "conversation_id")
     private Conversation conversation;
     @OneToMany
+    @JoinColumn (name = "utilisateur_id")
     private List<Utilisateur> utilisateurs;
     @OneToMany
+    @JoinColumn (name = "fichier_id")
     private List<FichierGeneral> fichiers;
 
     public Projet() {

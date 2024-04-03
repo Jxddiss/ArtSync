@@ -1,9 +1,6 @@
 package com.artcorp.artsync.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class FichierGeneral {
@@ -11,6 +8,9 @@ public class FichierGeneral {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String urlMedia;
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    private Post post;
 
     public FichierGeneral() {
     }

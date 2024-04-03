@@ -13,6 +13,7 @@ public class Tache {
     private String dateCreation;
     private String dateModification;
     @ManyToOne
+    @JoinColumn (name = "utilisateur_id")
     private Utilisateur utilisateur;
 
     public Tache() {

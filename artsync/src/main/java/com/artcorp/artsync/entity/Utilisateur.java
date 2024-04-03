@@ -10,21 +10,20 @@ public class Utilisateur {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = false, length = 64)
     private String pseudo;
-    @Column(nullable = false)
+    @Column(nullable = false, length = 64)
     private String prenom;
-    @Column(nullable = false)
+    @Column(nullable = false, length = 64,unique = true)
     private String email;
     @Column(nullable = false)
     private String password;
-    private String photoUrl;
     @Column(nullable = false)
+    private String photoUrl;
+    @Column(nullable = false, length = 64)
     private String specialisation;
+    @Column(nullable = false, length = 64)
     private String statut;
-    @OneToOne
-    @JoinColumn(name = "portfolio_id")
-    private Portfolio portfolio;
     @ManyToMany
     @JoinTable(name="utilisateurs_relation",
             joinColumns = @JoinColumn(name = "utilisateur_un_id"),
@@ -59,7 +58,6 @@ public class Utilisateur {
         this.photoUrl = photoUrl;
         this.specialisation = specialisation;
         this.statut = statut;
-        this.portfolio = portfolio;
         this.followers = followers;
         this.following = following;
         this.amis = amis;
@@ -129,14 +127,6 @@ public class Utilisateur {
         this.statut = statut;
     }
 
-    public Portfolio getPortfolio() {
-        return portfolio;
-    }
-
-    public void setPortfolio(Portfolio portfolio) {
-        this.portfolio = portfolio;
-    }
-
     public List<Utilisateur> getFollowers() {
         return followers;
     }
@@ -180,7 +170,6 @@ public class Utilisateur {
                 ", photoUrl='" + photoUrl + '\'' +
                 ", specialisation='" + specialisation + '\'' +
                 ", statut='" + statut + '\'' +
-                ", portfolio=" + portfolio +
                 ", followers=" + followers +
                 ", following=" + following +
                 ", amis=" + amis +

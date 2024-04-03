@@ -23,15 +23,29 @@ public class Utilisateur {
     private String specialisation;
     private String statut;
     @OneToOne
+    @JoinColumn(name = "portfolio_id")
     private Portfolio portfolio;
     @ManyToMany
+    @JoinTable(name="utilisateurs_relation",
+            joinColumns = @JoinColumn(name = "utilisateur_un_id"),
+            inverseJoinColumns = @JoinColumn(name = "utilisateur_deux_id")
+    )
     private List<Utilisateur> followers;
+
     @ManyToMany
+    @JoinTable(name="utilisateurs_relation",
+            joinColumns = @JoinColumn(name = "utilisateur_deux_id"),
+            inverseJoinColumns = @JoinColumn(name = "utilisateur_un_id")
+    )
     private List<Utilisateur> following;
+
     @ManyToMany
+    @JoinTable(name="utilisateurs_amis",
+            joinColumns = @JoinColumn(name = "utilisateur_un_id"),
+            inverseJoinColumns = @JoinColumn(name = "utilisateur_deux_id")
+    )
     private List<Utilisateur> amis;
-    @ManyToMany
-    private List<Projet> projetFavories;
+    private boolean isActive;
 
     public Utilisateur() {
     }
@@ -49,7 +63,6 @@ public class Utilisateur {
         this.followers = followers;
         this.following = following;
         this.amis = amis;
-        this.projetFavories = projetFavories;
     }
 
     public void setId(Long id) {
@@ -148,12 +161,12 @@ public class Utilisateur {
         this.amis = amis;
     }
 
-    public List<Projet> getProjetFavories() {
-        return projetFavories;
+    public boolean isActive() {
+        return isActive;
     }
 
-    public void setProjetFavories(List<Projet> projetFavories) {
-        this.projetFavories = projetFavories;
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
     @Override
@@ -171,7 +184,6 @@ public class Utilisateur {
                 ", followers=" + followers +
                 ", following=" + following +
                 ", amis=" + amis +
-                ", projetFavories=" + projetFavories +
                 '}';
     }
 }

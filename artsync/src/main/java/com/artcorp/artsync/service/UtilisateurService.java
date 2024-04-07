@@ -11,4 +11,9 @@ public interface UtilisateurService {
     Utilisateur findByEmail(String email);
     Utilisateur update(Utilisateur utilisateur);
     void updateFollowers(Long followedId, Long followerId);
+    List<Utilisateur> findBySpecialisation(String specialisation);
+    List<Utilisateur> findByKeyword(String keyword);
+    void disable(Long id);
+    void enable(Long id);
+    void delete(Long id);
 }

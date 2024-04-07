@@ -3,12 +3,14 @@ package com.artcorp.artsync.service.impl;
 import com.artcorp.artsync.entity.Utilisateur;
 import com.artcorp.artsync.repos.UtilisateurRepos;
 import com.artcorp.artsync.service.UtilisateurService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class UtilisateurServiceImpl implements UtilisateurService {
     private UtilisateurRepos repos;
 
@@ -19,27 +21,36 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
     @Override
     public Utilisateur inscription(String pseudo, String prenom, String nom, String email, String password, String photoUrl, String specialisation, String statut) {
-        return null;
+        Utilisateur utilisateur = new Utilisateur();
+        utilisateur.setPseudo(pseudo);
+        utilisateur.setPrenom(prenom);
+        utilisateur.setNom(nom);
+        utilisateur.setEmail(email);
+        utilisateur.setPassword(password);
+        utilisateur.setPhotoUrl(photoUrl);
+        utilisateur.setSpecialisation(specialisation);
+        utilisateur.setStatut(statut);
+        return repos.save(utilisateur);
     }
 
     @Override
     public List<Utilisateur> findAll() {
-        return null;
+        return repos.findAll();
     }
 
     @Override
     public Utilisateur findByPseudo(String pseudo) {
-        return null;
+        return repos.findByPseudoAndActive(pseudo);
     }
 
     @Override
     public Utilisateur findByEmail(String email) {
-        return null;
+        return repos.findByEmailAndActive(email);
     }
 
     @Override
     public Utilisateur update(Utilisateur utilisateur) {
-        return null;
+        return repos.save(utilisateur);
     }
 
     @Override
@@ -67,4 +78,36 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         }
     }
 
+    @Override
+    public List<Utilisateur> findBySpecialisation(String specialisation) {
+        return repos.findBySpecialisationAndActive(specialisation);
+    }
+
+    @Override
+    public List<Utilisateur> findByKeyword(String keyword) {
+        return repos.findByKeyword(keyword);
+    }
+
+    @Override
+    public void disable(Long id) {
+        Utilisateur utilisateur = repos.findById(id).get();
+        if (utilisateur != null) {
+            utilisateur.setActive(false);
+            repos.save(utilisateur);
+        }
+    }
+
+    @Override
+    public void enable(Long id) {
+        Utilisateur utilisateur = repos.findById(id).get();
+        if (utilisateur != null) {
+            utilisateur.setActive(true);
+            repos.save(utilisateur);
+        }
+    }
+
+    @Override
+    public void delete(Long id) {
+        repos.deleteById(id);
+    }
 }

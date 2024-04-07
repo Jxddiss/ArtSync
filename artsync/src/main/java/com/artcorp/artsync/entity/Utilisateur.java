@@ -3,6 +3,7 @@ package com.artcorp.artsync.entity;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Utilisateur {
@@ -14,6 +15,8 @@ public class Utilisateur {
     private String pseudo;
     @Column(nullable = false, length = 64)
     private String prenom;
+    @Column(nullable = false, length = 64)
+    private String nom;
     @Column(nullable = false, length = 64,unique = true)
     private String email;
     @Column(nullable = false)
@@ -29,27 +32,27 @@ public class Utilisateur {
             joinColumns = @JoinColumn(name = "utilisateur_un_id"),
             inverseJoinColumns = @JoinColumn(name = "utilisateur_deux_id")
     )
-    private List<Utilisateur> followers;
+    private Set<Utilisateur> followers;
 
     @ManyToMany
     @JoinTable(name="utilisateurs_relation",
             joinColumns = @JoinColumn(name = "utilisateur_deux_id"),
             inverseJoinColumns = @JoinColumn(name = "utilisateur_un_id")
     )
-    private List<Utilisateur> following;
+    private Set<Utilisateur> following;
 
     @ManyToMany
     @JoinTable(name="utilisateurs_amis",
             joinColumns = @JoinColumn(name = "utilisateur_un_id"),
             inverseJoinColumns = @JoinColumn(name = "utilisateur_deux_id")
     )
-    private List<Utilisateur> amis;
+    private Set<Utilisateur> amis;
     private boolean isActive;
 
     public Utilisateur() {
     }
 
-    public Utilisateur(Long id, String pseudo, String prenom, String email, String password, String photoUrl, String specialisation, String statut, Portfolio portfolio, List<Utilisateur> followers, List<Utilisateur> following, List<Utilisateur> amis, List<Projet> projetFavories) {
+    public Utilisateur(Long id, String pseudo, String prenom, String email, String password, String photoUrl, String specialisation, String statut, Portfolio portfolio, Set<Utilisateur> followers, Set<Utilisateur> following, Set<Utilisateur> amis, List<Projet> projetFavories) {
         this.id = id;
         this.pseudo = pseudo;
         this.prenom = prenom;
@@ -85,6 +88,14 @@ public class Utilisateur {
 
     public void setPrenom(String prenom) {
         this.prenom = prenom;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
     }
 
     public String getEmail() {
@@ -127,27 +138,27 @@ public class Utilisateur {
         this.statut = statut;
     }
 
-    public List<Utilisateur> getFollowers() {
+    public Set<Utilisateur> getFollowers() {
         return followers;
     }
 
-    public void setFollowers(List<Utilisateur> followers) {
+    public void setFollowers(Set<Utilisateur> followers) {
         this.followers = followers;
     }
 
-    public List<Utilisateur> getFollowing() {
+    public Set<Utilisateur> getFollowing() {
         return following;
     }
 
-    public void setFollowing(List<Utilisateur> following) {
+    public void setFollowing(Set<Utilisateur> following) {
         this.following = following;
     }
 
-    public List<Utilisateur> getAmis() {
+    public Set<Utilisateur> getAmis() {
         return amis;
     }
 
-    public void setAmis(List<Utilisateur> amis) {
+    public void setAmis(Set<Utilisateur> amis) {
         this.amis = amis;
     }
 
@@ -170,9 +181,7 @@ public class Utilisateur {
                 ", photoUrl='" + photoUrl + '\'' +
                 ", specialisation='" + specialisation + '\'' +
                 ", statut='" + statut + '\'' +
-                ", followers=" + followers +
-                ", following=" + following +
-                ", amis=" + amis +
+
                 '}';
     }
 }

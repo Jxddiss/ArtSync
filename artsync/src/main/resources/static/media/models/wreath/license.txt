@@ -1,0 +1,11 @@
+Model Information:
+* title:	LAUREL WREATH
+* source:	https://sketchfab.com/3d-models/laurel-wreath-81bb2c0a61ee4a9c82ef5276b79cffd4
+* author:	hueminers (https://sketchfab.com/hueminers)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "LAUREL WREATH" (https://sketchfab.com/3d-models/laurel-wreath-81bb2c0a61ee4a9c82ef5276b79cffd4) by hueminers (https://sketchfab.com/hueminers) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

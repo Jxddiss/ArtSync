@@ -1,0 +1,611 @@
+:root{
+    --background-color : #f0f0f0;
+    --border-color: #000000;
+    --neon-un-color:#2b2a2a;
+    --neon-deux-color:#2b2a2a;
+    --neon-trois-color:#434242;
+
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+}
+
+body {
+    font-family: system-ui;
+    background: radial-gradient(ellipse at top, #ededed 25%,#c9d7dc 100%) fixed;
+    overflow-x: hidden;
+    
+}
+
+.no-animation {
+    animation: none !important;
+}
+
+/*
+--------------------------------
+    Animation
+--------------------------------
+*/
+.animation {
+    animation: apparition 0.7s ease-in;
+    animation-fill-mode: forwards;
+}
+
+.delais{
+    animation-delay: 1.5s;
+}
+
+
+.animation-card-focus {
+    animation: card-focus .1s ease-in;
+    animation-fill-mode: forwards;
+}
+
+@keyframes card-focus {
+    0% {
+    }
+    100% {
+        position: absolute;
+        width: 70vw;
+        height: 75vh;
+        left: 20%;
+        top: 20%;
+        z-index: 30;
+    }
+}
+
+@keyframes apparition {
+    0% {
+        opacity: 0;
+        filter: blur(5px);
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/*
+================ Parramètre du flexbox parent du contenu de la page =============
+*/
+.container-content {
+    padding-top: 2em;
+    display: flex;
+    gap: .5em;
+    overflow: hidden;
+    height: 100vh;
+    /* display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
+    gap: 0px 10px;
+    grid-auto-flow: row;
+    grid-template-areas:
+    "nav-cote cards cards cards cards"; ; */
+}
+
+/*
+================ Parramètre du grid qui contient les cartes  =============
+*/
+.container-post {
+    flex-grow: 1;
+    height: auto;
+    padding-left: 1.5em;
+    padding-right: 1.5em;
+    padding-bottom: 3em;
+    flex-direction: column;
+    overflow-x: hidden;
+    overflow-y: auto;
+    min-width: 88%;
+    max-width: 88%;
+    transition: all .5s ease-in-out;
+}
+
+.container-post > h2 {
+    opacity: 0;
+}
+
+.container-post > h2::after, 
+.container-post > h2::before {
+    content: "";
+    display: block;
+    width: 45%;
+    height: 2px;
+    margin-top: 5px;
+    margin-bottom: .5em;
+    background-color: var(--border-color, #000000);
+    transition: transform 1.5s ease-in-out;
+}
+.container-cards {
+    
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-rows: repeat(auto-fill, minmax(150px, 1fr));
+    justify-content: center;
+    align-content: end;
+    grid-gap: 1.5em;
+    transition: all 300ms ease-in-out;
+    margin-bottom: 3em;
+    height: 40em;
+    
+}
+
+/*
+================ Parramètre des cartes avec les postes =============
+*/
+.card-sample {
+    /* height: 16em; */
+    /* width: 20em; */
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 5px;
+    -webkit-box-shadow: -4px -3px 15px 1px rgba(130, 130, 130, 0.28);
+    box-shadow: -4px -3px 15px 1px rgba(130, 130, 130, 0.28);
+    position: relative;
+    transition: scale 600ms ease-in-out;
+    opacity: 0;
+}
+
+.card1 {
+    grid-column: 1 / span 2;
+    grid-row-start: 1;
+    grid-row-end: span 2;
+}
+
+.card2 {
+    grid-column: 3 / span 2;
+}
+
+.card-sample:first-of-type{
+    grid-column: 1 / span 2;
+    grid-row-start: 1;
+    grid-row-end: span 2;
+}
+
+.card-sample:last-of-type {
+    grid-column: span 2;
+    grid-row: span 1;
+}
+
+.card-sample:hover {
+    cursor: pointer;
+    position: relative;
+    transform: scale(1.05);
+    z-index: 10;
+    /* transform: rotateX(55deg) rotateY(25deg);
+    perspective: 100px; */
+}
+
+
+/* .card-sample > img {
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid var(--border-color, #000000);
+} */
+
+.img-card{
+    height: 100%;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+}
+
+.card-sample .text {
+    position: absolute;
+    container-type: size;
+    width: 100%;
+    bottom: 0;
+    height: 0;
+    padding-left: 2px;
+    animation-name: fermeture;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
+    backdrop-filter: blur(10px);
+    background-color: rgb(240, 240, 240, 0.5);
+}
+
+.text h2 {
+    margin-bottom: 0;
+    margin-top: 5px;
+    font-size: 35cqmin;
+}
+
+.text h2::after {
+    content: "";
+    display: block;
+    width: 60%;
+    height: 1px;
+    margin-top: 5px;
+    background-color: var(--border-color, #000000);
+    transform: translateX(-105%);
+    transition: transform 1.5s ease-in-out;
+}
+
+.card-sample:hover .text h2::after {
+    transform: translateX(0%);
+}
+
+
+.text>p {
+    margin: 0;
+    font-size: 25cqh;
+}
+
+.card-sample:hover .text {
+    margin-top: 0;
+    border-radius: 5px;
+    animation-name: ouverture;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
+    transition: all 0.3s ease-in-out;
+}
+
+.card-sample-ouverte{
+    position: relative;
+    border-radius: 5px;
+    /* transition: all 0.3s ease-in-out; */
+    opacity: 0;
+}
+
+.card-sample-ouverte .img-card{
+    background-size: contain;
+    background-repeat: no-repeat;
+    
+}
+
+
+.card-sample-ouverte::after{
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200vw;
+    height: 200vh;
+    background: transparent;
+    backdrop-filter: blur(10px);
+    z-index: -1;
+    opacity: 1;
+}
+
+.card-sample-ouverte .text{
+    display: none;
+}
+
+
+/* .card-sample:hover{
+    Surement devoir utiliser javascript mais idées de faire grossir juste un peu le card
+    et on click dialogue avec post de Ali
+} */
+
+/*
+================= Dialogue focus card ================================
+*/
+dialog{
+    border: none;
+    position: absolute;
+    top: 25%;
+    left: 20%;
+    z-index: 1000;
+    padding: 0;
+    height: 40em;
+    width: 70vw;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: opacity 5s ease-in-out;
+}
+
+dialog[open] {
+    animation: fadeIn 0.5s ease normal;
+  }
+  
+@keyframes fadeIn{
+    from {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+  }
+
+dialog > .poste{
+    transform: rotate(0deg) !important;
+    height: 100%;
+    width: 100%;
+    margin: 0 !important;
+    flex-direction: row !important;
+}
+
+dialog > button{
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 2em;
+    width: 2em;
+    z-index: 2;
+    border: none;
+    background: transparent;
+    padding: 0;
+    font-size: 1.5rem;
+}
+
+dialog .poste > img{
+    min-width: 65%;
+}
+
+dialog > button:hover{
+    cursor: pointer;
+    transform: scale(1.05);
+}
+
+dialog::backdrop{
+    backdrop-filter: blur(10px);
+}
+
+@keyframes ouverture {
+    from {
+        height: 0;
+    }
+
+    to {
+        height: 30%;
+    }
+}
+
+@keyframes fermeture {
+    from {
+        height: 30%;
+    }
+
+    to {
+        height: 0;
+    }
+}
+
+.poste{
+    display: flex;
+    width: 60%;
+    height: 30em;
+    background: radial-gradient(circle, rgba(251,242,235,1) 0%, rgba(221,229,239,1) 100%);
+    padding: 1em;
+    gap: 1rem;
+    border-radius: 10px;
+    /* margin-left: 10em; */
+    margin-right: auto;
+    margin-bottom: 2em;
+}
+
+.poste:nth-child(even){
+    margin-left: 30em;
+    transform: rotate(2deg);
+    flex-direction: row-reverse;
+    box-shadow:
+        0 0 .1rem var(--neon-un-color, #2b2a2a),
+        14px 0px 12px -5px rgba(0,0,0,0.1);
+}
+
+.poste:nth-child(odd){
+    transform: rotate(-2deg);
+    margin-left: 5em;
+    box-shadow:
+        0 0 .1rem var(--neon-un-color, #2b2a2a),
+        -14px -5px 12px -5px rgba(0,0,0,0.1);
+}
+
+
+.poste > img{
+    height: 100%;
+    width: 50%;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+.card-post{
+    height: 100%;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 50%;
+}
+
+.liste-commentaires{
+    height: 50%;
+}
+
+.env-commentaire{
+    width: 100%;
+}
+
+.env-commentaire .input-box-commentaire{
+    width: 100%;
+    height: 2.5rem;
+    padding: .5rem;
+    display: flex;
+    gap: .5rem;
+}
+
+.input-box-commentaire input[type=text]{
+    width: 80%;
+    height: 2rem;
+    padding: .5rem;
+    border-radius: 10px;
+}
+
+.input-box-commentaire button{
+    height: 2rem;
+    width: 20%;
+    background-color: var(--background-color, #f0f0f0);
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+    border-radius: 5px;
+    font-weight: 600;
+    margin: 0px;
+}
+
+.input-box-commentaire button:hover{
+    background-color: #434242;
+    color: #f0f0f0;
+    transition: all 0.3s ease-in-out;
+    transform: scale(1.1);
+}
+
+.icones-interactions{
+    display: flex;
+    gap: 1rem;
+}
+
+.icon-img{
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+}
+
+.icon-img img{
+    height: 1.5rem;
+    width: 1.5rem;
+}
+
+.icon-img p{
+    margin-bottom: 0;
+}
+
+/*
+================ Paramètres du panneau de navigation sur le côté =============
+*/
+.nav-cote {
+    width: 2vw;
+    grid-area: nav-cote;
+    /* justify-self: stretch; */
+    background: var(--background-color, #f0f0f0);
+    background: radial-gradient(circle, rgba(251,242,235,1) 0%, rgba(221,229,239,1) 100%);
+    height: 80em;
+    border-radius: 0px 121px 0px 0px;
+    position: relative;
+    padding-top: 5rem;
+    transition: width 200ms ease-in-out;
+    box-shadow:
+        0 0 .1rem var(--neon-un-color, #2b2a2a),
+        14px 0px 12px -5px rgba(0,0,0,0.1);
+}
+
+.nav-cote-large {
+    width: 25rem;
+    font-size: 1.2rem;
+}
+
+#open-nav-cote {
+    position: absolute;
+    border: none;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    box-shadow: 0px 1px 4px 1px rgba(0, 0, 0, .3);
+    left: 100%;
+    top: 4rem;
+    transform: translateX(-50%);
+    cursor: pointer;
+    z-index: 3;
+    transition: all 300ms ease-in-out;
+}
+
+.nav-cote-large #open-nav-cote {
+    top: 8rem;
+}
+
+#open-nav-cote:hover {
+    height: 50px;
+    width: 50px;
+}
+
+ul {
+    list-style: none;
+}
+/*
+================ Form comprenant les critères de recherche =============
+*/
+#filtre{
+    /* transition: all 200ms ease-in-out; */
+    height: 50%;
+    width: auto;
+    opacity: 1;
+    margin: 1.5em;
+    display: flex;
+    flex-direction: column;
+    transition: opacity 1s ease-in-out;
+    gap: 1em;
+}
+
+#filtre button{
+    margin-right: auto;
+    margin-left: auto;
+    width: 90%;
+    background-color: var(--background-color,#f0f0f0);
+    text-decoration: none;
+    font-size: 13px;
+    color: #000000;
+    border-radius: 5px;
+    margin-inline: 10px;
+    margin-block: 10px;
+    padding: 10px;
+    font-weight: 600;
+    margin: 0;
+}
+
+#filtre button:hover{
+    transition: 0.5s;
+    scale: 1.1;
+    color: white;
+    background-color: #14141480;
+    cursor: pointer;
+}
+
+#icone-reseaux {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+#filtre input[type=radio]{
+    display: none;
+}
+
+#filtre label:hover{
+    border-bottom: 1px solid black;
+    text-shadow: 0 0 .05rem var(--border-color, #000000),
+        0 0 .05rem var(--neon-un-color, #2b2a2a),
+        0 0 .05rem var(--neon-deux-color, #434242),
+        0 0 .05rem var(--neon-trois-color, #6a6969);
+    cursor: pointer;
+    transform: scale(1.2);
+}
+
+label:has(>input[type=radio]:checked){
+    border-bottom: 1px solid black;
+    text-shadow: 0 0 .05rem var(--border-color, #000000),
+        0 0 .05rem var(--neon-un-color, #2b2a2a),
+        0 0 .05rem var(--neon-deux-color, #434242),
+        0 0 .05rem var(--neon-trois-color, #6a6969);
+    cursor: pointer;
+    transform: scale(1.2);
+}
+
+.footer{
+    position: relative;
+    margin: 0 !important;
+    overflow: hidden;
+}

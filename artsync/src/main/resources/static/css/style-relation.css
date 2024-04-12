@@ -1,0 +1,415 @@
+.body-relation{
+    background: radial-gradient(ellipse at top, #ededed 25%,#dfeef4 100%) fixed;
+
+}
+.social-holder{
+    background-color: rgba(199, 199, 199, 0.2);
+    box-shadow: rgb(211, 210, 210) 0px 0px 15px 15px;
+    background-color: white;
+    border-radius: 5px;
+    height: 700px;
+}
+
+a{
+    text-decoration: none !important;
+}
+
+.relation-button{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgb(225,225,225);
+    background-color: rgb(249, 249, 249);
+    color: rgb(0, 0, 0);
+    border-radius: 5px;
+    justify-content: center;
+    align-items: start;
+    width: calc(fit-content + 15px);
+    height: 150%;
+    padding: auto;
+    line-height: 22px;
+}
+.relation-button p{
+    margin: 0px;
+    font-size: 20px;
+    font-family: system-ui;
+    font-weight: 350;
+    text-align: left;
+    padding-left: 15px;    
+}
+.relation-button small{
+    font-size: 12px;
+    font-family: system-ui;
+    font-weight: 355;
+    color: rgba(0, 0, 0, 0.7);
+    text-align: left;
+    padding-left: 15px; 
+}
+.relation-button small span{
+    color: rgb(73, 182, 59);
+
+}
+.relation-button:hover{
+    background-color: rgb(233, 233, 233);
+    cursor: pointer;
+}
+
+.data-container{
+    display: flex;
+    flex-direction: column;
+    
+}
+.anti-row-param{
+    padding-inline: 37px;
+    padding-bottom: 10px;
+}
+.anti-row-param h4{
+    font-family: system-ui;
+    font-weight: 400;
+    color: rgb(0, 0, 0);
+    margin: 0px;
+}
+.anti-row-param i:last-child{
+    font-size: 17.5px;
+}
+.anti-row-param i:hover{
+    color: rgb(115, 115,115);
+    cursor: pointer;
+}
+.data-holder{
+    height: fit-content;
+    margin-inline: 20px;
+}
+
+.carte{
+    display: flex;
+    align-items: center;
+    border: 1px solid rgb(182, 182, 182);
+    border-radius: 4px;
+    height: 100px;
+    opacity: 0;
+    margin-top: 0.5rem;
+}
+.animate{
+    animation: appear 0.65s ease-in-out;
+    opacity: 1;
+}
+
+.carte:hover{
+    background-color: rgb(246, 246, 246);
+    cursor: pointer;
+    scale: 1.025;
+    transition: 0.25s;
+}
+.carte > img{
+    height: 5em;
+    width: 5em;
+    border-radius: 50%;
+    margin: 15px;
+}
+.mini-container{
+    display: flex;
+    flex-direction: column;
+    line-height: 5px;
+    padding: 2rem;
+}
+
+.mini-container p:first-child{
+    font-size: 18px;
+    font-family: system-ui;
+    font-weight: 500;
+    color: rgb(0, 0, 0);
+}
+.mini-container p:last-child{
+    font-size: 15px;
+    font-family: system-ui;
+    font-weight: 300;
+    color: rgb(0, 0, 0);
+}
+.mini-container img{
+    height: 17px;
+    margin-block: auto;
+    margin-inline: 5px;
+    margin-top: -1px;
+
+    filter: invert(100%);
+    border: none;
+}
+.mini-container:nth-child(2){
+    font-weight: 100;
+}
+.statut {
+    display:inline-block;
+    align-items: center;
+    justify-content: end;
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    margin: 0px;
+    margin-bottom: 1px;
+
+    
+
+}
+.online{
+    background-color: rgb(73, 182, 59);
+
+}
+.offline{
+    background-color: rgb(174, 174, 174);
+}
+
+.supprimer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgb(248, 103, 103);
+    color: rgb(248, 103, 103);
+    border-radius:2px;
+    text-align: center;
+    height: 20px;
+    width: 65px;
+    margin-left:55px;
+
+}
+.supprimer:hover{
+    background-color: rgb(255, 69, 69);
+    color: white;
+    cursor: pointer;
+}
+.supprimer p {
+    font-size: 12px;
+    margin: 0px
+}
+.page{
+    font-size: 12px;
+    padding-top: 5px;
+    letter-spacing: 3px;
+}
+.page i:hover{
+    font-size: 14px;
+    transition: 0.2s;
+    filter: invert(750%);
+}
+
+@keyframes appear {
+    from {
+      opacity: 0;
+      scale: 1.1;
+      filter: blur(5px);
+    }
+    to {
+      opacity: 1;
+    }
+}
+
+.special-row{
+    padding-top: 140px;
+    padding-right: 50px;
+}
+.activity-content{
+
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 15px;
+    height: 500px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-block: 25px;
+
+}
+.activity-card{
+    border: 1px solid rgb(182, 182, 182,0.4);
+    border-radius: 5px;
+    min-height: fit-content;
+    width: 85%;
+    font-size: 14px;
+    line-height: 15px;
+    padding-bottom: 20px;
+    padding-top: 10px;
+}
+.activity-card:hover{
+    background-color: rgb(246, 246, 246);
+    cursor: pointer;
+    transition: 0.25s;
+}
+.activity-card span{
+    font-weight: 550;
+}
+.activity-card hr{
+    opacity: 0.2;
+    margin-inline: 25px;
+}
+.date{
+    font-weight: 200;
+    opacity: 0.7;
+    margin-inline: 80px;
+    margin-bottom: 0px;
+}
+.jaime{
+    margin-inline: 27px;
+    opacity: 0.8;
+    font-weight: lighter
+}
+.jaime i:hover{
+    color: rgb(248, 103, 103);
+    transition: 0.25s;
+}
+.favoris{
+    margin-inline: 27px;
+    opacity: 0.8;
+    font-weight: lighter
+}
+.favoris:hover{
+    color: rgb(232, 198, 44);
+    transition: 0.25s;
+}
+.pfp-activity{
+    border-radius: 50%;
+    height: 50px;
+}
+.post-activity{
+    border-radius: 0px;
+    height: 30px;
+}
+.date-container{
+
+    width: 90%;
+
+}
+.date-container p {
+    width: 100%;
+
+    text-align: center;
+    font-weight: 100;
+    margin: 0px;
+    opacity: 0.7;
+
+}
+.date-container p:hover{
+    opacity: 1;
+    cursor: pointer;
+}
+.createContainer{
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 6rem;
+    border: 4px dotted rgba(92, 162, 237, 0.4);
+    border-radius: 5px;
+    background: aliceblue;
+    text-align: center;
+    color: rgb(62, 152, 255);
+    font-weight: 500;
+    
+
+}
+
+.createContainer:hover{
+    background: rgba(92, 162, 237, 0.4);
+    transition: 0.25s;
+    cursor: pointer;
+
+}
+.createContainer p{
+    margin: 0px;
+}
+
+.dialogCreateProject{
+    width: 30%;
+    height: 50%;
+    background: radial-gradient(ellipse at top, #ededed 25%,#dceff6 100%) fixed;
+    border: 1px solid rgb(154, 200, 255,0.5);
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.177) 0px 0px 15px 20px;
+}
+#closeProjetCreation{
+    float: right;
+    border: 0px;
+    background: transparent;
+    font-weight: 600;
+}
+.creationForm{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#textInput{
+    width: 100%;
+    height: 2rem;
+    border: 1px solid rgb(0, 0, 0, 0.5);
+    border-radius: 5px;
+    font-size: 1.1rem;
+    font-weight: 100;
+    padding-inline: 0.5rem;
+    padding-top: 0.25rem;
+    background-color: transparent;
+    margin-bottom: 2rem;
+}
+#descriptionInput{
+    width: 100%;
+    height: 9rem;
+    border: 1px solid rgb(0, 0, 0, 0.5);
+    border-radius: 5px;
+    font-size: 1.1rem;
+    font-weight: 100;
+    padding-inline: 0.5rem;
+    padding-top: 0.25rem;
+    background-color: transparent;
+    margin-bottom: 2rem;
+}
+
+#selectInput{
+    width: 100%;
+    height: 2rem;
+    border: 1px solid rgb(0, 0, 0, 0.5);
+    border-radius: 5px;
+    font-size: 1.1rem;
+    font-weight: 100;
+    padding-inline: 0.5rem;
+    padding-top: 0.25rem;
+    background-color: transparent;
+    margin-bottom: 2rem;
+}
+#dateInput{
+    width: 100%;
+    height: 2rem;
+    border: 1px solid rgb(0, 0, 0, 0.5);
+    border-radius: 5px;
+    font-size: 1.1rem;
+    font-weight: 100;
+    padding-inline: 0.5rem;
+    padding-top: 0.25rem;
+    background-color: transparent;
+    margin-bottom: 2rem;
+
+}
+#submitCreation{
+    width: 100%;
+    height: 2rem;
+    border: 0px;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    font-weight: 100;
+    padding-inline: 0.5rem;
+    padding-top: 0.25rem;
+    background-color: rgb(255, 255, 255, 0.5);
+    margin-bottom: 2rem;
+    background-color: rgb(62, 152, 255);
+    color: white;
+    font-weight: 500;
+}
+#submitCreation:hover{
+    background-color: rgb(62, 152, 255, 0.5);
+    transition: 0.25s;
+    cursor: pointer;
+}
+.creationTitre{
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 2rem;
+}

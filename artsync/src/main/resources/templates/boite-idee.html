@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org" lang="">
+    <head>
+        <title>ArtSync</title>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/style-idee.css}"/>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r126/three.min.js" integrity="sha512-n8IpKWzDnBOcBhRlHirMZOUvEq2bLRMuJGjuVqbzUJwtTsgwOgK5aS0c1JA647XWYfqvXve8k3PtZdzpipFjgg==" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.9/dat.gui.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/TextPlugin.min.js"></script>
+    </head>
+    <body>
+        <!--Header-->
+        <nav th:replace="fragment/fragments :: headerFragment"></nav>
+
+        <!--Content-->
+        <div class="idee-pop">
+
+        </div>
+        <div class="titre">
+            <h3>BESOIN D'UNE IDÉE?</h3>
+            <h5 class="output"></h5>
+
+        </div>
+        <div class="ai-input">
+            <p>ALIMENTÉ PAR L'IA <span><i class="bi bi-robot"></span></i></p>
+            <form>
+                <input type="text" id="inputField" placeholder="Entrer un theme">
+            </form>
+            <hr>
+            <div class="idee-output-container">
+                <div class="idee-output">
+                    <h6>adadadadaadad</h6>
+                </div>
+                <div class="idee-output">
+                    <h6>Exploration</h6>
+                </div>
+                <div class="idee-output">
+                    <h6>Urbanité</h6>
+                </div>
+                <div class="idee-output">
+                    <h6>Solitude</h6>
+                </div>
+                <div class="idee-output">
+                    <h6>Fantaisie</h6>
+                </div>
+                <div class="idee-output">
+                    <h6>Profondeur</h6>
+                </div>
+                <div class="idee-output">
+                    <h6>Identité</h6>
+                </div>
+                <div class="idee-output">
+                    <h6>Nature</h6>
+                </div>
+                <div class="idee-output">
+                    <h6>Abstraction</h6>
+                </div>
+                <div class="idee-output">
+                    <h6>Rêve</h6>
+                </div>
+                <div class="idee-output">
+                    <h6>Mystère</h6>
+                </div>
+                <div class="idee-output">
+                    <h6>Harmonie</h6>
+                </div>
+            </div>
+        </div>
+        <div class="wrapper" id="bg-anim">
+            <div class="idee">
+                <h5>Fantaisie médiévale</h5>
+            </div>
+            <div class="idee">
+                <h5>Mythologie revisitée</h5>
+            </div>
+            <div class="idee">
+                <h5>Réflexions abstraites</h5>
+            </div>
+            <div class="idee">
+                <h5>Futur rétro</h5>
+            </div>
+            <div class="idee">
+                <h5>Rêves fragmentés</h5>
+            </div>
+            <div class="idee">
+                <h5>Vie urbaine</h5>
+            </div>
+            <div class="idee">
+                <h5>Balaine cosmique</h5>
+            </div>
+            <div class="idee">
+                <h5>Nature sauvage</h5>
+            </div>
+        </div>
+        <script th:src="@{/js/script-idee.js}"></script>
+    </body>
+</html>

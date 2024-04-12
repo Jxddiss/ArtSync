@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style-portfolio.css}"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link id="fontLink" href="https://fonts.cdnfonts.com/css/8bit-wonder" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+          integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/Flip.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/Observer.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollToPlugin.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/Draggable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/MotionPathPlugin.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/EaselPlugin.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/PixiPlugin.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/TextPlugin.min.js"></script>
+
+
+    <!-- RoughEase, ExpoScaleEase and SlowMo are all included in the EasePack file -->    
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/EasePack.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/CustomEase.min.js"></script>
+
+    <title>ArtSync</title>
+
+</head>
+
+<body class="portfolio-background">
+
+    <!--Header-->
+    <nav th:replace="fragment/fragments :: headerFragment"></nav>
+
+    <!--Contenu-->
+    <div class="content-holder">
+        <div class="sectionHeader">
+            <p>CHOISISSEZ VOTRE MODÈLE DE PORTFOLIO</p>
+        </div>
+
+  
+        <!--SELECT PORTFOLIO OPTION TEMPLATE 1,2,3,4 (CUSTOMIZE)-->
+        <div class="selectContainer">
+            <div class="d-flex flex-column">
+                <div class="d-flex justify-content-center template-header">
+                    <p>MODÈLE 1</p>
+                </div>
+                <div class="template" id="selectableTemplate">
+                    <div class="case case2x2"></div>
+                    <div class="case case2x2"></div>
+                    <div class="case case2x1"></div>
+                    <div class="case case2x1"></div>
+                    <div class="case case4x1"></div>
+                    <div class="case case1x1"></div>
+                    <div class="case case1x1"></div>
+                    <div class="case case1x1"></div>
+                    <div class="case case1x1"></div>
+                </div>
+            </div>
+
+            <div class="d-flex flex-column">
+                <div class="d-flex justify-content-center template-header">
+                    <p>MODÈLE 2</p>
+                </div>
+                <div class="template" id="selectableTemplate">
+                    <div class="case case4x1"></div>
+                    <div class="case case1x4"></div>
+                    <div class="case case2x2"></div>
+                    <div class="case case1x2"></div>
+                    <div class="case case1x1"></div>
+                    <div class="case case2x1"></div>
+                    <div class="case case3x1"></div>
+                </div>
+            </div>
+            <div class="d-flex flex-column">
+                <div class="d-flex justify-content-center template-header">
+                    <p>MODÈLE 3</p>
+                </div>
+                <div class="template" id="selectableTemplate">
+                    <div class="case case2x2"></div>
+                    <div class="case case2x1"></div>
+                    <div class="case case1x1"></div>
+                    <div class="case case1x2"></div>
+                    <div class="case case3x1"></div>
+                    <div class="case case2x1"></div>
+                    <div class="case case2x1"></div>
+                    <div class="case case4x1"></div>
+                </div>
+            </div>
+            <div class="d-flex flex-column">
+                <div class="d-flex justify-content-center template-header">
+                    <p>PERSONNALISÉ</p> <i class="bi bi-info-circle" id="infoIcon" title="Personnalisez votre propre modèle"></i>
+                </div>
+                <div class="template">
+                    <div class="iconCase"><i class="bi bi-plus-square"></i></div>
+                    
+                </div>
+            </div>
+        </div>
+
+        <!--CUSTOMIZE CONTAINER-->
+        <div class="customizeContainer">
+            <div class="menuContainer">
+                <p>CONTENEUR</p>
+                <hr>
+                <div class="containersHolder">
+                    <div class="case case4x1" data-value="case4x1" id="selectable"></div>
+                    <div class="case case1x4" data-value="case1x4" id="selectable"></div>
+                    <div class="case case2x2" data-value="case2x2" id="selectable"></div>
+                    <div class="case case1x2" data-value="case1x2" id="selectable"></div>
+                    <div class="case case1x1" data-value="case1x1" id="selectable"></div>
+                    <div class="case case2x1" data-value="case2x1" id="selectable"></div>
+                    <div class="case case3x1" data-value="case3x1" id="selectable"></div>
+                </div>
+            </div>
+
+                <div class="templateContainer">
+                    <p>MODÈLE</p>
+                    <hr>
+                    <div class="templateMenu">
+                        <!--Template placeholder-->
+                        <div class="templateCustomize" id="dropArea"></div>
+                        <!--Buttons Options-->
+                        <div class="templateOptions">
+                            <button id="redoBtn"><i class="bi bi-arrow-clockwise"></i></button>
+                            <button id="saveBtn"><i class="bi bi-check2"></i></button>
+                            <button id="cancelBtn"><i class="bi bi-x-lg"></i></button>
+                        </div>
+                    </div>
+            </div>
+        </div>
+
+        <!--SELECTION CONTAINER CONTAINER-->
+        <div class="containerSelectorContainer">
+            <div class="conteneurSelector">
+                <p>PANEL DE CONFIGURATION</p>
+                <hr>
+                <section class="slider-wrapper">
+                    <button class="slide-arrow" id="slide-arrow-prev">
+                      &#8249;
+                    </button>
+                    <button class="slide-arrow" id="slide-arrow-next">
+                      &#8250;
+                    </button>
+                    <ul class="slides-container" id="slides-container">
+                        <li class="slide"><div class="bigHolder">PORTFOLIO</div></li>
+                    </ul>
+                </section>
+                <div class="optionParts">
+                    <div class="options">
+                        <button id="background" class="selectedOption">ARRIÈRE-PLAN</button>
+                        <button id="border">BORDURE</button>
+                        <button id="opacity">OPACITÉ</button>
+                        <button id="borderWidth">ÉPAISSEUR</button>
+                    </div>
+                    <!--Sliders Opactié/Épaisseur-->
+                    <div class="inputHolderSlider" id="inputHolderSlider">
+                        <div class="slidecontainer mt-4">
+                            <input type="range" min="1" max="100" value="0" class="slider" id="myRange">
+                            <p class="valueOutput"> <span id="valueSlider">0</span></p>
+                          </div>
+                    </div>
+                  </div>
+                  <!--Couleurs-->
+                    <div class="inputHolder" id="inputHolder">
+                        <div class="mt-4 d-flex justify-content-evenly gap-5">
+                            <div class="colorHolder color1" data-color="rgba(147, 194, 255, 0.5)"></div>
+                            <div class="colorHolder color2" data-color="rgba(255, 147, 147, 0.5)"></div>
+                            <div class="colorHolder color3" data-color="rgba(147, 255, 147, 0.5)"></div>
+                            <div class="colorHolder color4" data-color="rgba(255, 255, 147, 0.5)"></div>
+                            <div class="colorHolder color5" data-color="rgba(255, 147, 255, 0.5)"></div>
+                            <div class="colorHolder color6" data-color="rgba(147, 255, 255, 0.5)"></div>
+                        </div>
+                        <div class="mt-4 d-flex justify-content-evenly gap-5">
+                            <div class="colorHolder color7" data-color="rgba(255, 255, 255, 0.5)"></div>
+                            <div class="colorHolder color8" data-color="rgba(0, 0, 0, 0.5)"></div>
+                            <div class="colorHolder color9" data-color="rgba(147, 147, 147, 0.5)"></div>
+                            <div class="colorHolder color10" data-color="rgba(147, 147, 255, 0.5)"></div>
+                            <div class="colorHolder color11" data-color="rgba(20, 146, 20, 0.5)"></div>
+                            <div class="colorHolder color12" data-color="rgba(255, 147, 147, 0.5)"></div>
+                        </div>
+                    </div>
+                  <div class="apply d-flex gap-5 px-5">
+                    <button id="retour">RETOUR</button>
+                    <button id="continuer">CONTINUER</button>
+                  </div>
+            </div>
+      
+            <div class="templatePreview">
+                    <!--Template placeholder-->
+                    <div class="templatePlaceHolder" id="templatePlaceHolder">
+                    </div>
+                </div>
+        </div>
+
+        <!--ADD CONTENT CONTAINER-->
+        <div class="addContentContainer">
+            <div class="menuOptions">
+                <p>ITEMS</p>
+                <hr>
+                <div class="menuPick">
+                    <div>
+                        <input type="radio" name="option" id="imageOption" value="image" checked>
+                        <label for="imageOption">IMAGE</label>
+                    </div>
+                    <div>
+                        <input type="radio" name="option" id="textOption" value="text">
+                        <label for="textOption">TEXT</label>
+                    </div>
+                </div>
+                <div class="info">VOS PUBLICATION  <i class="bi bi-info-circle" id="infoIcon" title="Si vous ne voyez pas une publication, mettez la publique"></i></div>
+                <div class="menuImage">
+                    <img src="moon.jpg" alt="publication" class="selectableImage">
+                    <img src="moon.jpg" alt="publication" class="selectableImage">
+                    <img src="moon.jpg" alt="publication" class="selectableImage">
+                    <img src="moon.jpg" alt="publication" class="selectableImage">
+                    <img src="moon.jpg" alt="publication" class="selectableImage">
+                    <img src="moon.jpg" alt="publication" class="selectableImage">
+                    <img src="moon.jpg" alt="publication" class="selectableImage">
+                    <img src="moon.jpg" alt="publication" class="selectableImage">
+                    <img src="moon.jpg" alt="publication" class="selectableImage">
+                    <img src="moon.jpg" alt="publication" class="selectableImage">
+                    <img src="moon.jpg" alt="publication" class="selectableImage">
+                    <img src="moon.jpg" alt="publication" class="selectableImage">
+                    <img src="moon.jpg" alt="publication" class="selectableImage">
+                    <img src="moon.jpg" alt="publication" class="selectableImage">
+                    <img src="moon.jpg" alt="publication" class="selectableImage">
+                    <img src="moon.jpg" alt="publication" class="selectableImage">
+                </div>
+                <div class="menuText">
+                    <div class="d-flex textFormat gap-2">
+                        <button class="btnFormat" data-align="left" title="Gauche"><i class="bi bi-justify-left"></i></button>
+                        <button class="btnFormat" data-align="justify" title="Justifié"><i class="bi bi-justify"></i></button>
+                        <button class="btnFormat" data-align="right" title="Droite"><i class="bi bi-justify-right"></i></button>
+                        <button class="btnFormat" data-align="center" id="selectedFormat" title="Centre"><i class="bi bi-text-center"></i></button>
+                        <input type="number" id="number" placeholder="px" min="0" max="25">
+                    </div>
+                    <div class="d-flex">
+                        <input type="text" placeholder="Entrez un message" id="textInput">
+                        <input type="color" id="colorInput">
+                    </div>
+                   
+                    <section class="slider-wrapper1">
+                        <button class="slide-arrow1" id="slide-arrow-prev1">
+                          &#8249;
+                        </button>
+                        <button class="slide-arrow1" id="slide-arrow-next1">
+                          &#8250;
+                        </button>
+                        <ul class="slides-container1" id="slides-container1">
+                            <li class="slide1"><div class="fontHolder" style="font-family: Arial">ARIAL</div></li>
+                            <li class="slide1"><div class="fontHolder" style="font-family: 'Times New Roman'">TIMES NEW ROMAN</div></li>
+                            <li class="slide1"><div class="fontHolder" style="font-family: Verdana">VERDANA</div></li>
+                            <li class="slide1"><div class="fontHolder" style="font-family: Georgia">GEORGIA</div></li>
+                            <li class="slide1"><div class="fontHolder" style="font-family: 'Comic Sans MS'">COMIC SANS MS</div></li>
+                            <li class="slide1"><div class="fontHolder" style="font-family: Impact">IMPACT</div></li>
+                            <li class="slide1"><div class="fontHolder" style="font-family: '8BIT'">8-BIT</div></li>
+                            <li class="slide1"><div class="fontHolder" style="font-family: Papyrus">PAPYRUS</div></li>
+                            <li class="slide1"><div class="fontHolder" style="font-family: 'Lucida Console'">LUCIDA CONSOLE</div></li>
+                            <li class="slide1"><div class="fontHolder" style="font-family: 'Trebuchet MS'">TREBUCHET MS</div></li>
+                        </ul>
+                    </section>
+
+                    <div id="textElementHolder"><h5 id="textPlaceholder">TEXT</h5></div>
+                </div>
+                <div class="apply1">
+                    <button id="retour1">RETOUR</button>
+                    <button id="continuer1">CONTINUER</button>
+                </div>
+            </div>
+            <div class="templatePreview">
+                <!--Template placeholder-->
+                <div class="templatePlaceHolder" id="templatePlaceHolder1"></div>
+            </div>
+        </div>
+
+        <!--FINALISATION-->
+        <div class="finalisationContainer">
+            <div class="templatePreview1">
+                <div class="templatePlaceHolder" id="templatePlaceHolder2"></div>
+            </div>
+            <div class="codeGenHolder"><p class="infoId mt-4" id="codeGen"></p></div>
+            <div class="d-flex gap-3">
+                <button id="annulerPortfolio">ANNULER</button>
+                <button id="confirmerPortfolio">CONFIRMER</button>
+            </div>
+
+        </div>
+    </div>
+    <script th:src="@{/js/script-portfolio.js}"></script>
+</body>
+</html>

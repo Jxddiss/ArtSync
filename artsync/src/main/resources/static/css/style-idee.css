@@ -1,0 +1,146 @@
+body{
+    
+    background: 
+    radial-gradient(circle at 10% 20%, #fce9ff 0%, transparent 70%) fixed,
+    radial-gradient(circle at 90% 20%, #bcdaf8 0%, transparent 70%) fixed,
+    radial-gradient(circle at 50% 60%, #ffffff 0%, transparent 70%) fixed,
+    radial-gradient(circle at 90% 80%, #ffffff 0%, transparent 70%) fixed;
+    overflow-y: hidden;
+}
+.idee-pop{
+    position: absolute;
+    height:20%;
+    width: 85%;
+    top:95%;
+    left: 7%;
+}
+.idee{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 3rem;
+    width: 12rem;
+    font-weight: 100;
+    z-index: -1;
+}
+
+.fade-in {
+    opacity: 1;
+    top: 0;
+}
+.fade-out {
+    opacity: 0;
+    top: -20px;
+}
+
+.idee:hover{
+    cursor: pointer;
+    scale: 1.05;
+    transition: 0.25s;
+}
+.titre{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center ;
+    margin-top:12%;
+    margin-inline: 25%;
+}
+.titre h3{
+    text-align: center;
+    font-size: 2.5rem;
+    letter-spacing: 1.5px;
+    font-weight: 400;
+    color: #000000;
+}
+.titre h5{
+    text-align: center;
+    font-size: 1.75rem;
+    letter-spacing: 1.5px;
+    font-weight: 300;
+    color: #000000;
+    height: 25px;
+}
+
+.ai-input{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    margin-inline: 25%;
+}
+.ai-input form input{
+    backdrop-filter: blur(5px);
+    width: 100%;
+    height: 2.25rem;
+    font-weight: 200;
+    padding-inline:10px ;
+    border-radius: 10px;
+    border: 1px solid rgb(0,0,0,0.5);
+    background-color: rgb(0,0,0,0);
+}
+.ai-input form input:focus{
+    scale: 1.05;
+    transition: 1s;
+
+}
+.ai-input p{
+    opacity: 0.5;
+    text-align: right;
+    width: 100%;
+    font-weight: 100;
+    font-size: 17px;
+    margin-bottom: 0.3rem;
+    margin-inline: 0.5rem
+}
+.ai-input p:hover{
+    opacity: 1;
+    transition: 0.5s;
+    cursor: pointer;
+}
+span{
+    margin-left: 5px;
+    margin-right: 13px;
+    font-size: 19px;
+    color: #545454;
+}
+.idee-output-container
+{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    gap: 15px;
+    flex-wrap: wrap;
+    align-content: center;
+    margin-top: 2%;
+    width: 100%;
+
+}
+.idee-output{
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgb(0,0,0,0.5);
+    border-radius: 7px;
+    height: 4rem;
+    width: 12rem;
+    background-color: rgba(255, 255, 255, 0);
+    backdrop-filter: blur(5px);
+}
+.idee-output h6{
+    font-size: 1.2rem;
+    font-weight: 100;
+    text-align: center;
+    margin-top: 1rem;
+}
+.idee-output:hover{
+    cursor: pointer;
+    scale: 1.05;
+    transition: 0.25s;
+}
+
+
+.wrapper{
+    position: relative;
+    z-index: -1;
+}

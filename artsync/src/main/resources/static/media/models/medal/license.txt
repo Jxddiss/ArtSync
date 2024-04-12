@@ -1,0 +1,11 @@
+Model Information:
+* title:	Medal Board
+* source:	https://sketchfab.com/3d-models/medal-board-13762557bcc040f6b25f7e7f21550a89
+* author:	Miriam "Mir" Mendelsohn From Turning Red (https://sketchfab.com/kmorganc1)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Medal Board" (https://sketchfab.com/3d-models/medal-board-13762557bcc040f6b25f7e7f21550a89) by Miriam "Mir" Mendelsohn From Turning Red (https://sketchfab.com/kmorganc1) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

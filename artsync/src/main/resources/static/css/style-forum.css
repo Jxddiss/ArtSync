@@ -1,0 +1,326 @@
+.body-content{
+    background: radial-gradient(ellipse at top, #ededed 25%,#a7c9d5 100%) fixed;
+}
+.content{
+    display: flex;
+    margin-top: 2%;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+/*-------------------NAVBAR VERTICAL CONTAINER-------------------*/
+.verticalHeader{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 20%;
+    border-right: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+.verticalHeader h4{
+    margin-left: 12%;
+}
+.verticalHeader hr{
+    width: 85%;
+    align-self: center;
+}
+.sectionsHolder{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    width: 100%;
+    height: 12%;
+    margin-top: 2%;
+    margin-left: 12%;
+}
+.section{
+    display: flex;
+    justify-content: start;
+    gap: 1rem;
+    width: 100%;
+    height: 3rem;
+    margin-top: 1rem;
+}
+.section:hover{
+    transform: translateX(0.5rem);
+    transition: 0.2s;
+    cursor: pointer;
+}
+.section i{
+    font-size: 25px;
+}
+.section p{
+    font-size: 17px;
+    font-weight: 450;
+    margin-top:0.25rem;
+}
+.sectionFilter{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    gap: 1rem;
+    width: 100%;
+    height: 3rem;
+    margin-top: 1rem;
+    margin-left: 12%;
+}
+.filterForm{
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+.filterForm div{
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.filterForm input{
+
+    width: 2rem;
+    height: 2rem;
+    border-radius: 15px;
+    border: 1px solid rgba(0, 0, 0, 0.4);
+    background-color: transparent;
+    padding-inline: 1rem;
+    
+
+}
+/*-------------------FORUM CONTENT-------------------*/
+.forumContent{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 60%;
+    height: 100%;
+
+}
+.rechercheContainer{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.rechercheForm{
+    display: flex;
+    justify-content: center;
+    width: 85%;
+    margin-top: 2%;
+
+}
+.rechercheForm input{
+    width: 70%;
+    height: 2.25rem;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.4);
+    background-color: transparent;
+    padding-inline: 1rem;
+}
+.rechercheForm input:focus{
+    outline: none;
+    transition: 0.2s;
+    scale: 1.025;
+
+}
+.rechercheForm button{
+    height: 2.25rem;
+    border-radius: 5px;
+    border: none;
+    background: radial-gradient(ellipse at right, #4f5cd0a0 35%,#4b4bfaf6 100%);
+    color: white;
+    margin-left: 1%;
+}
+
+.rechercheForm button:hover{
+    scale: 1.1;
+    transition: 0.2s;
+}
+
+.resultHolder{
+    display: flex;
+    gap: 1.5rem;
+    padding: 1%;
+    flex-direction: column;
+    width: 85%;
+    height: 100%;
+    margin-top: 3%;
+
+    align-items: center;;
+}
+
+.forumHolder{
+    border: 1px solid rgba(194, 194, 194, 0.4);
+    background: rgb(225,245,255,0.5);
+    background: radial-gradient(circle, rgba(225,245,255,0.25) 0%, rgba(233,245,255,0.25) 51%, rgba(226,250,255,0.5) 100%);
+    border-radius: 15px;
+    width: 85%;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.forumHolder:hover{
+    background: radial-gradient(circle, rgba(225,245,255,0.5) 0%, rgba(233,245,255,0.5) 51%, rgba(226,250,255,0.75) 100%);
+    transition: 0.2s;
+    scale: 1.025;
+    box-shadow: 0 0 20px 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+.threadHeader{
+
+    height: 15%;
+    width: 87%;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin-top: 2.5rem;
+}
+.threadHeader p{
+
+    font-size: 27px;
+    font-weight: 600;
+}
+
+.threadInfo{
+    display: flex;
+    width: 90%;
+    height: 15%;
+}
+
+.threadUserPfp{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 15%
+}
+.threadUserPfp img{
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 15%;
+
+}
+.threadUserInfo{
+    display: flex;
+    flex-direction: column;
+    width: 35%;
+    height: 100%;
+    justify-content: center;
+}
+.threadUserInfo p{
+    font-size: 15px;
+    font-weight: 450;
+    margin: 0;
+    margin-left: 1%;
+}
+.threadTags{
+    display: flex;
+    flex-wrap: wrap;
+    width: 50%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    gap: 0.25rem;
+}
+.tag{
+    border: 1.5px solid black;
+    padding-inline: 1rem;
+    border-radius: 25px;
+    font-size: 15px;
+    margin: 0;
+}
+
+#conseil{
+    border-color: rgb(10, 176, 157);
+    color:rgb(10, 176, 157) ;
+}
+#question{
+    border-color: rgb(235, 119, 36);
+    color: rgb(235, 119, 36);
+}
+#feedback{
+    border-color: rgb(52, 167, 255);
+    color: rgb(52, 167, 255);
+}
+#annonce{
+    border-color: rgb(194, 57, 47);
+    color: rgb(194, 57, 47);
+}
+#inspiration{
+    border-color: rgb(202, 159, 32);
+    color: rgb(202, 159, 32);
+}
+#projet{
+    border-color: rgb(94, 78, 213);
+    color: rgb(94, 78, 213);
+
+}
+
+.threadContent{
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    padding: 0.75rem;
+    width: 90%;
+    height: fit-content;
+    font-size: 19px;
+
+}
+.threadOptions{
+    display: flex;
+    justify-content: start;
+    gap: 1rem;
+    width: 85%;
+    height: 15%;
+    align-items: center;
+    font-size: 19px;
+}
+
+.chatThread{
+    margin-top: 1rem;
+    background-color: rgba(0, 0, 0, 0.053);
+    padding: 0.5rem;
+    border-radius: 12px;
+}
+.chatThread:hover{
+    background-color: rgba(0, 0, 0, 0.1);
+    transition: 0.2s;
+    scale: 1.025;
+    cursor: pointer;
+}
+/*-------------------FILTER CONTENT-------------------*/
+.filterContent{
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+    height: 100%;
+    border-left: 1px solid rgba(0, 0, 0, 0.4);
+}
+.notificationHolder{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    margin-top: 2%;
+    align-items: center;
+}
+.notifcationContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1rem;
+    height: 25rem;
+    width: 90%;
+    border-radius: 7px;
+    border: 1px solid rgba(0, 0, 0, 0.4);
+    background-color: rgb(0,0,0,0.05);
+}
+.notifcationContainer h5{
+    margin-top: 1rem;
+    font-size: 20px;
+    font-weight: 500;
+    text-align: center;
+    opacity: 0.5;
+}

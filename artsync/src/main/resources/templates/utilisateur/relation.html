@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org" lang="">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ArtSync</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+      <link rel="stylesheet" type="text/css" th:href="@{/css/style-relation.css}"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+      <script th:src="@{/js/script-relation.js}"></script>
+  </head>
+
+  <body class="body-relation">
+
+    <!--Header-->
+    <nav th:replace="fragment/fragments :: headerFragment"></nav>
+
+    <!--Contenu-->
+    <div class="container mt-5">
+        <div class="social-holder">
+            <div class="row">
+                <div class="col-md-8">
+                    <!--Option Buttons-->
+                    <div class="row p-5">
+                        <div class="col-md-4">
+                            <a href="afficherFollowersController">
+                                <div class="relation-button">
+                                    <p>ABONNÉES</p>
+                                    <small>14 followers <span>+15%</span></small>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="abonnements">
+                                <div class="relation-button">
+                                    <p>ABONNEMENTS</p>
+                                    <small>63 followings <span>+10%</span></small>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="afficherGroupeController?id=${sessionScope.user.getId()}">
+                            <div class="relation-button">
+                                <p>GROUPE</p>
+                                <small>5 groupes</small>
+                            </div>
+                        </a>
+                        </div>
+                    </div>
+                    <!--Data container-->
+                    <div class="container data-container">
+                        <!--Title-->
+                        <div class="row anti-row-param">
+                            <div class="col-md-2">
+                                <c:if test="${not empty requestScope.type}">
+                                    <h4>${requestScope.type}</h4>
+                                </c:if>
+                            </div>
+                            <div class="col-md-10 d-flex justify-content-end gap-2 align-items-center">
+                                <i class="bi bi-grid-1x2-fill"></i>
+                                <i class="bi bi-grid-fill"></i>
+                            </div>
+                            <hr class="mt-2">
+                        </div>
+                        <div class=" d-flex flex-column data-holder">
+
+
+
+                        <c:if test="${not empty requestScope.projets}">
+                            <div class="row">
+                            <!--Row #1-->
+                            <c:forEach var="projet" items="${requestScope.projets}">
+                                
+                                    <div class="col-md-12">
+                                        <a href="afficherProjetController?id=${projet.getId()}">
+                                            <div class="carte">
+                                                <div class="mini-container">
+                                                    <p>${projet.getTitre()} <span class="statut ${projet.isPublique() ? 'online' : 'offline'}"></span></p>
+                                                    <p>${projet.getDescription()}</p>
+                                                    <p>${projet.getDateCreationDate()}</p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                
+    
+                            </c:forEach>
+                            <div class="col-md-12">
+                                <dialog class="dialogCreateProject">
+                                    <button id="closeProjetCreation"><i class="bi bi-x-lg"></i></button>
+                                    <div class="creationTitre d-flex justify-content-center mt-2">
+                                        <h3>CRÉATION D'UN PROJET</h3>
+                                    </div>
+                                    <div class="creationForm mt-2 d-flex flex-column align-items-center justify-content-center">
+                                        <form action="creeProjetController" method="post">
+                                            <input id="textInput" type="text" name="titre" placeholder="Titre du projet" required>
+                                            <textarea id="descriptionInput" name="description" placeholder="Description du projet" required></textarea>
+                                            <div class="d-flex justify-content-between gap-2">
+                                                <select id="selectInput" name="publique" required>
+                                                    <option value="true">Public</option>
+                                                    <option value="false">Privé</option>
+                                                </select>
+                                                <input id="dateInput" type="date" name="dateFin" placeholder="Date de fin" required>
+                                            </div>
+
+                                            <input id="submitCreation" type="submit" value="Créer">
+                                        </form>
+                                    </div>
+                                </dialog>
+                                <button class="createContainer" id="openProjetCreation">
+                                    <p>CRÉER UN PROJET</p>
+                                </button>
+                            </div>
+                            </div>
+                        </c:if>
+                            
+       
+
+                        <c:if test="${not empty requestScope.message}">
+                            <h5>${requestScope.message}</h5>
+                        </c:if>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-md-12 d-flex justify-content-center align-items-center page gap-2">
+                            <i class="bi bi-circle-fill"></i> <i class="bi bi-circle"></i> <i class="bi bi-circle"></i>
+                        </div>
+                   </div>
+                </div>
+                
+                <!--Activité-->
+                <div class="col-md-4">
+                    <div class="activity-holder">
+                        <div class="row special-row">
+                            <h4>ACTIVITÉ</h4>
+                            <hr>
+                        </div>
+                        <div class="activity-content">
+                            <div class="date-container row">
+                                <p>Aujourd'hui</p>
+                            </div>
+                            <div class="activity-card">
+                                <div class="row px-4 pt-2">
+                                    <div class="col-md-2 d-flex justify-content-center align-items-center">
+                                        <img class="pfp-activity" src="media/images/profil10.jpg" alt="profil-pic">
+                                    </div>
+                                    <div class="col-md-10 d-flex justify-content-start align-items-end">
+                                        <p><span>@emilie49</span> a rejoin le projet <span>"Mystic Quest"</span></p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p class="date">Il y a 1 jour</p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <span class="jaime"><i class="bi bi-heart icon-activity"></i> 25</span>
+                                    </div>
+                                    <div class="col-md-2 d-flex justify-content-end align-items-start">
+                                        <i class="bi bi-star favoris"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="date-container row">
+                                <p>3 jours</p>
+                            </div>
+                            <div class="activity-card">
+                                <div class="row px-4 pt-2">
+                                    <div class="col-md-2 d-flex justify-content-center align-items-center">
+                                        <img class="pfp-activity" src="media/images/profil10.jpg" alt="profil-pic">
+                                    </div>
+                                    <div class="col-md-10 d-flex justify-content-start align-items-end">
+                                        <p><span>@emilie49</span> a publiÃ© une oeuvre <img class="post-activity" src="media/images/digitalArt-0.jpg" alt="post"></span></p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p class="date">Il y a 3 jours</p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <span class="jaime"><i class="bi bi-heart icon-activity"></i> 14</span>
+                                    </div>
+                                    <div class="col-md-2 d-flex justify-content-end align-items-start">
+                                        <i class="bi bi-star favoris"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="activity-card">
+                                <div class="row px-4 pt-2">
+                                    <div class="col-md-2 d-flex justify-content-center align-items-center">
+                                        <img class="pfp-activity" src="media/images/profil4.jpg" alt="profil-pic">
+                                    </div>
+                                    <div class="col-md-10 d-flex justify-content-start align-items-end">
+                                        <p><span>@ray_50</span> a ajoutÃ© <span>@emilie49</span> en ami</span></p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p class="date">Il y a 3 jours</p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <span class="jaime"><i class="bi bi-heart icon-activity"></i> 16</span>
+                                    </div>
+                                    <div class="col-md-2 d-flex justify-content-end align-items-start">
+                                        <i class="bi bi-star favoris"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="date-container row">
+                                <p>14 jours</p>
+                            </div>
+                            <div class="activity-card">
+                                <div class="row px-4 pt-2">
+                                    <div class="col-md-2 d-flex justify-content-center align-items-center">
+                                        <img class="pfp-activity" src="media/images/profil7.png" alt="profil-pic">
+                                    </div>
+                                    <div class="col-md-10 d-flex justify-content-start align-items-end">
+                                        <p><span>@rane</span> a ajoutÃ© <span>@johnDoe</span> en ami</span></p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p class="date">Il y a 14 jours</p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <span class="jaime"><i class="bi bi-heart icon-activity"></i> 7</span>
+                                    </div>
+                                    <div class="col-md-2 d-flex justify-content-end align-items-start">
+                                        <i class="bi bi-star favoris"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="date-container row">
+                                <p>1 mois</p>
+                            </div>
+                            <div class="activity-card">
+                                <div class="row px-4 pt-2">
+                                    <div class="col-md-2 d-flex justify-content-center align-items-center">
+                                        <img class="pfp-activity" src="media/images/profil3.jpg" alt="profil-pic">
+                                    </div>
+                                    <div class="col-md-10 d-flex justify-content-start align-items-end">
+                                        <p><span>@swifty_2</span> a publiÃ© un gif <img class="post-activity" src="media/images/pikachu.gif" alt="post"></span></p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p class="date">Il y a 1 mois</p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <span class="jaime"><i class="bi bi-heart icon-activity"></i> 3</span>
+                                    </div>
+                                    <div class="col-md-2 d-flex justify-content-end align-items-start">
+                                        <i class="bi bi-star favoris"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="activity-card">
+                                <div class="row px-4 pt-2">
+                                    <div class="col-md-2 d-flex justify-content-center align-items-center">
+                                        <img class="pfp-activity" src="media/images/profil4.jpg" alt="profil-pic">
+                                    </div>
+                                    <div class="col-md-10 d-flex justify-content-start align-items-end">
+                                        <p><span>@ray_50</span> a publiÃ© une oeuvre <img class="post-activity" src="media/images/painting0.jpg" alt="post"></span></p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p class="date">Il y a 1 mois</p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <span class="jaime"><i class="bi bi-heart icon-activity"></i> 44</span>
+                                    </div>
+                                    <div class="col-md-2 d-flex justify-content-end align-items-start">
+                                        <i class="bi bi-star favoris"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="activity-card">
+                                <div class="row px-4 pt-2">
+                                    <div class="col-md-2 d-flex justify-content-center align-items-center">
+                                        <img class="pfp-activity" src="media/images/profil6.jpg" alt="profil-pic">
+                                    </div>
+                                    <div class="col-md-10 d-flex justify-content-start align-items-end">
+                                        <p><span>@palettePals</span> a publiÃ© une oeuvre <img class="post-activity" src="media/images/3D-2.png" alt="post"></span></p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p class="date">Il y a 1 mois</p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <span class="jaime"><i class="bi bi-heart icon-activity"></i> 12</span>
+                                    </div>
+                                    <div class="col-md-2 d-flex justify-content-end align-items-start">
+                                        <i class="bi bi-star favoris"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <hr>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <script>
+        let openProjetCreation = document.getElementById("openProjetCreation");
+        let closeProjetCreation = document.getElementById("closeProjetCreation");
+        let dialogCreateProject = document.querySelector(".dialogCreateProject");
+        if (openProjetCreation && closeProjetCreation && dialogCreateProject) {
+    
+            openProjetCreation.addEventListener("click", () => {
+                dialogCreateProject.showModal();
+            })
+
+            closeProjetCreation.addEventListener("click", () => {
+                dialogCreateProject.close();
+            })
+        }
+    </script>
+  </body>
+  
+</html>

@@ -1,0 +1,309 @@
+/* 
+------------------------------
+    Profile styles
+------------------------------
+*/
+
+/*
+VARIABLES TEMPLATES
+*/
+:root {
+  --sunset: radial-gradient(ellipse at left, #fc8286 25%,#8345f6 100%) fixed;
+  --ocean: radial-gradient(ellipse at top, #40c6ff 25%,#4733ff 100%) fixed;
+  --tropical: radial-gradient(ellipse at right, #fcd34e 25%,#29a32f 100%) fixed;
+  --default: radial-gradient(ellipse at top, #ededed 25%,#94bfcf 100%) fixed;
+}
+
+body{
+    overflow-x: hidden;
+}
+
+.template{
+    background: radial-gradient(ellipse at top, #ededed 25%,#94bfcf 100%) fixed;
+}
+.template-button{
+    align-items: center;
+    justify-content: end;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    margin-top: 5px;
+    margin-right: 5px;
+    float: right;
+    opacity: 0.5;
+    border: 1px solid rgb(67, 67, 67);
+}
+.template-button:hover{
+    cursor: pointer;
+    scale: 1.25;
+    transition: 0.5s;
+    opacity: 1;
+}
+
+#selected{
+    scale: 1.25;
+    opacity: 1;
+}
+.sunset{
+    background-color: rgb(255, 55, 78);
+}
+.ocean{
+    background-color: rgb(69, 48, 228);
+}
+.tropical{
+    background-color: rgb(27, 139, 47);
+}
+.default{
+    background-color: rgb(90, 189, 204);
+}
+/*
+------------------------------
+   Section: Profile Info 
+------------------------------
+*/
+.profile-info{
+    display: flex;
+    flex-direction: column;
+}
+.profile-info div{
+    justify-content: center;
+    align-items: center;
+}
+.profile-card{
+    border: 2px solid rgb(115, 115, 115);
+    border-radius: 5px;
+}
+.profile-card>div{
+    justify-content: center;
+    align-items: center;
+}
+.profile-content{
+    height: 70vh;
+}
+.profile-picture-container {
+    position: relative;
+    display: inline-block;
+}
+.profile-picture {
+    border-radius: 50%;
+    border: 5px solid rgb(0, 0, 0);
+    margin-top: -70px;
+    height: 125px;
+    width: 125px;
+}
+
+.edit-img {
+    position: absolute;
+    opacity: 0;
+    margin-top: -70px;
+    height: 70px;
+    width: auto;
+}
+.edit-img:hover{
+    cursor: pointer;
+    scale: 1.25;
+    opacity: 1;
+    transition: 0.25s;
+}
+.profile-banner{
+    width: 100%;
+    max-height: fit-content;
+}
+.profile-hr{
+    border: 1px solid rgb(0, 0, 0);
+    margin-inline: 35px;
+}
+.contact{
+    display: inline;
+}
+.profile-contact{
+
+    text-align: left;
+}
+.profile-contact a{
+    text-decoration: none;
+    text-align: left;
+}
+.description-title{
+    font-weight: 500;
+}
+.profile-options{
+    display: flex;
+    gap: 5px;
+
+    flex-direction: column;
+    margin-bottom: 200px;
+    
+}
+.profile-options a{
+    border: 2px solid rgb(0, 0, 0,0.5);
+    border-radius: 5px;
+    text-decoration: none;
+    color: rgb(42, 42, 42);
+    padding-inline: 20px;
+    padding-block: 5px;
+}
+.profile-options a:hover{
+    scale: 1.1;
+    transition: 0.5s;
+}
+/* 
+------------------------------
+   Section: Profile page content
+------------------------------
+*/
+.profile-page-container{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+    z-index: 2;
+}
+.profile-page-content{
+    border: 1px solid rgb(87, 87, 87);
+    width: 75vh;
+    border-radius: 5px;
+    height: 114vh;
+    z-index: 1;
+    padding: 10px;
+    overflow-y: auto;
+}
+.post-button{
+    padding-inline: 26px;
+    padding-block: 10px;
+    background-color: rgb(0, 0, 0);
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: 15px;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    border-radius: 5px;
+    border: 1px solid rgb(0, 0, 0);
+}
+.post-button:hover{
+    scale: 1.1;
+    transition: 0.5s;
+    background-color: rgb(35,35,35,0.5);
+    cursor: pointer;
+}
+.card-post{
+    margin-block: 25px;
+    border: 1px solid rgb(0, 0, 0);
+
+    border-radius: 5px;
+    margin-top: 10px;
+    padding: 10px;
+    height: fit-content;
+    margin-inline: 20px;
+    margin-top: 25px;
+    z-index: 0;
+
+}
+.card-img-post{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.card-img-post img{
+    border: 1px solid rgb(0, 0, 0);
+    border-radius: 10px;
+    width: 100%;
+}
+.icon-img{
+    height: 25px;
+}
+.icon-img:hover{
+    scale: 1.25;
+    transition: 0.5s;
+    cursor: pointer;
+}
+.commentaire{
+    border-radius: 15px;
+    height: 35px;
+    width: 82%;
+}
+.btn-commentaire{
+    border: 1px solid rgb(0, 0, 0);
+    border-radius: 5px;
+    padding-inline: 10px;
+    padding-block: 5px;
+    background-color: rgb(35,35,35);
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+}
+.btn-commentaire:hover{
+    transition: 0.5s;
+    background-color: rgb(35,35,35,0.5);
+    cursor: pointer;
+}
+
+.postPane{
+    height: 45rem;
+    width: 65rem;
+    border: 0px;
+}
+
+
+.form-preview-container {
+    display: flex;
+    justify-content: space-between;
+  }
+  .form-container {
+    flex: 1;
+    padding-right: 20px;
+  }
+  .preview-container {
+    flex: 1;
+    padding-left: 20px;
+    border-left: 1px solid #ccc;
+  }
+  .preview-container h4 {
+    margin-top: 0;
+  }
+
+  .post-button{
+    padding-block: 10px;
+    background-color: rgb(0, 0, 0);
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: 15px;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    border-radius: 5px;
+    border: 1px solid rgb(0, 0, 0);
+    width: 100%;
+
+  }
+
+  #drop-area {
+    border: 2px dashed #ccc;
+    border-radius: 5px;
+    font-size: 5px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+  }
+  #drop-area.hover {
+    background-color: #f0f0f0;
+  }
+  #file-input {
+    display: none;
+  }
+  #file-label {
+    font-size: 1.2rem;
+  }
+
+  #fermer{
+    color: rgb(206, 206, 206);
+    font-size: 25px;
+    text-decoration: none;
+    margin-top: 15px;
+    text-align: center;
+  }
+
+  #fermer:hover{
+    color: rgb(110, 110, 110);
+    transition: 0.5s;
+    cursor: pointer;
+  }

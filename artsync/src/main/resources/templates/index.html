@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit this template
+-->
+<!--suppress ALL -->
+<html  xmlns:th="http://www.thymeleaf.org" lang="">
+    <head>
+        <title>ArtSync</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/style-index.css}"/>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r126/three.min.js" integrity="sha512-n8IpKWzDnBOcBhRlHirMZOUvEq2bLRMuJGjuVqbzUJwtTsgwOgK5aS0c1JA647XWYfqvXve8k3PtZdzpipFjgg==" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.9/dat.gui.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/TextPlugin.min.js"></script>
+    </head>
+
+    <body class="body-content anim_gradient">
+    <!--Header-->
+    <nav th:replace="fragment/fragments :: headerFragment"></nav>
+
+        <!--Section Presentation-->
+            <!--Slogan-->
+            <div class="slogan" id="slogan">
+                <h3>Où l'art</h3><h3>rencontre la</h3><h3>collaboration.</h3>
+            </div>
+            <div class="slogan2" id="slogan2">
+                <h5>
+                    Avec des idées uniques et des utilisateurs<br>
+                    passionnés<br>
+                </h5>
+                <a th:href="@{/authentification}">COMMENCER</a>
+            </div>
+
+            <!--3D Container-->
+            <div id="container3D"></div>
+
+            <!--Attributs-->
+            <div class="card-info">
+                <h2 class="mt-5">POURQUOI ARTSYNC ?</h2>
+                <div class="container my-5">
+                    <div class="row mt-5">
+                        <div class="col-md-4 my-5 d-flex justify-content-center align-items-center">
+                            <div class="magic-card">
+                                <h3>RAPIDE</h3>
+                                <i class="bi bi-clock attributeIcon"></i>
+                                <p>Accéder à la totalité de vos projets en seulement un seul clique.</p>
+                                <div class="learn-more-button">
+                                    <h5>EN APPRENDRE PLUS</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 my-5 d-flex justify-content-center align-items-center">
+                            <div class="magic-card">
+                                <h3>SÉCURITAIRE</h3>
+                                <i class="bi bi-shield-lock attributeIcon"></i>
+                                <p>Vos travaux sont 100% sécurisés, vous ne risquez pas de vous les faire voler.</p>
+                                <div class="learn-more-button">
+                                    <h5>EN APPRENDRE PLUS</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 my-5 d-flex justify-content-center align-items-center">
+                            <div class="magic-card">
+                                <h3>POUR VOUS</h3>
+                                <i class="bi bi-brush attributeIcon"></i>
+                                <p>Une plateforme dédiée aux artistes, peu importe leurs domaine.</p>
+                                <div class="learn-more-button">
+                                    <h5>EN APPRENDRE PLUS</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="serviceHolder">
+                <h4>DES SERVICES D'EXCEPTION</h4>
+                <div class="d-flex gap-5 mt-5">
+                    <div class="service d-flex flex-column align-items-center">
+                        <i class="bi bi-search"></i>
+                        <p>RECHERCHE</p>
+                    </div>
+                    <div class="service d-flex flex-column align-items-center">
+                        <i class="bi bi-bookmarks"></i>
+                        <p>ENREGISTREMENT</p>
+                    </div>
+                    <div class="service d-flex flex-column align-items-center">
+                        <i class="bi bi-aspect-ratio"></i>
+                        <p>STREAMING</p>
+                    </div>
+                    <div class="service d-flex flex-column align-items-center">
+                        <i class="bi bi-people"></i>
+                        <p>COMMUNAUTÉ</p>
+                    </div>
+                    <div class="service d-flex flex-column align-items-center">
+                        <i class="bi bi-grid-1x2"></i>
+                        <p>PORTOFLIO</p>
+                    </div>
+
+                </div>
+                <div class="d-flex gap-5 mt-4">
+                    <div class="service d-flex flex-column align-items-center">
+                        <i class="bi bi-robot"></i>
+                        <p>IA</p>
+                    </div>
+                    <div class="service d-flex flex-column align-items-center">
+                        <i class="bi bi-chat-dots"></i>
+                        <p>MESSAGE</p>
+                    </div>
+                    <div class="service d-flex flex-column align-items-center">
+                        <i class="bi bi-camera-video"></i>
+                        <p>APPEL</p>
+                    </div> 
+                    <div class="service d-flex flex-column align-items-center">
+                        <i class="bi bi-card-text"></i>
+                        <p>FORUM</p>
+                    </div>
+                    <div class="service d-flex flex-column align-items-center">
+                        <i class="bi bi-share"></i>
+                        <p>PARTAGE</p>
+                    </div>
+                </div>
+            </div>
+            <!--Groupe Showcase-->
+            <div class="showcaseGroup">
+                <div class="titreGroup">
+                    <h2>CRÉEZ ENSEMBLE</h2>
+                    <p>Harmonisez vos talents, créez ensemble des œuvres uniques.</p>
+                </div>
+                <div class="animationContainer">
+                    <div class="imageContainer mt-5" id="sprintImage">
+                        <div class="imageHolder" id="holder1">
+                        </div>
+                        <div class="milestoneHeader" id="milestone1"></div>
+                    </div>
+                    <div class="dashLevel1">
+                        <i class="bi bi-dash-lg dashProgress"></i>
+                        <i class="bi bi-dash-lg dashProgress"></i>
+                        <i class="bi bi-dash-lg dashProgress"></i>
+                        <i class="bi bi-dash-lg dashProgress"></i>
+                        <i class="bi bi-dash-lg dashProgress"></i>
+                        <i class="bi bi-dash-lg dashProgress"></i>
+                        <i class="bi bi-dash-lg dashProgress"></i>
+                        <i class="bi bi-dash-lg dashProgress"></i>
+                    </div>
+                    <div class="imageContainer2 mt-5" id="sprintImage">
+                        <div class="imageHolder" id="holder2">
+                            <img src="media/image/wreckingBallSketch.png" alt="">
+                            <img src="media/image/wreckingBallColored.png" alt="" id="coloredImage">
+                        </div>
+                        <div class="milestoneHeader" id="milestone2"></div>
+                    </div>
+                    <div class="dashLevel2">
+                        <i class="bi bi-dash-lg dashProgress"></i>
+                        <i class="bi bi-dash-lg dashProgress"></i>
+                        <i class="bi bi-dash-lg dashProgress"></i>
+                        <i class="bi bi-dash-lg dashProgress"></i>
+                        <i class="bi bi-dash-lg dashProgress"></i>
+                        <i class="bi bi-dash-lg dashProgress"></i>
+                        <i class="bi bi-dash-lg dashProgress"></i>
+                        <i class="bi bi-dash-lg dashProgress"></i>
+                    </div>
+                    <div class="imageContainer mt-5" id="sprintImage">
+                        <div class="imageHolder" id="holder3">
+                            <img src="media/image/wreckingBallBackground.png" alt="" id="bgImage" style="opacity: 1"; >
+                            <img src="media/image/wreckingBallColored.png" alt="" style="opacity: 1;">
+                        </div>
+                        <div class="milestoneHeader" id="milestone3"></div>
+                    </div>
+                    <div class="dashLevel3">
+                        <i class="bi bi-dash-lg dashProgress"></i>
+                        <i class="bi bi-dash-lg dashProgress"></i>
+                        <i class="bi bi-dash-lg dashProgress"></i>
+                        <i class="bi bi-dash-lg dashProgress"></i>
+                        <i class="bi bi-dash-lg dashProgress"></i>
+                        <i class="bi bi-dash-lg dashProgress"></i>
+                    </div>
+                    <div class="shareHeader">
+                        <p>PARTAGEZ POUR GRANDIR ENSEMBLE</p>
+                        <p><small> Une communauté, un élan.</small></p>
+                    </div>
+                    <div class="d-flex justify-content-center finalPreview">
+                        <div class="imageContainer3 imageHolder" id="sprintImage">
+                            <img src="media/image/wreckingBallBackground.png" alt="" id="bgImage" style="opacity: 1"; >
+                            <img src="media/image/wreckingBallColored.png" alt="" style="opacity: 1;" id="winningPic">
+                        </div>
+                        <div class="socialHolder">
+                            <div class="descHolder">
+                                <p><i class="bi bi-person-circle"></i> <b>@blizzard</b></p>
+                                <p>Illustration du nouveau personnage overwatch</p>
+                                <p><small>Publié en 2024-03-28</small></p>
+                                <hr>
+                            </div>
+                            <div class="commentHolder">
+                                <div class="comment">
+                                    <div><i class="bi bi-person-circle" id="userIcon"></i></div>
+                                    <div class="d-flex flex-column justify-content-center commentContent">
+                                        <p>Incroyable!</p>
+                                        <p><b>@utilisateur</b></p>
+                                    </div>
+                                </div>
+                                <div class="comment">
+                                    <div><i class="bi bi-person-circle" id="userIcon"></i></div>
+                                    <div class="d-flex flex-column justify-content-center commentContent">
+                                        <p>J'aime les couleurs</p>
+                                        <p><b>@utilisateur</b></p>
+                                    </div>
+                                </div>
+                                <div class="comment">
+                                    <div><i class="bi bi-person-circle" id="userIcon"></i></div>
+                                    <div class="d-flex flex-column justify-content-center commentContent">
+                                        <p>WOOOOOW!</p>
+                                        <p><b>@utilisateur</b></p>
+                                    </div>
+                                </div>
+                                <div class="comment">
+                                    <div><i class="bi bi-person-circle" id="userIcon"></i></div>
+                                    <div class="d-flex flex-column justify-content-center commentContent">
+                                        <p>sah c beau</p>
+                                        <p><b>@utilisateur</b></p>
+                                    </div>
+                                </div>
+                                <div class="comment">
+                                    <div><i class="bi bi-person-circle" id="userIcon"></i></div>
+                                    <div class="d-flex flex-column justify-content-center commentContent">
+                                        <p>C'est qui ?</p>
+                                        <p><b>@utilisateur</b></p>
+                                    </div>
+                                </div>
+                                <div class="comment">
+                                    <div><i class="bi bi-person-circle" id="userIcon"></i></div>
+                                    <div class="d-flex flex-column justify-content-center commentContent">
+                                        <p>WAW SUPER!</p>
+                                        <p><b>@utilisateur</b></p>
+                                    </div>
+                                </div>
+                                <div class="comment">
+                                    <div><i class="bi bi-person-circle" id="userIcon"></i></div>
+                                    <div class="d-flex flex-column justify-content-center commentContent">
+                                        <p>Beau travail</p>
+                                        <p><b>@utilisateur</b></p>
+                                    </div>
+                                </div>
+                                <div class="comment">
+                                    <div><i class="bi bi-person-circle" id="userIcon"></i></div>
+                                    <div class="d-flex flex-column justify-content-center commentContent">
+                                        <p>Original</p>
+                                        <p><b>@utilisateur</b></p>
+                                    </div>
+                                </div>
+                                <div class="comment">
+                                    <div><i class="bi bi-person-circle" id="userIcon"></i></div>
+                                    <div class="d-flex flex-column justify-content-center commentContent">
+                                        <p>Coool!</p>
+                                        <p><b>@utilisateur</b></p>
+                                    </div>
+                                </div>
+                                <div class="comment">
+                                    <div><i class="bi bi-person-circle" id="userIcon"></i></div>
+                                    <div class="d-flex flex-column justify-content-center commentContent">
+                                        <p>C'est unique</p>
+                                        <p><b>@utilisateur</b></p>
+                                    </div>
+                                </div>
+                                <div class="comment">
+                                    <div><i class="bi bi-person-circle" id="userIcon"></i></div>
+                                    <div class="d-flex flex-column justify-content-center commentContent">
+                                        <p>Salut à tous c'est laSalle</p>
+                                        <p><b>@utilisateur</b></p>
+                                    </div>
+                                </div>
+                                <div class="comment">
+                                    <div><i class="bi bi-person-circle" id="userIcon"></i></div>
+                                    <div class="d-flex flex-column justify-content-center commentContent">
+                                        <p>Beau travail!</p>
+                                        <p><b>@utilisateur</b></p>
+                                    </div>
+                                </div>
+                                <div class="comment">
+                                    <div><i class="bi bi-person-circle" id="userIcon"></i></div>
+                                    <div class="d-flex flex-column justify-content-center commentContent">
+                                        <p>c'est super</p>
+                                        <p><b>@utilisateur</b></p>
+                                    </div>
+                                </div>
+                                <div class="comment">
+                                    <div><i class="bi bi-person-circle" id="userIcon"></i></div>
+                                    <div class="d-flex flex-column justify-content-center commentContent">
+                                        <p>Belle fusion des couleurs</p>
+                                        <p><b>@utilisateur</b></p>
+                                    </div>
+                                </div>
+                                <div class="comment">
+                                    <div><i class="bi bi-person-circle" id="userIcon"></i></div>
+                                    <div class="d-flex flex-column justify-content-center commentContent">
+                                        <p>Très propre!</p>
+                                        <p><b>@utilisateur</b></p>
+                                    </div>
+                                </div>
+                                <div class="comment">
+                                    <div><i class="bi bi-person-circle" id="userIcon"></i></div>
+                                    <div class="d-flex flex-column justify-content-center commentContent">
+                                        <p>Bravo, c'est magnifique</p>
+                                        <p><b>@utilisateur</b></p>
+                                    </div>
+                                </div>
+                                <div class="comment">
+                                    <div><i class="bi bi-person-circle" id="userIcon"></i></div>
+                                    <div class="d-flex flex-column justify-content-center commentContent">
+                                        <p>wow!</p>
+                                        <p><b>@utilisateur</b></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="dataHolder">
+                                <div><p><i class="bi bi-heart" id="likeCount"></i> </p></div>
+                                <div><p><i class="bi bi-chat-dots" id="commentCount"></i> </p></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="triggerPodium"></div>
+                    <div class="podiumHolder">
+                        <div class="podiumHeader d-flex justify-content-center gap-2"><h5>OEUVRE </h5> <h5 id="textChanger">dadada</h5></div>
+                        <div class="d-flex justify-content-center align-items-end">
+                            <div class="pod pod2">
+                                <div class="imgWinnerHolder imageHolder">
+                                    <img src="media/image/digitalArt.png" alt="">
+                                </div>
+                            </div>
+                            <div class="pod pod1 d-flex justify-content-center">
+                                <i class="bi bi-trophy-fill mt-5" style="color: rgb(255, 191, 108); font-size: 4rem;"></i>
+                            </div>
+                            <div class="pod pod3">
+                                <div class="imgWinnerHolder imageHolder">
+                                    <img src="media/image/painting2.jpg" alt="">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!--Post showcase-->
+            <div class="explore-container">
+
+                <div id="containerGalaxy">
+                    <div class="sectionHeader"><h3>EXPLOREZ DES UNIVERS ARTISTIQUES UNIQUES ET NOVATEURS</h3></div>
+                    <div class="postsHolder">
+                        <div class="postContent">
+                            <div class="leftPostHolder">
+                                <div class="post"><img src="media/image/digitalArt-1.jpg" alt=""></div>
+                                <div class="post"><img src="media/image/pixelArt.jpg" alt=""></div>
+                                <div class="post"><img src="media/image/3d-1.jpg" alt=""></div>
+                                <div class="post"><img src="media/image/art.jpg" alt=""></div>
+                                <div class="post"><img src="media/image/painting.pg.jpg" alt=""></div>
+                                <div class="post"><img src="media/image/digitalArt-0.jpg" alt=""></div>
+                                <div class="post"><img src="media/image/pixelart1.png" alt=""></div>
+                                <div class="post"><img src="media/image/3D-0.jpg" alt=""></div>
+                            </div>
+                            <div class="rightPostHolder">
+                                <div class="post"><img src="media/image/digitalArt-2.jpg" alt=""></div>
+                                <div class="post"><img src="media/image/pixelart1.png" alt=""></div>
+                                <div class="post"><img src="media/image/3D-2.png" alt=""></div>
+                                <div class="post"><img src="media/image/painting1.jpg" alt=""></div>
+                                <div class="post"><img src="media/image/digitalArt-2.jpg" alt=""></div>
+                                <div class="post"><img src="media/image/pixelart2.png" alt=""></div>
+                                <div class="post"><img src="media/image/3D.jpg" alt=""></div>
+                                <div class="post"><img src="media/image/painting2.jpg" alt=""></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          
+            <div class="postTrigger" id="postTrigger"></div>
+            <div class="commencerContainer bg-primary">
+                <div class="siteHeader d-flex flex-column justify-content-center align-items-center">
+                    <h2 id="siteTitle">ARTSYNC</h2>
+                    <p id="siteDesc"></p>
+                </div>
+                <div class="buttonStartHolder justify-content-center align-items-center">
+                    <a th:href="@{/authentification}">COMMENCER</a>
+                </div>
+            </div>
+        <script th:src="@{/js/script-index-cubes.js}" type="module"></script>
+        <script th:src="@{/js/script-index-galaxy.js}" type="module"></script>
+        <script th:src="@{/js/script-index.js}"></script>
+    </body>
+</html>

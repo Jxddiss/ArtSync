@@ -32,8 +32,8 @@
                                         <div class=" profile-picture-container d-flex justify-content-center align-items-center" >
                                             <img th:src="@{/media/images/{image}(image=${utilisateur.getPhotoUrl()})}" class="profile-picture" alt="Photo de profile"/>
 
-                                                <img src="media/logo/edit-logo.png" class="edit-img" alt="Edit logo" id="openProfilePan"/>
-                                                <script>
+                                                <img th:if="${utilisateur.getId() == session.user.getId()}" th:src="@{/media/image/edit-logo.png}" class="edit-img" alt="Edit logo" id="openProfilePan"/>
+                                                <script th:if="${utilisateur.getId() == session.user.getId()}">
                                                     const dropArea2 = document.getElementById('drop-area2');
 
                                                     dropArea.addEventListener('dragover', function (event) {
@@ -72,7 +72,7 @@
                                         </div>
 
 
-                                    <dialog class="postPane" id="profilePane" >
+                                    <dialog th:if="${utilisateur.getId() == session.user.getId()}" class="postPane" id="profilePane" >
                                         <i class="bi bi-x-lg" id="fermerProfilePan"></i>
                                         <div class="container mt-5">
                                             <div class="form-preview-container">
@@ -183,7 +183,7 @@
                             </div>
 
                                 <div class="col-md-3 justify-content-center align-items-center mr-4">
-                                    <dialog class="postPane" id="postPane">
+                                    <dialog th:if="${utilisateur.getId() == session.user.getId()}" class="postPane" id="postPane">
                                         <i class="bi bi-x-lg" id="fermer"></i>
                                         <div class="container mt-5">
                                             <div class="form-preview-container">
@@ -233,7 +233,7 @@
                                         </div>
 
                                     </dialog>
-                                    <button class="post-button" id="ouvrir">PUBLIER</button>
+                                    <button th:if="${utilisateur.getId() == session.user.getId()}" class="post-button" id="ouvrir">PUBLIER</button>
                                 </div>
 
 
@@ -242,16 +242,16 @@
                         <div class="profile-page-content">
 
                                     <!--Post Carte#1-->
-                                    <div class="card-post">
+                                    <div th:each="post : ${listPosts}" class="card-post">
                                         <!--Image-->
                                         <div class="card-img-post">
-                                            <img src="${pageContext.request.contextPath}/user/uploads/${post.listeFichiers[0].urlMedia}" alt="">
+                                            <img th:src="@{/media/image/{image}(image=${post.listeFichiers[0].urlMedia})}" th:alt="${post.listeFichiers[0].urlMedia}">
                                         </div>
                                         <!--Statistiques-->
                                         <div class="row mt-2">
                                             <div class="col-md-3 d-flex justify-content-center align-items-start">
                                                 <img class="icon-img" src="media/logo/like.png" alt="">
-                                                <p>${post.nbLikes} J'aime</p>
+                                                <p>[[${post.nbLikes}]] J'aime</p>
                                             </div>
                                             <div class="col-md-3 d-flex justify-content-center align-items-start">
                                                 <img class="icon-img" src="media/logo/comment.png" alt="">
@@ -259,16 +259,16 @@
                                             </div>
                                             <div class="col-md-3 d-flex justify-content-center align-items-start">
                                                 <img class="icon-img" src="media/logo/share.png" alt="">
-                                                <p>${post.nbPartages} partage</p>
+                                                <p>[[${post.nbPartages}]] partage</p>
                                             </div>
                                             <div class="col-md-3 d-flex justify-content-center align-items-start">
                                                 <img class="icon-img" src="media/logo/view.png" alt="">
-                                                <p>${post.nbVues} vues</p>
+                                                <p>[[${post.nbVues}]] vues</p>
                                             </div>
                                         </div>
                                         <!--Description-->
                                         <div class="mx-2 mt-2">
-                                            <p>${post.texte}</p>
+                                            <p>[[${post.texte}]]</p>
                                         </div>
                                         <!--Écrire commentaire-->
                                         <div class="boite_commentaire">

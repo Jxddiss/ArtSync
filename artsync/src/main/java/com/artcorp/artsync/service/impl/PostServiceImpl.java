@@ -89,4 +89,14 @@ public class PostServiceImpl implements PostService {
     public Post addPost(Post post) {
         return postRepos.save(post);
     }
+
+    @Override
+    public List<Post> findPostByUser(Utilisateur utilisateur) {
+        return postRepos.findPostByUser(utilisateur);
+    }
+
+    @Override
+    public Post findBanniereUtilisateur(Utilisateur utilisateur) {
+        return postRepos.findBanniereUtilisateur(utilisateur);
+    }
 }

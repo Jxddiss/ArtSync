@@ -43,4 +43,10 @@ public interface PostRepos extends JpaRepository<Post, Long> {
 
     @Query("SELECT p FROM Post p WHERE p.type = :type ORDER BY p.date DESC")
     List<Post> findAllPostsByType(@Param("type") String type);
+
+    @Query("SELECT p FROM Post p WHERE p.utilisateur = :utilisateur ORDER BY p.date DESC")
+    List<Post> findPostByUser(@Param("utilisateur") Utilisateur id);
+
+    @Query("SELECT p FROM Post p WHERE p.type = 'Banniere' AND p.utilisateur = :utilisateur")
+    Post findBanniereUtilisateur(@Param("utilisateur") Utilisateur utilisateur);
 }

@@ -22,4 +22,7 @@ public interface PostService {
     void deletePost(Post post);
     Post addPost(Post post);
 
+    List<Post> findPostByUser(Utilisateur utilisateur);
+
+    Post findBanniereUtilisateur(Utilisateur utilisateur);
 }

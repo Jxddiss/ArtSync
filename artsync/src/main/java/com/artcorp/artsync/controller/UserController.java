@@ -1,11 +1,12 @@
 package com.artcorp.artsync.controller;
 
+import com.artcorp.artsync.entity.Post;
 import com.artcorp.artsync.entity.Projet;
 import com.artcorp.artsync.entity.Utilisateur;
 import com.artcorp.artsync.repos.ProjetRepos;
+import com.artcorp.artsync.service.impl.PostServiceImpl;
 import com.artcorp.artsync.service.impl.UtilisateurServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,25 +16,21 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.List;
 import java.util.Set;
-
-import static com.artcorp.artsync.constant.FileConstant.USER_FOLDER;
 
 @Controller
 @RequestMapping("/utilisateur")
 public class UserController {
     private UtilisateurServiceImpl utilisateurService;
     private ProjetRepos projetRepos;
+    private PostServiceImpl postService;
 
     @Autowired
-    public UserController(UtilisateurServiceImpl utilisateurService, ProjetRepos projetRepos) {
+    public UserController(UtilisateurServiceImpl utilisateurService, ProjetRepos projetRepos, PostServiceImpl postService) {
         this.utilisateurService = utilisateurService;
         this.projetRepos = projetRepos;
+        this.postService = postService;
     }
 
     @GetMapping("/conversation")
@@ -53,7 +50,11 @@ public class UserController {
         if (session != null) {
             Utilisateur utilisateur = utilisateurService.findByPseudo(pseudo);
             if (utilisateur != null) {
+                List<Post> listPosts = postService.findPostByUser(utilisateur);
+                Post banniere = postService.findBanniereUtilisateur(utilisateur);
                 model.addAttribute("utilisateur", utilisateur);
+                model.addAttribute("listPosts", listPosts);
+                model.addAttribute("banniere", banniere);
                 return "utilisateur/profile";
             }
         }

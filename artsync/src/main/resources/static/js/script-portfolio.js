@@ -575,7 +575,7 @@ function drop1(event) {
         cloneElement.classList.add('post');
         const cloneElementChild = document.createElement('img');
         const classes = event.dataTransfer.getData('text/plain');
-        cloneElementChild.src = "moon.jpg";
+        cloneElementChild.src = "moon.jpg"; //changer ca plus tard au post de l'utilisateur pis rajouter peut etre un data value avec l'id du post
         cloneElementChild.classList.add(classes);
         cloneElement.appendChild(cloneElementChild);
         cloneElementChild.setAttribute('draggable', 'false');

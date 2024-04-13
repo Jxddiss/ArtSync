@@ -22,7 +22,7 @@
     </head>
 
     <body>
-        <nav th:replace="fragment/fragments :: headerFragment"></nav>
+    <nav th:replace="${session.user == null} ? ~{fragment/fragments :: headerFragment} : ~{fragment/fragments :: headerUserFragment}"></nav>
 
         <div class="container-content">
             <div class="nav-cote nav-cote-large animation" id="nav-cote">

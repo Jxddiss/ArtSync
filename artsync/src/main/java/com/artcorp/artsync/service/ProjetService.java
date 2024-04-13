@@ -8,4 +8,5 @@ public interface ProjetService {
 
     List<Projet> findAll();
     List<Projet> findByKeyword(String keyword);
+    Projet addUtilisateurToProjet(Long idProjet, Long idUtilisateur);
 }

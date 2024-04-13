@@ -29,7 +29,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         trop smart wllh
     -->
     <!--Header-->
-    <nav th:replace="fragment/fragments :: headerFragment"></nav>
+    <nav th:replace="${session.user == null} ? ~{fragment/fragments :: headerFragment} : ~{fragment/fragments :: headerUserFragment}"></nav>
 
     <!--Contenu-->
     <div class="content">

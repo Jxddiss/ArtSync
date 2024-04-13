@@ -118,26 +118,4 @@ public class UserController {
     public String redirigerVersPortfolio() {
         return "utilisateur/portfolio";
     }
-    @GetMapping("/media/images/{image}")
-    public void getImage(@PathVariable("image") String fileName, HttpServletResponse response) throws IOException {
-        File dir = new File(USER_FOLDER);
-        File file = new File(dir.getAbsolutePath() + File.separator + fileName);
-
-        if (file.exists()) {
-            response.setContentType("image/jpeg");
-
-            response.setHeader("Content-Disposition", "inline; filename=\"" + file.getName() + "\"");
-            FileInputStream in = new FileInputStream(file);
-            OutputStream out = response.getOutputStream();
-
-            byte[] buffer = new byte[1024];
-            int bytesRead = -1;
-            while ((bytesRead = in.read(buffer)) != -1) {
-                out.write(buffer, 0, bytesRead);
-            }
-            in.close();
-            out.flush();
-            out.close();
-        }
-    }
 }

@@ -5,14 +5,22 @@ import com.artcorp.artsync.entity.Utilisateur;
 import com.artcorp.artsync.service.UtilisateurService;
 import com.artcorp.artsync.service.ProjetService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
+
+import static com.artcorp.artsync.constant.FileConstant.USER_FOLDER;
 
 @Controller
 public class AppController {
@@ -101,5 +109,27 @@ public class AppController {
         model.addAttribute("filtre", filtre);
         model.addAttribute("type", type);
         return "recherche";
+    }
+    @GetMapping("/media/images/{image}")
+    public void getImage(@PathVariable("image") String fileName, HttpServletResponse response) throws IOException {
+        File dir = new File(USER_FOLDER);
+        File file = new File(dir.getAbsolutePath() + File.separator + fileName);
+
+        if (file.exists()) {
+            response.setContentType("image/jpeg");
+
+            response.setHeader("Content-Disposition", "inline; filename=\"" + file.getName() + "\"");
+            FileInputStream in = new FileInputStream(file);
+            OutputStream out = response.getOutputStream();
+
+            byte[] buffer = new byte[1024];
+            int bytesRead = -1;
+            while ((bytesRead = in.read(buffer)) != -1) {
+                out.write(buffer, 0, bytesRead);
+            }
+            in.close();
+            out.flush();
+            out.close();
+        }
     }
 }

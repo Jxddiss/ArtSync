@@ -4,13 +4,14 @@ import com.artcorp.artsync.entity.Post;
 import com.artcorp.artsync.entity.Utilisateur;
 
 import java.util.List;
+import java.util.Set;
 
 public interface PostService {
 
     List<Post> findPostsByYear( int year);
     List<Post> findPostsByMonth(int month, int year);
     List<Post> findPostsByDay( int day,  int month,  int year);
-    List<Post> findPostFollowing( List<Utilisateur> followingList);
+    List<Post> findPostFollowing( Set<Utilisateur> followingList);
     List<Post> findByPubliqueEnVedette(boolean publique);
     List<Post> findAllPostsPublique(boolean publique);
     List<Post> findAllPostsEnVedette();

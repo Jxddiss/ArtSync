@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
 import java.io.IOException;
@@ -53,6 +54,24 @@ public class PostController {
         return "explorer";
     }
 
+    @GetMapping("/feed")
+    public String feed(HttpServletRequest request,
+                       Model model,
+                       RedirectAttributes redirectAttributes) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+            List<Post> listPostsAbonnement = postService.findPostFollowing(utilisateur.getFollowing());
+            model.addAttribute("utilisateur", utilisateur);
+            model.addAttribute("listPosts", listPostsAbonnement);
+            return "utilisateur/feed";
+        }
+        redirectAttributes.addFlashAttribute("error", "Veuillez vous connecter pour voir votre feed");
+        return "redirect:/authentification";
+    }
+
+
+
     @PostMapping("/ajouter-post")
     public String ajouterPost(HttpServletRequest request,
                              @RequestParam("file") MultipartFile image,
@@ -60,7 +79,7 @@ public class PostController {
                              @RequestParam("type") String type,
                              @RequestParam("titre") String titre,
                              @RequestParam("publique") boolean publique,
-                             Model model) throws IOException {
+                             RedirectAttributes redirectAttributes) throws IOException {
         HttpSession session = request.getSession(false);
         if (session != null) {
             Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
@@ -92,6 +111,7 @@ public class PostController {
             }
             return "redirect:/utilisateur/profil/" + utilisateur.getPseudo();
         }
+        redirectAttributes.addFlashAttribute("error", "Veuillez vous connecter pour ajouter un post");
         return "redirect:/authentification";
     }
 

@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public interface PostRepos extends JpaRepository<Post, Long> {
@@ -21,7 +22,7 @@ public interface PostRepos extends JpaRepository<Post, Long> {
     List<Post> findPostsByDay(@Param("day") int day, @Param("month") int month, @Param("year") int year);
 
     @Query("SELECT p FROM Post p WHERE p.utilisateur IN :followingList ORDER BY p.date DESC")
-    List<Post> findPostFollowing(@Param("followingList") List<Utilisateur> followingList);
+    List<Post> findPostFollowing(@Param("followingList") Set<Utilisateur> followingList);
 
     @Query("SELECT p FROM Post p ORDER BY p.nbLikes DESC LIMIT 19")
     List<Post> findPostsEnVedette();

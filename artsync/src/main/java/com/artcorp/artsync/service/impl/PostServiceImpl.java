@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -37,7 +38,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<Post> findPostFollowing(List<Utilisateur> followingList) {
+    public List<Post> findPostFollowing(Set<Utilisateur> followingList) {
         return postRepos.findPostFollowing(followingList);
     }
 

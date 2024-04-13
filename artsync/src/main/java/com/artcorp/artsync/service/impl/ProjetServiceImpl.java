@@ -18,8 +18,6 @@ public class ProjetServiceImpl implements ProjetService {
     public ProjetServiceImpl(ProjetRepos repos) {
         this.repos = repos;
     }
-
-    //find all projects
     @Override
     public List<Projet> findAll() {
         return repos.findAll();

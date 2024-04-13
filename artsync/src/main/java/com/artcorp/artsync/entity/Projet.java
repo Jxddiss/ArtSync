@@ -18,7 +18,6 @@ public class Projet {
     private String projetPhoto;
     private boolean publique;
     private LocalDateTime dateCreation;
-
     private LocalDateTime dateModification;
     private LocalDateTime dateSuppression;
     @OneToOne

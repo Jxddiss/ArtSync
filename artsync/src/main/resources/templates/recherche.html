@@ -63,8 +63,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <hr>
 
         <div class="resultContainer" id="resultContainer">
-
-            <!--If message is not empty, display it-->
             <h5 th:if="${message != null}" th:text="${message}" class="message"></h5>
 
             <a th:if="${listUtilisateurs != null and listUtilisateurs.size() > 0}" th:each="user : ${listUtilisateurs}" th:href="@{'/utilisateurs/'+${user.id}}" class="resultAnchor">
@@ -123,62 +121,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     </div>
                 </div>
             </a>
-
-    <!--
-            <a href="#" class="resultAnchor">
-                <div class="userResult">
-                    <div class="userProfilPic">
-                        <img src="media/image/profil.png" alt="">
-                    </div>
-                    <div class="userInfo">
-                        <p>John Doe</p>
-                        <p><b>@johnDoe</b></p>
-                        <p>Artiste Numérique</p>
-                    </div>
-                    <div class="userButtons">
-                        <button class="addButton"><i class="bi bi-person-add"></i></button>
-                        <button class="removeButton"><i class="bi bi-person-dash"></i></button>
-                    </div>
-                </div>
-            </a>
-            -->
-
-            <!--
-            <a href="" class="resultAnchor">
-                <div class="groupResult">
-                    <div class="groupRow1">
-                        <div class="groupPic">
-                            <img src="media/image/art.jpg" alt="">
-                        </div>
-                        <div class="groupInfoHolder">
-                            <div class="groupHeader">
-                                <h5>ArtSync Projet</h5>
-                                <p>14 <i class="bi bi-people"></i></p>
-                            </div>
-                            <div class="groupInfo">
-                                <p>Commencé le 12/12/2024</p>
-                            </div>
-                            <div class="groupStatut">
-                                <p>Publique <i class="bi bi-unlock"></i></p>
-                            </div>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="groupDesc">
-                        <p>
-                            Projet d'art immersive,
-                            explorant l'espace et les planètes, 
-                            cherchant animateurs numériques pour créer un environnement 
-                            captivant, interactif et cosmique.
-                        </p>
-                    </div>
-                    <div class="groupButtons">
-                        <button class="addButton"><i class="bi bi-box-arrow-in-right"></i></button>
-                        <button class="removeButton"><i class="bi bi-x-lg"></i></button>
-                    </div>
-                </div>
-            </a>
-            -->
 
             <!--
             <a href="" class="resultAnchor">

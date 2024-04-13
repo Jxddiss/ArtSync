@@ -2,6 +2,7 @@
 //Input
 const inputField = document.getElementById('inputField');
 const output = document.querySelector('.output');
+const outputHolder = document.getElementById('outputHolder');
 
 inputField.addEventListener('input', function() {
     output.textContent = this.value;
@@ -16,22 +17,22 @@ inputField.addEventListener('input', function() {
 //Idées backgrounds
 const colors = ['rgb(255, 220, 249)', 'rgb(255, 251, 201)', 'rgb(201, 225, 255)', 'rgb(201, 225, 255)'];
 
-gsap.set(".idee", { opacity: 0 }); // Set initial opacity to 0 for all elements
+gsap.set(".idee", { opacity: 0 });
 
 function animateElement(element, index) {
-    const randomColor = colors[Math.floor(Math.random() * colors.length)]; // Select random color
+    const randomColor = colors[Math.floor(Math.random() * colors.length)];
 
     gsap.fromTo(element, {
         opacity: 0,
         y: gsap.utils.random(-15, -600),
         x: gsap.utils.random(0, 1200),
-        color: randomColor // Initial color
+        color: randomColor
     }, {
         duration: gsap.utils.random(2, 3),
         opacity: 0.5,
         y: '-=30',
         ease: 'back.out',
-        color: 'grey', // Change color
+        color: 'grey',
         onComplete: () => {
             gsap.to(element, {
                 duration: 1,
@@ -87,4 +88,8 @@ function animateBackground() {
 animateBackground();
 setInterval(() => {
     animateBackground();
-}, 10000); 
+}, 10000);
+
+
+const children = outputHolder.children
+gsap.to(children, {duration: 0.5, opacity: 1, scale:1, delay: 0.15, stagger: 0.1, ease:'back', filter: 'blur(0px)'})

@@ -27,51 +27,19 @@
         </div>
         <div class="titre">
             <h3>BESOIN D'UNE IDÉE?</h3>
-            <h5 class="output"></h5>
+            <h5 class="output" th:if="${promptWritten != null}" th:text="${promptWritten}"></h5>
+            <h5 class="output" th:if="${promptWritten == null}"></h5>
 
         </div>
         <div class="ai-input">
             <p>ALIMENTÉ PAR L'IA <span><i class="bi bi-robot"></span></i></p>
-            <form>
-                <input type="text" id="inputField" placeholder="Entrer un theme">
+            <form th:action="@{/ideaPrompt}">
+                <input type="text" id="inputField" name="prompt" placeholder="Entrer un thème">
             </form>
             <hr>
-            <div class="idee-output-container">
-                <div class="idee-output">
-                    <h6>adadadadaadad</h6>
-                </div>
-                <div class="idee-output">
-                    <h6>Exploration</h6>
-                </div>
-                <div class="idee-output">
-                    <h6>Urbanité</h6>
-                </div>
-                <div class="idee-output">
-                    <h6>Solitude</h6>
-                </div>
-                <div class="idee-output">
-                    <h6>Fantaisie</h6>
-                </div>
-                <div class="idee-output">
-                    <h6>Profondeur</h6>
-                </div>
-                <div class="idee-output">
-                    <h6>Identité</h6>
-                </div>
-                <div class="idee-output">
-                    <h6>Nature</h6>
-                </div>
-                <div class="idee-output">
-                    <h6>Abstraction</h6>
-                </div>
-                <div class="idee-output">
-                    <h6>Rêve</h6>
-                </div>
-                <div class="idee-output">
-                    <h6>Mystère</h6>
-                </div>
-                <div class="idee-output">
-                    <h6>Harmonie</h6>
+            <div class="idee-output-container" id="outputHolder">
+                <div th:if="${listOutputs != null and listOutputs.size() > 0}" th:each="output : ${listOutputs}" class="idee-output">
+                    <h6>[[${output.text}]]</h6>
                 </div>
             </div>
         </div>

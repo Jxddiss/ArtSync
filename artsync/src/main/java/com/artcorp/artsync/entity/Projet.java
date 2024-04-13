@@ -29,6 +29,7 @@ public class Projet {
     @OneToMany
     @JoinColumn (name = "fichier_id")
     private List<FichierGeneral> fichiers;
+    private int nbMembre;
 
     public Projet() {
     }
@@ -132,5 +133,12 @@ public class Projet {
 
     public void setFichiers(List<FichierGeneral> fichiers) {
         this.fichiers = fichiers;
+    }
+
+    public int getNbMembre() {
+        return nbMembre;
+    }
+    public void setNbMembre(int nbMembre) {
+        this.nbMembre = nbMembre;
     }
 }

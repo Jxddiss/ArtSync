@@ -4,6 +4,8 @@ import com.artcorp.artsync.entity.Projet;
 import com.artcorp.artsync.entity.Utilisateur;
 import com.artcorp.artsync.service.UtilisateurService;
 import com.artcorp.artsync.service.ProjetService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,7 +41,20 @@ public class AppController {
     public String redirigerVersRecherche(@RequestParam(value = "filtre", required = false) String filtre,
                                          @RequestParam(value = "type", required = false) String type,
                                          @RequestParam(value = "search", required = false) String search,
-                                         Model model) {
+                                         Model model,
+                                         HttpServletRequest request) {
+
+        HttpSession session = request.getSession(false);
+        Utilisateur utilisateur = null;
+        Long idUtilisateur = null;
+        try {
+            utilisateur = ((Utilisateur) session.getAttribute("user"));
+            idUtilisateur = utilisateur.getId();
+        } catch (Exception e) {
+            //do nothing
+        }
+
+
         if ("search".equals(type)) {
             if ("UTILISATEUR".equals(filtre)) {
                 List<Utilisateur> listUtilisateurs = userService.findByKeyword(search);
@@ -64,7 +79,17 @@ public class AppController {
                     model.addAttribute("message", "Aucun utilisateur trouvé");
                 }
             } else if ("GROUPE".equals(filtre)) {
+
                 List<Projet> listProjets = projetService.findAll();
+
+                for (Projet projet : listProjets) {
+                    if (utilisateur!=null && projet.getUtilisateurs().contains(userService.findById(idUtilisateur))) {
+                        projet.setIn(true);
+                    } else {
+                        projet.setIn(false);
+                    }
+                }
+
                 model.addAttribute("listProjets", listProjets);
                 if (listProjets.size()<1){
                     model.addAttribute("message", "Aucun projet trouvé");

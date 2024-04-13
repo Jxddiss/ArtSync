@@ -1,6 +1,7 @@
 package com.artcorp.artsync.controller;
 
 import com.artcorp.artsync.entity.Utilisateur;
+import com.artcorp.artsync.service.DemandeService;
 import com.artcorp.artsync.service.ProjetService;
 import com.artcorp.artsync.service.UtilisateurService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,25 +17,28 @@ public class GroupController {
     UtilisateurService userService;
     @Autowired
     ProjetService projetService;
+    @Autowired
+    DemandeService demandeService;
     @GetMapping("/group")
     public String rejoindreGroup(@RequestParam("id") Long id, @RequestParam("type") String type, HttpServletRequest request) {
 
+        HttpSession session = request.getSession(false);
+        Long idUtilisateur = null;
+        try {
+            Utilisateur utilisateur = ((Utilisateur) session.getAttribute("user"));
+            idUtilisateur = utilisateur.getId();
+        } catch (Exception e) {
+            return "auth";
+        }
         if ("rejoindre".equals(type)) {
-            System.out.println("id = " + id);
-            HttpSession session = request.getSession(false);
-            Long idUtilisateur = null;
-            try {
-                Utilisateur utilisateur = ((Utilisateur) session.getAttribute("user"));
-                idUtilisateur = utilisateur.getId();
-            } catch (Exception e) {
-                return "auth";
+            if (!projetService.findById(id).isPublique()) {
+                demandeService.createDemande(idUtilisateur, id);
+                return "recherche";
             }
             projetService.addUtilisateurToProjet(id, idUtilisateur);
         } else if ("quitter".equals(type)) {
-            //pour quitter après
+            projetService.removeUtilisateurFromProjet(id, idUtilisateur);
         }
         return "recherche";
     }
-
-
 }

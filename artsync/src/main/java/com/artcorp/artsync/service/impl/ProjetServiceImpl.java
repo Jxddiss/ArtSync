@@ -30,11 +30,32 @@ public class ProjetServiceImpl implements ProjetService {
         return repos.findByKeyword(keyword);
     }
     @Override
+    public Projet findById(Long id) {
+        return repos.findById(id).get();
+    }
+    @Override
     public Projet addUtilisateurToProjet(Long idProjet, Long idUtilisateur) {
         Projet projet = repos.findById(idProjet).get();
         Utilisateur utilisateur = utilisateurRepos.findById(idUtilisateur).get();
+
+        int presence = repos.checkIfUserIsInProjet(idProjet, idUtilisateur);
+        if (presence > 0) {
+            return projet;
+        }
         projet.getUtilisateurs().add(utilisateur);
         return repos.save(projet);
+    }
+    @Override
+    public Projet removeUtilisateurFromProjet(Long idProjet, Long idUtilisateur) {
+        Projet projet = repos.findById(idProjet).get();
+        Utilisateur utilisateur = utilisateurRepos.findById(idUtilisateur).get();
+        projet.getUtilisateurs().remove(utilisateur);
+        return repos.save(projet);
+    }
+    @Override
+    public boolean checkIfUserIsInProjet(Long idProjet, Long idUtilisateur) {
+        int presence = repos.checkIfUserIsInProjet(idProjet, idUtilisateur);
+        return presence > 0;
     }
 
 

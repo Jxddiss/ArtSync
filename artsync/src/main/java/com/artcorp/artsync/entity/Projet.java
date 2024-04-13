@@ -37,6 +37,8 @@ public class Projet {
     @JoinColumn(name = "admin_user_id")
     private Utilisateur admin;
     private int nbMembre;
+    @Transient
+    private Boolean in;
 
     public Projet() {
     }
@@ -158,5 +160,13 @@ public class Projet {
 
     public void setAdmin(Utilisateur admin) {
         this.admin = admin;
+    }
+
+    public Boolean getIn() {
+        return in;
+    }
+
+    public void setIn(Boolean in) {
+        this.in = in;
     }
 }

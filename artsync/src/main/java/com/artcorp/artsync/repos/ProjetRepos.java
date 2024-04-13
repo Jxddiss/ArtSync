@@ -14,7 +14,7 @@ public interface ProjetRepos extends JpaRepository<Projet, Long> {
      public List<Projet> findByUtilisateursId(Long id);
      @Query("select p from Projet p where p.titre like %?1%")
      public List<Projet> findByKeyword(String keyword);
-     @Query("select p from Projet p where p.id = ?1")
-     public Projet addUtilisateurToProjet(Long idProjet, Long idUtilisateur);
+     @Query("select count(p) from Projet p join p.utilisateurs u where p.id = ?1 and u.id = ?2")
+     public int checkIfUserIsInProjet(Long idProjet, Long idUtilisateur);
 
 }

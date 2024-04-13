@@ -82,110 +82,60 @@
 
                 <h2 class="animation">POSTES EN VEDETTE</h2>
                 <div class="container-cards">
-                    <c:if test="${not empty sessionScope.listePostes}">
-                        <c:forEach var = "i" begin="0" end="${sessionScope.listePostes.size()-1}">
-                            <c:if test="${i==0}">
-                                <section class="card-sample card1 ">
-                                    <div class="img-card" style="background-image: url(user/uploads/${sessionScope.listePostes[i].listeFichiers[0].urlMedia});"></div>
-                                    <div class="text no-animation">
-                                        <h2>${sessionScope.listePostes[i].titre}</h2>
-                                        <p>@${sessionScope.listePostes[i].pseudoUtilisateur}</p>
-                                    </div>
-                                    <div class="card-post"  style="display: none;">
-                                        <!--Description-->
-                                        <div class="">
-                                            <p>${sessionScope.listePostes[i].texte}</p>
+                    <section th:if="${postsEnVedette} != null" th:each="post, i : ${postsEnVedette}" class="card-sample card1" th:class="${i == 0} ? 'card-sample card1' : 'card-sample'">
+                        <div class="img-card" th:style="'background-image:url(media/images/'+ ${post.getListeFichiers()[0].getUrlMedia()} +');'">
+                            
+                        </div>
+                        <div class="text no-animation">
+                            <h2>[[${post.getTitre()}]]</h2>
+                            <p>@[[${post.getPseudoUtilisateur()}]]</p>
+                        </div>
+                        <div class="card-post"  style="display: none;">
+                            <!--Description-->
+                            <div class="">
+                                <p>[[${post.texte}]]</p>
+                            </div>
+                            <div class="liste-commentaires">
+    
+                            </div>
+                            <!--Écrire commentaire-->
+                            <div class="env-commentaire">
+                                <div class="interactions">
+                                    <div class="icones-interactions">
+                                        <div class="icon-img">
+                                            <img class="" src="media/logo/like.png" alt="">
+                                            <p>[[${post.nbLikes}]] J'aime</p>
                                         </div>
-                                        <div class="liste-commentaires">
-
+                                        <div class="icon-img">
+                                            <img class="" src="media/logo/comment.png" alt="">
+                                            <p>2 Comments</p>
                                         </div>
-                                        <!--Écrire commentaire-->
-                                        <div class="env-commentaire">
-                                            <div class="interactions">
-                                                <div class="icones-interactions">
-                                                    <div class="icon-img">
-                                                        <img class="" src="media/logo/like.png" alt="">
-                                                        <p>${sessionScope.listePostes[i].nbLikes} J'aime</p>
-                                                    </div>
-                                                    <div class="icon-img">
-                                                        <img class="" src="media/logo/comment.png" alt="">
-                                                        <p>2 Comments</p>
-                                                    </div>
-                                                    <div class="icon-img">
-                                                        <img class="" src="media/logo/share.png" alt="">
-                                                        <p>${sessionScope.listePostes[i].nbPartages} partage</p>
-                                                    </div>
-                                                    <div class="icon-img">
-                                                        <img class="" src="media/logo/view.png" alt="">
-                                                        <p>${sessionScope.listePostes[i].nbVues} vues</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <form class="input-box-commentaire">
-                                                <input type="text" placeholder="  Écrire un commentaire...">
-                                                <button class="btn-commentaire ">Envoyer</button>
-                                            </form>
+                                        <div class="icon-img">
+                                            <img class="" src="media/logo/share.png" alt="">
+                                            <p>[[${post.nbPartages}]] partage</p>
+                                        </div>
+                                        <div class="icon-img">
+                                            <img class="" src="media/logo/view.png" alt="">
+                                            <p>[[${post.nbVues}]] vues</p>
                                         </div>
                                     </div>
-                                </section>
-                            </c:if>
-                            <c:if test="${i>0}">
-                                <section class="card-sample ">
-                                    <div class="img-card" style="background-image: url(user/uploads/${sessionScope.listePostes[i].listeFichiers[0].urlMedia});"></div>
-                                    <div class="text no-animation">
-                                        <h2>${sessionScope.listePostes[i].titre}</h2>
-                                        <p>@${sessionScope.listePostes[i].pseudoUtilisateur}</p>
-                                    </div>
-                                    <div class="card-post" style="display: none;">
-                                        <!--Description-->
-                                        <div class="">
-                                            <p>${sessionScope.listePostes[i].texte}</p>
-                                        </div>
-                                        <div class="liste-commentaires">
-
-                                        </div>
-                                        <!--Écrire commentaire-->
-                                        <div class="env-commentaire">
-                                            <div class="interactions">
-                                                <div class="icones-interactions">
-                                                    <div class="icon-img">
-                                                        <img class="" src="media/logo/like.png" alt="">
-                                                        <p>${sessionScope.listePostes[i].nbLikes} J'aime</p>
-                                                    </div>
-                                                    <div class="icon-img">
-                                                        <img class="" src="media/logo/comment.png" alt="">
-                                                        <p>2 Comments</p>
-                                                    </div>
-                                                    <div class="icon-img">
-                                                        <img class="" src="media/logo/share.png" alt="">
-                                                        <p>${sessionScope.listePostes[i].nbPartages} partage</p>
-                                                    </div>
-                                                    <div class="icon-img">
-                                                        <img class="" src="media/logo/view.png" alt="">
-                                                        <p>${sessionScope.listePostes[i].nbVues} vues</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <form class="input-box-commentaire">
-                                                <input type="text" placeholder="  Écrire un commentaire...">
-                                                <button class="btn-commentaire ">Envoyer</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </section>
-                            </c:if>
-                        </c:forEach>
-                    </c:if>
+                                </div>
+                                <form class="input-box-commentaire">
+                                    <input type="text" placeholder="  Écrire un commentaire...">
+                                    <button class="btn-commentaire ">Envoyer</button>
+                                </form>
+                            </div>
+                        </div>
+                    </section>
                 </div>
                 <h2 class="animation delais">EXPLORER</h2>
                 <div class="postes-feed">
-                    <c:forEach var = "post" items="${sessionScope.listePostes}">  
-                        <div class="poste">
-                            <img src="user/uploads/${post.listeFichiers[0].urlMedia}" alt="">
+                        <div th:each="post : ${posts}" class="poste">
+                            <img th:src="@{/media/image/{image}(image=${post.listeFichiers[0].urlMedia})}" th:alt="${post.listeFichiers[0].urlMedia}">
                             <div class="card-post">
                                 <!--Description-->
                                 <div class="">
-                                    <p>${post.texte}</p>
+                                    <p>[[${post.texte}]]</p>
                                 </div>
                                 <div class="liste-commentaires">
 
@@ -196,7 +146,7 @@
                                         <div class="icones-interactions">
                                             <div class="icon-img">
                                                 <img class="" src="media/logo/like.png" alt="">
-                                                <p>${post.nbLikes} J'aime</p>
+                                                <p>[[${post.nbLikes}]] J'aime</p>
                                             </div>
                                             <div class="icon-img">
                                                 <img class="" src="media/logo/comment.png" alt="">
@@ -204,11 +154,11 @@
                                             </div>
                                             <div class="icon-img">
                                                 <img class="" src="media/logo/share.png" alt="">
-                                                <p>${post.nbPartages} partage</p>
+                                                <p>[[${post.nbPartages}]] partage</p>
                                             </div>
                                             <div class="icon-img">
                                                 <img class="" src="media/logo/view.png" alt="">
-                                                <p>${post.nbVues} vues</p>
+                                                <p>[[${post.nbVues}]] vues</p>
                                             </div>
                                         </div>
                                     </div>
@@ -219,16 +169,13 @@
                                 </div>
                             </div>
                         </div>
-                    </c:forEach>
                 </div>
             </div>
         </div>
-        <!-- code de Ali -->
-        <jsp:include page="footer.jsp"/>
     </body>
     <dialog id="dialog-card-focus">
         <button id="close-dialog">
-            <i id="icone-fleche" class="fas fa-times"></i>
+            <i id="icone-fleche-2" class="fas fa-times"></i>
         </button>
 
         <div class="poste">

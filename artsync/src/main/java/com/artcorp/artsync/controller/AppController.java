@@ -33,10 +33,7 @@ public class AppController {
     public String redirigerVersIndex() {
         return "index";
     }
-    @GetMapping("/explorer")
-    public String redirigerVersExplorer() {
-        return "explorer";
-    }
+
     @GetMapping("/idee")
     public String redirigerVersIdee() {
         return "boite-idee";

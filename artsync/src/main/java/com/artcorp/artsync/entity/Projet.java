@@ -12,11 +12,9 @@ public class Projet {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(unique =true , nullable = false)
-
     private String titre;
     @Column(nullable = false)
     private String description;
-
     private String projetPhoto;
     private boolean publique;
     private LocalDateTime dateCreation;

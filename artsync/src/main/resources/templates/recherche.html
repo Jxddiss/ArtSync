@@ -29,29 +29,102 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     <!--Content-->
 
     <div class="researchContainer">
-        <h4 id="rechercheHeader">RECHERCHE D'UTILISATEURS</h4>
+        <h4 id="rechercheHeader" th:switch="${filtre}">
+            <span th:case="'UTILISATEUR'">RECHERCHE D'UTILISATEUR</span>
+            <span th:case="'GROUPE'">RECHERCHE DE GROUPE</span>
+            <span th:case="*">RECHERCHE DE STREAM</span>
+        </h4>
         <div class="filterContainer">
-            <div class="filter selectedFilter" id="userFilter">
+            <a th:href="@{/recherche(filtre='UTILISATEUR')}"
+               th:classappend="${filtre == 'UTILISATEUR'} ? ' selectedFilter' : ''"
+               class="filter" id="userFilter">
                 <i class="bi bi-person"></i>
                 <p>MEMBRE</p>
-            </div>
-            <div class="filter" id="groupFilter">
+            </a>
+            <a th:href="@{/recherche(filtre='GROUPE')}"
+               th:classappend="${filtre == 'GROUPE'} ? ' selectedFilter' : ''"
+               class="filter" id="groupFilter">
                 <i class="bi bi-collection"></i>
                 <p>GROUPE</p>
-            </div>
-            <div class="filter" id="streamFilter">
+            </a>
+            <a th:href="@{/recherche(filtre='STREAM')}"
+               th:classappend="${filtre == 'STREAM'} ? ' selectedFilter' : ''"
+               class="filter" id="streamFilter">
                 <i class="bi bi-cast"></i>
                 <p>STREAM</p>
-            </div>
+            </a>
         </div>
-        <form action="" class="rechercheForm">
+        <form th:action="@{/recherche(filtre=${filtre})}" class="rechercheForm">
             <input type="text" placeholder="Rechercher" name="search" class="searchBar">
+            <input type="hidden" name="filtre" th:value="${filtre}">
+            <input type="hidden" name="type" value="search">
             <button type="submit" class="searchButton"><i class="bi bi-search"></i></button>
         </form>
         <hr>
-        <div class="resultContainer">
 
-            <!--
+        <div class="resultContainer" id="resultContainer">
+
+            <!--If message is not empty, display it-->
+            <h5 th:if="${message != null}" th:text="${message}" class="message"></h5>
+
+            <a th:if="${listUtilisateurs != null and listUtilisateurs.size() > 0}" th:each="user : ${listUtilisateurs}" th:href="@{'/utilisateurs/'+${user.id}}" class="resultAnchor">
+                <div class="userResult">
+                    <div class="userProfilPic">
+                        <img src="media/image/profil.png" alt="">
+                    </div>
+                    <div class="userInfo">
+                        <p>[[${user.prenom}]] [[${user.nom}]]</p>
+                        <p><b>@[[${user.pseudo}]]</b></p>
+                        <p>Artiste [[${user.specialisation}]]</p>
+                    </div>
+                    <div class="userButtons">
+                        <button class="addButton"><i class="bi bi-person-add"></i></button>
+                        <button class="removeButton"><i class="bi bi-person-dash"></i></button>
+                    </div>
+                </div>
+            </a>
+
+            <a th:if="${listProjets != null and listProjets.size() > 0}" th:each="projet : ${listProjets}" th:href="@{'/groupe/'+${projet.id}}" class="resultAnchor">
+                <div class="groupResult">
+                    <div class="groupRow1">
+                        <div class="groupPic">
+                            <img src="media/image/art.jpg" alt="">
+                        </div>
+                        <div class="groupInfoHolder">
+                            <div class="groupHeader">
+                                <h5>[[${projet.titre}]]</h5>
+                                <p style="margin: 0">14 <i class="bi bi-people"></i></p>
+                            </div>
+                            <div class="groupInfo">
+                                <p>Commencé le [[${projet.dateCreation}]]</p>
+                            </div>
+                            <div class="groupStatut">
+                                <p th:if="${projet.publique}">
+                                    <i class="bi bi-unlock"></i>
+                                </p>
+                                <p th:unless="${projet.publique}">
+                                    <i class="bi bi-lock"></i>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="groupDesc">
+                        <p>
+                            Projet d'art immersive,
+                            explorant l'espace et les planètes,
+                            cherchant animateurs numériques pour créer un environnement
+                            captivant, interactif et cosmique.
+                        </p>
+                    </div>
+                    <div class="groupButtons">
+                        <button class="addButton"><i class="bi bi-box-arrow-in-right"></i></button>
+                        <button class="removeButton"><i class="bi bi-x-lg"></i></button>
+                    </div>
+                </div>
+            </a>
+
+    <!--
             <a href="#" class="resultAnchor">
                 <div class="userResult">
                     <div class="userProfilPic">
@@ -134,7 +207,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 </div>
             </a>
             -->
-
+            </div>
+        </div>
     </body>
     <script th:src="@{/js/script-recherche.js}"></script>
 </html>

@@ -13,8 +13,7 @@
                     <a class="nav-link mx-2" th:href="@{/explorer}">Explorer</a>
                 </li>
                 <li class="nav-item">
-                    <!--Met recherche ici apres que tu finis de test-->
-                    <a class="nav-link mx-2" th:href="@{/recherche}">Rechercher</a>
+                    <a th:href="@{/recherche(filtre='UTILISATEUR')}">Rechercher</a>
                 </li>
                 <li class="nav-item ms-3 inscrire">
                     <a class="inscrire" th:href="@{/authentification}">CONNEXION</a>

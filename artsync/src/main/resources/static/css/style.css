@@ -40,6 +40,13 @@ body {
     color: white;
 }
 
+.nav-item a {
+    text-decoration: none;
+    color: #2b2a2a;
+}
+.nav-item:last-child a {
+    color: white;
+}
 
 /* 
 ------------------------------

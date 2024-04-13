@@ -33,10 +33,7 @@ public class AppController {
     public String redirigerVersIndex() {
         return "index";
     }
-    @GetMapping("/explorer")
-    public String redirigerVersExplorer() {
-        return "explorer";
-    }
+
     @GetMapping("/idee")
     public String redirigerVersIdee() {
         return "boite-idee";
@@ -164,11 +161,7 @@ public class AppController {
         } catch (Exception e) {
             return "auth";
         }
-        if ("follow".equals(type)) {
-            userService.addFollower(id, idUtilisateur);
-        } else if ("unfollow".equals(type)) {
-            userService.removeFollower(id, idUtilisateur);
-        }
+        userService.updateRelations(id, idUtilisateur);
         return "recherche";
     }
 }

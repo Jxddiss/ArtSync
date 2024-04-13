@@ -122,33 +122,4 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         repos.deleteById(id);
     }
 
-    @Override
-    public int addFollower(Long followedId, Long followerId) {
-        Utilisateur user1 = repos.findById(followedId).get();
-        System.out.println(user1.getPseudo());
-        Utilisateur user2 = repos.findById(followerId).get();
-        System.out.println(user2.getPseudo());
-        if (user1 != null && user2 != null) {
-            user1.getFollowers().add(user2);
-            user2.getFollowing().add(user1);
-            updateRelations(followedId, followerId);
-            repos.save(user1);
-            repos.save(user2);
-            return 1;
-        }
-        return 0;
-    }
-    @Override
-    public int removeFollower(Long followedId, Long followerId) {
-        Utilisateur user1 = repos.findById(followedId).get();
-        Utilisateur user2 = repos.findById(followerId).get();
-        if (user1 != null && user2 != null) {
-            user1.getFollowers().remove(user2);
-            user2.getFollowing().remove(user1);
-            repos.save(user1);
-            repos.save(user2);
-            return 1;
-        }
-        return 0;
-    }
 }

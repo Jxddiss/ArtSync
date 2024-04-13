@@ -47,48 +47,47 @@
         <hr />
         <ul>
           <li>
-            <img
-              src="../media/image/profil.png"
-              alt=""
-              class="profile-pic-banner-border-small"
-            />Profile
+            <a th:href="@{/utilisateur/profil/{username}(username=${session.user.getPseudo()})}">
+              <img th:src="@{/media/images/{image}(image=${session.user.getPhotoUrl()})}"
+                alt=""
+                class="profile-pic-banner-border-small"
+              />Profile
+            </a>
           </li>
-          <li><img src="../media/logo/friend.svg" alt="" />Amis</li>
-          <li><img src="../media/logo/group.svg" alt="" />Groupes</li>
-          <li><img src="../media/logo/clock.svg" alt="" />Souvenirs</li>
-          <li><img src="../media/logo/folder.svg" alt="" />Fichiers</li>
+          <li><a th:href="@{/utilisateur/conversation}"><img src="../media/logo/friend.svg" alt="" />Amis</a></li>
+          <li><a th:href="@{/utilisateur/relation/groupes}"><img src="../media/logo/group.svg" alt="" />Groupes</a></li>
+          <li><a th:href="@{/utilisateur/souvenirs}"><img src="../media/logo/clock.svg" alt="" />Souvenirs</a></li>
+          <li><a th:href="@{/utilisateur/fichiers}"><img src="../media/logo/folder.svg" alt="" />Fichiers</a></li>
         </ul>
       </div>
       <div id="container-post">
         <button class="btn-publier" type="button">
           Publier <i class="bi bi-plus-lg"></i>
         </button>
-        <section class="post">
+        <section class="post" th:if="${listPosts} != null" th:each="post, i : ${listPosts}" th:class="${i == 0} ? 'post' : 'post trig'">
           <!-- <img src="image/image1.png" alt="test picture"> -->
           <!-- <video src="media/ArtSync - Google Chrome 2024-03-07 15-10-39.mp4" style="height: 150%; width: 140%; object-fit: cover;"></video> -->
           <div class="media-holder" data-maximiser="true">
-            <img src="../media/image/cat.png" alt="" />
+            <img th:src="@{/media/image/{image}(image=${post.listeFichiers[0].urlMedia})}" th:alt="${post.listeFichiers[0].urlMedia}" />
             <span class="tooltiptext"
               ><i class="bi bi-arrows-angle-contract"></i
             ></span>
           </div>
           <div class="auteur-info">
             <a href="#!" class="">
-              <img
-                src="../media/image/profil.png"
+              <img th:src="@{/media/images/{image}(image=${post.utilisateur.getPhotoUrl()})}"
                 alt=""
                 class="profile-pic-banner-border-small"
               />
             </a>
             <div>
-              <h2>Pixel Cat</h2>
-              <p>@Jxddiss</p>
+              <h2>[[${post.titre}]]</h2>
+              <p>@[[${post.utilisateur.getPseudo()}]]</p>
             </div>
           </div>
           <div class="description">
             <p>
-              Pixel art d'un chien tout mignon qui joue au soccer en été 😍🐕
-              #Art #PixelArt #cat #cutenessoverload
+              [[${post.texte}]]
             </p>
           </div>
           <ul class="liste-commentaires">
@@ -134,7 +133,7 @@
               <div class="icones-interactions">
                 <div class="icon-img like" data-clicked="false">
                   <i class="bi bi-balloon-heart"></i>
-                  <p>120 J'aime</p>
+                  <p>[[${post.nbLikes}]] J'aime</p>
                 </div>
                 <div class="icon-img" data-clicked="false">
                   <i class="bi bi-chat-left"></i>
@@ -142,11 +141,11 @@
                 </div>
                 <div class="icon-img" data-clicked="false">
                   <i class="bi bi-share"></i>
-                  <p>12 partages</p>
+                  <p>[[${post.nbPartages}]] partages</p>
                 </div>
                 <div class="icon-img" data-clicked="false">
                   <i class="bi bi-eye"></i>
-                  <p>233 vues</p>
+                  <p>[[${post.nbVues}]] vues</p>
                 </div>
               </div>
             </div>
@@ -157,243 +156,8 @@
               </button>
             </form>
           </div>
-        </section>
-        <section class="post trig">
-          <!-- <img src="image/image1.png" alt="test picture"> -->
-          <!-- <video src="media/ArtSync - Google Chrome 2024-03-07 15-10-39.mp4" style="height: 150%; width: 140%; object-fit: cover;"></video> -->
-          <div class="media-holder" data-maximiser="true">
-            <video
-              src="../media/image/video1.mp4"
-              alt=""
-              autoplay
-              muted
-              loop
-              controls
-            ></video>
-            <span class="tooltiptext"
-              ><i class="bi bi-arrows-angle-contract"></i
-            ></span>
-          </div>
-          <div class="auteur-info">
-            <a href="#!" class="">
-              <img
-                src="../media/image/aok.jpg"
-                alt=""
-                class="profile-pic-banner-border-small"
-              />
-            </a>
-            <div>
-              <h2>Beach vibes 🌊🌊</h2>
-              <p>@mark09y</p>
-            </div>
-          </div>
-          <div class="description">
-            <p>
-              Découvrez la côte à travers mes yeux d'artiste et de passionné.
-              Chaque plan a son propre récit. Installez-vous et laissez-vous
-              emporter par la beauté de l'océan, mes amis. 🌊✨
-            </p>
-          </div>
-          <ul class="liste-commentaires">
-            <li class="commentaire">
-              <a href="#!" class="info-comment">
-                <img
-                  src="../media/image/profil12.jpg"
-                  alt=""
-                  class="profile-pic-banner-border-small"
-                />
-              </a>
-              <p>J'ai hâte au vacances d'été !!😭☀️⛱️</p>
-            </li>
-            <li class="commentaire">
-              <a href="#!" class="info-comment">
-                <img
-                  src="../media/image/profil4.jpg"
-                  alt=""
-                  class="profile-pic-banner-border-small"
-                />
-              </a>
-              <p>Quel drone a tu utilisé ?</p>
-            </li>
-            <li class="commentaire reponse-commentaire">
-              <a href="#!" class="info-comment">
-                <img
-                  src="../media/image/aok.jpg"
-                  alt=""
-                  class="profile-pic-banner-border-small"
-                />
-              </a>
-              <p>Le nouveau drone de DJI</p>
-            </li>
-          </ul>
-          <div class="env-commentaire">
-            <div class="interactions">
-              <div class="icones-interactions">
-                <div class="icon-img like" data-clicked="false">
-                  <i class="bi bi-balloon-heart"></i>
-                  <p>120 J'aime</p>
-                </div>
-                <div class="icon-img" data-clicked="false">
-                  <i class="bi bi-chat-left"></i>
-                  <p>2 Comments</p>
-                </div>
-                <div class="icon-img" data-clicked="false">
-                  <i class="bi bi-share"></i>
-                  <p>12 partages</p>
-                </div>
-                <div class="icon-img" data-clicked="false">
-                  <i class="bi bi-eye"></i>
-                  <p>233 vues</p>
-                </div>
-              </div>
-            </div>
-            <form class="input-box-commentaire">
-              <input type="text" placeholder="  Écrire un commentaire..." />
-              <button class="btn-commentaire">
-                <i class="bi bi-send"></i>
-              </button>
-            </form>
-          </div>
-        </section>
-        <section class="post trig">
-          <!-- <img src="image/image1.png" alt="test picture"> -->
-          <!-- <video src="media/ArtSync - Google Chrome 2024-03-07 15-10-39.mp4" style="height: 150%; width: 140%; object-fit: cover;"></video> -->
-          <div class="media-holder" data-maximiser="true">
-            <img src="../media/image/digitalArt-1.jpg" alt="" />
-            <span class="tooltiptext"
-              ><i class="bi bi-arrows-angle-contract"></i
-            ></span>
-          </div>
-          <div class="auteur-info">
-            <a href="#!" class="">
-              <img
-                src="../media/image/profil4.jpg"
-                alt=""
-                class="profile-pic-banner-border-small"
-              />
-            </a>
-            <div>
-              <h2>Un monde nouveau</h2>
-              <p>@astan112</p>
-            </div>
-          </div>
-          <div class="description">
-            <p>
-              Partir à la decouverte d'un monde nouveau au travers de mes
-              oeuvres🖌️🖌️🛰️🚀
-            </p>
-          </div>
-          <ul class="liste-commentaires">
-            <li class="commentaire">
-              <a href="#!" class="info-comment">
-                <img
-                  src="../media/image/profil10.jpg"
-                  alt=""
-                  class="profile-pic-banner-border-small"
-                />
-              </a>
-              <p>J'aime beaucoup ton travail ❤️❤️</p>
-            </li>
-            <li class="commentaire">
-              <a href="#!" class="info-comment">
-                <img
-                  src="../media/image/profil9.png"
-                  alt=""
-                  class="profile-pic-banner-border-small"
-                />
-              </a>
-              <p>WOOOOOWWW ! 😲😲😲</p>
-            </li>
-          </ul>
-          <div class="env-commentaire">
-            <div class="interactions">
-              <div class="icones-interactions">
-                <div class="icon-img like" data-clicked="false">
-                  <i class="bi bi-balloon-heart"></i>
-                  <p>120 J'aime</p>
-                </div>
-                <div class="icon-img" data-clicked="false">
-                  <i class="bi bi-chat-left"></i>
-                  <p>2 Comments</p>
-                </div>
-                <div class="icon-img" data-clicked="false">
-                  <i class="bi bi-share"></i>
-                  <p>12 partages</p>
-                </div>
-                <div class="icon-img" data-clicked="false">
-                  <i class="bi bi-eye"></i>
-                  <p>233 vues</p>
-                </div>
-              </div>
-            </div>
-            <form class="input-box-commentaire">
-              <input type="text" placeholder="  Écrire un commentaire..." />
-              <button class="btn-commentaire">
-                <i class="bi bi-send"></i>
-              </button>
-            </form>
-          </div>
-        </section>
-        <section class="post trig">
-          <!-- <img src="image/image1.png" alt="test picture"> -->
-          <!-- <video src="media/ArtSync - Google Chrome 2024-03-07 15-10-39.mp4" style="height: 150%; width: 140%; object-fit: cover;"></video> -->
-          <div class="media-holder" data-maximiser="true">
-            <img src="../media/image/pikachu.gif" alt="" />
-            <span class="tooltiptext"
-              ><i class="bi bi-arrows-angle-contract"></i
-            ></span>
-          </div>
-          <div class="auteur-info">
-            <a href="#!" class="">
-              <img
-                src="../media/image/profil7.png"
-                alt=""
-                class="profile-pic-banner-border-small"
-              />
-            </a>
-            <div>
-              <h2>Pika Pika</h2>
-              <p>@pokefan112</p>
-            </div>
-          </div>
-          <div class="description">
-            <p>
-              Partir à la decouverte d'un monde nouveau au travers de mes
-              oeuvres🖌️🖌️🛰️🚀
-            </p>
-          </div>
-          <ul class="liste-commentaires">
-            
-          </ul>
-          <div class="env-commentaire">
-            <div class="interactions">
-              <div class="icones-interactions">
-                <div class="icon-img like" data-clicked="false">
-                  <i class="bi bi-balloon-heart"></i>
-                  <p>120 J'aime</p>
-                </div>
-                <div class="icon-img" data-clicked="false">
-                  <i class="bi bi-chat-left"></i>
-                  <p>2 Comments</p>
-                </div>
-                <div class="icon-img" data-clicked="false">
-                  <i class="bi bi-share"></i>
-                  <p>12 partages</p>
-                </div>
-                <div class="icon-img" data-clicked="false">
-                  <i class="bi bi-eye"></i>
-                  <p>233 vues</p>
-                </div>
-              </div>
-            </div>
-            <form class="input-box-commentaire">
-              <input type="text" placeholder="  Écrire un commentaire..." />
-              <button class="btn-commentaire">
-                <i class="bi bi-send"></i>
-              </button>
-            </form>
-          </div>
-        </section>
+        </section  >
+
       </div>
       <div class="dashboard dashboard-right">
         <h4>STORIES</h4>

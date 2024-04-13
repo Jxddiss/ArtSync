@@ -30,21 +30,24 @@ public class Utilisateur {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="utilisateurs_relation",
             joinColumns = @JoinColumn(name = "utilisateur_un_id"),
-            inverseJoinColumns = @JoinColumn(name = "utilisateur_deux_id")
+            inverseJoinColumns = @JoinColumn(name = "utilisateur_deux_id"),
+            uniqueConstraints = @UniqueConstraint(columnNames = {"id"})
     )
     private Set<Utilisateur> followers;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="utilisateurs_relation",
             joinColumns = @JoinColumn(name = "utilisateur_deux_id"),
-            inverseJoinColumns = @JoinColumn(name = "utilisateur_un_id")
+            inverseJoinColumns = @JoinColumn(name = "utilisateur_un_id"),
+            uniqueConstraints = @UniqueConstraint(columnNames = {"id"})
     )
     private Set<Utilisateur> following;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="utilisateurs_amis",
             joinColumns = @JoinColumn(name = "utilisateur_un_id"),
-            inverseJoinColumns = @JoinColumn(name = "utilisateur_deux_id")
+            inverseJoinColumns = @JoinColumn(name = "utilisateur_deux_id"),
+            uniqueConstraints = @UniqueConstraint(columnNames = {"id"})
     )
     private Set<Utilisateur> amis;
     private boolean isActive;

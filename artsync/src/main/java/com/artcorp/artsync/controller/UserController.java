@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
@@ -24,6 +25,7 @@ import java.util.Set;
 import static com.artcorp.artsync.constant.FileConstant.USER_FOLDER;
 
 @Controller
+@RequestMapping("/utilisateur")
 public class UserController {
     private UtilisateurServiceImpl utilisateurService;
     private ProjetRepos projetRepos;
@@ -42,7 +44,7 @@ public class UserController {
     public String redirigerVersFeed() {
         return "utilisateur/feed";
     }
-    @GetMapping("utilisateur/profil/{pseudo}")
+    @GetMapping("/profil/{pseudo}")
     public String redirigerVersProfil(@PathVariable("pseudo") String pseudo,
                                       Model model,
                                       HttpServletRequest request,
@@ -58,7 +60,7 @@ public class UserController {
         redirectAttributes.addFlashAttribute("error", "Vous devez vous connecter pour avoir accès à cette page");
         return "redirect:/authentification";
     }
-    @GetMapping("/utilisateur/relation")
+    @GetMapping("/relation")
     public String redirigerVersRelation(HttpServletRequest request, Model model, RedirectAttributes redirectAttributes) {
         HttpSession session = request.getSession(false);
         if (session != null) {
@@ -76,7 +78,7 @@ public class UserController {
         return "redirect:/authentification";
     }
 
-    @GetMapping("/utilisateur/relation/groupes")
+    @GetMapping("/relation/groupes")
     public String redirigerVersRelationGroupes(HttpServletRequest request, Model model, RedirectAttributes redirectAttributes) {
         HttpSession session = request.getSession(false);
         if (session != null) {
@@ -94,7 +96,7 @@ public class UserController {
         return "redirect:/authentification";
     }
 
-    @GetMapping("utilisateur/relation/abonnes")
+    @GetMapping("/relation/abonnes")
     public String redirigerVersRelationAbonnes(HttpServletRequest request, Model model, RedirectAttributes redirectAttributes) {
         HttpSession session = request.getSession(false);
         if (session != null) {

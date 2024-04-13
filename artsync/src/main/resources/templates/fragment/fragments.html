@@ -99,10 +99,10 @@
                         <img th:src="@{/media/images/{image}(image=${session.user.getPhotoUrl()})}" alt="photo de profil" class="profile-pic-banner-border-small">
                     </button>
                     <div class="link-account">
-                        <a th:href="@{/profil}">Profil</a>
-                        <a th:href="@{/relation}">Relations</a>
+                        <a th:href="@{/utilisateur/profil/{username}(username=${session.user.getPseudo()})}">Profil</a>
+                        <a th:href="@{/utilisateur/relation}">Relations</a>
                         <a th:href="@{/conversation}">Converstations</a>
-                        <a th:href="@{/relation}">Groupes</a>
+                        <a th:href="@{/utilisateur/relation/groupes}">Groupes</a>
                         <a th:href="@{/deconnexion}">Deconnexion</a>
                     </div>
                 </li>

@@ -12,6 +12,8 @@ public class Post {
     private Long id;
     private LocalDateTime date;
     private String titre;
+    @Lob
+    @Column(columnDefinition = "LONGTEXT")
     private String texte;
     private boolean publique;
     @OneToMany(mappedBy = "post")
@@ -22,6 +24,9 @@ public class Post {
     private String type;
     private String pseudoUtilisateur;
     private String profilUrl;
+    @ManyToOne
+    @JoinColumn(name = "utilisateur_id")
+    private Utilisateur utilisateur;
     @OneToMany(mappedBy = "post")
     private Set<Commentaire> listeCommentaires;
 }

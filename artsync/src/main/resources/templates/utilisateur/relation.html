@@ -27,7 +27,7 @@
                     <!--Option Buttons-->
                     <div class="row p-5">
                         <div class="col-md-4">
-                            <a href="afficherFollowersController">
+                            <a th:href="@{/utilisateur/relation}">
                                 <div class="relation-button">
                                     <p>ABONNÉES</p>
                                     <small>14 followers <span>+15%</span></small>
@@ -35,7 +35,7 @@
                             </a>
                         </div>
                         <div class="col-md-4">
-                            <a href="abonnements">
+                            <a th:href="@{/utilisateur/relation/abonnes}">
                                 <div class="relation-button">
                                     <p>ABONNEMENTS</p>
                                     <small>63 followings <span>+10%</span></small>
@@ -43,7 +43,7 @@
                             </a>
                         </div>
                         <div class="col-md-4">
-                            <a href="afficherGroupeController?id=${sessionScope.user.getId()}">
+                            <a th:href="@{/utilisateur/relation/groupes}">
                             <div class="relation-button">
                                 <p>GROUPE</p>
                                 <small>5 groupes</small>
@@ -56,9 +56,7 @@
                         <!--Title-->
                         <div class="row anti-row-param">
                             <div class="col-md-2">
-                                <c:if test="${not empty requestScope.type}">
-                                    <h4>${requestScope.type}</h4>
-                                </c:if>
+                                <h4 >[[${type}]]</h4>
                             </div>
                             <div class="col-md-10 d-flex justify-content-end gap-2 align-items-center">
                                 <i class="bi bi-grid-1x2-fill"></i>
@@ -66,29 +64,21 @@
                             </div>
                             <hr class="mt-2">
                         </div>
-                        <div class=" d-flex flex-column data-holder">
-
-
-
-                        <c:if test="${not empty requestScope.projets}">
-                            <div class="row">
+                        <div th:if="${projets != null}" class=" d-flex flex-column data-holder">
+                            <div class="row" th:if="${!projets.isEmpty()}">
                             <!--Row #1-->
-                            <c:forEach var="projet" items="${requestScope.projets}">
-                                
-                                    <div class="col-md-12">
+                                    <div th:each="projet : ${projets}" class="col-md-12">
                                         <a href="afficherProjetController?id=${projet.getId()}">
                                             <div class="carte">
                                                 <div class="mini-container">
-                                                    <p>${projet.getTitre()} <span class="statut ${projet.isPublique() ? 'online' : 'offline'}"></span></p>
-                                                    <p>${projet.getDescription()}</p>
-                                                    <p>${projet.getDateCreationDate()}</p>
+                                                    <p>[[${projet.getTitre()}]] <span class="statut ${projet.isPublique() ? 'online' : 'offline'}"></span></p>
+                                                    <p>[[${projet.getDescription()}]]</p>
+                                                    <p>[[${projet.getDateCreationDate()}]]</p>
                                                 </div>
                                             </div>
                                         </a>
                                     </div>
-                                
-    
-                            </c:forEach>
+
                             <div class="col-md-12">
                                 <dialog class="dialogCreateProject">
                                     <button id="closeProjetCreation"><i class="bi bi-x-lg"></i></button>
@@ -116,15 +106,47 @@
                                 </button>
                             </div>
                             </div>
-                        </c:if>
-                            
-       
+                            <h4 th:if="${projets.isEmpty()}" class="d-flex justify-content-center">Vous n'avez pas encore de projet</h4>
 
-                        <c:if test="${not empty requestScope.message}">
-                            <h5>${requestScope.message}</h5>
-                        </c:if>
                         </div>
-                    </div>
+                        <div th:if="${following != null}" class=" d-flex flex-column data-holder">
+                            <!--Row #1-->
+                            <div th:if="${!following.isEmpty()}" th:each="user : ${following}" class="row">
+                                <div class="col-md-6">
+                                    <a class="carte" style="color: black;"href="${pageContext.request.contextPath}/user/profile?id=${user.id}">
+                                        <img src="uploads/${user.photoUrl}" alt="">
+                                        <div class="mini-container" style="padding: 0;">
+                                            <p>[[${user.prenom}]] [[${user.nom}]] <span class="statut online"></span></p>
+                                            <p>@[[${user.pseudo}]]</p>
+                                            <p> <img src="media/logo/digitalIcon.png" alt="logo-role">[[${user.specialisation}]]</p>
+                                        </div>
+                                        <div class="supprimer">
+                                            <p>RETIRER</p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <h4 class="d-flex justify-content-center" th:if="${following.isEmpty()}">Vous n'avez abonnements</h4>
+                        </div>
+                        <div th:if="${followers != null}" class=" d-flex flex-column data-holder">
+                            <!--Row #1-->
+                            <div th:if="${!followers.isEmpty()}" th:each="user : ${followers}" class="row">
+                                <div class="col-md-6">
+                                    <a class="carte" style="color: black;"href="${pageContext.request.contextPath}/user/profile?id=${user.id}">
+                                        <img src="uploads/${user.photoUrl}" alt="">
+                                        <div class="mini-container" style="padding: 0;">
+                                            <p>[[${user.prenom}]] [[${user.nom}]] <span class="statut online"></span></p>
+                                            <p>@[[${user.pseudo}]]</p>
+                                            <p> <img src="media/logo/digitalIcon.png" alt="logo-role">[[${user.specialisation}]]</p>
+                                        </div>
+                                        <div class="supprimer">
+                                            <p>RETIRER</p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <h4 class="d-flex justify-content-center" th:if="${followers.isEmpty()}">Vous n'avez pas d'abonnées</h4>
+                        </div>
                     <div class="row mt-4">
                         <div class="col-md-12 d-flex justify-content-center align-items-center page gap-2">
                             <i class="bi bi-circle-fill"></i> <i class="bi bi-circle"></i> <i class="bi bi-circle"></i>
@@ -133,6 +155,8 @@
                 </div>
                 
                 <!--Activité-->
+
+            </div>
                 <div class="col-md-4">
                     <div class="activity-holder">
                         <div class="row special-row">
@@ -194,7 +218,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="activity-card">
                                 <div class="row px-4 pt-2">
                                     <div class="col-md-2 d-flex justify-content-center align-items-center">
@@ -326,14 +350,12 @@
 
                             <hr>
                         </div>
-                        
+
                     </div>
                 </div>
-            </div>
-            
         </div>
     </div>
-
+    </div>
     <script>
         let openProjetCreation = document.getElementById("openProjetCreation");
         let closeProjetCreation = document.getElementById("closeProjetCreation");
@@ -349,6 +371,7 @@
             })
         }
     </script>
+
   </body>
   
 </html>

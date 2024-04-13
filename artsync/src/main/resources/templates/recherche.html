@@ -78,8 +78,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         <p>Artiste [[${user.specialisation}]]</p>
                     </div>
                     <div class="userButtons">
-                        <button class="addButton"><i class="bi bi-person-add"></i></button>
-                        <button class="removeButton"><i class="bi bi-person-dash"></i></button>
+                        <a th:if="${!user.in}" th:href="@{/user(id=${user.id}, type='ajouter')}" class="addButton">
+                            <i class="bi bi-person-add"></i>
+                        </a>
+                        <a th:unless="${!user.in}" th:href="@{/user(id=${user.id}, type='retirer')}" class="removeButton">
+                            <i class="bi bi-person-dash"></i>
+                        </a>
                     </div>
                 </div>
             </a>

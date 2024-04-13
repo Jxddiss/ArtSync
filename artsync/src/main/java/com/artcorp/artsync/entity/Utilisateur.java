@@ -27,27 +27,29 @@ public class Utilisateur {
     private String specialisation;
     @Column(nullable = false, length = 64)
     private String statut;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="utilisateurs_relation",
             joinColumns = @JoinColumn(name = "utilisateur_un_id"),
             inverseJoinColumns = @JoinColumn(name = "utilisateur_deux_id")
     )
     private Set<Utilisateur> followers;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="utilisateurs_relation",
             joinColumns = @JoinColumn(name = "utilisateur_deux_id"),
             inverseJoinColumns = @JoinColumn(name = "utilisateur_un_id")
     )
     private Set<Utilisateur> following;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="utilisateurs_amis",
             joinColumns = @JoinColumn(name = "utilisateur_un_id"),
             inverseJoinColumns = @JoinColumn(name = "utilisateur_deux_id")
     )
     private Set<Utilisateur> amis;
     private boolean isActive;
+    @Transient
+    private Boolean in;
 
     public Utilisateur() {
     }
@@ -168,6 +170,14 @@ public class Utilisateur {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public Boolean getIn() {
+        return in;
+    }
+
+    public void setIn(Boolean in) {
+        this.in = in;
     }
 
     @Override

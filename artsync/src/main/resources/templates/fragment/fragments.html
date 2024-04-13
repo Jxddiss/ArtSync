@@ -101,8 +101,8 @@
                         <img th:src="@{/media/images/{image}(image=${session.user.getPhotoUrl()})}" alt="photo de profil" class="profile-pic-banner-border-small">
                     </button>
                     <div class="link-account">
-                        <a th:href="@{/user/profile}">Profil</a>
-                        <a th:href="@{/}">Relations</a>
+                        <a th:href="@{/utilisateur/profile}">Profil</a>
+                        <a th:href="@{/utilisateur/relation}">Relations</a>
                         <a th:href="@{/}">Converstations</a>
                         <a th:href="@{/group}">Groupes</a>
                         <a th:href="@{/deconnexion}">Deconnexion</a>

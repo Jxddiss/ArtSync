@@ -1,6 +1,8 @@
 package com.artcorp.artsync.controller;
 
+import com.artcorp.artsync.entity.Projet;
 import com.artcorp.artsync.entity.Utilisateur;
+import com.artcorp.artsync.repos.ProjetRepos;
 import com.artcorp.artsync.service.impl.UtilisateurServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -16,16 +18,20 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.List;
+import java.util.Set;
 
 import static com.artcorp.artsync.constant.FileConstant.USER_FOLDER;
 
 @Controller
 public class UserController {
     private UtilisateurServiceImpl utilisateurService;
+    private ProjetRepos projetRepos;
 
     @Autowired
-    public UserController(UtilisateurServiceImpl utilisateurService) {
+    public UserController(UtilisateurServiceImpl utilisateurService, ProjetRepos projetRepos) {
         this.utilisateurService = utilisateurService;
+        this.projetRepos = projetRepos;
     }
 
     @GetMapping("/conversation")
@@ -52,10 +58,60 @@ public class UserController {
         redirectAttributes.addFlashAttribute("error", "Vous devez vous connecter pour avoir accès à cette page");
         return "redirect:/authentification";
     }
-    @GetMapping("/relation")
-    public String redirigerVersRelation() {
-        return "utilisateur/relation";
+    @GetMapping("/utilisateur/relation")
+    public String redirigerVersRelation(HttpServletRequest request, Model model, RedirectAttributes redirectAttributes) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+            if (utilisateur != null) {
+                Set<Utilisateur> following = utilisateur.getFollowing();
+                model.addAttribute("type", "Abonnements");
+                model.addAttribute("following", following);
+                return "utilisateur/relation";
+            }
+            redirectAttributes.addFlashAttribute("error", "Vous devez vous connecter pour avoir accès à cette page");
+            return "redirect:/authentification";
+        }
+        redirectAttributes.addFlashAttribute("error", "Vous devez vous connecter pour avoir accès à cette page");
+        return "redirect:/authentification";
     }
+
+    @GetMapping("/utilisateur/relation/groupes")
+    public String redirigerVersRelationGroupes(HttpServletRequest request, Model model, RedirectAttributes redirectAttributes) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+            if (utilisateur != null) {
+                List<Projet> groupes = projetRepos.findByUtilisateursId(utilisateur.getId());
+                model.addAttribute("type", "Groupes");
+                model.addAttribute("projets", groupes);
+                return "utilisateur/relation";
+            }
+            redirectAttributes.addFlashAttribute("error", "Vous devez vous connecter pour avoir accès à cette page");
+            return "redirect:/authentification";
+        }
+        redirectAttributes.addFlashAttribute("error", "Vous devez vous connecter pour avoir accès à cette page");
+        return "redirect:/authentification";
+    }
+
+    @GetMapping("utilisateur/relation/abonnes")
+    public String redirigerVersRelationAbonnes(HttpServletRequest request, Model model, RedirectAttributes redirectAttributes) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+            if (utilisateur != null) {
+                Set<Utilisateur> follower = utilisateur.getFollowers();
+                model.addAttribute("type", "Abonnements");
+                model.addAttribute("followers", follower);
+                return "utilisateur/relation";
+            }
+            redirectAttributes.addFlashAttribute("error", "Vous devez vous connecter pour avoir accès à cette page");
+            return "redirect:/authentification";
+        }
+        redirectAttributes.addFlashAttribute("error", "Vous devez vous connecter pour avoir accès à cette page");
+        return "redirect:/authentification";
+    }
+
     @GetMapping("/portfolio")
     public String redirigerVersPortfolio() {
         return "utilisateur/portfolio";

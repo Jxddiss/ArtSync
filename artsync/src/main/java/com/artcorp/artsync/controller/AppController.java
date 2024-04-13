@@ -66,6 +66,14 @@ public class AppController {
         if ("search".equals(type)) {
             if ("UTILISATEUR".equals(filtre)) {
                 List<Utilisateur> listUtilisateurs = userService.findByKeyword(search);
+                for (Utilisateur user : listUtilisateurs) {
+                    if (utilisateur!=null && (user.getFollowers().contains(utilisateur) || user.getAmis().contains(utilisateur))) {
+                        user.setIn(true);
+                    }
+                }
+                if (utilisateur!=null && listUtilisateurs.contains(utilisateur)) {
+                    listUtilisateurs.remove(utilisateur);
+                }
                 model.addAttribute("listUtilisateurs", listUtilisateurs);
                 if (listUtilisateurs.size()<1){
                     model.addAttribute("message", "Aucun utilisateur trouvé avec le filtre '"+search+"'");
@@ -91,9 +99,7 @@ public class AppController {
                 List<Utilisateur> listUtilisateurs = userService.findAll();
                 for (Utilisateur user : listUtilisateurs) {
                     if (utilisateur!=null && (user.getFollowers().contains(utilisateur) || user.getAmis().contains(utilisateur))) {
-                        utilisateur.setIn(true);
-                    } else {
-                        utilisateur.setIn(false);
+                        user.setIn(true);
                     }
                 }
                 if (utilisateur!=null && listUtilisateurs.contains(utilisateur)) {
@@ -103,10 +109,9 @@ public class AppController {
                 if (listUtilisateurs.size()<1){
                     model.addAttribute("message", "Aucun utilisateur trouvé");
                 }
+
             } else if ("GROUPE".equals(filtre)) {
-
                 List<Projet> listProjets = projetService.findAll();
-
                 for (Projet projet : listProjets) {
                     if (utilisateur!=null && projet.getUtilisateurs().contains(userService.findById(idUtilisateur))) {
                         projet.setIn(true);
@@ -148,5 +153,22 @@ public class AppController {
             out.flush();
             out.close();
         }
+    }
+    @GetMapping("/recherche/follow")
+    public String manageFollow(@RequestParam("id") Long id, @RequestParam("type") String type, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        Long idUtilisateur = null;
+        try {
+            Utilisateur utilisateur = ((Utilisateur) session.getAttribute("user"));
+            idUtilisateur = utilisateur.getId();
+        } catch (Exception e) {
+            return "auth";
+        }
+        if ("follow".equals(type)) {
+            userService.addFollower(id, idUtilisateur);
+        } else if ("unfollow".equals(type)) {
+            userService.removeFollower(id, idUtilisateur);
+        }
+        return "recherche";
     }
 }

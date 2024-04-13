@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="4b670ed1-281c-4dd9-bea3-df4c378d9b2a" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/artsync/src/main/java/com/artcorp/artsync/controller/AppController.java" beforeDir="false" afterPath="$PROJECT_DIR$/artsync/src/main/java/com/artcorp/artsync/controller/AppController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/artsync/src/main/java/com/artcorp/artsync/repos/UtilisateurRepos.java" beforeDir="false" afterPath="$PROJECT_DIR$/artsync/src/main/java/com/artcorp/artsync/repos/UtilisateurRepos.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/artsync/src/main/java/com/artcorp/artsync/service/UtilisateurService.java" beforeDir="false" afterPath="$PROJECT_DIR$/artsync/src/main/java/com/artcorp/artsync/service/UtilisateurService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/artsync/src/main/java/com/artcorp/artsync/service/impl/UtilisateurServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/artsync/src/main/java/com/artcorp/artsync/service/impl/UtilisateurServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/artsync/src/main/resources/templates/recherche.html" beforeDir="false" afterPath="$PROJECT_DIR$/artsync/src/main/resources/templates/recherche.html" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP" />
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="2eb8dyfgCOh21S2nuL8REb4RlAz" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "15-finalisation-de-la-fonctionnalite-recherche",
+    "last_opened_file_path": "C:/Users/gxldx/plateformedecollaborationartistiquenicholsonalimartinvanettaspring/artsync",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "com.github.copilot.settings.ApplicationConfigurable",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\gxldx\plateformedecollaborationartistiquenicholsonalimartinvanettaspring\artsync" />
+      <recent name="C:\Users\gxldx\plateformedecollaborationartistiquenicholsonalimartinvanettaspring\artsync\src\main\java\com\artcorp\artsync" />
+      <recent name="C:\Users\gxldx\plateformedecollaborationartistiquenicholsonalimartinvanettaspring\artsync\src\main\resources\static" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\gxldx\plateformedecollaborationartistiquenicholsonalimartinvanettaspring\artsync\src\main\resources\static" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.artcorp.artsync.service" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="ArtsyncApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="artsync" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.artcorp.artsync.ArtsyncApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="4b670ed1-281c-4dd9-bea3-df4c378d9b2a" name="Changes" comment="" />
+      <created>1712162009092</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1712162009092</updated>
+      <workItem from="1712162010175" duration="7923000" />
+      <workItem from="1712849776415" duration="652000" />
+      <workItem from="1712957314560" duration="16172000" />
+      <workItem from="1712976494221" duration="7183000" />
+      <workItem from="1713019917587" duration="10185000" />
+      <workItem from="1713030139999" duration="245000" />
+      <workItem from="1713030402655" duration="355000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

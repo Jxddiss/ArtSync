@@ -17,7 +17,10 @@ public interface UtilisateurRepos extends JpaRepository<Utilisateur, Long> {
     List<Utilisateur> findBySpecialisationAndIsActive(String specialisation);
     @Query("select u from Utilisateur u where u.pseudo like %?1% or u.prenom like %?1% or u.nom like %?1% or u.specialisation like %?1% or u.statut like %?1% and u.isActive = true")
     List<Utilisateur> findByKeyword(String keyword);
-
-    
     Utilisateur findByPseudoAndPassword(String username, String password);
+
+    @Query(value = "INSERT INTO utilisateurs_relation (utilisateur_un_id, utilisateur_deux_id) VALUES (?1, ?2)", nativeQuery = true)
+    void addFollower(Long followedId, Long followerId);
+    @Query(value = "DELETE FROM utilisateurs_relation WHERE utilisateur_un_id = ?1 AND utilisateur_deux_id = ?2", nativeQuery = true)
+    void removeFollower(Long followedId, Long followerId);
 }

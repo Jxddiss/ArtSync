@@ -244,7 +244,6 @@ function animate() {
         }
         if (model.position.distanceTo(points[6]) < 0.01) {
             document.getElementById('slogan').style.zIndex = 3;
-            document.getElementById('header').style.zIndex = 3;
             let tl = gsap.timeline({ yoyo: true, repeat: 1, repeatDelay: 0.4});
             tl.to("#slogan > *:nth-child(1)", { duration: 0.2, delay: 0.0025, x: 250, ease:'back' });
             tl.to("#slogan > *:nth-child(2)", { duration: 0.2, delay: .0025, x: -245, ease:'back' });

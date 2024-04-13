@@ -38,4 +38,8 @@ public class FichierGeneral {
     public void setUrlMedia(String urlMedia) {
         this.urlMedia = urlMedia;
     }
+
+    public void setPost(Post post) {
+        this.post = post;
+    }
 }

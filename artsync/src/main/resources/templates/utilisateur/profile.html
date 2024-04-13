@@ -189,7 +189,7 @@
                                             <div class="form-preview-container">
                                                 <div class="form-container">
                                                     <h3>Publier un Post</h3>
-                                                    <form action="publierController" method="POST" enctype="multipart/form-data">
+                                                    <form th:action="@{/ajouter-post}" method="POST" enctype="multipart/form-data">
                                                         <div class="form-group">
                                                             <label for="titre">Titre:</label>
                                                             <input type="text" name="titre "class="form-control" id="titre" placeholder="Entrez le titre" required>
@@ -200,7 +200,7 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="type">Type:</label>
-                                                            <input type="text" name="type "class="form-control" id="type" placeholder="Entrez le type de post" required>
+                                                            <input type="text" name="type" class="form-control" id="type" placeholder="Entrez le type de post" required>
                                                         </div>
                                                         <div class="form-group form-check mt-3">
                                                             <input type="checkbox" class="form-check-input" id="publique" name="publique">

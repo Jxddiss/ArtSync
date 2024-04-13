@@ -54,7 +54,7 @@ public class AuthController {
             HttpSession session = request.getSession();
             session.setAttribute("user", utilisateur);
             redirectAttributes.addFlashAttribute("success", "Inscription reussie");
-            return "redirect:/";
+            return "redirect:/utilisateur/profil/" + utilisateur.getPseudo();
         }
         redirectAttributes.addFlashAttribute("error", "Inscription echoue");
         return "redirect:/authentification";

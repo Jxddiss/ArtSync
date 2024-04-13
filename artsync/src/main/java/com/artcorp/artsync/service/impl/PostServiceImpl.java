@@ -1,5 +1,6 @@
 package com.artcorp.artsync.service.impl;
 
+import com.artcorp.artsync.entity.FichierGeneral;
 import com.artcorp.artsync.entity.Post;
 import com.artcorp.artsync.entity.Utilisateur;
 import com.artcorp.artsync.repos.PostRepos;

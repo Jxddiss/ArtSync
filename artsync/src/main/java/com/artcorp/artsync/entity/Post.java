@@ -16,7 +16,7 @@ public class Post {
     @Column(columnDefinition = "LONGTEXT")
     private String texte;
     private boolean publique;
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<FichierGeneral> listeFichiers;
     private int nbLikes;
     private int nbPartages;
@@ -140,5 +140,13 @@ public class Post {
 
     public void setListeCommentaires(Set<Commentaire> listeCommentaires) {
         this.listeCommentaires = listeCommentaires;
+    }
+
+    public void addCommentaire(Commentaire commentaire) {
+        this.listeCommentaires.add(commentaire);
+    }
+
+    public void addFichier(FichierGeneral fichier) {
+        this.listeFichiers.add(fichier);
     }
 }

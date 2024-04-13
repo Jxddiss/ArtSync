@@ -1,17 +1,4 @@
-const dialogOpenStorie = document.getElementById("storie-open-dialog");
-
-// ====== Header ========
-let openOptionUser = document.getElementById("open-option-user");
-openOptionUser.addEventListener("click", () => {
-  openOptionUser.classList.toggle("activer");
-  let content = openOptionUser.nextElementSibling;
-  console.log(content);
-  if (content.style.display === "block") {
-    content.style.display = "none";
-  } else {
-    content.style.display = "block";
-  }
-});
+const dialogOpenStories = document.getElementById("stories-open-dialog");
 
 //=========== change aspect-ratio media ========
 document.querySelectorAll(".media-holder").forEach((mediaHolder) => {
@@ -104,7 +91,7 @@ stories.addEventListener("mouseout", function () {
 stories.childNodes.forEach((story) => {
   story.addEventListener("click", function () {
     story.classList.toggle("storie-seen");
-    dialogOpenStorie.showModal();
+    dialogOpenStories.showModal();
   });
 })
 

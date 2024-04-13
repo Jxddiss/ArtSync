@@ -64,6 +64,13 @@ public class AppController {
                 }
             } else if ("GROUPE".equals(filtre)) {
                 List<Projet> listProjets = projetService.findByKeyword(search);
+                for (Projet projet : listProjets) {
+                    if (utilisateur!=null && projet.getUtilisateurs().contains(userService.findById(idUtilisateur))) {
+                        projet.setIn(true);
+                    } else {
+                        projet.setIn(false);
+                    }
+                }
                 model.addAttribute("listProjets", listProjets);
                 if (listProjets.size()<1){
                     model.addAttribute("message", "Aucun projet trouvé avec le filtre '"+search+"'");
@@ -74,6 +81,16 @@ public class AppController {
         } else {
             if ("UTILISATEUR".equals(filtre)) {
                 List<Utilisateur> listUtilisateurs = userService.findAll();
+                for (Utilisateur user : listUtilisateurs) {
+                    if (utilisateur!=null && (user.getFollowers().contains(utilisateur) || user.getAmis().contains(utilisateur))) {
+                        utilisateur.setIn(true);
+                    } else {
+                        utilisateur.setIn(false);
+                    }
+                }
+                if (utilisateur!=null && listUtilisateurs.contains(utilisateur)) {
+                    listUtilisateurs.remove(utilisateur);
+                }
                 model.addAttribute("listUtilisateurs", listUtilisateurs);
                 if (listUtilisateurs.size()<1){
                     model.addAttribute("message", "Aucun utilisateur trouvé");
@@ -89,7 +106,6 @@ public class AppController {
                         projet.setIn(false);
                     }
                 }
-
                 model.addAttribute("listProjets", listProjets);
                 if (listProjets.size()<1){
                     model.addAttribute("message", "Aucun projet trouvé");

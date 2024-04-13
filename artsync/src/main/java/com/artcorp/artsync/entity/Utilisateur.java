@@ -48,6 +48,8 @@ public class Utilisateur {
     )
     private Set<Utilisateur> amis;
     private boolean isActive;
+    @Transient
+    private Boolean in;
 
     public Utilisateur() {
     }
@@ -168,6 +170,14 @@ public class Utilisateur {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public Boolean getIn() {
+        return in;
+    }
+
+    public void setIn(Boolean in) {
+        this.in = in;
     }
 
     @Override

@@ -12,10 +12,10 @@ public class Conversation {
     private Long id;
     @OneToMany(mappedBy = "conversation")
     private Set<Chat> listeChat;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "utilisateur_un_id")
     private Utilisateur utilisateurUn;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "utilisateur_deux_id")
     private Utilisateur utilisateurDeux;
     @OneToOne

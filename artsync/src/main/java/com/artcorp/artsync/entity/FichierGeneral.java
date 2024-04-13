@@ -11,6 +11,9 @@ public class FichierGeneral {
     @ManyToOne
     @JoinColumn(name = "post_id")
     private Post post;
+    @ManyToOne
+    @JoinColumn(name = "utilisateur_id")
+    private Utilisateur utilisateur;
 
     public FichierGeneral() {
     }

@@ -61,10 +61,14 @@ public class PostController {
         HttpSession session = request.getSession(false);
         if (session != null) {
             Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
-            List<Post> listPostsAbonnement = postService.findPostFollowing(utilisateur.getFollowing());
-            model.addAttribute("utilisateur", utilisateur);
-            model.addAttribute("listPosts", listPostsAbonnement);
-            return "utilisateur/feed";
+            if (utilisateur != null) {
+                List<Post> listPostsAbonnement = postService.findPostFollowing(utilisateur.getFollowing());
+                model.addAttribute("utilisateur", utilisateur);
+                model.addAttribute("listPosts", listPostsAbonnement);
+                return "utilisateur/feed";
+            }
+            redirectAttributes.addFlashAttribute("error", "Veuillez vous connecter pour voir votre feed");
+            return "redirect:/authentification";
         }
         redirectAttributes.addFlashAttribute("error", "Veuillez vous connecter pour voir votre feed");
         return "redirect:/authentification";

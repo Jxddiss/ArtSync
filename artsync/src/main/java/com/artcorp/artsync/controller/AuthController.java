@@ -32,7 +32,7 @@ public class AuthController {
         if (utilisateur != null) {
             HttpSession session = request.getSession();
             session.setAttribute("user", utilisateur);
-            return "redirect:/utilisateur/profil/" + utilisateur.getPseudo();
+            return "redirect:/feed";
         }
         redirectAttributes.addFlashAttribute("error", "Connexion echoué");
         return "redirect:/authentification";

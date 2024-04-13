@@ -47,7 +47,7 @@ public class UserController {
                                       HttpServletRequest request,
                                       RedirectAttributes redirectAttributes) {
         HttpSession session = request.getSession(false);
-        if (session != null) {
+        if (session != null && pseudo != null && (Utilisateur) session.getAttribute("user") != null) {
             Utilisateur utilisateur = utilisateurService.findByPseudo(pseudo);
             if (utilisateur != null) {
                 List<Post> listPosts = postService.findPostByUser(utilisateur);
@@ -57,6 +57,7 @@ public class UserController {
                 model.addAttribute("banniere", banniere);
                 return "utilisateur/profile";
             }
+            redirectAttributes.addFlashAttribute("error", "Cet utilisateur n'existe pas");
         }
         redirectAttributes.addFlashAttribute("error", "Vous devez vous connecter pour avoir accès à cette page");
         return "redirect:/authentification";

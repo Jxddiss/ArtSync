@@ -82,7 +82,7 @@
 
                 <h2 class="animation">POSTES EN VEDETTE</h2>
                 <div class="container-cards">
-                    <section th:if="${postsEnVedette} != null" th:each="post, i : ${postsEnVedette}" class="card-sample card1" th:class="${i == 0} ? 'card-sample card1' : 'card-sample'">
+                    <section th:if="${postsEnVedette} != null" th:each="post, i : ${postsEnVedette}" th:class="${i == 0} ? 'card-sample card1' : 'card-sample'">
                         <div class="img-card" th:style="'background-image:url(\'media/images/'+ ${post.getListeFichiers()[0].getUrlMedia()} +'\');'">
                             
                         </div>

@@ -491,7 +491,7 @@ hr {
 }
 
 /*========= Stories Open Dialog ==========*/
-#storie-open-dialog{
+#stories-open-dialog{
   border: none;
   outline: none;
   position: fixed;
@@ -516,12 +516,12 @@ hr {
   object-fit: cover;
 }
 
-#storie-open-dialog[open] {
+#stories-open-dialog[open] {
   animation: fadeIn .7s ease normal;
   animation-fill-mode: forwards;
 }
 
-#storie-open-dialog  button{
+#stories-open-dialog  button{
   position: absolute;
   top: 0;
   right: 0;

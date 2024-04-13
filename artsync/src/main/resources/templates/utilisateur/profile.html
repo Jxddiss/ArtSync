@@ -32,7 +32,7 @@
                                         <div class=" profile-picture-container d-flex justify-content-center align-items-center" >
                                             <img th:src="@{/media/images/{image}(image=${utilisateur.getPhotoUrl()})}" class="profile-picture" alt="Photo de profile"/>
 
-                                                <img th:if="${utilisateur.getId() == session.user.getId()}" th:src="@{/media/image/edit-logo.png}" class="edit-img" alt="Edit logo" id="openProfilePan"/>
+                                                <img th:if="${utilisateur.getId() == session.user.getId()}" th:src="@{/media/logo/edit-logo.png}" class="edit-img" alt="Edit logo" id="openProfilePan"/>
                                                 <script th:if="${utilisateur.getId() == session.user.getId()}">
                                                     const dropArea2 = document.getElementById('drop-area2');
 

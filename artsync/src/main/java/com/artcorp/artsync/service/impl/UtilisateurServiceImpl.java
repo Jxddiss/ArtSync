@@ -30,7 +30,9 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         utilisateur.setPhotoUrl(photoUrl);
         utilisateur.setSpecialisation(specialisation);
         utilisateur.setStatut(statut);
-        return repos.save(utilisateur);
+        utilisateur.setActive(true);
+        repos.save(utilisateur);
+        return utilisateur;
     }
 
     @Override
@@ -54,7 +56,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     }
 
     @Override
-    public void updateFollowers(Long followedId, Long followerId) {
+    public void updateRelations(Long followedId, Long followerId) {
         Utilisateur followed = repos.findById(followedId).get();
         Utilisateur follower = repos.findById(followerId).get();
 
@@ -75,12 +77,13 @@ public class UtilisateurServiceImpl implements UtilisateurService {
                 }
             }
             repos.save(followed);
+            repos.save(follower);
         }
     }
 
     @Override
     public List<Utilisateur> findBySpecialisation(String specialisation) {
-        return repos.findBySpecialisationAndActive(specialisation);
+        return repos.findBySpecialisationAndIsActive(specialisation);
     }
 
     @Override

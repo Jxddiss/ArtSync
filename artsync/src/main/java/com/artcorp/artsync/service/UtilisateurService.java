@@ -10,7 +10,7 @@ public interface UtilisateurService {
     Utilisateur findByPseudo(String pseudo);
     Utilisateur findByEmail(String email);
     Utilisateur update(Utilisateur utilisateur);
-    void updateFollowers(Long followedId, Long followerId);
+    void updateRelations(Long followedId, Long followerId);
     List<Utilisateur> findBySpecialisation(String specialisation);
     List<Utilisateur> findByKeyword(String keyword);
     void disable(Long id);

@@ -22,3 +22,119 @@
         </div>
     </div>
 </nav>
+
+<nav class="navbar navbar-expand-lg " th:fragment="headerUserFragment">
+    <style>
+        .profile-pic-banner-border-small{
+            object-fit: cover;
+            border-radius: 50%;
+            height: 3em;
+            width: 3em;
+            align-self: flex-end;
+        }
+
+        .link-account{
+            display: none;
+            text-decoration: none;
+            overflow: hidden;
+            position: absolute;
+            z-index: 300;
+            margin-top: .5em;
+            border-radius: 5px;
+            background-color: aliceblue;
+            background: radial-gradient(circle, rgba(251,242,235,1) 0%, rgba(221,229,239,1) 100%);
+            border: 1px solid #ccc;
+            box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);
+            width: 9.7em;
+        }
+
+        .link-account a{
+            display: block;
+            padding: .2em .5em;
+            font-size: 1.1rem;
+            text-decoration: none;
+            color: black;
+            transition: all .2s ease-in-out;
+        }
+
+        .link-account a:hover{
+            background-color: ghostwhite;
+            cursor: pointer;
+            padding: .3em 1em;
+            transform: scale(1.1);
+        }
+
+        .activer, .btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0px 0px 19px 1px rgba(57,219,81,1);
+        }
+
+        .btn{
+            padding: 0.1em;
+            border-radius: 50%;
+            border: 1px solid rgb(0,0,0,0.5);
+        }
+        .btn-recherche{
+            background-color: transparent;
+            color: rgb(0,0,0,0.75);
+            border: 0px;
+        }
+    </style>
+    <div class="container">
+        <a class="navbar-brand nom-site" th:href="@{/index}"> <h3>ArtSync</h3></a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto align-items-center">
+                <li class="nav-item">
+                    <a class="nav-link mx-2" th:href="@{/index}"><i class=" pe-2"></i>Acceuil</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link mx-2" th:href="@{/explorer}"><i class=" pe-2"></i>Explorer</a>
+                </li>
+                <li class="nav-item">
+                    <button type="button" class="btn-recherche" id="open-option-recherche">Recherche</button>
+                    <div class="link-account">
+                        <a th:href="@{/recherche}">Utilisateur</a>
+                    </div>
+                </li>
+                <li class="nav-item ms-3 option-user ">
+                    <button type="button" class="btn" id="open-option-user">
+                        <img th:src="@{/media/images/{image}(image=${session.user.getPhotoUrl()})}" alt="photo de profil" class="profile-pic-banner-border-small">
+                    </button>
+                    <div class="link-account">
+                        <a th:href="@{/user/profile}">Profil</a>
+                        <a th:href="@{/}">Relations</a>
+                        <a th:href="@{/}">Converstations</a>
+                        <a th:href="@{/group}">Groupes</a>
+                        <a th:href="@{/deconnexion}">Deconnexion</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script>
+        let openOptionUser = document.getElementById("open-option-user");
+        openOptionUser.addEventListener("click", () => {
+            openOptionUser.classList.toggle("activer");
+            let content = openOptionUser.nextElementSibling;
+            console.log(content);
+            if (content.style.display === "block") {
+                content.style.display = "none";
+            } else {
+                content.style.display = "block";
+            }
+        })
+
+        let openOptionRecherche = document.getElementById("open-option-recherche");
+        openOptionRecherche.addEventListener("click", () => {
+
+            let contentRecherche = openOptionRecherche.nextElementSibling;
+            console.log(contentRecherche);
+            if (contentRecherche.style.display === "block") {
+                contentRecherche.style.display = "none";
+            } else {
+                contentRecherche.style.display = "block";
+            }
+        })
+
+    </script>
+</nav>

@@ -20,6 +20,11 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     }
 
     @Override
+    public Utilisateur connexion(String username, String password) {
+        return repos.findByPseudoAndPassword(username, password);
+    }
+
+    @Override
     public Utilisateur inscription(String pseudo, String prenom, String nom, String email, String password, String photoUrl, String specialisation, String statut) {
         Utilisateur utilisateur = new Utilisateur();
         utilisateur.setPseudo(pseudo);

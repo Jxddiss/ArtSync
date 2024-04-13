@@ -23,7 +23,7 @@ container.addEventListener('click', function(event) {
     if (event.target.id === 'signUp') {
         document.getElementById('connect').classList.remove('selected');
         form = document.getElementById("main");
-        form.action = "user/inscriptionController";
+        form.action = "/inscription";
         
         var titre = document.getElementById('tire-section');
         titre.textContent = "VOUS Y ETES PRESQUE";
@@ -93,7 +93,6 @@ container.addEventListener('click', function(event) {
     else if (event.target.id === 'connect') {
         document.getElementById('signUp').classList.remove('selected');
         form = document.getElementById("main");
-        form.action = "user/connexionController";
         console.log(form.action);
         if (document.getElementById('input-3')) {
 

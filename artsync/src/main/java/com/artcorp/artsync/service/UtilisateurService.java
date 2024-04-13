@@ -5,6 +5,7 @@ import com.artcorp.artsync.entity.Utilisateur;
 import java.util.List;
 
 public interface UtilisateurService {
+    Utilisateur connexion(String username, String password);
     Utilisateur inscription(String pseudo, String prenom, String nom, String email, String password, String photoUrl, String specialisation, String statut);
     List<Utilisateur> findAll();
     Utilisateur findByPseudo(String pseudo);

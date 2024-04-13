@@ -56,6 +56,9 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     }
 
     @Override
+    public Utilisateur findById(Long idUtilisateur) { return repos.findById(idUtilisateur).get(); }
+
+    @Override
     public Utilisateur update(Utilisateur utilisateur) {
         return repos.save(utilisateur);
     }

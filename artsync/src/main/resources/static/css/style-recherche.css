@@ -134,7 +134,7 @@
     justify-content: center;
     height: 100%;
     width: 45%;
-    
+
 }
 .userInfo p{
     margin: 0px;
@@ -246,14 +246,16 @@
     display: flex;
     width: 90%;
     justify-content: left;
+    gap: 1rem;
     margin-top: 0.5rem;
 }
-
-.groupButtons button{
+.groupButtons a{
     border: none;
     background-color: transparent;
     cursor: pointer;
     font-size: 25px;
+    text-decoration: none;
+    color: #2b2a2a;
 }
 
 /*--------------------------STREAMS--------------------------*/

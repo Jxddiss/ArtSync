@@ -23,17 +23,26 @@ public class Projet {
     @OneToOne
     @JoinColumn (name = "conversation_id")
     private Conversation conversation;
-    @OneToMany
-    @JoinColumn (name = "utilisateur_id")
+    @ManyToMany
+    @JoinTable(
+            name = "projet_utilisateur",
+            joinColumns = @JoinColumn(name = "projet_id"),
+            inverseJoinColumns = @JoinColumn(name = "utilisateur_id")
+    )
     private List<Utilisateur> utilisateurs;
     @OneToMany
     @JoinColumn (name = "fichier_id")
     private List<FichierGeneral> fichiers;
+    @ManyToOne
+    @JoinColumn(name = "admin_user_id")
+    private Utilisateur admin;
     private int nbMembre;
+    @Transient
+    private Boolean in;
 
     public Projet() {
     }
-    public Projet(Long id, String titre, String description, String projetPhoto, boolean publique, LocalDateTime dateCreation, LocalDateTime dateModification, LocalDateTime dateSuppression, Conversation conversation, List<Utilisateur> utilisateurs, List<FichierGeneral> fichiers) {
+    public Projet(Long id, String titre, String description, String projetPhoto, boolean publique, LocalDateTime dateCreation, LocalDateTime dateModification, LocalDateTime dateSuppression, Conversation conversation, List<Utilisateur> utilisateurs, List<FichierGeneral> fichiers , Utilisateur admin, int nbMembre) {
         this.id = id;
         this.titre = titre;
         this.description = description;
@@ -45,6 +54,9 @@ public class Projet {
         this.conversation = conversation;
         this.utilisateurs = utilisateurs;
         this.fichiers = fichiers;
+        this.admin = admin;
+        this.nbMembre = nbMembre;
+
     }
 
     public Long getId() {
@@ -140,5 +152,21 @@ public class Projet {
     }
     public void setNbMembre(int nbMembre) {
         this.nbMembre = nbMembre;
+    }
+
+    public Utilisateur getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Utilisateur admin) {
+        this.admin = admin;
+    }
+
+    public Boolean getIn() {
+        return in;
+    }
+
+    public void setIn(Boolean in) {
+        this.in = in;
     }
 }

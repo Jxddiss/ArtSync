@@ -17,4 +17,5 @@ public interface UtilisateurService {
     void disable(Long id);
     void enable(Long id);
     void delete(Long id);
+    Utilisateur findById(Long idUtilisateur);
 }

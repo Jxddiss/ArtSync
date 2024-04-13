@@ -24,7 +24,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     <body class="body-content">
 
     <!--Header-->
-    <nav th:replace="fragment/fragments :: headerFragment"></nav>
+    <nav th:replace="${session.user == null} ? ~{fragment/fragments :: headerFragment} : ~{fragment/fragments :: headerUserFragment}"></nav>
 
     <!--Content-->
 
@@ -65,6 +65,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <div class="resultContainer" id="resultContainer">
             <h5 th:if="${message != null}" th:text="${message}" class="message"></h5>
 
+
+            <!--UTILISATEURS-->
             <a th:if="${listUtilisateurs != null and listUtilisateurs.size() > 0}" th:each="user : ${listUtilisateurs}" th:href="@{'/utilisateurs/'+${user.id}}" class="resultAnchor">
                 <div class="userResult">
                     <div class="userProfilPic">
@@ -82,7 +84,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 </div>
             </a>
 
-            <a th:if="${listProjets != null and listProjets.size() > 0}" th:each="projet : ${listProjets}" th:href="@{'/groupe/'+${projet.id}}" class="resultAnchor">
+
+            <!--PROJET-->
+            <div th:if="${listProjets != null and listProjets.size() > 0}" th:each="projet : ${listProjets}" class="resultAnchor">
                 <div class="groupResult">
                     <div class="groupRow1">
                         <div class="groupPic">
@@ -91,7 +95,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         <div class="groupInfoHolder">
                             <div class="groupHeader">
                                 <h5>[[${projet.titre}]]</h5>
-                                <p style="margin: 0">14 <i class="bi bi-people"></i></p>
+                                <p style="margin: 0">[[${projet.nbMembre}]] <i class="bi bi-people"></i></p>
                             </div>
                             <div class="groupInfo">
                                 <p>Commencé le [[${projet.dateCreation}]]</p>
@@ -109,18 +113,19 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     <hr>
                     <div class="groupDesc">
                         <p>
-                            Projet d'art immersive,
-                            explorant l'espace et les planètes,
-                            cherchant animateurs numériques pour créer un environnement
-                            captivant, interactif et cosmique.
+                            [[${projet.description}]]
                         </p>
                     </div>
                     <div class="groupButtons">
-                        <button class="addButton"><i class="bi bi-box-arrow-in-right"></i></button>
-                        <button class="removeButton"><i class="bi bi-x-lg"></i></button>
+                        <a class="addButton" th:if="${!projet.in}" th:href="@{/group(id=${projet.id}, type='rejoindre')}">
+                            <i class="bi bi-box-arrow-in-right"></i>
+                        </a>
+                        <a class="removeButton" th:unless="${!projet.in}" th:href="@{/group(id=${projet.id}, type='quitter')}">
+                            <i class="bi bi-x-lg"></i>
+                        </a>
                     </div>
                 </div>
-            </a>
+            </div>
 
             <!--
             <a href="" class="resultAnchor">

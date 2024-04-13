@@ -166,6 +166,7 @@ public class Projet {
         return in;
     }
 
+
     public void setIn(Boolean in) {
         this.in = in;
     }

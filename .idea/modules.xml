@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/plateformedecollaborationartistiquenicholsonalimartinvanettaspring.iml" filepath="$PROJECT_DIR$/.idea/plateformedecollaborationartistiquenicholsonalimartinvanettaspring.iml" />
+      <module fileurl="file://$PROJECT_DIR$/artsync.iml" filepath="$PROJECT_DIR$/artsync.iml" />
     </modules>
   </component>
 </project>

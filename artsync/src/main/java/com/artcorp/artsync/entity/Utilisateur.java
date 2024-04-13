@@ -49,7 +49,7 @@ public class Utilisateur {
     private Set<Utilisateur> amis;
     private boolean isActive;
     @Transient
-    private Boolean in;
+    private boolean in = false;
 
     public Utilisateur() {
     }
@@ -172,11 +172,11 @@ public class Utilisateur {
         isActive = active;
     }
 
-    public Boolean getIn() {
+    public boolean getIn() {
         return in;
     }
 
-    public void setIn(Boolean in) {
+    public void setIn(boolean in) {
         this.in = in;
     }
 

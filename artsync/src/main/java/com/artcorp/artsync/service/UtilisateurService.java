@@ -18,4 +18,6 @@ public interface UtilisateurService {
     void enable(Long id);
     void delete(Long id);
     Utilisateur findById(Long idUtilisateur);
+    int addFollower(Long followedId, Long followerId);
+    int removeFollower(Long followedId, Long followerId);
 }

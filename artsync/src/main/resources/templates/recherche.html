@@ -67,26 +67,26 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 
 
             <!--UTILISATEURS-->
-            <a th:if="${listUtilisateurs != null and listUtilisateurs.size() > 0}" th:each="user : ${listUtilisateurs}" th:href="@{'/utilisateurs/'+${user.id}}" class="resultAnchor">
+            <div th:if="${listUtilisateurs != null and listUtilisateurs.size() > 0}" th:each="user : ${listUtilisateurs}"  class="resultAnchor">
                 <div class="userResult">
-                    <div class="userProfilPic">
-                        <img src="media/image/profil.png" alt="">
-                    </div>
+                    <a th:href="@{'/utilisateurs/'+${user.id}}" class="userProfilPic">
+                        <img th:src="@{/media/images/{image}(image=${user.getPhotoUrl()})}" alt="">
+                    </a>
                     <div class="userInfo">
                         <p>[[${user.prenom}]] [[${user.nom}]]</p>
                         <p><b>@[[${user.pseudo}]]</b></p>
                         <p>Artiste [[${user.specialisation}]]</p>
                     </div>
                     <div class="userButtons">
-                        <a th:if="${!user.in}" th:href="@{/user(id=${user.id}, type='ajouter')}" class="addButton">
+                        <a th:if="${!user.getIn()}" th:href="@{/recherche/follow(id=${user.id},type='follow')}" class="addButton">
                             <i class="bi bi-person-add"></i>
                         </a>
-                        <a th:unless="${!user.in}" th:href="@{/user(id=${user.id}, type='retirer')}" class="removeButton">
+                        <a th:unless="${!user.getIn()}" th:href="@{/recherche/follow(id=${user.id},type='unfollow')}" class="removeButton">
                             <i class="bi bi-person-dash"></i>
                         </a>
                     </div>
                 </div>
-            </a>
+            </div>
 
 
             <!--PROJET-->

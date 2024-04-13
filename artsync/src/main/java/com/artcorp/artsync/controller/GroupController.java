@@ -19,7 +19,7 @@ public class GroupController {
     ProjetService projetService;
     @Autowired
     DemandeService demandeService;
-    @GetMapping("/group")
+    @GetMapping("/group/join")
     public String rejoindreGroup(@RequestParam("id") Long id, @RequestParam("type") String type, HttpServletRequest request) {
 
         HttpSession session = request.getSession(false);
@@ -40,5 +40,10 @@ public class GroupController {
             projetService.removeUtilisateurFromProjet(id, idUtilisateur);
         }
         return "recherche";
+    }
+
+    @GetMapping("/groupe")
+    public String redirigerVersProjet() {
+        return "groupe/group";
     }
 }

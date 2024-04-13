@@ -121,10 +121,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         </p>
                     </div>
                     <div class="groupButtons">
-                        <a class="addButton" th:if="${!projet.in}" th:href="@{/group(id=${projet.id}, type='rejoindre')}">
+                        <a class="addButton" th:if="${!projet.in}" th:href="@{/group/join(id=${projet.id}, type='rejoindre')}">
                             <i class="bi bi-box-arrow-in-right"></i>
                         </a>
-                        <a class="removeButton" th:unless="${!projet.in}" th:href="@{/group(id=${projet.id}, type='quitter')}">
+                        <a class="removeButton" th:unless="${!projet.in}" th:href="@{/group/join(id=${projet.id}, type='quitter')}">
                             <i class="bi bi-x-lg"></i>
                         </a>
                     </div>

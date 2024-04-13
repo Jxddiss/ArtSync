@@ -68,7 +68,7 @@
                             <div class="row" th:if="${!projets.isEmpty()}">
                             <!--Row #1-->
                                     <div th:each="projet : ${projets}" class="col-md-12">
-                                        <a href="afficherProjetController?id=${projet.getId()}">
+                                        <a th:href="@{/groupe}">
                                             <div class="carte">
                                                 <div class="mini-container">
                                                     <p>[[${projet.getTitre()}]] <span class="statut ${projet.isPublique() ? 'online' : 'offline'}"></span></p>

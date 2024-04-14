@@ -14,7 +14,9 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static com.artcorp.artsync.constant.FileConstant.RELATIVE_PATH;
@@ -84,6 +86,15 @@ public class ChatController {
         return candidate;
     }
 
+    @MessageMapping("/chat/appel/remove/{conversationId}")
+    @SendTo("/topic/appel/remove/{conversationId}")
+    public String remove(String idUserEtIdAmi) {
+        List<String> list = Arrays.asList(idUserEtIdAmi.split(":"));
+        this.utilisateursConnecte.remove(list.get(0));
+        this.utilisateursConnecte.remove(list.get(1));
+        LOGGER.info("idUserEtIdAmi : " + idUserEtIdAmi);
+        return "{message : 'disconnected'}";
+    }
 }
 
 

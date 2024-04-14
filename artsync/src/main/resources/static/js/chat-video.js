@@ -20,10 +20,32 @@ document.addEventListener("DOMContentLoaded", function() {
 
     localPeer = new RTCPeerConnection(iceServers)
 
+    camToggle.addEventListener("click", function() {
+        if (localStream) {
+            localStream.getVideoTracks()[0].enabled = !localStream.getVideoTracks()[0].enabled;
+            if (localStream.getVideoTracks()[0].enabled) {
+                camToggle.innerHTML = '<i class="bi bi-camera-video"></i>';
+            }else {
+                camToggle.innerHTML = '<i class="bi bi-camera-video-off"></i>';
+            }
+        }
+    });
+
+    microToggle.addEventListener("click", function() {
+        if (localStream) {
+            localStream.getAudioTracks()[0].enabled = !localStream.getAudioTracks()[0].enabled;
+            if (localStream.getAudioTracks()[0].enabled) {
+                microToggle.innerHTML = '<i class="bi bi-mic"></i>';
+            }else {
+                microToggle.innerHTML = '<i class="bi bi-mic-mute"></i>';
+            }
+        }
+    })
+
     video.addEventListener("click", function() {
         videoDialog.showModal();
         if (navigator.mediaDevices.getUserMedia) {
-            navigator.mediaDevices.getUserMedia({ video: true,audio: false })
+            navigator.mediaDevices.getUserMedia({ video: true,audio: true })
                 .then(stream => {
                     call(stream)
                 })
@@ -139,6 +161,28 @@ document.addEventListener("DOMContentLoaded", function() {
 
             stompClientVideo.send("/app/chat/appel/add/"+conversationId, {}, idUser)
             stompClientVideo.send("/app/chat/appel/call/"+conversationId+"/"+idAmi, {}, idUser)
+            stompClientVideo.subscribe("/topic/appel/remove/"+conversationId, (call) => {
+                if (localPeer) {
+                    localPeer.close();
+                    localPeer = null;
+                }
+                if (stompClientVideo) {
+                    stompClientVideo.disconnect();
+                }
+                location.reload()
+            })
+
+            hangUpButton.addEventListener("click", function() {
+                if (localPeer) {
+                    localPeer.close();
+                    localPeer = null;
+                }
+                if (stompClientVideo) {
+                    stompClientVideo.send("/app/chat/appel/remove/"+conversationId, {}, idUser + ":" + idAmi);
+                    stompClientVideo.disconnect();
+                }
+                location.reload()
+            })
         })
         localVideo.srcObject = stream;
     }

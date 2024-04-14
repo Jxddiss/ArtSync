@@ -184,14 +184,16 @@
         chatItem.classList.add("chat-item");
         // Element pour la photo de celui qui a envoyer le chat
         let imgProfil = document.createElement("img");
+        let imgUserUrl;
 
         if (message.utilisateurUn.id === [[${amiCourrant.getId()}]]) {
             chatItem.classList.add('chat-item-left');
-            imgProfil.src = '/media/images/[[${amiCourrant.getPhotoUrl()}]]';
+            imgUserUrl = [[${amiCourrant.getPhotoUrl()}]]
         }else{
-            imgProfil.src = '/media/images/[[${session.user.getPhotoUrl()}]]';
             chatItem.classList.add('chat-item-right');
+            imgUserUrl = [[${session.user.getPhotoUrl()}]]
         }
+        imgProfil.src = '/media/images/'+imgUserUrl;
         imgProfil.classList.add("profile-pic-banner-border-small");
 
         let chatContent = document.createElement("div");

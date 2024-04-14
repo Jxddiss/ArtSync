@@ -2,10 +2,13 @@ package com.artcorp.artsync.controller;
 
 import com.artcorp.artsync.entity.Chat;
 import com.artcorp.artsync.entity.Conversation;
+import com.artcorp.artsync.entity.Post;
 import com.artcorp.artsync.entity.Utilisateur;
 import com.artcorp.artsync.service.ConversationService;
+import com.artcorp.artsync.service.PostService;
 import com.artcorp.artsync.service.ProjetService;
 import com.artcorp.artsync.service.impl.ConversationServiceImpl;
+import com.artcorp.artsync.service.impl.PostServiceImpl;
 import com.artcorp.artsync.service.impl.ProjetServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -24,11 +27,15 @@ import java.util.Set;
 @RequestMapping("/utilisateur/conversation")
 public class ConversationController {
     private ConversationService conversationService;
+    private PostService postService;
     private ProjetService projetService;
 
-    public ConversationController(ConversationServiceImpl conversationService, ProjetServiceImpl projetService) {
+    public ConversationController(ConversationServiceImpl conversationService,
+                                  ProjetServiceImpl projetService,
+                                  PostServiceImpl postService) {
         this.conversationService = conversationService;
         this.projetService = projetService;
+        this.postService = postService;
     }
     @GetMapping("")
     public String redirigerVersConversation(HttpServletRequest request,
@@ -66,6 +73,8 @@ public class ConversationController {
             Utilisateur amiCourrant = Objects.equals(conversation.getUtilisateurUn().getId(), utilisateur.getId())
                     ? conversation.getUtilisateurDeux() : conversation.getUtilisateurUn();
 
+            Post banniere = postService.findBanniereUtilisateur(amiCourrant);
+            model.addAttribute("banniere", banniere);
             model.addAttribute("amiCourrant", amiCourrant);
             model.addAttribute("listeConversations", listeConversations);
             model.addAttribute("conversationCourrante", conversation);

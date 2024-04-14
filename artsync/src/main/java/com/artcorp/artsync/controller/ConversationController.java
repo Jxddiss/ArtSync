@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -45,5 +46,12 @@ public class ConversationController {
         }
         redirectAttributes.addFlashAttribute("error", "Veuillez vous connecter");
         return "redirect:/authentification";
+    }
+
+    @GetMapping("/{id}")
+    public String redirigerVersChat(@PathVariable("id") Long id, Model model) {
+        Conversation conversation = conversationService.findById(id);
+        model.addAttribute("conversation", conversation);
+        return "utilisateur/chat-prive";
     }
 }

@@ -30,4 +30,9 @@ public class ConversationServiceImpl implements ConversationService {
     public Conversation findByProjet(Projet projet) {
         return conversationRepos.findByProjet(projet);
     }
+
+    @Override
+    public Conversation findById(Long id) {
+        return conversationRepos.findById(id).get();
+    }
 }

@@ -1,0 +1,24 @@
+package com.artcorp.artsync.service.impl;
+
+import com.artcorp.artsync.entity.Chat;
+import com.artcorp.artsync.repos.ChatRepos;
+import com.artcorp.artsync.service.ChatService;
+import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+@Transactional
+public class ChatServiceImpl implements ChatService {
+    private ChatRepos chatRepos;
+    @Override
+    public List<Chat> findAllByConversationId(Long conversationId) {
+        return chatRepos.findAllByConversationId(conversationId);
+    }
+
+    @Override
+    public Chat save(Chat chat) {
+        return chatRepos.save(chat);
+    }
+}

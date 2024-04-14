@@ -52,23 +52,23 @@ public class ChatController {
         LOGGER.info("Conversation : " + conversationId);
     }
 
-    @MessageMapping("/chat/appel/call/{userId}")
-    @SendTo("/topic/appel/call/{userId}")
+    @MessageMapping("/chat/appel/call/{conversationId}/{userId}")
+    @SendTo("/topic/appel/call/{conversationId}/{userId}")
     public String call(String call) {
         LOGGER.info("Call : " + call);
         return call;
     }
 
-    @MessageMapping("/chat/appel/offer/{userId}")
-    @SendTo("/topic/appel/offer/{userId}")
+    @MessageMapping("/chat/appel/offer/{conversationId}/{userId}")
+    @SendTo("/topic/appel/offer/{conversationId}/{userId}")
     public String offer(String offer) {
         LOGGER.info("Offer came : " + offer);
         LOGGER.info("Offer : " + offer);
         return offer;
     }
 
-    @MessageMapping("/chat/appel/answer/{userId}")
-    @SendTo("/topic/appel/answer/{userId}")
+    @MessageMapping("/chat/appel/answer/{conversationId}/{userId}")
+    @SendTo("/topic/appel/answer/{conversationId}/{userId}")
     public String answer(String answer) {
         LOGGER.info("Answer came : " + answer);
         LOGGER.info("Answer : " + answer);
@@ -76,8 +76,8 @@ public class ChatController {
         return answer;
     }
 
-    @MessageMapping("/chat/appel/candidate/{userId}")
-    @SendTo("/topic/appel/candidate/{userId}")
+    @MessageMapping("/chat/appel/candidate/{conversationId}/{userId}")
+    @SendTo("/topic/appel/candidate/{conversationId}/{userId}")
     public String candidate(String candidate) {
         LOGGER.info("Candidate came : " + candidate);
         LOGGER.info("Candidate : " + candidate);

@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     const socketVideo = new SockJS('/websocket');
                     stompClientVideo = Stomp.over(socketVideo);
                     stompClientVideo.connect({}, function(frame) {
-                        stompClientVideo.subscribe('/topic/appel/call/'+idUser, (call) => {
+                        stompClientVideo.subscribe('/topic/appel/call/'+conversationId+"/"+idUser, (call) => {
                             console.log("appel de : " + call.body);
                             localPeer.ontrack = (event) => {
                                 remoteVideo.srcObject = event.streams[0];
@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function() {
                                         id: event.candidate.candidate,
                                     }
                                     console.log("sending candidate : " + JSON.stringify(candidate));
-                                    stompClientVideo.send('/app/chat/appel/candidate/'+idAmi, {}, JSON.stringify({
+                                    stompClientVideo.send('/app/chat/appel/candidate/'+conversationId+"/"+idAmi, {}, JSON.stringify({
                                         toUser: idAmi,
                                         fromUser: idUser,
                                         candidate: candidate
@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", function() {
                             localPeer.createOffer().then((description) => {
                                 localPeer.setLocalDescription(description);
                                 console.log("Setting local description : " + JSON.stringify(description));
-                                stompClientVideo.send('/app/chat/appel/offer/'+idAmi, {}, JSON.stringify({
+                                stompClientVideo.send('/app/chat/appel/offer/'+conversationId+"/"+idAmi, {}, JSON.stringify({
                                     toUser: idAmi,
                                     fromUser: idUser,
                                     offer: description
@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function() {
                             })
                         });
 
-                        stompClientVideo.subscribe('/topic/appel/offer/'+idUser, (offer) => {
+                        stompClientVideo.subscribe('/topic/appel/offer/'+conversationId+"/"+idUser, (offer) => {
                             console.log("offer de : " + offer.body);
                             var offer = JSON.parse(offer.body)["offer"];
                             localPeer.ontrack = (event) => {
@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", function() {
                                         id: event.candidate.candidate,
                                     }
                                     console.log("sending candidate : " + JSON.stringify(candidate));
-                                    stompClientVideo.send('/app/chat/appel/candidate/'+idAmi, {}, JSON.stringify({
+                                    stompClientVideo.send('/app/chat/appel/candidate/'+conversationId+"/"+idAmi, {}, JSON.stringify({
                                         toUser: idAmi,
                                         fromUser: idUser,
                                         candidate: candidate
@@ -92,7 +92,7 @@ document.addEventListener("DOMContentLoaded", function() {
                             localPeer.createAnswer().then((description) => {
                                 localPeer.setLocalDescription(description);
                                 console.log("Setting local description : " + JSON.stringify(description));
-                                stompClientVideo.send('/app/chat/appel/answer/'+idAmi, {}, JSON.stringify({
+                                stompClientVideo.send('/app/chat/appel/answer/'+conversationId+"/"+idAmi, {}, JSON.stringify({
                                     toUser: idAmi,
                                     fromUser: idUser,
                                     answer: description
@@ -100,13 +100,13 @@ document.addEventListener("DOMContentLoaded", function() {
                             })
                         })
 
-                        stompClientVideo.subscribe('/topic/appel/answer/'+idUser, (answer) => {
+                        stompClientVideo.subscribe('/topic/appel/answer/'+conversationId+"/"+idUser, (answer) => {
                             console.log("answer de : " + answer.body);
                             var answerO = JSON.parse(answer.body)["answer"];
                             localPeer.setRemoteDescription(new RTCSessionDescription(answerO));
                         })
 
-                        stompClientVideo.subscribe('/topic/appel/candidate/'+idUser, (candidate) => {
+                        stompClientVideo.subscribe('/topic/appel/candidate/'+conversationId+"/"+idUser, (candidate) => {
                             console.log("candidate de : " + candidate.body);
                             var candidateO = JSON.parse(candidate.body)["candidate"];
                             var iceCandidate = new RTCIceCandidate({
@@ -118,7 +118,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         })
 
                         stompClientVideo.send("/app/chat/appel/add/"+conversationId, {}, idUser)
-                        stompClientVideo.send("/app/chat/appel/call/"+idAmi, {}, idUser)
+                        stompClientVideo.send("/app/chat/appel/call/"+conversationId+"/"+idAmi, {}, idUser)
                     })
                     localVideo.srcObject = stream;
                 })

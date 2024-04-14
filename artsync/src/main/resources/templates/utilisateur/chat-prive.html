@@ -24,9 +24,12 @@
     <!--    libs for stomp and sockjs-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-    <script th:src="@{/js/chat.js}" defer></script>
 </head>
-
+<style th:if="${banniere != null}">
+    .header-profile{
+        background-image: url("/media/images/[[${banniere.getListeFichiers()[0].getUrlMedia()}]]");
+    }
+</style>
 <body>
     <header>
         <nav th:replace="${session.user == null} ? ~{fragment/fragments :: headerFragment} : ~{fragment/fragments :: headerUserFragment}"></nav>
@@ -53,11 +56,11 @@
             <h4 class="animation delais">GROUPES</h4>
             <div id="liste-groupe" class="liste-options-contact">
                 <div class="carte">
-                    <img src="images/image2.jpg" alt="">
+                    <img src="/media/image/space.jpg" alt="">
                     <div class="mini-container">
                         <p>Jeu de plateforme</p>
                         <p>Jeu 2D</p>
-                        <p> <img src="/medi/logo/animationIcon.png" alt="logo-role"><img src="/media/logo/digitalIcon.png" alt="logo-role"></p>
+                        <p> <img src="/media/logo/animationIcon.png" alt="logo-role"><img src="/media/logo/digitalIcon.png" alt="logo-role"></p>
                     </div>
                 </div>
             </div>
@@ -159,7 +162,7 @@
         </div>
     </dialog>
 
-<script th:if="${amiCourrant != null}">
+<script th:inline="javascript" th:if="${amiCourrant != null}">
     //== Scroll automatiquement vers le bas du chat ==
     const chatBox = document.getElementById("chat-box");
     chatBox.scrollTop = chatBox.scrollHeight;
@@ -269,6 +272,16 @@
         document.getElementById('input-chat').value = '';
     });
 
+    //=== Variables appel video ======
+    const conversationId = '[[${conversationCourrante.getId()}]]';
+    const idUser = '[[${session.user.id}]]';
+    const idAmi = '[[${amiCourrant.getId()}]]';
+    const video = document.getElementById("button-fonction-video");
+    const phone = document.getElementById("button-fonction-call");
+    const videoDialog = document.getElementById("video-chat");
+
 </script>
+    <script type="text/javascript" th:src="@{/js/chat.js}" ></script>
+    <script type="text/javascript" th:src="@{/js/chat-video.js}" ></script>
 </body>
 </html>

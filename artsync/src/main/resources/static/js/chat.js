@@ -2,15 +2,14 @@ document.addEventListener("DOMContentLoaded", function() {
   
   // Prend tout les boutons pour ensuite les animer
   const options = document.getElementById("option-chat");
-  const video = document.getElementById("button-fonction-video");
-  const phone = document.getElementById("button-fonction-call");
+
   const paint = document.getElementById("button-fonction-paint");
   const music = document.getElementById("button-fonction-music");
   const btnOpenOptions = document.getElementById("open-options");
   const remoteVideo = document.getElementById("remoteVideo");
   const localVideo = document.getElementById("localVideo");
   const localVideoHolder = document.getElementById("local-holder");
-  const videoDialog = document.getElementById("video-chat");
+
 
   btnOpenOptions.addEventListener("click", function(e) {
     if (options.dataset.state === "inactive") {
@@ -34,21 +33,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   });
 
-  video.addEventListener("click", function() {
-    videoDialog.showModal();
-      
-    if (navigator.mediaDevices.getUserMedia) {
-        navigator.mediaDevices.getUserMedia({ video: true })
-        .then(function (stream) {
-            remoteVideo.srcObject = stream;
-            localVideo.srcObject = stream;
-        })
-        .catch(function (err0r) {
-            console.log("Something went wrong! : " + err0r);
-        });
-      }
-      
-  })
+
 
   $( function() {
     $("#local-holder").draggable();
@@ -77,7 +62,5 @@ function translateAvecDelai(element, translation, delay) {
     element.style.transform = "translate(" + translation + ")";
     element.classList.toggle("btn-ouvert");
   }, delay);
-
-  /** chat video */
   
 }

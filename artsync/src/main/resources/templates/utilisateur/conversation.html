@@ -24,33 +24,27 @@
             <div id="liste-contacts" class="animation">
                 <h4 class="animation delais">CONTACTS</h4>
                 <div id="liste-personne" class="liste-options-contact">
-                    <c:if test="${not empty sessionScope.user.amis}">
-                        <c:forEach var="ami" items="${sessionScope.user.amis}">
-                            <a class="carte" style="text-decoration: none; color: black" href="conversation?iduser=${ami.id}">
-                                <img src="uploads/${ami.photoUrl}" alt="">
+                            <!--/*@thymesVar id="ami" type="com.artcorp.artsync.entity.Utilisateur"*/-->
+                            <a th:each="conversation : ${conversations}" class="carte" style="text-decoration: none; color: black" th:href="@{/utilisateur/conversation/{id}(id=${conversation.getId()})}"
+                               th:with="ami=${conversation.getUtilisateurUn().getId() == session.user.getId() ? conversation.getUtilisateurDeux() : conversation.getUtilisateurUn()}" >
+
+                                <img th:src="@{/media/images/{image}(image=${ami.getPhotoUrl()})}" alt="">
                                 <div class="mini-container">
-                                    <p>${ami.prenom} ${ami.nom} <span class="statut ${ami.statut}"></span></p>
-                                    <p>@${ami.pseudo}</p>
-                                    <p> <img src="media/logo/digitalIcon.png" alt="logo-role">${ami.specialisation}</p>
+                                    <p>[[${ami.prenom}]] [[${ami.nom}]] <span class="statut ${ami.statut}"></span></p>
+                                    <p>@[[${ami.pseudo}]]</p>
+                                    <p> <img src="/media/logo/digitalIcon.png" alt="logo-role">[[${ami.specialisation}]]</p>
                                 </div>
                             </a>
-                        </c:forEach>
-                    </c:if>
                 </div>
                 <h4 class="animation delais">GROUPES</h4>
                 <div id="liste-groupe" class="liste-options-contact">
-
-                    <c:if test="${not empty requestScope.listeProjets}">
-                        <c:forEach var="projet" items="${requestScope.listeProjets}">
-                            <a class="carte" style="text-decoration: none; color: black" href="conversation?idGroupe=${projet.getId()}">
-                                <img src="media/images/art.jpg" alt="">
-                                <div class="mini-container">
-                                    <p>${projet.getTitre()}</p>
-                                    <p>${projet.getDescription()}</p>
-                                </div>
-                            </a>
-                        </c:forEach>
-                    </c:if>
+                    <a class="carte" style="text-decoration: none; color: black" href="">
+                        <img src="/media/images/art.jpg" alt="">
+                        <div class="mini-container">
+                            <p>À faire</p>
+                            <p>À faire</p>
+                        </div>
+                    </a>
                 </div>
             </div>
 

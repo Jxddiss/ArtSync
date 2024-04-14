@@ -33,10 +33,6 @@ public class UserController {
         this.postService = postService;
     }
 
-    @GetMapping("/conversation")
-    public String redirigerVersConversation() {
-        return "utilisateur/conversation";
-    }
     @GetMapping("/feed")
     public String redirigerVersFeed() {
         return "utilisateur/feed";
@@ -105,7 +101,7 @@ public class UserController {
             Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
             if (utilisateur != null) {
                 Set<Utilisateur> follower = utilisateur.getFollowers();
-                model.addAttribute("type", "Abonnements");
+                model.addAttribute("type", "Abonnées");
                 model.addAttribute("followers", follower);
                 return "utilisateur/relation";
             }

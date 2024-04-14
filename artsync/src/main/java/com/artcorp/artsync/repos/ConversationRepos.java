@@ -16,4 +16,7 @@ public interface ConversationRepos extends JpaRepository<Conversation, Long> {
 
     @Query("SELECT c FROM Conversation c WHERE c.projet = ?1")
     Conversation findByProjet(Projet projet);
+
+    @Query("SELECT c FROM Conversation c WHERE c.utilisateurUn = ?1 AND c.utilisateurDeux = ?2 OR c.utilisateurUn = ?2 AND c.utilisateurDeux = ?1")
+    Conversation findByUtilisateurDeuxAndUtilisateurUn(Utilisateur utilisateurUn, Utilisateur utilisateurDeux);
 }

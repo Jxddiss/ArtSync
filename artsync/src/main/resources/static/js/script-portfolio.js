@@ -54,6 +54,7 @@ const images = document.querySelectorAll('.selectableImage');
 const menuImage = document.querySelector('.menuImage');
 const menuText = document.querySelector('.menuText');
 const infoText = document.querySelector('.info');
+const userPosts = document.querySelectorAll('.userPost');
 const textInput = document.getElementById('textInput');
 const colorInput = document.getElementById('colorInput');
 
@@ -90,6 +91,7 @@ const templatePreviewFinal = document.getElementById('templatePlaceHolder2');
 const btnConfirmerPortfolio = document.getElementById('confirmerPortfolio');
 const btnAnnulerPortfolio = document.getElementById('annulerPortfolio');
 const codeGenerationOutput = document.getElementById('codeGen');
+const inputCode = document.getElementById('codeInput');
 
 let portfolioJSON = null;
 let portfolioJSONCode = null;
@@ -575,7 +577,8 @@ function drop1(event) {
         cloneElement.classList.add('post');
         const cloneElementChild = document.createElement('img');
         const classes = event.dataTransfer.getData('text/plain');
-        cloneElementChild.src = "moon.jpg"; //changer ca plus tard au post de l'utilisateur pis rajouter peut etre un data value avec l'id du post
+        cloneElementChild.src = classes;
+        console.log(cloneElementChild.src);
         cloneElementChild.classList.add(classes);
         cloneElement.appendChild(cloneElementChild);
         cloneElementChild.setAttribute('draggable', 'false');
@@ -629,6 +632,7 @@ btnContinuer1.addEventListener("click", () => {
 
     portfolioJSON = convertPortfolioToJSON(templatePreview1);
     portfolioJSONCode = JSONToBase64(portfolioJSON);
+    inputCode.value = portfolioJSONCode;
     codeGenerationOutput.textContent = JSONToBase64(portfolioJSON);
     while (portfolioHolder.firstChild) {
         portfolioHolder.removeChild(portfolioHolder.firstChild);

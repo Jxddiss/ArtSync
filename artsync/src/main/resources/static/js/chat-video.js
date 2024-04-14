@@ -21,33 +21,19 @@ document.addEventListener("DOMContentLoaded", function() {
     localPeer = new RTCPeerConnection(iceServers)
 
     camToggle.addEventListener("click", function() {
-        if (localStream) {
-            localStream.getVideoTracks()[0].enabled = !localStream.getVideoTracks()[0].enabled;
-            if (localStream.getVideoTracks()[0].enabled) {
-                camToggle.innerHTML = '<i class="bi bi-camera-video"></i>';
-            }else {
-                camToggle.innerHTML = '<i class="bi bi-camera-video-off"></i>';
-            }
-        }
+        toggleCam();
     });
 
     microToggle.addEventListener("click", function() {
-        if (localStream) {
-            localStream.getAudioTracks()[0].enabled = !localStream.getAudioTracks()[0].enabled;
-            if (localStream.getAudioTracks()[0].enabled) {
-                microToggle.innerHTML = '<i class="bi bi-mic"></i>';
-            }else {
-                microToggle.innerHTML = '<i class="bi bi-mic-mute"></i>';
-            }
-        }
-    })
+        toggleMic();
+    });
 
     video.addEventListener("click", function() {
         videoDialog.showModal();
         if (navigator.mediaDevices.getUserMedia) {
             navigator.mediaDevices.getUserMedia({ video: true,audio: true })
                 .then(stream => {
-                    call(stream)
+                    call(stream,"video")
                 })
                 .catch(function (error) {
                     console.log("Something went wrong! : " + error);
@@ -57,17 +43,20 @@ document.addEventListener("DOMContentLoaded", function() {
     phone.addEventListener("click", function() {
         videoDialog.showModal();
         if (navigator.mediaDevices.getUserMedia) {
-            navigator.mediaDevices.getUserMedia({ video: false,audio: true })
+            navigator.mediaDevices.getUserMedia({ video: true,audio: true })
                 .then(stream => {
-                    call(stream)
+                    call(stream,"phone")
                 })
                 .catch(function (error) {
                     console.log("Something went wrong! : " + error);
                 });
         }
     });
-    function call(stream){
+    function call(stream,type){
         localStream = stream;
+        if (type === "phone") {
+            toggleCam();
+        }
         const socketVideo = new SockJS('/websocket');
         stompClientVideo = Stomp.over(socketVideo);
         stompClientVideo.connect({}, function(frame) {
@@ -186,5 +175,28 @@ document.addEventListener("DOMContentLoaded", function() {
         })
         localVideo.srcObject = stream;
     }
+
+    function toggleCam(){
+        if (localStream) {
+            localStream.getVideoTracks()[0].enabled = !localStream.getVideoTracks()[0].enabled;
+            if (localStream.getVideoTracks()[0].enabled) {
+                camToggle.innerHTML = '<i class="bi bi-camera-video"></i>';
+            }else {
+                camToggle.innerHTML = '<i class="bi bi-camera-video-off"></i>';
+            }
+        }
+    }
+
+    function toggleMic(){
+        if (localStream) {
+            localStream.getAudioTracks()[0].enabled = !localStream.getAudioTracks()[0].enabled;
+            if (localStream.getAudioTracks()[0].enabled) {
+                microToggle.innerHTML = '<i class="bi bi-mic"></i>';
+            }else {
+                microToggle.innerHTML = '<i class="bi bi-mic-mute"></i>';
+            }
+        }
+    }
+
 })
 

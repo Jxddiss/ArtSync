@@ -1,5 +1,6 @@
 package com.artcorp.artsync.controller;
 
+import com.artcorp.artsync.entity.Chat;
 import com.artcorp.artsync.entity.Conversation;
 import com.artcorp.artsync.entity.Utilisateur;
 import com.artcorp.artsync.service.ConversationService;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/utilisateur/conversation")
@@ -49,9 +51,25 @@ public class ConversationController {
     }
 
     @GetMapping("/{id}")
-    public String redirigerVersChat(@PathVariable("id") Long id, Model model) {
-        Conversation conversation = conversationService.findById(id);
-        model.addAttribute("conversation", conversation);
-        return "utilisateur/chat-prive";
+    public String redirigerVersChat(@PathVariable("id") Long id,
+                                    HttpServletRequest request,
+                                    Model model,
+                                    RedirectAttributes redirectAttributes) {
+        HttpSession session = request.getSession(false);
+        Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+
+        if (session != null && utilisateur != null) {
+            List<Conversation> listeConversations = conversationService.findByAllByUtilisateur(utilisateur);
+
+            Conversation conversation = conversationService.findById(id);
+            Utilisateur amiCourrant = conversation.getUtilisateurUn() == utilisateur ? conversation.getUtilisateurDeux() : conversation.getUtilisateurUn();
+            model.addAttribute("amiCourrant", amiCourrant);
+            model.addAttribute("listeConversations", listeConversations);
+            model.addAttribute("conversationCourrante", conversation);
+            return "utilisateur/chat-prive";
+        }
+
+        redirectAttributes.addFlashAttribute("error", "Veuillez vous connecter");
+        return "redirect:/authentification";
     }
 }

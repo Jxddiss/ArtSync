@@ -21,6 +21,9 @@
     />
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <!--    libs for stomp and sockjs-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
     <script th:src="@{/js/chat.js}" defer></script>
 </head>
 
@@ -28,18 +31,24 @@
     <header>
         <nav th:replace="${session.user == null} ? ~{fragment/fragments :: headerFragment} : ~{fragment/fragments :: headerUserFragment}"></nav>
     </header>
+
     <div class="container-page">
         <div id="liste-contacts" class="animation">
             <h4 class="animation delais">CONTACTS</h4>
             <div id="liste-personne" class="liste-options-contact">
-                <div class="carte carte-active">
-                    <img src="images/profil6.jpg" alt="">
+                <!--/*@thymesVar id="ami" type="com.artcorp.artsync.entity.Utilisateur"*/-->
+                <a th:each="conversation : ${listeConversations}" th:href="@{/utilisateur/conversation/{id}(id=${conversation.getId()})}"
+                   th:class="${conversation.getId() == conversationCourrante.getId()} ? 'carte carte-active' : 'carte'"
+                   th:with="ami=${conversation.getUtilisateurUn().getId() == session.user.getId() ? conversation.getUtilisateurDeux() : conversation.getUtilisateurUn()}"
+                    style="text-underline: none; text-decoration: none; color: #000;">
+
+                    <img th:src="@{/media/images/{image}(image=${ami.getPhotoUrl()})}" alt="">
                     <div class="mini-container">
-                        <p>Emilie Tremblay <span class="statut online"></span></p>
-                        <p>@mim1cs</p>
-                        <p> <img src="/media/image/logo/digitalIcon.png" alt="logo-role">Artiste numérique</p>
+                        <p>[[${ami.prenom}]] [[${ami.nom}]]<span class="statut online"></span></p>
+                        <p>@[[${ami.pseudo}]]</p>
+                        <p> <img src="/media/logo/digitalIcon.png" alt="logo-role">[[${ami.specialisation}]]</p>
                     </div>
-                </div>
+                </a>
             </div>
             <h4 class="animation delais">GROUPES</h4>
             <div id="liste-groupe" class="liste-options-contact">
@@ -48,7 +57,7 @@
                     <div class="mini-container">
                         <p>Jeu de plateforme</p>
                         <p>Jeu 2D</p>
-                        <p> <img src="/medi/image/logo/animationIcon.png" alt="logo-role"><img src="/media/image/logo/digitalIcon.png" alt="logo-role"></p>
+                        <p> <img src="/medi/logo/animationIcon.png" alt="logo-role"><img src="/media/logo/digitalIcon.png" alt="logo-role"></p>
                     </div>
                 </div>
             </div>
@@ -76,24 +85,30 @@
                     <div class="header-profile">
                         <div class="content-header">
                             <div class="info-profil">
-                                <h4>Emilie Tremblay <span class="statut online"></span></h4>
-                                <p>@mim1cs</p>
+                                <h4>[[${amiCourrant.prenom}]] [[${amiCourrant.nom}]] <span class="statut online"></span></h4>
+                                <p>@[[${amiCourrant.pseudo}]]</p>
                             </div>
                             <div class="img-container">
-                                <img src="images/profil6.jpg" alt="" id="photo-profile">
+                                <img th:src="@{/media/images/{image}(image=${amiCourrant.getPhotoUrl()})}" alt="" id="photo-profile">
                             </div>
                         </div>
                     </div>
                     <div class="chat-box" id="chat-box">
-                        <div class="chat-item chat-item-right">
+                        <div th:if="${conversationCourrante.listeChat != null}" th:each="message : ${conversationCourrante.listeChat}"
+                             th:class="${message.utilisateurUn.getId() == session.user.getId()} ? 'chat-item chat-item-right' : ' chat-item chat-item-left'">
                             <div class="chat-item-content">
-                                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. </p>
+                                <p>[[${message.message}]] </p>
                             </div>
-                            <img src="images/profil.png" alt="" class="profile-pic-banner-border-small">
+                            <img
+                            th:src="${message.utilisateurUn.getId() == session.user.getId()
+                            ? '/media/images/' + message.utilisateurUn.getPhotoUrl()
+                            : '/media/images/' + message.utilisateurDeux.getPhotoUrl()}"
+                            alt="profil"
+                            class="profile-pic-banner-border-small">
                         </div>
                     </div>
                     <form id="input-box">
-                        <img src="images/profil.png" alt="" id="img-profil-input">
+                        <img th:src="@{/media/images/{image}(image=${session.user.getPhotoUrl()})}" alt="" id="img-profil-input">
                         <input type="text" id="input-chat" name="message">
                         <label class="option-send-chat" for="file">
                             <i class="fa-solid fa-file"></i>
@@ -142,5 +157,74 @@
             </button>
         </div>
     </dialog>
+
+<script th:if="${amiCourrant != null}">
+    const socket = new SockJS('/ws');
+    const stompClient = Stomp.over(socket);
+    stompClient.connect({}, function(frame) {
+        stompClient.subscribe('/topic/conversation/[[${conversationCourrante.getId()}]]', function(message) {
+            addMessage(JSON.parse(message.body));
+        });
+    });
+
+    function addMessage(message) {
+        let chatItem = document.createElement("div");
+        chatItem.classList.add("chat-item");
+        // Element pour la photo de celui qui a envoyer le chat
+        let imgProfil = document.createElement("img");
+
+        if (message.utilisateurUn.id === [[${amiCourrant.getId()}]]) {
+            chatItem.classList.add('chat-item-left');
+            imgProfil.src = '[[${amiCourrant.getPhotoUrl()}]]';
+        }else{
+            imgProfil.src = '[[${session.user.getPhotoUrl()}]]';
+            chatItem.classList.add('chat-item-right');
+        }
+        imgProfil.classList.add("profile-pic-banner-border-small");
+
+        let chatContent = document.createElement("div");
+        chatContent.classList.add("chat-item-content");
+
+        if(message.type === "text"){
+            let pChat = document.createElement("p");
+            pChat.innerText = message.message;
+            chatContent.appendChild(pChat);
+            // img sinon
+        }else if(message.type === "media"){
+            let img = document.createElement("img");
+            img.src = message.urlMedia;
+            chatContent.appendChild(img);
+        }
+        chatItem.appendChild(chatContent)
+        chatItem.appendChild(imgProfil);
+        document.getElementById('chat-box').appendChild(chatItem);
+    }
+
+    document.getElementById('input-box').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const message = document.getElementById('input-chat').value;
+        stompClient.send("/app/chat/[[${conversationCourrante.getId()}]]", {}, JSON.stringify(
+            {
+                chat:{
+                    type : "text",
+                    utilisateurUn : {
+                        id:'[[${session.user.id}]]'
+                    },
+                    utilisateurDeux : {
+                        id:'[[${amiCourrant.getId()}]]'
+                    },
+                    idGroupe : 0,
+                    dateTimeEnvoie : new Date(),
+                    message : message,
+                    conversation: {
+                        id : '[[${conversationCourrante.getId()}]]'
+                    }
+                }
+            }
+            ));
+        document.getElementById('input-chat').value = '';
+    });
+
+</script>
 </body>
 </html>

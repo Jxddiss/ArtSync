@@ -4,6 +4,7 @@ import com.artcorp.artsync.entity.Chat;
 import com.artcorp.artsync.repos.ChatRepos;
 import com.artcorp.artsync.service.ChatService;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,6 +13,12 @@ import java.util.List;
 @Transactional
 public class ChatServiceImpl implements ChatService {
     private ChatRepos chatRepos;
+
+    @Autowired
+    public ChatServiceImpl(ChatRepos chatRepos) {
+        this.chatRepos = chatRepos;
+    }
+
     @Override
     public List<Chat> findAllByConversationId(Long conversationId) {
         return chatRepos.findAllByConversationId(conversationId);

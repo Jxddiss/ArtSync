@@ -1,6 +1,8 @@
 package com.artcorp.artsync.service.impl;
 
+import com.artcorp.artsync.entity.Conversation;
 import com.artcorp.artsync.entity.Utilisateur;
+import com.artcorp.artsync.repos.ConversationRepos;
 import com.artcorp.artsync.repos.UtilisateurRepos;
 import com.artcorp.artsync.service.UtilisateurService;
 import jakarta.transaction.Transactional;
@@ -13,10 +15,12 @@ import java.util.List;
 @Transactional
 public class UtilisateurServiceImpl implements UtilisateurService {
     private UtilisateurRepos repos;
+    private ConversationRepos conversationRepos;
 
     @Autowired
-    public UtilisateurServiceImpl(UtilisateurRepos repos) {
+    public UtilisateurServiceImpl(UtilisateurRepos repos, ConversationRepos conversationRepos) {
         this.repos = repos;
+        this.conversationRepos = conversationRepos;
     }
 
     @Override
@@ -75,6 +79,8 @@ public class UtilisateurServiceImpl implements UtilisateurService {
                 if (followed.getAmis().contains(follower)) {
                     followed.getAmis().remove(follower);
                     follower.getAmis().remove(followed);
+                    Conversation conversation = conversationRepos.findByUtilisateurDeuxAndUtilisateurUn(followed, follower);
+                    conversationRepos.delete(conversation);
                 }
             } else {
                 followed.getFollowers().add(follower);
@@ -82,6 +88,13 @@ public class UtilisateurServiceImpl implements UtilisateurService {
                 if (followed.getFollowing().contains(follower)) {
                     followed.getAmis().add(follower);
                     follower.getAmis().add(followed);
+                    Conversation conversation = conversationRepos.findByUtilisateurDeuxAndUtilisateurUn(followed, follower);
+                    if (conversation == null) {
+                        conversation = new Conversation();
+                        conversation.setUtilisateurUn(followed);
+                        conversation.setUtilisateurDeux(follower);
+                        conversationRepos.save(conversation);
+                    }
                 }
             }
             repos.save(followed);

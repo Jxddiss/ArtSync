@@ -27,7 +27,7 @@
                     <!--Option Buttons-->
                     <div class="row p-5">
                         <div class="col-md-4">
-                            <a th:href="@{/utilisateur/relation}">
+                            <a th:href="@{/utilisateur/relation/abonnes}">
                                 <div class="relation-button">
                                     <p>ABONNÉES</p>
                                     <small>14 followers <span>+15%</span></small>
@@ -35,7 +35,7 @@
                             </a>
                         </div>
                         <div class="col-md-4">
-                            <a th:href="@{/utilisateur/relation/abonnes}">
+                            <a th:href="@{/utilisateur/relation}">
                                 <div class="relation-button">
                                     <p>ABONNEMENTS</p>
                                     <small>63 followings <span>+10%</span></small>
@@ -113,8 +113,8 @@
                             <!--Row #1-->
                             <div th:if="${!following.isEmpty()}" th:each="user : ${following}" class="row">
                                 <div class="col-md-6">
-                                    <a class="carte" style="color: black;"href="${pageContext.request.contextPath}/user/profile?id=${user.id}">
-                                        <img src="uploads/${user.photoUrl}" alt="">
+                                    <a class="carte" style="color: black;" th:href="@{/utilisateur/profil/{pseudo}(pseudo=${user.pseudo})}">
+                                        <img th:src="@{/media/images/{image}(image=${user.photoUrl})}"  alt="">
                                         <div class="mini-container" style="padding: 0;">
                                             <p>[[${user.prenom}]] [[${user.nom}]] <span class="statut online"></span></p>
                                             <p>@[[${user.pseudo}]]</p>
@@ -126,14 +126,14 @@
                                     </a>
                                 </div>
                             </div>
-                            <h4 class="d-flex justify-content-center" th:if="${following.isEmpty()}">Vous n'avez abonnements</h4>
+                            <h4 class="d-flex justify-content-center" th:if="${following.isEmpty()}">Vous n'avez pas encore d'abonnements</h4>
                         </div>
                         <div th:if="${followers != null}" class=" d-flex flex-column data-holder">
                             <!--Row #1-->
                             <div th:if="${!followers.isEmpty()}" th:each="user : ${followers}" class="row">
                                 <div class="col-md-6">
-                                    <a class="carte" style="color: black;"href="${pageContext.request.contextPath}/user/profile?id=${user.id}">
-                                        <img src="uploads/${user.photoUrl}" alt="">
+                                    <a class="carte" style="color: black;" th:href="@{/utilisateur/profil/{pseudo}(pseudo=${user.pseudo})}">
+                                        <img th:src="@{/media/images/{image}(image=${user.photoUrl})}" alt="">
                                         <div class="mini-container" style="padding: 0;">
                                             <p>[[${user.prenom}]] [[${user.nom}]] <span class="statut online"></span></p>
                                             <p>@[[${user.pseudo}]]</p>
@@ -197,10 +197,10 @@
                             <div class="activity-card">
                                 <div class="row px-4 pt-2">
                                     <div class="col-md-2 d-flex justify-content-center align-items-center">
-                                        <img class="pfp-activity" src="media/images/profil10.jpg" alt="profil-pic">
+                                        <img class="pfp-activity" src="media/image/profil10.jpg" alt="profil-pic">
                                     </div>
                                     <div class="col-md-10 d-flex justify-content-start align-items-end">
-                                        <p><span>@emilie49</span> a publiÃ© une oeuvre <img class="post-activity" src="media/images/digitalArt-0.jpg" alt="post"></span></p>
+                                        <p><span>@emilie49</span> a publié une oeuvre <img class="post-activity" src="media/image/digitalArt-0.jpg" alt="post"></span></p>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -222,10 +222,10 @@
                             <div class="activity-card">
                                 <div class="row px-4 pt-2">
                                     <div class="col-md-2 d-flex justify-content-center align-items-center">
-                                        <img class="pfp-activity" src="media/images/profil4.jpg" alt="profil-pic">
+                                        <img class="pfp-activity" src="media/image/profil4.jpg" alt="profil-pic">
                                     </div>
                                     <div class="col-md-10 d-flex justify-content-start align-items-end">
-                                        <p><span>@ray_50</span> a ajoutÃ© <span>@emilie49</span> en ami</span></p>
+                                        <p><span>@ray_50</span> a ajouté <span>@emilie49</span> en ami</span></p>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -249,7 +249,7 @@
                             <div class="activity-card">
                                 <div class="row px-4 pt-2">
                                     <div class="col-md-2 d-flex justify-content-center align-items-center">
-                                        <img class="pfp-activity" src="media/images/profil7.png" alt="profil-pic">
+                                        <img class="pfp-activity" src="media/image/profil7.png" alt="profil-pic">
                                     </div>
                                     <div class="col-md-10 d-flex justify-content-start align-items-end">
                                         <p><span>@rane</span> a ajoutÃ© <span>@johnDoe</span> en ami</span></p>
@@ -276,10 +276,10 @@
                             <div class="activity-card">
                                 <div class="row px-4 pt-2">
                                     <div class="col-md-2 d-flex justify-content-center align-items-center">
-                                        <img class="pfp-activity" src="media/images/profil3.jpg" alt="profil-pic">
+                                        <img class="pfp-activity" src="media/image/profil3.jpg" alt="profil-pic">
                                     </div>
                                     <div class="col-md-10 d-flex justify-content-start align-items-end">
-                                        <p><span>@swifty_2</span> a publiÃ© un gif <img class="post-activity" src="media/images/pikachu.gif" alt="post"></span></p>
+                                        <p><span>@swifty_2</span> a publié un gif <img class="post-activity" src="media/image/pikachu.gif" alt="post"></span></p>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -300,10 +300,10 @@
                             <div class="activity-card">
                                 <div class="row px-4 pt-2">
                                     <div class="col-md-2 d-flex justify-content-center align-items-center">
-                                        <img class="pfp-activity" src="media/images/profil4.jpg" alt="profil-pic">
+                                        <img class="pfp-activity" src="media/image/profil4.jpg" alt="profil-pic">
                                     </div>
                                     <div class="col-md-10 d-flex justify-content-start align-items-end">
-                                        <p><span>@ray_50</span> a publiÃ© une oeuvre <img class="post-activity" src="media/images/painting0.jpg" alt="post"></span></p>
+                                        <p><span>@ray_50</span> a publié une oeuvre <img class="post-activity" src="media/image/painting0.jpg" alt="post"></span></p>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -327,7 +327,7 @@
                                         <img class="pfp-activity" src="media/images/profil6.jpg" alt="profil-pic">
                                     </div>
                                     <div class="col-md-10 d-flex justify-content-start align-items-end">
-                                        <p><span>@palettePals</span> a publiÃ© une oeuvre <img class="post-activity" src="media/images/3D-2.png" alt="post"></span></p>
+                                        <p><span>@palettePals</span> a publié une oeuvre <img class="post-activity" src="media/image/3D-2.png" alt="post"></span></p>
                                     </div>
                                 </div>
                                 <div class="row">

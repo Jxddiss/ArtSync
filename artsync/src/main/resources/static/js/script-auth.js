@@ -93,6 +93,7 @@ container.addEventListener('click', function(event) {
     else if (event.target.id === 'connect') {
         document.getElementById('signUp').classList.remove('selected');
         form = document.getElementById("main");
+        form.action = "/authentification";
         console.log(form.action);
         if (document.getElementById('input-3')) {
 

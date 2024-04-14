@@ -97,7 +97,8 @@
                         <div th:if="${conversationCourrante.listeChat != null}" th:each="message : ${conversationCourrante.listeChat}"
                              th:class="${message.utilisateurUn.getId() == session.user.getId()} ? 'chat-item chat-item-right' : ' chat-item chat-item-left'">
                             <div class="chat-item-content">
-                                <p>[[${message.message}]] </p>
+                                <p th:if="${message.type == 'text'}" th:text="${message.message}"></p>
+                                <img th:if="${message.type == 'media'}" th:src="${message.getUrlMedia()}" alt="">
                             </div>
                             <img
                             th:src="${message.utilisateurUn.getId() == session.user.getId()
@@ -107,7 +108,7 @@
                             class="profile-pic-banner-border-small">
                         </div>
                     </div>
-                    <form id="input-box">
+                    <form id="input-box" enctype="multipart/form-data">
                         <img th:src="@{/media/images/{image}(image=${session.user.getPhotoUrl()})}" alt="" id="img-profil-input">
                         <input type="text" id="input-chat" name="message">
                         <label class="option-send-chat" for="file">
@@ -159,14 +160,22 @@
     </dialog>
 
 <script th:if="${amiCourrant != null}">
+    //== Scroll automatiquement vers le bas du chat ==
+    const chatBox = document.getElementById("chat-box");
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+    //== Préparation de la connexion websocket ==
+    const backEndUrl = "http://localhost:8080";
     const socket = new SockJS('/ws');
     const stompClient = Stomp.over(socket);
+
     stompClient.connect({}, function(frame) {
         stompClient.subscribe('/topic/conversation/[[${conversationCourrante.getId()}]]', function(message) {
             addMessage(JSON.parse(message.body));
         });
     });
 
+    //== Affichage des messages lorsque recuperés du serveur socket ==
     function addMessage(message) {
         let chatItem = document.createElement("div");
         chatItem.classList.add("chat-item");
@@ -177,7 +186,7 @@
             chatItem.classList.add('chat-item-left');
             imgProfil.src = '[[${amiCourrant.getPhotoUrl()}]]';
         }else{
-            imgProfil.src = '[[${session.user.getPhotoUrl()}]]';
+            imgProfil.src = '/media/images/[[${session.user.getPhotoUrl()}]]';
             chatItem.classList.add('chat-item-right');
         }
         imgProfil.classList.add("profile-pic-banner-border-small");
@@ -197,15 +206,19 @@
         }
         chatItem.appendChild(chatContent)
         chatItem.appendChild(imgProfil);
-        document.getElementById('chat-box').appendChild(chatItem);
+        chatBox.appendChild(chatItem);
+        chatBox.scrollTop = chatBox.scrollHeight;
     }
 
-    document.getElementById('input-box').addEventListener('submit', function(event) {
+    const inputBox = document.getElementById("input-box");
+    const inputs = inputBox.querySelectorAll("input");
+
+    inputBox.addEventListener('submit', function(event) {
         event.preventDefault();
-        const message = document.getElementById('input-chat').value;
-        stompClient.send("/app/chat/[[${conversationCourrante.getId()}]]", {}, JSON.stringify(
-            {
-                chat:{
+        if(inputs[0].value.trim() !== ''){
+            const message = document.getElementById('input-chat').value;
+            stompClient.send("/app/chat/[[${conversationCourrante.getId()}]]", {}, JSON.stringify(
+                {
                     type : "text",
                     utilisateurUn : {
                         id:'[[${session.user.id}]]'
@@ -220,8 +233,39 @@
                         id : '[[${conversationCourrante.getId()}]]'
                     }
                 }
-            }
             ));
+            inputs[0].value = '';
+        }
+
+        if (inputs[1].files.length > 0) {
+            const file = inputs[1].files[0];
+
+            inputs[1].value = '';
+            const formData = new FormData();
+            formData.append("file", file);
+            fetch(backEndUrl + '/api/chat/upload', {
+                method: 'POST',
+                body: formData
+            }).then(function() {
+                stompClient.send("/app/chat/[[${conversationCourrante.getId()}]]", {}, JSON.stringify(
+                    {
+                        type : "media",
+                        utilisateurUn : {
+                            id:'[[${session.user.id}]]'
+                        },
+                        utilisateurDeux : {
+                            id:'[[${amiCourrant.getId()}]]'
+                        },
+                        idGroupe : 0,
+                        dateTimeEnvoie : new Date(),
+                        conversation: {
+                            id : '[[${conversationCourrante.getId()}]]'
+                        },
+                        urlMedia : file.name
+                    }
+                ));
+            })
+        }
         document.getElementById('input-chat').value = '';
     });
 

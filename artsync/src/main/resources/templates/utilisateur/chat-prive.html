@@ -102,8 +102,8 @@
                             </div>
                             <img
                             th:src="${message.utilisateurUn.getId() == session.user.getId()
-                            ? '/media/images/' + message.utilisateurUn.getPhotoUrl()
-                            : '/media/images/' + message.utilisateurDeux.getPhotoUrl()}"
+                            ? '/media/images/' + session.user.getPhotoUrl()
+                            : '/media/images/' + amiCourrant.getPhotoUrl()}"
                             alt="profil"
                             class="profile-pic-banner-border-small">
                         </div>
@@ -184,7 +184,7 @@
 
         if (message.utilisateurUn.id === [[${amiCourrant.getId()}]]) {
             chatItem.classList.add('chat-item-left');
-            imgProfil.src = '[[${amiCourrant.getPhotoUrl()}]]';
+            imgProfil.src = '/media/images/[[${amiCourrant.getPhotoUrl()}]]';
         }else{
             imgProfil.src = '/media/images/[[${session.user.getPhotoUrl()}]]';
             chatItem.classList.add('chat-item-right');

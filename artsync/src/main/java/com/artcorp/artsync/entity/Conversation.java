@@ -14,6 +14,7 @@ public class Conversation {
             cascade = CascadeType.ALL,
             orphanRemoval = true,
             fetch = FetchType.EAGER)
+    @OrderBy("dateTimeEnvoie ASC")
     private Set<Chat> listeChat;
     @ManyToOne
     @JoinColumn(name = "utilisateur_un_id")

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Controller
@@ -62,7 +63,9 @@ public class ConversationController {
             List<Conversation> listeConversations = conversationService.findByAllByUtilisateur(utilisateur);
 
             Conversation conversation = conversationService.findById(id);
-            Utilisateur amiCourrant = conversation.getUtilisateurUn() == utilisateur ? conversation.getUtilisateurDeux() : conversation.getUtilisateurUn();
+            Utilisateur amiCourrant = Objects.equals(conversation.getUtilisateurUn().getId(), utilisateur.getId())
+                    ? conversation.getUtilisateurDeux() : conversation.getUtilisateurUn();
+
             model.addAttribute("amiCourrant", amiCourrant);
             model.addAttribute("listeConversations", listeConversations);
             model.addAttribute("conversationCourrante", conversation);

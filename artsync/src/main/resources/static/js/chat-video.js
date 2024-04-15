@@ -12,13 +12,15 @@ document.addEventListener("DOMContentLoaded", function() {
     let stompClientVideo;
 
     // ICE Server Configurations
-    const iceServers = {
-        iceServer: {
-            urls: "stun:stun.l.google.com:19302"
-        }
+    const config = {
+        iceServers: [
+            {
+                urls: "stun:stun.l.google.com:19302"
+            }
+        ]
     };
 
-    localPeer = new RTCPeerConnection(iceServers)
+    localPeer = new RTCPeerConnection(config)
 
     camToggle.addEventListener("click", function() {
         toggleCam();

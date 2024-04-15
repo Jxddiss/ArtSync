@@ -67,7 +67,6 @@ public class PortfolioController {
                 portfolio.setUtilisateur(utilisateur);
                 portfolioService.createPortfolio(portfolio);
             }
-//            return "utilisateur/profil/" + utilisateur.getPseudo();
             return "redirect:/utilisateur/profil/" + utilisateur.getPseudo();
         }
         redirectAttributes.addFlashAttribute("error", "Veuillez vous connecter pour ajouter un post");

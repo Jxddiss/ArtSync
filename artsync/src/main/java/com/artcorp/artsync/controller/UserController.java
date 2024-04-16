@@ -33,10 +33,11 @@ public class UserController {
     private PortfolioServiceImpl portfolioService;
 
     @Autowired
-    public UserController(UtilisateurServiceImpl utilisateurService, ProjetRepos projetRepos, PostServiceImpl postService) {
+    public UserController(UtilisateurServiceImpl utilisateurService, ProjetRepos projetRepos, PostServiceImpl postService, PortfolioServiceImpl portfolioService) {
         this.utilisateurService = utilisateurService;
         this.projetRepos = projetRepos;
         this.postService = postService;
+        this.portfolioService = portfolioService;
     }
 
     @GetMapping("/feed")
@@ -54,10 +55,12 @@ public class UserController {
             if (utilisateur != null) {
                 List<Post> listPosts = postService.findPostByUser(utilisateur);
                 Post banniere = postService.findBanniereUtilisateur(utilisateur);
+                Portfolio portfolio = portfolioService.findByUtilisateur(utilisateur);
                 model.addAttribute("utilisateur", utilisateur);
                 model.addAttribute("listPosts", listPosts);
                 model.addAttribute("banniere", banniere);
-                return "utilisateur/profile";
+                model.addAttribute("portfolio", portfolio);
+                return "utilisateur/profil";
             }
             redirectAttributes.addFlashAttribute("error", "Cet utilisateur n'existe pas");
         }

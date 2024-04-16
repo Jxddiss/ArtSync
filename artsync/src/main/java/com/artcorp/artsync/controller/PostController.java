@@ -28,7 +28,7 @@ import java.util.stream.Stream;
 import static com.artcorp.artsync.constant.FileConstant.USER_FOLDER;
 
 @Controller
-public class PostController {
+public class    PostController {
     private final PostService postService;
 
     @Autowired

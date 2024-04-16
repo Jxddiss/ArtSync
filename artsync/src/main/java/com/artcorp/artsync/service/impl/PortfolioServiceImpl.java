@@ -1,6 +1,7 @@
 package com.artcorp.artsync.service.impl;
 
 import com.artcorp.artsync.entity.Portfolio;
+import com.artcorp.artsync.entity.Utilisateur;
 import com.artcorp.artsync.repos.PortfolioRepos;
 import com.artcorp.artsync.service.PortfolioService;
 import jakarta.transaction.Transactional;
@@ -181,5 +182,9 @@ public class PortfolioServiceImpl implements PortfolioService {
     @Override
     public Page<Portfolio> findAll(Pageable pageable) {
         return null;
+    }
+
+    public Portfolio findByUtilisateur(Utilisateur utilisateur) {
+        return portfolioRepos.findByUtilisateur(utilisateur);
     }
 }

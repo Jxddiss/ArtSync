@@ -1,0 +1,421 @@
+.bodyContainer{
+    display: flex;
+    flex-direction: column;
+    background: radial-gradient(ellipse at top, #ededed 25%,#a7c9d5 100%) fixed;
+    min-height: 150vh;
+
+}
+
+/*-------------------PROFIL SECTION-------------------*/
+.contentHolder{
+    align-self: center;
+    height: 50rem;
+    width: 90%;
+
+}
+.bannerHolder{
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    width: 100%;
+    height: 45%;
+    background-color: rgba(15, 15, 15, 0.735);
+}
+.bannerHolder img{
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+
+}
+.bannerHolder img:hover{
+    cursor: pointer;
+    scale: 0.99;
+    filter: brightness(0.8) blur(5px);
+    transition: 0.25s;
+
+}
+.pfpHolder{
+    position: absolute;
+    z-index: 1;
+    top: 37%;
+    left: 10%;
+    width: 15rem;
+    height: 15rem;
+    border-radius: 50%;
+    border: 8px solid rgba(255, 249, 237, 0.4);
+
+}
+.pfpHolder:hover{
+    box-shadow: 5px 10px 15px 10px rgba(0, 0, 0, 0.278);
+    scale: 1.05;
+    transition: 0.25s;
+    cursor: pointer;
+}
+.pfpHolder img{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+.infoContainer{
+    display: flex;
+    height: 21%;
+    backdrop-filter: brightness(0.96) blur(12px);
+}
+.infoHolder{
+    height: 100%;
+    width: 75%;
+    padding-top: 1%;
+    padding-left: 24%;
+}
+.infoHolder h4{
+    font-size: 40px;
+    margin-bottom: 0.2%;
+}
+.infoHolder p{
+    font-size: 20px;
+    margin-bottom: 0.5%;
+}
+.supInfo{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-align: center;
+    height: 20%;
+    width: 50%;
+}
+.supInfo p{
+    font-size: 15px;
+    margin: 0;
+    opacity: 0.5;
+}
+.supInfo p:hover{
+    opacity: 1;
+    cursor: pointer;
+    transform: 0.25s;
+}
+.optionHolder{
+    display: flex;
+    flex-direction: co;
+    gap: 2%;
+    height: 100%;
+    width: 25%;
+    padding-top: 1%;
+    justify-content: center;
+
+}
+.buttonsHolder{
+    display: flex;
+    gap: 10%;
+    height: 25%;
+    width: 45%;
+    margin-right: 2%;
+
+}
+.buttonsHolder button{
+    background-color: transparent;
+    border: none;
+    width: 100%;
+    opacity: 0.5;
+    font-size: 22px;
+}
+.buttonsHolder button:hover{
+    color: rgb(55, 149, 208);
+    opacity: 1;
+    transition: 0.25s;
+}
+
+.publier{
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    background-color: transparent;
+    border-radius: 7px;
+    font-size: 20px;
+    padding-inline:1.25rem;
+    margin: 0;
+}
+.publier:hover{
+    background-color: rgba(0, 0, 0, 0.1);
+    transition: 0.25s;
+    cursor: pointer;
+}
+
+.sectionBtnContainer{
+    backdrop-filter: brightness(0.96) blur(12px);
+    display: flex;
+    width: 100%;
+    height: 5%;
+}
+
+.sectionBtnContainer button:hover{
+    background-color: #c7e8f557;
+    transition: 0.1s;
+    border-bottom: 3px solid rgba(143, 187, 250, 0.8);
+}
+
+.selectbtn{
+    background-color: #c7e8f557 !important;
+    border-bottom: 3px solid rgba(143, 187, 250, 0.8) !important;
+}
+.btnSection{
+    background-color: transparent;
+    border: none;
+    border: 1px solid rgba(0, 0, 0, 0.307);
+    width: 100%;
+    font-size: 20px;
+}
+
+.sectionHolder{
+    padding-block: 2rem;
+    padding-inline: 2rem;
+    height: fit-content;
+    backdrop-filter: brightness(0.92) blur(12px);
+}
+
+/*DIALOGUE SECTION*/
+
+
+.pfpPane{
+    flex-direction: column;
+    align-items: center;
+    padding-block: 1rem;
+    padding-inline: 1rem;
+    height:28rem;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.9);
+    width: 40rem;
+}
+.pfpPreview{
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    border-radius: 50%;
+    align-items: center;
+    font-size: 100px;
+    color: rgba(0, 0, 0, 0.5);
+    width: 8rem;
+    height: 8rem;
+    background-color: rgba(193, 193, 193, 0.8);
+}
+.pfpPreview img{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+
+}
+
+.postPane{
+    flex-direction: column;
+    align-items: center;
+    padding-block: 1rem;
+    padding-inline: 1rem;
+    min-height: 50rem;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.9);
+    width: 40rem;
+}
+.dialogHeader{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+.postPreviewHolder{
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    border-radius: 10px;
+    align-items: center;
+    font-size: 100px;
+    color: rgba(0, 0, 0, 0.5);
+    width: 95%;
+    height: 25rem;
+    background-color: rgba(193, 193, 193, 0.8);
+}
+.postPreviewHolder img{
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    object-fit: fill;
+}
+#placeholderIcon{
+    position: absolute;
+    z-index: -1;
+}
+#fermer{
+    float: right;
+    font-size: 20px;
+}
+#fermer:hover{
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.postForm{
+    width: 100%;
+}
+.form-head{
+    margin-top: 2%;
+    display: flex;
+    gap: 47%;
+    align-items: center;
+    width: 100%;
+
+
+}
+.form-headInput{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 1rem;
+}
+.post-button{
+    background-color: #dbdbdb;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    padding-inline: 1rem;
+    padding-block: 0.5rem;
+    font-size: 20px;
+    margin-top: 1rem;
+}
+.post-button:hover{
+    cursor: pointer;
+    transition: 0.25s;
+    background-color: #a8a8a8;
+}
+
+.publicationPane{
+    flex-direction: column;
+    align-items: center;
+    padding-block: 1rem;
+    padding-inline: 1rem;
+    height: 45rem;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.9);
+    width: 40rem;
+
+}
+
+/*-------------------POST SECTION-------------------*/
+
+.postHolder{
+    display: flex;
+    flex-wrap: wrap;
+
+}
+.publication{
+    height: 20rem;
+    min-width: 20rem;
+    margin: 1rem;
+    border: 1px solid black;
+    border-radius: 7px;
+    background-color: rgb(0,0,0,0.1);
+}
+.publication:hover{
+    cursor: pointer;
+    scale: 1.05;
+    transition: 0.25s;
+}
+.publication img{
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+/*-------------------PORTFOLIO SECTION-------------------*/
+
+.portfolioHolder{
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 1rem;
+}
+
+.templatePlaceHolder{
+    align-self: center;
+    display: grid;
+    grid-template-rows: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
+    padding:0.5rem;
+    gap: 5px;
+    height: 50rem;
+    background-color: rgba(153, 208, 255, 0.5);
+    border: 4px solid rgb(52, 140, 255,0.5);
+    border-radius: 12px;
+    width: 40rem;
+}
+
+.case {
+    background-color: rgba(147, 194, 255, 0.5);
+    border: 3px solid rgb(52, 140, 255,0.5);
+    border-radius: 5px;
+}
+.case1x1{
+    grid-column: span 1;
+    grid-row: span 1;
+}
+.case2x2{
+    grid-column: span 2;
+    grid-row: span 2;
+}
+.case1x2{
+    grid-column: span 1;
+    grid-row: span 2;
+}
+.case2x1{
+    grid-column: span 2;
+    grid-row: span 1;
+}
+.case3x1{
+    grid-column: span 3;
+    grid-row: span 1;
+}
+.case4x1{
+    grid-column: span 4;
+    grid-row: span 1;
+}
+.case1x4{
+    grid-column: span 1;
+    grid-row: span 4;
+}
+.createPortfolio{
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    font-size: 25px;
+    border-radius: 10px;
+    background-color: #2b2a2a;
+    padding-inline: 1rem;
+    margin-top: 5rem;
+    display: flex;
+    text-decoration: none;
+}
+
+.post{
+    padding: 0.15rem;
+    grid-column: span 1;
+    grid-row: span 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.post img {
+    width: 100%;
+    height: 100%;
+}
+.createPortfolio i{
+    font-size: 30px;
+    color: rgb(255, 191, 88);
+}
+.createPortfolio p{
+    font-size: 20px;
+    color: rgb(56, 56, 56);
+    margin: 0;
+}
+.createPortfolio:hover{
+    cursor: pointer;
+}

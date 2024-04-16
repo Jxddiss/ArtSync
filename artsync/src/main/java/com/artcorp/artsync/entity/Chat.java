@@ -103,4 +103,26 @@ public class Chat {
     public Long getId() {
         return id;
     }
+
+    public Conversation getConversation() {
+        return conversation;
+    }
+
+    public void setConversation(Conversation conversation) {
+        this.conversation = conversation;
+    }
+
+    @Override
+    public String toString() {
+        return "Chat{" +
+                "id=" + id +
+                ", type='" + type + '\'' +
+                ", utilisateurUn=" + utilisateurUn +
+                ", utilisateurDeux=" + utilisateurDeux +
+                ", projet=" + projet +
+                ", dateTimeEnvoie=" + dateTimeEnvoie +
+                ", message='" + message + '\'' +
+                ", urlMedia='" + urlMedia + '\'' +
+                '}';
+    }
 }

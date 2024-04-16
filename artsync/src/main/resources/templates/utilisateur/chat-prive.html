@@ -168,7 +168,7 @@
     chatBox.scrollTop = chatBox.scrollHeight;
 
     //== Préparation de la connexion websocket ==
-    const backEndUrl = "http://localhost:8080";
+    const backEndUrl = "https://localhost:8443";
     const socket = new SockJS('/ws');
     const stompClient = Stomp.over(socket);
 

@@ -55,10 +55,14 @@ public class UserController {
             if (utilisateur != null) {
                 List<Post> listPosts = postService.findPostByUser(utilisateur);
                 Post banniere = postService.findBanniereUtilisateur(utilisateur);
+                int nbAbonnes = utilisateur.getFollowers().size();
+                int nbAbonnements = utilisateur.getFollowing().size();
                 Portfolio portfolio = portfolioService.findByUtilisateur(utilisateur);
                 model.addAttribute("utilisateur", utilisateur);
                 model.addAttribute("listPosts", listPosts);
                 model.addAttribute("banniere", banniere);
+                model.addAttribute("nbAbonnes", nbAbonnes);
+                model.addAttribute("nbAbonnements", nbAbonnements);
                 model.addAttribute("portfolio", portfolio);
                 return "utilisateur/profil";
             }

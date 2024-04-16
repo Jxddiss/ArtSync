@@ -6,6 +6,7 @@ import com.artcorp.artsync.repos.PortfolioRepos;
 import com.artcorp.artsync.service.PortfolioService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,11 +28,17 @@ public class PortfolioServiceImpl implements PortfolioService {
         this.portfolioRepos = portfolioRepos;
     }
     public Portfolio createPortfolio(Portfolio portfolio) {
-        Portfolio portfolio1 = portfolioRepos.findByUtilisateur(portfolio.getUtilisateur());
-        if (portfolio1 != null) {
-            portfolioRepos.delete(portfolio1);
+        Portfolio existingPortfolio = portfolioRepos.findByUtilisateur(portfolio.getUtilisateur());
+        if (existingPortfolio != null) {
+            portfolioRepos.deletePortfolioByUserId(portfolio.getUtilisateur().getId());
         }
-        return portfolioRepos.save(portfolio);
+        try {
+            return portfolioRepos.save(portfolio);
+        } catch (DataIntegrityViolationException e) {
+            System.err.println("Échec de création de portfolio, conflit de duplication de clé: " + e.getMessage());
+
+            throw new RuntimeException("Échec de création de portfolio, conflit de duplication de clé", e);
+        }
     }
 
     @Override

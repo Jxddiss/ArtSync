@@ -55,9 +55,9 @@
             <h4>[[${utilisateur.prenom}]] [[${utilisateur.nom}]]</h4>
             <p>[[${utilisateur.specialisation}]]</p>
             <div class="supInfo">
-                <p>x ABONNÉS</p>
-                <p>x ABONNEMENTS</p>
-                <p>x PUBLICATIONS</p>
+                <p th:text="${nbAbonnes} + ' ABONNÉS'"></p>
+                <p th:text="${nbAbonnements} + ' ABONNEMENTS'"></p>
+                <p th:text="${listPosts.size()} + ' PUBLICATIONS'"></p>
             </div>
         </div>
         <div class="optionHolder">

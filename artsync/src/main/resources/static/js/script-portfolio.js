@@ -77,7 +77,7 @@ const templatePreview1 = document.getElementById("templatePlaceHolder1");
 let currentFontSlide = 0;
 
 let fontStyle = [];
-const pixelFont = new FontFace('8BIT', 'url(fonts/PixeloidSansBold-PKnYd.ttf)');
+const pixelFont = new FontFace('8BIT', 'url(../fonts/PixeloidSansBold-PKnYd.ttf)');
 pixelFont.load().then(function(loadedFont) {
     document.fonts.add(loadedFont)
     fontStyle = ['Arial', 'Times New Roman', 'Verdana', 'Georgia', 'Comis Sans MS', 'Impact', '"8BIT"', 'Papyrus', 'Lucida Console', 'Trebuchet MS']

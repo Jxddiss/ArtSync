@@ -12,6 +12,7 @@ const placeholderIcon = document.getElementById('placeholderIcon');
 const postInput = document.getElementById('file-input');
 const pfpPreview = document.getElementById('pfpPreview');
 const fileInput = document.getElementById('file-input2');
+let fontStyle = [];
 const postElements = document.getElementsByClassName('post');
 const code = document.getElementById('codePortfolio');
 
@@ -84,6 +85,7 @@ if (fileInput && pfpPreview) {
 }
 
 //portfolio section
+// pour tester le code
 // const codeBase64 = "eyJiYWNrZ3JvdW5kIjoicmdiKDE3NCwgMjE3LCAyNTUsIDAuNSkiLCJib3JkZXJDb2xvciI6InJnYig1MiwgMTQwLCAyNTUsIDAuNSkiLCJvcGFjaXR5IjoxLCJib3JkZXJXaWR0aCI6IjRweCIsIml0ZW1zIjpbeyJiYWNrZ3JvdW5kIjoicmdiYSgxNDcsIDE5NCwgMjU1LCAwLjUpIiwiYm9yZGVyQ29sb3IiOiJyZ2IoNTIsIDE0MCwgMjU1LCAwLjUpIiwib3BhY2l0eSI6MSwiYm9yZGVyV2lkdGgiOiIzcHgiLCJjbGFzc2VzIjoiY2FzZSBjYXNlNHgxIGRyb3BBcmVhIiwiaXRlbXMiOltdfSx7ImJhY2tncm91bmQiOiJyZ2JhKDE0NywgMTk0LCAyNTUsIDAuNSkiLCJib3JkZXJDb2xvciI6InJnYig1MiwgMTQwLCAyNTUsIDAuNSkiLCJvcGFjaXR5IjoxLCJib3JkZXJXaWR0aCI6IjNweCIsImNsYXNzZXMiOiJjYXNlIGNhc2UxeDQgZHJvcEFyZWEiLCJpdGVtcyI6W119LHsiYmFja2dyb3VuZCI6InJnYmEoMTQ3LCAxOTQsIDI1NSwgMC41KSIsImJvcmRlckNvbG9yIjoicmdiKDUyLCAxNDAsIDI1NSwgMC41KSIsIm9wYWNpdHkiOjEsImJvcmRlcldpZHRoIjoiM3B4IiwiY2xhc3NlcyI6ImNhc2UgY2FzZTJ4MiBkcm9wQXJlYSIsIml0ZW1zIjpbXX0seyJiYWNrZ3JvdW5kIjoicmdiYSgxNDcsIDE5NCwgMjU1LCAwLjUpIiwiYm9yZGVyQ29sb3IiOiJyZ2IoNTIsIDE0MCwgMjU1LCAwLjUpIiwib3BhY2l0eSI6MSwiYm9yZGVyV2lkdGgiOiIzcHgiLCJjbGFzc2VzIjoiY2FzZSBjYXNlMXgyIGRyb3BBcmVhIiwiaXRlbXMiOltdfSx7ImJhY2tncm91bmQiOiJyZ2JhKDE0NywgMTk0LCAyNTUsIDAuNSkiLCJib3JkZXJDb2xvciI6InJnYig1MiwgMTQwLCAyNTUsIDAuNSkiLCJvcGFjaXR5IjoxLCJib3JkZXJXaWR0aCI6IjNweCIsImNsYXNzZXMiOiJjYXNlIGNhc2UxeDEgZHJvcEFyZWEiLCJpdGVtcyI6W119LHsiYmFja2dyb3VuZCI6InJnYmEoMTQ3LCAxOTQsIDI1NSwgMC41KSIsImJvcmRlckNvbG9yIjoicmdiKDUyLCAxNDAsIDI1NSwgMC41KSIsIm9wYWNpdHkiOjEsImJvcmRlcldpZHRoIjoiM3B4IiwiY2xhc3NlcyI6ImNhc2UgY2FzZTJ4MSBkcm9wQXJlYSIsIml0ZW1zIjpbXX0seyJiYWNrZ3JvdW5kIjoicmdiYSgxNDcsIDE5NCwgMjU1LCAwLjUpIiwiYm9yZGVyQ29sb3IiOiJyZ2IoNTIsIDE0MCwgMjU1LCAwLjUpIiwib3BhY2l0eSI6MSwiYm9yZGVyV2lkdGgiOiIzcHgiLCJjbGFzc2VzIjoiY2FzZSBjYXNlM3gxIGRyb3BBcmVhIiwiaXRlbXMiOltdfV19"
 if (code) {
     const codeBase64 = code.textContent;
@@ -96,6 +98,13 @@ if (code) {
     }
 
 }
+const pixelFont = new FontFace('8BIT', 'url(/fonts/PixeloidSansBold-PKnYd.ttf)');
+pixelFont.load().then(function(loadedFont) {
+    document.fonts.add(loadedFont)
+    fontStyle = ['Arial', 'Times New Roman', 'Verdana', 'Georgia', 'Comis Sans MS', 'Impact', '"8BIT"', 'Papyrus', 'Lucida Console', 'Trebuchet MS']
+}).catch(function(error) {
+    console.log('Failed to load font: ' + error)
+})
 function base64ToJSON(base64String) {
     let jsonString = atob(base64String);
     let jsonObject = JSON.parse(jsonString);

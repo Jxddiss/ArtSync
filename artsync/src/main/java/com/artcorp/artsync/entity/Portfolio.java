@@ -7,6 +7,8 @@ public class Portfolio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Lob
+    @Column(columnDefinition = "LONGTEXT")
     private String code;
     @OneToOne
     @JoinColumn (name = "idUtilisateur")

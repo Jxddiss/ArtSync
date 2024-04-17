@@ -1,9 +1,8 @@
 package com.artcorp.artsync.controller;
 
-import com.artcorp.artsync.entity.Post;
-import com.artcorp.artsync.entity.Projet;
-import com.artcorp.artsync.entity.Utilisateur;
+import com.artcorp.artsync.entity.*;
 import com.artcorp.artsync.repos.ProjetRepos;
+import com.artcorp.artsync.service.impl.PortfolioServiceImpl;
 import com.artcorp.artsync.service.impl.PostServiceImpl;
 import com.artcorp.artsync.service.impl.UtilisateurServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,13 +10,19 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import static com.artcorp.artsync.constant.FileConstant.USER_FOLDER;
 
 @Controller
 @RequestMapping("/utilisateur")
@@ -25,12 +30,14 @@ public class UserController {
     private UtilisateurServiceImpl utilisateurService;
     private ProjetRepos projetRepos;
     private PostServiceImpl postService;
+    private PortfolioServiceImpl portfolioService;
 
     @Autowired
-    public UserController(UtilisateurServiceImpl utilisateurService, ProjetRepos projetRepos, PostServiceImpl postService) {
+    public UserController(UtilisateurServiceImpl utilisateurService, ProjetRepos projetRepos, PostServiceImpl postService, PortfolioServiceImpl portfolioService) {
         this.utilisateurService = utilisateurService;
         this.projetRepos = projetRepos;
         this.postService = postService;
+        this.portfolioService = portfolioService;
     }
 
     @GetMapping("/feed")
@@ -48,10 +55,16 @@ public class UserController {
             if (utilisateur != null) {
                 List<Post> listPosts = postService.findPostByUser(utilisateur);
                 Post banniere = postService.findBanniereUtilisateur(utilisateur);
+                int nbAbonnes = utilisateur.getFollowers().size();
+                int nbAbonnements = utilisateur.getFollowing().size();
+                Portfolio portfolio = portfolioService.findByUtilisateur(utilisateur);
                 model.addAttribute("utilisateur", utilisateur);
                 model.addAttribute("listPosts", listPosts);
                 model.addAttribute("banniere", banniere);
-                return "utilisateur/profile";
+                model.addAttribute("nbAbonnes", nbAbonnes);
+                model.addAttribute("nbAbonnements", nbAbonnements);
+                model.addAttribute("portfolio", portfolio);
+                return "utilisateur/profil";
             }
             redirectAttributes.addFlashAttribute("error", "Cet utilisateur n'existe pas");
         }
@@ -110,10 +123,5 @@ public class UserController {
         }
         redirectAttributes.addFlashAttribute("error", "Vous devez vous connecter pour avoir accès à cette page");
         return "redirect:/authentification";
-    }
-
-    @GetMapping("/portfolio")
-    public String redirigerVersPortfolio() {
-        return "utilisateur/portfolio";
     }
 }

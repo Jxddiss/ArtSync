@@ -109,41 +109,37 @@
                             <h4 th:if="${projets.isEmpty()}" class="d-flex justify-content-center">Vous n'avez pas encore de projet</h4>
 
                         </div>
-                        <div th:if="${following != null}" class=" d-flex flex-column data-holder">
+                        <div th:if="${following != null}" class=" d-flex flex-wrap justify-content-around data-holder">
                             <!--Row #1-->
-                            <div th:if="${!following.isEmpty()}" th:each="user : ${following}" class="row">
-                                <div class="col-md-6">
-                                    <a class="carte" style="color: black;" th:href="@{/utilisateur/profil/{pseudo}(pseudo=${user.pseudo})}">
-                                        <img th:src="@{/media/images/{image}(image=${user.photoUrl})}"  alt="">
-                                        <div class="mini-container" style="padding: 0;">
-                                            <p>[[${user.prenom}]] [[${user.nom}]] <span class="statut online"></span></p>
-                                            <p>@[[${user.pseudo}]]</p>
-                                            <p> <img src="/media/logo/digitalIcon.png" alt="logo-role">[[${user.specialisation}]]</p>
-                                        </div>
-                                        <div class="supprimer">
-                                            <p>RETIRER</p>
-                                        </div>
-                                    </a>
-                                </div>
+                            <div th:if="${!following.isEmpty()}" th:each="user : ${following}" style="width: 23em">
+                                <a class="carte" style="color: black;" th:href="@{/utilisateur/profil/{pseudo}(pseudo=${user.pseudo})}">
+                                    <img th:src="@{/media/images/{image}(image=${user.photoUrl})}"  alt="">
+                                    <div class="mini-container" style="padding: 0;">
+                                        <p>[[${user.prenom}]] [[${user.nom}]] <span class="statut online"></span></p>
+                                        <p>@[[${user.pseudo}]]</p>
+                                        <p> <img src="/media/logo/digitalIcon.png" alt="logo-role">[[${user.specialisation}]]</p>
+                                    </div>
+                                    <div class="supprimer">
+                                        <p>RETIRER</p>
+                                    </div>
+                                </a>
                             </div>
                             <h4 class="d-flex justify-content-center" th:if="${following.isEmpty()}">Vous n'avez pas encore d'abonnements</h4>
                         </div>
-                        <div th:if="${followers != null}" class=" d-flex flex-column data-holder">
+                        <div th:if="${followers != null}" class=" d-flex flex-wrap justify-content-around data-holder">
                             <!--Row #1-->
-                            <div th:if="${!followers.isEmpty()}" th:each="user : ${followers}" class="row">
-                                <div class="col-md-6">
-                                    <a class="carte" style="color: black;" th:href="@{/utilisateur/profil/{pseudo}(pseudo=${user.pseudo})}">
-                                        <img th:src="@{/media/images/{image}(image=${user.photoUrl})}" alt="">
-                                        <div class="mini-container" style="padding: 0;">
-                                            <p>[[${user.prenom}]] [[${user.nom}]] <span class="statut online"></span></p>
-                                            <p>@[[${user.pseudo}]]</p>
-                                            <p> <img src="/media/logo/digitalIcon.png" alt="logo-role">[[${user.specialisation}]]</p>
-                                        </div>
-                                        <div class="supprimer">
-                                            <p>RETIRER</p>
-                                        </div>
-                                    </a>
-                                </div>
+                            <div th:if="${!followers.isEmpty()}" th:each="user : ${followers}" style="width: 23em">
+                                <a class="carte" style="color: black;" th:href="@{/utilisateur/profil/{pseudo}(pseudo=${user.pseudo})}">
+                                    <img th:src="@{/media/images/{image}(image=${user.photoUrl})}" alt="">
+                                    <div class="mini-container" style="padding: 0;">
+                                        <p>[[${user.prenom}]] [[${user.nom}]] <span class="statut online"></span></p>
+                                        <p>@[[${user.pseudo}]]</p>
+                                        <p> <img src="/media/logo/digitalIcon.png" alt="logo-role">[[${user.specialisation}]]</p>
+                                    </div>
+                                    <div class="supprimer">
+                                        <p>RETIRER</p>
+                                    </div>
+                                </a>
                             </div>
                             <h4 class="d-flex justify-content-center" th:if="${followers.isEmpty()}">Vous n'avez pas d'abonnées</h4>
                         </div>

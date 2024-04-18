@@ -64,8 +64,8 @@
                             </div>
                             <hr class="mt-2">
                         </div>
-                        <div th:if="${projets != null}" class=" d-flex flex-column data-holder">
-                            <div class="row" th:if="${!projets.isEmpty()}">
+                        <div  class=" d-flex flex-column data-holder">
+                            <div th:if="${projets != null}" class="row">
                             <!--Row #1-->
                                     <div th:each="projet : ${projets}" class="col-md-12">
                                         <a th:href="@{/groupe}">
@@ -78,7 +78,7 @@
                                             </div>
                                         </a>
                                     </div>
-
+                                    <h4 th:if="${projets.isEmpty()}" class="d-flex justify-content-center">Vous n'avez pas encore de projet</h4>
                             <div class="col-md-12">
                                 <dialog class="dialogCreateProject">
                                     <button id="closeProjetCreation"><i class="bi bi-x-lg"></i></button>
@@ -106,7 +106,7 @@
                                 </button>
                             </div>
                             </div>
-                            <h4 th:if="${projets.isEmpty()}" class="d-flex justify-content-center">Vous n'avez pas encore de projet</h4>
+
 
                         </div>
                         <div th:if="${following != null}" class=" d-flex flex-wrap justify-content-around data-holder">

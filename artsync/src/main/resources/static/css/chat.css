@@ -30,7 +30,7 @@ body {
 --------------------------------
 */
 .animation {
-    animation: apparition 0.7s ease-in;
+    animation: apparition 0.3s ease-in;
     animation-fill-mode: forwards;
 }
 

@@ -23,8 +23,8 @@
 <!--Content-->
 <div class="contentHolder">
     <div class="bannerHolder">
-        <img th:if="${banniere != null}" th:src="@{/media/image/{image}(image=${banniere.listeFichiers[0].urlMedia})}" class="profile-banner" alt="Bannière du profile">
-        <img th:if="${banniere == null}" th:src="@{/media/image/image18.png}" class="profile-banner" alt="Bannière du profile">
+        <img th:if="${banniere != null}" th:src="@{/media/images/{image}(image=${banniere.listeFichiers[0].urlMedia})}" class="profile-banner" alt="Bannière du profile">
+        <img th:if="${banniere == null}" th:src="@{/media/images/image18.png}" class="profile-banner" alt="Bannière du profile">
     </div>
     <div class="pfpHolder">
         <dialog th:if="${utilisateur.getId() == session.user.getId()}" class="pfpPane" id="pfpPane" >
@@ -125,7 +125,7 @@
     <div class="sectionHolder">
         <div class="postHolder" id="postHolder">
             <div th:each="post : ${listPosts}" class="publication">
-                <img th:src="@{/media/image/{image}(image=${post.listeFichiers[0].urlMedia})}" th:alt="${post.listeFichiers[0].urlMedia}">
+                <img th:src="@{/media/images/{image}(image=${post.listeFichiers[0].urlMedia})}" th:alt="${post.listeFichiers[0].urlMedia}">
             </div>
         </div>
         <div class="portfolioHolder" id="portfolioHolder">

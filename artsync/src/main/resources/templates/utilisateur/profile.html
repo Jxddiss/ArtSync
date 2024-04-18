@@ -27,8 +27,8 @@
                             <div class="profile-info">
                                 <div class="profile-card" style="width: 35rem;">
 
-                                        <img th:if="${banniere != null}" th:src="@{/media/image/{image}(image=${banniere.listeFichiers[0].urlMedia})}" class="profile-banner" alt="Bannière du profile">
-                                        <img th:if="${banniere == null}" th:src="@{/media/image/image18.png}" class="profile-banner" alt="Bannière du profile">
+                                        <img th:if="${banniere != null}" th:src="@{/media/images/{image}(image=${banniere.listeFichiers[0].urlMedia})}" class="profile-banner" alt="Bannière du profile">
+                                        <img th:if="${banniere == null}" th:src="@{/media/images/image18.png}" class="profile-banner" alt="Bannière du profile">
                                         <div class=" profile-picture-container d-flex justify-content-center align-items-center" >
                                             <img th:src="@{/media/images/{image}(image=${utilisateur.getPhotoUrl()})}" class="profile-picture" alt="Photo de profile"/>
 
@@ -245,7 +245,7 @@
                                     <div th:each="post : ${listPosts}" class="card-post">
                                         <!--Image-->
                                         <div class="card-img-post">
-                                            <img th:src="@{/media/image/{image}(image=${post.listeFichiers[0].urlMedia})}" th:alt="${post.listeFichiers[0].urlMedia}">
+                                            <img th:src="@{/media/images/{image}(image=${post.listeFichiers[0].urlMedia})}" th:alt="${post.listeFichiers[0].urlMedia}">
                                         </div>
                                         <!--Statistiques-->
                                         <div class="row mt-2">

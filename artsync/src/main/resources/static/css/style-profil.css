@@ -92,11 +92,10 @@
 .supInfo p:hover{
     opacity: 1;
     cursor: pointer;
-    transform: 0.25s;
+    transition:  0.25s;
 }
 .optionHolder{
     display: flex;
-    flex-direction: co;
     gap: 2%;
     height: 100%;
     width: 25%;
@@ -304,7 +303,7 @@
 .postHolder{
     display: flex;
     flex-wrap: wrap;
-
+    justify-content: center;
 }
 .publication{
     height: 20rem;

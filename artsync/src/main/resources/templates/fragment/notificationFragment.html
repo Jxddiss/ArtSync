@@ -15,9 +15,9 @@
         /*===== Container avec une notification =====*/
         .notification-pop-container{
             width: 100%;
-            height: 15vh;
+            height: 12vh;
             padding: 1em;
-            font-size: 1.1rem;
+            font-size: 1rem;
             transform: translateX(-200%);
             border-radius: 5px;
             border: 1px solid rgba(0,0,0,0.3);
@@ -27,7 +27,7 @@
             cursor: pointer;
         }
 
-        .notification-pop-container h3{
+        .notification-pop-container h4{
             line-height: 1rem;
         }
 
@@ -46,7 +46,7 @@
             border-radius: 50%;
             width: 1.5em;
             text-align: center;
-            font-size: 2rem;
+            font-size: 1.1rem;
             background-color: rgba(27, 117, 4, 0.836);
             padding-left: 0.2em;
             padding-right: 0.2em;
@@ -161,7 +161,7 @@
             }
 
             const notificationElement = document.createElement("a");
-            notificationElement.innerHTML = `<h3 class="notification-pop-title">${notification.titre}</h3>
+            notificationElement.innerHTML = `<h4 class="notification-pop-title">${notification.titre}</h4>
                             <hr/>
                             <div class="body-notification-pop">
                                 ${notification.appel ? `<i class="bi bi-telephone-fill"></i>` : ''}

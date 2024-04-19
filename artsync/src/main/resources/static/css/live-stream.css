@@ -1,0 +1,208 @@
+
+:root{
+    --background-color : #f0f0f0;
+    --border-color: #000000;
+    --neon-un-color:#2b2a2a;
+    --neon-deux-color:#2b2a2a;
+    --neon-trois-color:#434242;
+    
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+}
+
+body {
+    font-family: system-ui;
+    background: #C9D6FF;
+    background: -webkit-linear-gradient(to right, #E2E2E2, #C9D6FF);
+    background: linear-gradient(to right, #E2E2E2, #C9D6FF); 
+    overflow: hidden;
+}
+
+/*
+--------------------------------
+    Animation
+--------------------------------
+*/
+.animation {
+    animation: apparition 0.7s ease-in;
+    animation-fill-mode: forwards;
+}
+
+.delais {
+    animation-delay: 1.1s;
+}
+@keyframes apparition {
+    0% {
+        opacity: 0;
+        filter: blur(5px);
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/*
+------------------------------
+    Header styles
+------------------------------
+*/
+.nom-site{
+    font-size: 45px;
+    color: #000000;
+
+}
+.nav-link {
+    color: #000;
+}
+.nav-link:hover {
+    color: #d86e6e;
+}	
+.active {
+    font-family: system-ui;
+    color: rgb(0, 0, 0);
+}
+
+/*========= Stream ==========*/
+.profil-pic-stream{
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    outline: 2px solid rgba(197, 236, 252, 0.808);
+}
+
+#video-chat {
+    width: 100%;
+    height: 95vh;
+    display: flex;
+    gap: 1%;
+    object-fit: cover;
+    backdrop-filter: blur(10px);
+    margin: 0;
+    padding: 1.5em;
+}
+  
+.video-box {
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.432);
+    background-color: rgb(36, 35, 35);
+}
+
+#stream-title{
+    display: flex;
+    gap: 1em;
+    position: fixed;
+    margin-left: 1em;
+    margin-top: 1em;
+    color: #e9ebec;
+    text-align: center;
+}
+
+#stream-holder {
+    height: 95%;
+    width: 80%;
+}
+  
+#streamVideo {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+  
+.control-holder {
+    position: fixed;
+    bottom: 3%;
+    left: 3%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    z-index: 2;
+    background-color: #3d3c3c3f;
+    border: 1px solid rgba(0, 0, 0, 0.308);
+    backdrop-filter: blur(10px);
+    padding-left: 2em;
+    padding-right: 2em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    border-radius: 1000000000px;
+}
+  
+.button-video {
+    border: none;
+    cursor: pointer;
+    height: 75px;
+    width: 75px;
+    border-radius: 50%;
+    background-color: #3b3a3a;
+    color: #c9d7dc;
+    font-size: 2rem;
+    transition: all 0.2s ease-in-out;
+}
+  
+.button-video:hover {
+    background-color: #faf3f3;
+    color: #1b1b1b;
+    transform: scale(1.13);
+}
+
+.live-chat{
+    height: 95%;
+    width: 19%;
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+}
+
+#input-chat{
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0,0.2);
+    padding: .5em;
+    padding-left: 1em;
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+#liste-chat-stream{
+    display: flex;
+    flex-direction: column-reverse;
+    padding: .5em;
+    flex-grow: 1;
+    list-style: none;
+    overflow-y: scroll;
+}
+
+.chat-stream{
+    display: flex;
+    gap: 1em;
+}
+/* 
+------------------------------
+   Misc
+------------------------------
+*/
+
+/* Scroll wheel*/
+::-webkit-scrollbar {
+    width: 7.5px;
+    margin-right: 125px;
+    background-color: transparent;
+}
+::-webkit-scrollbar-track {
+    background: rgb(255,255,255,0); 
+}  
+::-webkit-scrollbar-thumb {
+background: #888; 
+border-radius: 25px;
+}
+  
+::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+/* code à Ali */

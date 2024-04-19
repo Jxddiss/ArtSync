@@ -254,6 +254,6 @@
         </div>
       </div>
     </dialog>
-    <div th:if="${session.user != null}" th:replace="~{fragment/notificationFragment :: notificationFragment}"></div>
+    <div th:replace="${session.user != null} ? ~{fragment/notificationFragment :: notificationFragment} : ~{}"></div>
   </body>
 </html>

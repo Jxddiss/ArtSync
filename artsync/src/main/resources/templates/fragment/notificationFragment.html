@@ -148,6 +148,7 @@
     </style>
     <script>
         const listeNotifPop = document.getElementById("notification-pop-liste");
+        const notifcationContainer = document.getElementById("notifcationContainer");
 
         function showNotification(notification){
             var audio;
@@ -171,6 +172,25 @@
             notificationElement.classList = `notification-pop-container notification-${notification.type} ${notification.appel ? `shake` : 'slide-left'}`;
             notificationElement.href = notification.urlNotif;
             setTimeout(()=>{listeNotifPop.removeChild(notificationElement)},8000);
+            if (notifcationContainer){
+                addNotifContainer(notification);
+            }
+        }
+
+        function addNotifContainer(notification){
+            var noNotifTitle = document.getElementById("no-notif-title");
+
+            if (noNotifTitle){
+                notifcationContainer.removeChild(noNotifTitle);
+            }
+
+            const notificationElement = document.createElement("a");
+            notificationElement.classList = "notification";
+            notificationElement.innerHTML = `${notification.imgSender ?
+                `<img src="media/images/${notification.imgSender}" alt="" class="profile-pic-banner-border-small" />` : ''}
+                                              <p class="notification-texte"> ${notification.message} <strong>@${notification.pseudoSender}</strong></p>`;
+            notificationElement.href = notification.urlNotif;
+            notifcationContainer.appendChild(notificationElement);
         }
 
         const socketNotif = new SockJS('/ws');

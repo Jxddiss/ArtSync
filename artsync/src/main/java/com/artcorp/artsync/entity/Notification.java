@@ -13,6 +13,7 @@ public class Notification {
     private Long id;
 
     private String pseudoSender;
+    private String imgSender;
     private String message;
     private String titre;
     private boolean appel;
@@ -22,9 +23,10 @@ public class Notification {
     public Notification() {
     }
 
-    public Notification(Long id, String pseudoSender, String message, String titre, boolean appel, String type, String urlNotif) {
+    public Notification(Long id, String pseudoSender, String imgSender, String message, String titre, boolean appel, String type, String urlNotif) {
         this.id = id;
         this.pseudoSender = pseudoSender;
+        this.imgSender = imgSender;
         this.message = message;
         this.titre = titre;
         this.appel = appel;
@@ -38,6 +40,14 @@ public class Notification {
 
     public void setPseudoSender(String pseudoSender) {
         this.pseudoSender = pseudoSender;
+    }
+
+    public String getImgSender() {
+        return imgSender;
+    }
+
+    public void setImgSender(String imgSender) {
+        this.imgSender = imgSender;
     }
 
     public String getMessage() {

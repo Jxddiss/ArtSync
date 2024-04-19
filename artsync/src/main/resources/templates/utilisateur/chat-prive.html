@@ -220,6 +220,7 @@
 
     const inputBox = document.getElementById("input-box");
     const inputs = inputBox.querySelectorAll("input");
+    const profilImgUserLogin = [[${session.user.getPhotoUrl()}]];
 
     inputBox.addEventListener('submit', function(event) {
         event.preventDefault();
@@ -248,7 +249,8 @@
                     pseudoSender: pseudoUser,
                     message: 'Nouveau message de ',
                     titre: 'Nouveau message',
-                    urlNotif: window.location.pathname.toString()
+                    urlNotif: window.location.pathname.toString(),
+                    imgSender: profilImgUserLogin
                 }
             ));
             inputs[0].value = '';
@@ -287,7 +289,8 @@
                         pseudoSender: pseudoUser,
                         message: 'Nouveau message de ',
                         titre: 'Nouveau message',
-                        urlNotif: window.location.pathname.toString()
+                        urlNotif: window.location.pathname.toString(),
+                        imgSender: profilImgUserLogin
                     }
                 ));
             })

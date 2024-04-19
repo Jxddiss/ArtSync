@@ -69,7 +69,8 @@ document.addEventListener("DOMContentLoaded", function() {
                     pseudoSender: pseudoUser,
                     message: 'Appel de ',
                     titre: 'Appel...',
-                    urlNotif: window.location.pathname.toString()
+                    urlNotif: window.location.pathname.toString(),
+                    imgSender: profilImgUserLogin
                 }
             ));
             stompClientVideo.subscribe('/topic/appel/call/'+conversationId+"/"+idUser, (call) => {

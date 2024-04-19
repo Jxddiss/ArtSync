@@ -45,9 +45,9 @@ document.addEventListener("DOMContentLoaded", function() {
     cartes.forEach(function(carte,index) {
       setTimeout(function() {
         carte.classList.toggle("animation");
-      },index*100);
+      },index*60);
     });
-  },700);
+  },200);
 
   
 });

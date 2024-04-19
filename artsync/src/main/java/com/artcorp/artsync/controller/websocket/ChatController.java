@@ -1,4 +1,4 @@
-package com.artcorp.artsync.controller;
+package com.artcorp.artsync.controller.websocket;
 
 import com.artcorp.artsync.entity.Chat;
 import com.artcorp.artsync.service.ChatService;
@@ -24,14 +24,12 @@ import static com.artcorp.artsync.constant.FileConstant.RELATIVE_PATH;
 @Controller
 public class ChatController {
     private ChatService chatService;
-    private SimpMessagingTemplate simpMessagingTemplate;
     private Set<String> utilisateursConnecte = new HashSet<>();
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    public ChatController(ChatServiceImpl chatService, SimpMessagingTemplate simpMessagingTemplate) {
+    public ChatController(ChatServiceImpl chatService) {
         this.chatService = chatService;
-        this.simpMessagingTemplate = simpMessagingTemplate;
     }
 
     @MessageMapping("/chat/{conversationId}")

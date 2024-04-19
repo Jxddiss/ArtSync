@@ -67,6 +67,7 @@ public class UserController {
                 return "utilisateur/profil";
             }
             redirectAttributes.addFlashAttribute("error", "Cet utilisateur n'existe pas");
+            return "redirect:/utilisateur/feed";
         }
         redirectAttributes.addFlashAttribute("error", "Vous devez vous connecter pour avoir accès à cette page");
         return "redirect:/authentification";

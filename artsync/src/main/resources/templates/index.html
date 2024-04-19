@@ -21,6 +21,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/TextPlugin.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" ></script>
+        <!--    libs for stomp and sockjs-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
     </head>
 
     <body class="body-content anim_gradient">
@@ -396,6 +399,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     <a th:href="@{/authentification}">COMMENCER</a>
                 </div>
             </div>
+        <div th:replace="${session.user != null} ? ~{fragment/notificationFragment :: notificationFragment} : ~{}"></div>
         <script th:src="@{/js/script-index-cubes.js}" type="module"></script>
         <script th:src="@{/js/script-index-galaxy.js}" type="module"></script>
         <script th:src="@{/js/script-index.js}"></script>

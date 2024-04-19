@@ -131,14 +131,17 @@ public class AppController {
     @GetMapping("/recherche/follow")
     public String manageFollow(@RequestParam("id") Long id, @RequestParam("type") String type, HttpServletRequest request) {
         HttpSession session = request.getSession(false);
+        Utilisateur utilisateur;
         Long idUtilisateur = null;
         try {
-            Utilisateur utilisateur = ((Utilisateur) session.getAttribute("user"));
+            utilisateur = ((Utilisateur) session.getAttribute("user"));
             idUtilisateur = utilisateur.getId();
         } catch (Exception e) {
             return "auth";
         }
         userService.updateRelations(id, idUtilisateur);
+        utilisateur = userService.findById(idUtilisateur);
+        session.setAttribute("user",utilisateur);
         return "recherche";
     }
 }

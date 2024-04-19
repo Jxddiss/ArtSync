@@ -47,7 +47,7 @@
 
                     <img th:src="@{/media/images/{image}(image=${ami.getPhotoUrl()})}" alt="">
                     <div class="mini-container">
-                        <p>[[${ami.prenom}]] [[${ami.nom}]]<span class="statut online"></span></p>
+                        <p>[[${ami.prenom}]] [[${ami.nom}]] <span class="statut online"></span></p>
                         <p>@[[${ami.pseudo}]]</p>
                         <p> <img src="/media/logo/digitalIcon.png" alt="logo-role">[[${ami.specialisation}]]</p>
                     </div>
@@ -163,12 +163,15 @@
     </dialog>
 
 <script th:inline="javascript" th:if="${amiCourrant != null}">
+    const idAmi = '[[${amiCourrant.getId()}]]';
+    const pseudoUser = [[${session.user.pseudo}]];
+
     //== Scroll automatiquement vers le bas du chat ==
     const chatBox = document.getElementById("chat-box");
     chatBox.scrollTop = chatBox.scrollHeight;
 
     //== Préparation de la connexion websocket ==
-    const backEndUrl = "http://localhost:8080";
+    const backEndUrl = window.location.origin;
     const socket = new SockJS('/ws');
     const stompClient = Stomp.over(socket);
 
@@ -217,6 +220,7 @@
 
     const inputBox = document.getElementById("input-box");
     const inputs = inputBox.querySelectorAll("input");
+    const profilImgUserLogin = [[${session.user.getPhotoUrl()}]];
 
     inputBox.addEventListener('submit', function(event) {
         event.preventDefault();
@@ -237,6 +241,16 @@
                     conversation: {
                         id : '[[${conversationCourrante.getId()}]]'
                     }
+                }
+            ));
+            stompClient.send("/app/notification/"+idAmi,{},JSON.stringify(
+                {
+                    type: 'info',
+                    pseudoSender: pseudoUser,
+                    message: 'Nouveau message de ',
+                    titre: 'Nouveau message',
+                    urlNotif: window.location.pathname.toString(),
+                    imgSender: profilImgUserLogin
                 }
             ));
             inputs[0].value = '';
@@ -269,6 +283,16 @@
                         urlMedia : file.name
                     }
                 ));
+                stompClient.send("/app/notification/"+idAmi,{},JSON.stringify(
+                    {
+                        type: 'info',
+                        pseudoSender: pseudoUser,
+                        message: 'Nouveau message de ',
+                        titre: 'Nouveau message',
+                        urlNotif: window.location.pathname.toString(),
+                        imgSender: profilImgUserLogin
+                    }
+                ));
             })
         }
         document.getElementById('input-chat').value = '';
@@ -277,7 +301,7 @@
     //=== Variables appel video ======
     const conversationId = '[[${conversationCourrante.getId()}]]';
     const idUser = '[[${session.user.id}]]';
-    const idAmi = '[[${amiCourrant.getId()}]]';
+
     const video = document.getElementById("button-fonction-video");
     const phone = document.getElementById("button-fonction-call");
     const videoDialog = document.getElementById("video-chat");

@@ -559,10 +559,12 @@ ul {
     
   }
   
-  #remoteVideo {
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
+  #remoteVideo, #localVideo {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+      -webkit-transform: scaleX(-1);
+      transform: scaleX(-1);
   }
   
   #local-holder {
@@ -571,12 +573,6 @@ ul {
     width: 25%;
     bottom: 2%;
     right: 3%;
-  }
-  
-  #localVideo {
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
   }
   
   .control-holder {

@@ -32,7 +32,11 @@
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/EasePack.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/CustomEase.min.js"></script>
 
-    <title>ArtSync</title>
+    <!--    libs for stomp and sockjs-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+
+    <title>Portfolio</title>
 
 </head>
 
@@ -286,6 +290,7 @@
 
         </div>
     </div>
+    <div th:replace="${session.user != null} ? ~{fragment/notificationFragment :: notificationFragment} : ~{}"></div>
     <script th:src="@{/js/script-portfolio.js}"></script>
 </body>
 </html>

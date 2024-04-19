@@ -153,11 +153,11 @@
         function showNotification(notification){
             var audio;
             if(notification.appel){
-                audio = new Audio("media/audio/notification/ringtone.mp3");
+                audio = new Audio("/media/audio/notification/ringtone.mp3");
                 audio.play();
                 setTimeout(()=>{audio.pause()},5500);
             }else{
-                audio = new Audio("media/audio/notification/pop.mp3");
+                audio = new Audio("/media/audio/notification/pop.mp3");
                 audio.play();
             }
 

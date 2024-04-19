@@ -1,0 +1,185 @@
+<div id="notification-pop-liste" th:fragment="notificationFragment">
+    <style>
+        #notification-pop-liste{
+            display: flex;
+            gap: 1em;
+            flex-direction: column;
+            position: absolute;
+            justify-content: end;
+            left: 2vw;
+            bottom: 2vh;
+            width: 20vw;
+            height: 100vh;
+        }
+
+        /*===== Container avec une notification =====*/
+        .notification-pop-container{
+            width: 100%;
+            height: 15vh;
+            padding: 1em;
+            font-size: 1.1rem;
+            transform: translateX(-200%);
+            border-radius: 5px;
+            border: 1px solid rgba(0,0,0,0.3);
+            box-shadow: 8px 14px 12px 0px rgba(0,0,0,0.3);
+            text-decoration: none;
+            color: black;
+            cursor: pointer;
+        }
+
+        .notification-pop-container h3{
+            line-height: 1rem;
+        }
+
+        .notification-pop-container hr{
+            transform: translateX(-5%);
+        }
+
+        .body-notification-pop{
+            display: flex;
+            align-items: center;
+            gap: 0.5em;
+        }
+
+        .body-notification-pop i{
+            box-shadow: 8px 14px 22px 0px rgba(0,0,0,0.3);
+            border-radius: 50%;
+            width: 1.5em;
+            text-align: center;
+            font-size: 2rem;
+            background-color: rgba(27, 117, 4, 0.836);
+            padding-left: 0.2em;
+            padding-right: 0.2em;
+            padding-bottom: 0.1em;
+            color: whitesmoke;
+        }
+
+        /*===== Background selon les types =====*/
+        .notification-danger{
+            background: rgba(226, 59, 59, 0.856);
+            color: rgb(241, 226, 213);
+        }
+
+        .notification-info{
+            background: rgba(212, 211, 211, 0.856);
+        }
+
+        .notification-warn{
+            background: rgba(209, 157, 44, 0.856);
+            color: rgb(241, 226, 213);
+        }
+
+        .notification-success{
+            background: rgba(29, 179, 96, 0.856);
+            color: rgb(241, 226, 213);
+        }
+
+        /*===== Animation pour faire apparaitre une notification normal =====*/
+        .slide-left{
+            animation-name: slide-left;
+            animation-duration: 5.5s;
+            animation-fill-mode: forwards;
+        }
+
+        .slide-left:hover, .shake:hover{
+            animation-play-state: paused;
+            outline: 1px solid rgba(0,0,0,0.5);
+        }
+
+        @keyframes slide-left {
+            0%{
+                transform: translateX(-200%);
+                opacity: 0;
+            }
+            10%{
+                transform: translateX(0);
+                opacity: 0.5;
+            }
+            15%{
+                opacity: 1;
+            }
+            90%{
+                transform: translateX(0);
+                opacity: 1;
+            }
+            100%{
+                transform: translateX(-200%);
+                display: none;
+            }
+        }
+
+        /*===== Animation pour faire apparaitre une notification lors d'un appel =====*/
+        .shake{
+            animation:slide 1s, shake 0.3s, disapear 2s;
+            animation-iteration-count: 1,15, 1;
+            animation-delay: 0s, 1s, 4.5s;
+        }
+
+        @keyframes slide {
+            from{
+                opacity: 0;
+            }
+            to{
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes shake {
+            0%{
+                transform: translateX(0);
+            }
+            50%{
+                transform: translateX(5%);
+            }
+            100%{
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes disapear {
+            from{
+                transform: translateX(0);
+            }
+            to{
+                transform: translateX(-200%);
+                display: none;
+            }
+        }
+    </style>
+    <script>
+        const listeNotifPop = document.getElementById("notification-pop-liste");
+
+        function showNotification(notification){
+            var audio;
+            if(notification.appel){
+                audio = new Audio("media/audio/notification/ringtone.mp3");
+                audio.play();
+                setTimeout(()=>{audio.pause()},5500);
+            }else{
+                audio = new Audio("media/audio/notification/pop.mp3");
+                audio.play();
+            }
+
+            const notificationElement = document.createElement("a");
+            notificationElement.innerHTML = `<h3 class="notification-pop-title">${notification.titre}</h3>
+                            <hr/>
+                            <div class="body-notification-pop">
+                                ${notification.appel ? `<i class="bi bi-telephone-fill"></i>` : ''}
+                                <p class="notification-pop-message"> ${notification.message} ${notification.pseudoSender ? `<strong>@${notification.pseudoSender}</strong>` : ''}</p>
+                            </div>`
+            listeNotifPop.appendChild(notificationElement);
+            notificationElement.classList = `notification-pop-container notification-${notification.type} ${notification.appel ? `shake` : 'slide-left'}`;
+            notificationElement.href = notification.urlNotif;
+            setTimeout(()=>{listeNotifPop.removeChild(notificationElement)},8000);
+        }
+
+        const socketNotif = new SockJS('/ws');
+        const stompClientNotif = Stomp.over(socketNotif);
+
+        stompClientNotif.connect({}, function(frame) {
+            stompClientNotif.subscribe('/topic/notification/[[${session.user.getId()}]]', function(notification) {
+                showNotification(JSON.parse(notification.body));
+            });
+        });
+    </script>
+</div>

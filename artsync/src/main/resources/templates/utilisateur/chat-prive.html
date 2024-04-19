@@ -163,6 +163,9 @@
     </dialog>
 
 <script th:inline="javascript" th:if="${amiCourrant != null}">
+    const idAmi = '[[${amiCourrant.getId()}]]';
+    const pseudoUser = [[${session.user.pseudo}]];
+
     //== Scroll automatiquement vers le bas du chat ==
     const chatBox = document.getElementById("chat-box");
     chatBox.scrollTop = chatBox.scrollHeight;
@@ -239,6 +242,15 @@
                     }
                 }
             ));
+            stompClient.send("/app/notification/"+idAmi,{},JSON.stringify(
+                {
+                    type: 'info',
+                    pseudoSender: pseudoUser,
+                    message: 'Nouveau message de ',
+                    titre: 'Nouveau message',
+                    urlNotif: window.location.pathname.toString()
+                }
+            ));
             inputs[0].value = '';
         }
 
@@ -269,6 +281,15 @@
                         urlMedia : file.name
                     }
                 ));
+                stompClient.send("/app/notification/"+idAmi,{},JSON.stringify(
+                    {
+                        type: 'info',
+                        pseudoSender: pseudoUser,
+                        message: 'Nouveau message de ',
+                        titre: 'Nouveau message',
+                        urlNotif: window.location.pathname.toString()
+                    }
+                ));
             })
         }
         document.getElementById('input-chat').value = '';
@@ -277,7 +298,7 @@
     //=== Variables appel video ======
     const conversationId = '[[${conversationCourrante.getId()}]]';
     const idUser = '[[${session.user.id}]]';
-    const idAmi = '[[${amiCourrant.getId()}]]';
+
     const video = document.getElementById("button-fonction-video");
     const phone = document.getElementById("button-fonction-call");
     const videoDialog = document.getElementById("video-chat");

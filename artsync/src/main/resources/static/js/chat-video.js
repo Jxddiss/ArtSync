@@ -62,6 +62,16 @@ document.addEventListener("DOMContentLoaded", function() {
         const socketVideo = new SockJS('/websocket');
         stompClientVideo = Stomp.over(socketVideo);
         stompClientVideo.connect({}, function(frame) {
+            stompClientVideo.send("/app/notification/"+idAmi,{},JSON.stringify(
+                {
+                    type: 'info',
+                    appel: true,
+                    pseudoSender: pseudoUser,
+                    message: 'Appel de ',
+                    titre: 'Appel...',
+                    urlNotif: window.location.pathname.toString()
+                }
+            ));
             stompClientVideo.subscribe('/topic/appel/call/'+conversationId+"/"+idUser, (call) => {
                 console.log("appel de : " + call.body);
                 localPeer.ontrack = (event) => {
@@ -199,6 +209,5 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         }
     }
-
 })
 

@@ -71,7 +71,7 @@
                             <div th:if="${projets != null}" class="row">
                             <!--Row #1-->
                                     <div th:each="projet : ${projets}" class="col-md-12">
-                                        <a th:href="@{/groupe}">
+                                        <a th:href="@{/groupe/group/{projetId}(projetId=${projet.getId()})}">
                                             <div class="carte">
                                                 <div class="mini-container">
                                                     <p>[[${projet.getTitre()}]] <span class="statut ${projet.isPublique() ? 'online' : 'offline'}"></span></p>

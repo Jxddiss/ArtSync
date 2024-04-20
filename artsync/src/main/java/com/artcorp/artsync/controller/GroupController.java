@@ -8,7 +8,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -42,8 +45,20 @@ public class GroupController {
         return "recherche";
     }
 
-    @GetMapping("/groupe")
-    public String redirigerVersProjet() {
+    @GetMapping("/groupe/group/{projetId}")
+    public String redirigerVersProjet(@PathVariable("projetId") Long projectId, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            return "auth";
+        }
+        Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+        model.addAttribute("utilisateur", utilisateur);
+        model.addAttribute("projet", projetService.findById(projectId));
+        model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
+        model.addAttribute("nbMembres", projetService.getMembersCount(projectId));
+        model.addAttribute("nbFichiers", projetService.getFileCount(projectId));
+        System.out.println(utilisateur.getId());
+        System.out.println(projetService.findById(projectId).getAdmin().getId());
         return "groupe/group";
     }
 }

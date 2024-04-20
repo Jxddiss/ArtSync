@@ -12,4 +12,8 @@ public interface ProjetService {
     Projet addUtilisateurToProjet(Long idProjet, Long idUtilisateur);
     Projet removeUtilisateurFromProjet(Long idProjet, Long idUtilisateur);
     boolean checkIfUserIsInProjet(Long idProjet, Long idUtilisateur);
+    List<Projet> findProjectsOfUser(Long idUtilisateur);
+    int getMembersCount(Long idProjet);
+    List<Projet> getMembers(Long idProjet);
+    int getFileCount(Long idProjet);
 }

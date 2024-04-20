@@ -1,6 +1,8 @@
 package com.artcorp.artsync.controller;
 
+import com.artcorp.artsync.entity.Annonce;
 import com.artcorp.artsync.entity.Utilisateur;
+import com.artcorp.artsync.service.AnnonceService;
 import com.artcorp.artsync.service.DemandeService;
 import com.artcorp.artsync.service.ProjetService;
 import com.artcorp.artsync.service.UtilisateurService;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 @Controller
 public class GroupController {
     @Autowired
@@ -22,6 +26,8 @@ public class GroupController {
     ProjetService projetService;
     @Autowired
     DemandeService demandeService;
+    @Autowired
+    AnnonceService annonceService;
     @GetMapping("/group/join")
     public String rejoindreGroup(@RequestParam("id") Long id, @RequestParam("type") String type, HttpServletRequest request) {
 
@@ -57,8 +63,8 @@ public class GroupController {
         model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
         model.addAttribute("nbMembres", projetService.getMembersCount(projectId));
         model.addAttribute("nbFichiers", projetService.getFileCount(projectId));
-        System.out.println(utilisateur.getId());
-        System.out.println(projetService.findById(projectId).getAdmin().getId());
+        model.addAttribute("annonces", annonceService.findByProjetId(projectId));
+
         return "groupe/group";
     }
 }

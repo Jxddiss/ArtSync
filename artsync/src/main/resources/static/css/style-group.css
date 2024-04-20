@@ -599,3 +599,91 @@
     color: white;
     transition: 0.25s;
 }
+.taskShowHolder{
+    height: 50rem;
+}
+.taskShowScroller{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    height: 90%;
+    width: 100%;
+    padding: 2%;
+    overflow-y: auto;
+    margin-top: 2%;
+}
+.tacheCard{
+    background-color: rgba(111, 158, 224, 0.04);
+    padding: 2%;
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    width: 17rem;
+    border: 2px solid rgba(74, 78, 93, 0.1);
+    border-radius: 7px;
+}
+.tacheCard:hover{
+    cursor: pointer;
+    transition: 0.25s;
+    border: none;
+    background-color: rgba(111, 158, 224, 0.1);
+    scale: 1.05;
+    box-shadow: 10px 10px 10px rgba(0,0,0,0.1);
+
+}
+.tacheCard hr{
+    margin-block: 1rem
+}
+.tacheCardHeader{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: fit-content;
+}
+.tacheInfoUser{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+}
+.tacheInfoUser img{
+    height: 2.5rem;
+    width: 2.5rem;
+    border-radius: 50%;
+}
+.tacheInfoUserCredentials p{
+    margin: 0;
+    font-size: 15px;
+}
+.tacheInfoUserCredentials b{
+    font-size: 15px;
+}
+.tacheOptionsRight{
+    display: flex;
+    width: 25%;
+    justify-content: end;
+    align-items: center;
+    gap: 0.25rem;
+}
+.etat{
+    width: fit-content;
+    padding-inline: 2rem;
+    border: 1px solid black;
+    border-radius: 25rem;
+    font-size: 15px;
+    font-weight: 450;
+    margin: 0;
+}
+
+#encours{
+    border-color: rgb(255, 105, 105);
+    color: rgb(255, 105, 105);
+}
+#terminee{
+    border-color: green;
+    color: green;
+}
+#noncommencee{
+    border-color: gray;
+    color: gray;
+}

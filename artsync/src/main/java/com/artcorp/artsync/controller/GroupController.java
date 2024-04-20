@@ -2,10 +2,7 @@ package com.artcorp.artsync.controller;
 
 import com.artcorp.artsync.entity.Annonce;
 import com.artcorp.artsync.entity.Utilisateur;
-import com.artcorp.artsync.service.AnnonceService;
-import com.artcorp.artsync.service.DemandeService;
-import com.artcorp.artsync.service.ProjetService;
-import com.artcorp.artsync.service.UtilisateurService;
+import com.artcorp.artsync.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +25,8 @@ public class GroupController {
     DemandeService demandeService;
     @Autowired
     AnnonceService annonceService;
+    @Autowired
+    TacheService tacheService;
     @GetMapping("/group/join")
     public String rejoindreGroup(@RequestParam("id") Long id, @RequestParam("type") String type, HttpServletRequest request) {
 
@@ -84,6 +83,23 @@ public class GroupController {
         model.addAttribute("annonces", annonceService.findByProjetId(projectId));
 
         return "groupe/group-users";
+    }
+    @GetMapping("/groupe/group-tache/{projetId}")
+    public String getTacheProjet(@PathVariable("projetId") Long projectId, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            return "auth";
+        }
+        Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+        model.addAttribute("utilisateur", utilisateur);
+        model.addAttribute("projet", projetService.findById(projectId));
+        model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
+        model.addAttribute("nbMembres", projetService.getMembersCount(projectId));
+        model.addAttribute("nbFichiers", projetService.getFileCount(projectId));
+        model.addAttribute("annonces", annonceService.findByProjetId(projectId));
+        model.addAttribute("taches", tacheService.findByProjetId(projectId));
+
+        return "groupe/group-tache";
     }
 
 }

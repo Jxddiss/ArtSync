@@ -17,11 +17,14 @@ public class Tache {
     @ManyToOne
     @JoinColumn (name = "utilisateur_id")
     private Utilisateur utilisateur;
+    @ManyToOne
+    @JoinColumn (name = "projet_id")
+    private Projet projet;
 
     public Tache() {
     }
 
-    public Tache(Long id, String titre, String description, String etat, LocalDateTime dateCreation, LocalDateTime dateModification, Utilisateur utilisateur) {
+    public Tache(Long id, String titre, String description, String etat, LocalDateTime dateCreation, LocalDateTime dateModification, Utilisateur utilisateur, Projet projet) {
         this.id = id;
         this.titre = titre;
         this.description = description;
@@ -29,6 +32,7 @@ public class Tache {
         this.dateCreation = dateCreation;
         this.dateModification = dateModification;
         this.utilisateur = utilisateur;
+        this.projet = projet;
     }
 
     public Long getId() {
@@ -85,5 +89,12 @@ public class Tache {
 
     public void setUtilisateur(Utilisateur utilisateur) {
         this.utilisateur = utilisateur;
+    }
+
+    public Projet getProjet() {
+        return projet;
+    }
+    public void setProjet(Projet projet) {
+        this.projet = projet;
     }
 }

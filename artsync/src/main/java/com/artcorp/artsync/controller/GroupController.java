@@ -8,10 +8,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -136,6 +133,16 @@ public class GroupController {
         model.addAttribute("annonces", annonceService.findByProjetId(projectId));
 
         return "groupe/group-gestion";
+    }
+    @PostMapping("groupe/group/{projetId}")
+    public String handleAnnonceSubmission(@PathVariable Long projetId, @RequestParam("message") String message) {
+        Annonce annonce = new Annonce();
+        annonce.setProjet(projetService.findById(projetId));
+        annonce.setUtilisateur(annonce.getProjet().getAdmin());
+        annonce.setDateCreation(java.time.LocalDateTime.now());
+        annonce.setMessage(message);
+        annonceService.createAnnonce(annonce);
+        return "redirect:/groupe/group/{projetId}";
     }
 
 }

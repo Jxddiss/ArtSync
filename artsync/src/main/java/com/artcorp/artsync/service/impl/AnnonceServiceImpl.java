@@ -21,5 +21,11 @@ public class AnnonceServiceImpl implements AnnonceService {
     @Override
     public List<Annonce> findByProjetId(Long id) {
         return repos.findByProjetId(id);
+
     }
+    @Override
+    public Annonce createAnnonce(Annonce annonce) {
+        return repos.save(annonce);
+    }
+
 }

@@ -5,6 +5,7 @@ import com.artcorp.artsync.entity.Annonce;
 import java.util.List;
 
 public interface AnnonceService {
-    //find all annonces of projects
     public List<Annonce> findByProjetId(Long id);
+    public Annonce createAnnonce(Annonce annonce);
+
 }

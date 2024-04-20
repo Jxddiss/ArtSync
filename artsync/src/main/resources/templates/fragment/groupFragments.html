@@ -40,7 +40,7 @@
             </div>
             <!--Options du projet-->
             <div class="options">
-                <a href="" class="optionSelected">Tableau de Bord</a>
+                <a th:href="@{/groupe/group/{projetId}(projetId=${projet.getId()})}" class="optionSelected">Tableau de Bord</a>
                 <a href="">Tâche</a>
                 <a href="">Conversation</a>
                 <a th:if="${projet.getAdmin() != null and session.user != null and projet.getAdmin().getId()==session.user.getId()}" href="">Demande</a>
@@ -50,7 +50,7 @@
             <div class="projectInfoContent">
                 <div class="userCount">
                     <div><p>Membres</p></div>
-                    <div class="userContent"><p th:text="${nbMembres}"></p> <i class="bi bi-people"></i></div>
+                    <a th:href="@{/groupe/group-users/{projetId}(projetId=${projet.getId()})}" class="userContent"><p th:text="${nbMembres}"></p> <i class="bi bi-people"></i></a>
                 </div>
                 <div class="vr"></div>
                 <div class="fileButton">

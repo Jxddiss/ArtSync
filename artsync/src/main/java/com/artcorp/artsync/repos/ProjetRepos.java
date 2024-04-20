@@ -1,6 +1,7 @@
 package com.artcorp.artsync.repos;
 
 import com.artcorp.artsync.entity.Projet;
+import com.artcorp.artsync.entity.Utilisateur;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -24,7 +25,7 @@ public interface ProjetRepos extends JpaRepository<Projet, Long> {
      public int getMembersCount(Long idProjet);
 
      @Query("select u from Projet p join p.utilisateurs u where p.id = ?1")
-     public List<Projet> getMembers(Long idProjet);
+     public List<Utilisateur> getMembers(Long idProjet);
 
 
      @Query("select count(f) from Projet p join p.fichiers f where p.id = ?1")

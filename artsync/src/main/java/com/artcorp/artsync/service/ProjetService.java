@@ -1,6 +1,7 @@
 package com.artcorp.artsync.service;
 
 import com.artcorp.artsync.entity.Projet;
+import com.artcorp.artsync.entity.Utilisateur;
 
 import java.util.List;
 
@@ -14,6 +15,6 @@ public interface ProjetService {
     boolean checkIfUserIsInProjet(Long idProjet, Long idUtilisateur);
     List<Projet> findProjectsOfUser(Long idUtilisateur);
     int getMembersCount(Long idProjet);
-    List<Projet> getMembers(Long idProjet);
+    List<Utilisateur> getMembers(Long idProjet);
     int getFileCount(Long idProjet);
 }

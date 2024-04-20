@@ -66,7 +66,7 @@ public class ProjetServiceImpl implements ProjetService {
         return repos.getMembersCount(idProjet);
     }
     @Override
-    public List<Projet> getMembers(Long idProjet) {
+    public List<Utilisateur> getMembers(Long idProjet) {
         return repos.getMembers(idProjet);
     }
     @Override

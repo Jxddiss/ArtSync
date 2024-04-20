@@ -1,9 +1,10 @@
 document.addEventListener("DOMContentLoaded", function() {
     //====== Déclaration des variables
-    let streamerPeerConnection;
+    let streamerPeerConnections = [];
     let streamerStream;
     let stompClientStream;
     let offer;
+
 
 
     // ==== Configuration des ICE servers (En cas de problème de parfeu pour la connection peer to peer )
@@ -18,7 +19,16 @@ document.addEventListener("DOMContentLoaded", function() {
     if (navigator.mediaDevices.getUserMedia) {
         navigator.mediaDevices.getUserMedia({ video: true,audio: true })
             .then(stream => {
-                startLive(stream);
+                const socketStream = new SockJS('/websocket');
+                stompClientStream = Stomp.over(socketStream);
+                streamerStream = stream;
+                stompClientStream.connect({}, function (frame){
+                    stompClientStream.subscribe('/topic/live/new/' + userPseudo, (newViewerEvent) => {
+                        const viewerPseudo = newViewerEvent.body;
+                        handleNewViewer(viewerPseudo);
+                    });
+                    stompClientStream.send()
+                });
                 streamVideo.srcObject = stream;
             })
             .catch(function (error) {
@@ -26,72 +36,68 @@ document.addEventListener("DOMContentLoaded", function() {
             });
     }
 
-    function startLive(stream){
-        streamerStream = stream;
-        streamerPeerConnection = new RTCPeerConnection(config);
+    function handleNewViewer(viewerPseudo){
+        const viewerPeerConnection = new RTCPeerConnection(config);
+        streamerPeerConnections.push({
+            username: viewerPseudo,
+            peerConnection: viewerPeerConnection
+        });
 
-        const socketStream = new SockJS('/websocket');
-        stompClientStream = Stomp.over(socketStream);
 
-        stompClientStream.connect({}, function (frame){
+        const currentViewer = streamerPeerConnections.find(viewer => viewer.username === viewerPseudo);
+        const streamerPeerConnection = currentViewer.peerConnection;
 
-            streamerPeerConnection.createOffer().then((description) => {
-                streamerPeerConnection.setLocalDescription(description);
-                console.log("Setting local description : " + JSON.stringify(description));
+        //=== préparation de l'envoie de notre vidéo, on l'ajoute à la connexion
+        streamerStream.getTracks().forEach(track => streamerPeerConnection.addTrack(track, streamerStream));
 
-                stompClientStream.send('/app/live/'+userPseudo,{}, JSON.stringify({
-                    fromUser: userPseudo,
-                    answer: description
-                }));
-            });
-
-            stompClientStream.subscribe('/topic/live/offers/'+userPseudo,(of) =>{
-                offer = JSON.parse(of.body)["offer"];
-
-                //=== Ce qui sera fait a chaque fois qu'un ICE candidate est ajouté à la connection
-                streamerPeerConnection.onicecandidate = (event) => {
-                    if (event.candidate) {
-                        var candidate = {
-                            type: 'candidate',
-                            label: event.candidate.sdpMLineIndex,
-                            id: event.candidate.candidate,
-                        }
-                        console.log("sending candidate : " + JSON.stringify(candidate));
-                        stompClientStream.send('/app/live/candidate/'+userPseudo, {}, JSON.stringify({
-                            fromUser: userPseudo,
-                            candidate: candidate
-                        }));
-                    }
+        //=== Ce qui sera fait a chaque fois qu'un ICE candidate est ajouté à la connection
+        streamerPeerConnection.onicecandidate = (event) => {
+            if (event.candidate) {
+                var candidate = {
+                    type: 'candidate',
+                    label: event.candidate.sdpMLineIndex,
+                    id: event.candidate.candidate,
                 }
+                console.log("sending candidate : " + JSON.stringify(candidate));
+                stompClientStream.send('/app/live/candidate/'+viewerPseudo+'/'+userPseudo, {}, JSON.stringify({
+                    fromUser: userPseudo,
+                    candidate: candidate
+                }));
+            }
+        }
 
-                //=== préparation de l'envoie de notre vidéo, on l'ajoute à la connexion
-                streamerPeerConnection.getTracks().forEach(track => streamerPeerConnection.addTrack(track, streamerStream));
+        streamerPeerConnection.createOffer().then((description) => {
+            streamerPeerConnection.setLocalDescription(description);
+            console.log("Setting local description : " + JSON.stringify(description));
 
-                //=== met l'offre en remote description
-                streamerPeerConnection.setRemoteDescription(new RTCSessionDescription(offer));
+            stompClientStream.send('/app/live/offer/'+userPseudo+"/"+viewerPseudo,{}, JSON.stringify({
+                fromUser: userPseudo,
+                offer: description
+            }));
+        });
 
-                //=== Préparation de l'offre de connexion, et on met la description de la connexion en local decription
-                // de notre côté
-                streamerPeerConnection.createAnswer().then((description) => {
-                    streamerPeerConnection.setLocalDescription(description);
-                    console.log("Setting local description : " + JSON.stringify(description));
-                    stompClientStream.send('/app/live/answer/'+userPseudo, {}, JSON.stringify({
-                        fromUser: userPseudo,
-                        answer: description
-                    }));
-                });
+        stompClientStream.subscribe('/topic/live/answer/'+viewerPseudo+'/'+userPseudo,(ans) =>{
+            var answer = JSON.parse(ans.body)["answer"];
+            console.log("answer : "+answer);
+            streamerPeerConnection.setRemoteDescription(new RTCSessionDescription(answer));
+        });
+
+        stompClientStream.subscribe('/topic/live/candidate/'+userPseudo+'/'+viewerPseudo, (candidate) => {
+            console.log("candidate de : " + candidate.body);
+            var candidateO = JSON.parse(candidate.body)["candidate"];
+            var iceCandidate = new RTCIceCandidate({
+                sdpMLineIndex: candidateO["label"],
+                candidate: candidateO["id"]
             });
-
-            stompClientStream.subscribe('/topic/live/candidate/'+userPseudo, (candidate) => {
-                console.log("candidate de : " + candidate.body);
-                var candidateO = JSON.parse(candidate.body)["candidate"];
-                var iceCandidate = new RTCIceCandidate({
-                    sdpMLineIndex: candidateO["label"],
-                    candidate: candidateO["id"]
-                });
-                streamerPeerConnection.addIceCandidate(iceCandidate);
-                console.log("added candidate : " + JSON.stringify(candidateO));
-            });
+            if (streamerStream.remoteDescription){
+                streamerPeerConnection.addIceCandidate(iceCandidate)
+                    .then(()=>{
+                        console.log("added candidate : " + JSON.stringify(candidateO));
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+            }
         });
     }
 });

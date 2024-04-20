@@ -1,17 +1,35 @@
 package com.artcorp.artsync.controller.websocket;
 
+import com.artcorp.artsync.entity.Utilisateur;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 @Controller
 public class LiveStreamController {
+    private final SimpMessagingTemplate messagingTemplate;
+    private Logger LOGGER = LoggerFactory.getLogger(getClass());
+
+    @Autowired
+    public LiveStreamController(SimpMessagingTemplate messagingTemplate) {
+        this.messagingTemplate = messagingTemplate;
+    }
 
     @GetMapping("/live")
     public String live(){
@@ -23,7 +41,9 @@ public class LiveStreamController {
                             HttpServletRequest request,
                             RedirectAttributes redirectAttributes){
         HttpSession session = request.getSession(false);
-        if (session.getAttribute("user") != null){
+        Utilisateur user = (Utilisateur) session.getAttribute("user");
+        if (user != null){
+            String pseudo = user.getPseudo();
             model.addAttribute("isStreamer",true);
             return "utilisateur/live-stream";
         }
@@ -37,8 +57,10 @@ public class LiveStreamController {
                            RedirectAttributes redirectAttributes,
                            @PathVariable String pseudo){
         HttpSession session = request.getSession(false);
-        if (session.getAttribute("user") != null){
-            model.addAttribute("isStreamer",true);
+        Utilisateur user = (Utilisateur) session.getAttribute("user");
+        if (user != null){
+            String viewerPseudo = user.getPseudo();
+            model.addAttribute("isStreamer",false);
             model.addAttribute("pseudoStreamer", pseudo);
             return "utilisateur/live-stream";
         }
@@ -46,27 +68,32 @@ public class LiveStreamController {
         return "redirect:/authentification";
     }
 
-    @MessageMapping("/live/{pseudo}")
-    @SendTo("/topic/live/{pseudo}")
-    public String liveVideo(String offer){
+    @MessageMapping("/live/offer/{pseudo}")
+    @SendTo("/topic/live/offer/{pseudo}")
+    public String liveVideo(@DestinationVariable String pseudo, String offer){
+        LOGGER.info("offer : " + offer);
         return offer;
     }
 
-    @MessageMapping("/live/offers/{pseudo}")
-    @SendTo("/topic/live/offers/{pseudo}")
-    public String liveVideoOffers(String offer){
-        return offer;
+    @MessageMapping("/live/new/{pseudo}")
+    @SendTo("/topic/live/new/{pseudo}")
+    public String liveVideo(String pseudo){
+        return pseudo;
     }
 
-    @MessageMapping("/live/answer/{pseudo}")
-    @SendTo("/topic/live/answer/{pseudo}")
-    public String liveVideoAnswers(String answer){
+    @MessageMapping("/live/answer/{pseudo1}/{pseudo2}")
+    @SendTo("/topic/live/answer/{pseudo2}/{pseudo1}")
+    public String liveVideoAnswers(@DestinationVariable String pseudo1, String answer){
+        LOGGER.info("Received answer for user: " + pseudo1);
+        LOGGER.info("Answer: " + answer);
         return answer;
     }
 
-    @MessageMapping("/live/candidate/{pseudo}")
-    @SendTo("/topic/live/candidate/{pseudo}")
-    public String liveVideoCandidate(String candidate){
+    @MessageMapping("/live/candidate/{pseudo1}/{pseudo2}")
+    @SendTo("/topic/live/candidate/{pseudo2}/{pseudo1}")
+    public String liveVideoCandidate(@DestinationVariable String pseudo1, String candidate){
+        LOGGER.info("Received candidate for user: " + pseudo1);
+        LOGGER.info("Candidate: " + candidate);
         return candidate;
     }
 }

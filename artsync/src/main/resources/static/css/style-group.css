@@ -4,7 +4,7 @@
 
 .content{
     display: flex;
-
+    margin-top: 2%;
     height: 45rem;
     width: 100%;
 }
@@ -13,14 +13,14 @@
 .verticalNavbar{
     display: flex;
     flex-direction: column;
-    align-items: center;
-    width: 15%;
-    background: radial-gradient(ellipse at top, #f9f9ff 25%,#d9f3fa 100%) fixed;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 15px;
-    margin-left: 8%;
+    width: 20%;
+    border-right: 1px solid black ;
+}
+.verticalNavbar h4{
+    margin-left: 10%;
 }
 .verticalNavbar hr{
+    margin-left: 5%;
     width: 85%;
 }
 .projectHolder{
@@ -40,7 +40,6 @@
 .project:hover{
     cursor: pointer;
     transition: 0.25s;
-    transform: translateX(5%);
     background-color: rgb(0,0,0,0.1);
 }
 .project img{
@@ -55,13 +54,13 @@
     font-weight: 400;
 }
 .add{
-    margin-top: 5%;
     border: 3px dotted rgb(0,0,0,0.5);
     border-radius: 7px;
     display: flex;
     align-items: center;
     margin-inline: 5%;
     padding-inline: 5%;
+    width: 85%;
     gap: 1rem;
 }
 .add:hover{
@@ -80,17 +79,21 @@
     font-size: 17px;
     margin: 0;
 }
+#optionsHr{
+    margin-left:10%;
+    margin-top:15%
+}
 .navbarOptions{
     width: 85%;
 }
 .leaveBtn{
     display: flex;
     gap: 0.5rem;
+    margin-left: 5%;
     text-decoration: none;
     color: rgb(255, 105, 105);
     font-weight: 450;
     font-size: 20px;
-    margin-top: 5%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -113,11 +116,9 @@
 .projectContent{
     display: flex;
     flex-direction: row;
-    width: 68%;
+    width: 75%;
     height: 100%;
-    background: radial-gradient(ellipse at top, #f9f9ff 25%,#d9f3fa 100%) fixed;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 15px;
+
 }
 
 .projectInfo{
@@ -160,8 +161,7 @@
     gap: 1rem;
     padding-inline: 2%;
     height: 100%;
-    width: 75%;
-
+    width: 85%;
 }
 
 .projectHeader{
@@ -273,7 +273,6 @@
 .taskHolder{
     display: flex;
     height: 60%;
-
     padding: 2%;
     gap: 1rem;
 }
@@ -449,7 +448,7 @@
     flex-direction: column;
     align-items: center;
     height: 100%;
-    width: 24%;
+    width: 25%;
 }
 .annonceHeader{
     margin-top: 15%;

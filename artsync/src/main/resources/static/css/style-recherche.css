@@ -124,8 +124,8 @@
     height: 100%;
 }
 .userProfilPic img{
-    height: 75%;
-    width: auto;
+    height: 4rem;
+    width: 4rem;
     border-radius: 50%;
 }
 .userInfo{

@@ -57,4 +57,16 @@ public class TacheServiceImpl implements TacheService {
     public List<Tache> findByEtatAndProjetId(String etat, Long projetId) {
         return repos.findByEtatAndProjetId(etat, projetId);
     }
+    @Override
+    public Tache createTache(Tache tache) {
+        return repos.save(tache);
+    }
+    @Override
+    public void deleteTache(Long id) {
+        repos.deleteById(id);
+    }
+    @Override
+    public Tache updateTache(Tache tache) {
+        return repos.save(tache);
+    }
 }

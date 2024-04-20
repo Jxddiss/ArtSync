@@ -1,6 +1,8 @@
 package com.artcorp.artsync.controller;
 
 import com.artcorp.artsync.entity.Annonce;
+import com.artcorp.artsync.entity.Projet;
+import com.artcorp.artsync.entity.Tache;
 import com.artcorp.artsync.entity.Utilisateur;
 import com.artcorp.artsync.service.*;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -143,6 +146,106 @@ public class GroupController {
         annonce.setMessage(message);
         annonceService.createAnnonce(annonce);
         return "redirect:/groupe/group/{projetId}";
+    }
+
+    @GetMapping("/groupe/create/{projetId}")
+    public String createTache(@PathVariable("projetId") Long projetId, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            return "auth";
+        }
+        Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+        model.addAttribute("utilisateur", utilisateur);
+        model.addAttribute("membres", projetService.getMembers(projetId));
+        model.addAttribute("projet", projetService.findById(projetId));
+        model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
+        model.addAttribute("nbMembres", projetService.getMembersCount(projetId));
+        model.addAttribute("nbFichiers", projetService.getFileCount(projetId));
+        model.addAttribute("annonces", annonceService.findByProjetId(projetId));
+        return "groupe/group-createTache";
+    }
+
+    @PostMapping("groupe/create/tache/{projetId}")
+    public String createTache(@PathVariable Long projetId,
+                              @RequestParam("titre") String titre,
+                              @RequestParam("description") String description,
+                              @RequestParam("etat") String etat,
+                              @RequestParam("utilisateur") Long utilisateurId,
+                              @RequestParam(value = "tacheId", defaultValue = "-1") Long tacheId,
+                              Model model,
+                              HttpServletRequest request) {
+
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            return "auth";
+        }
+        Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+        Utilisateur user = userService.findById(utilisateurId);
+        Tache tache = (tacheId != -1) ? tacheService.findById(tacheId) : new Tache();
+        tache.setTitre(titre);
+        tache.setDescription(description);
+        tache.setEtat(etat);
+        tache.setProjet(projetService.findById(projetId));
+        tache.setUtilisateur(user);
+        tache.setDateCreation(LocalDateTime.now());
+        tache.setDateModification(LocalDateTime.now());
+
+        if (tacheId != -1) {
+            tacheService.updateTache(tache);
+        } else {
+            tacheService.createTache(tache);
+        }
+        model.addAttribute("utilisateur", utilisateur);
+        model.addAttribute("projet", projetService.findById(projetId));
+        model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
+        model.addAttribute("nbMembres", projetService.getMembersCount(projetId));
+        model.addAttribute("nbFichiers", projetService.getFileCount(projetId));
+        model.addAttribute("annonces", annonceService.findByProjetId(projetId));
+
+        return "redirect:/groupe/group-tache/{projetId}";
+    }
+    @GetMapping("groupe/group-tache/{projetId}/{tacheId}")
+    public String deleteTask(@PathVariable Long projetId,
+                             @PathVariable Long tacheId,
+                             Model model,
+                             HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            return "auth";
+        }
+        Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+        model.addAttribute("utilisateur", utilisateur);
+        model.addAttribute("projet", projetService.findById(projetId));
+        model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
+        model.addAttribute("nbMembres", projetService.getMembersCount(projetId));
+        model.addAttribute("nbFichiers", projetService.getFileCount(projetId));
+        model.addAttribute("annonces", annonceService.findByProjetId(projetId));
+        tacheService.deleteTache(tacheId);
+
+        return "redirect:/groupe/group-tache/{projetId}";
+    }
+
+    @GetMapping("groupe/group-tache/update/{projetId}/{tacheId}")
+    public String updateTask(@PathVariable Long projetId,
+                             @PathVariable Long tacheId,
+                             Model model,
+                             HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            return "auth";
+        }
+        Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+        model.addAttribute("utilisateur", utilisateur);
+        model.addAttribute("projet", projetService.findById(projetId));
+        model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
+        model.addAttribute("membres", projetService.getMembers(projetId));
+        model.addAttribute("nbMembres", projetService.getMembersCount(projetId));
+        model.addAttribute("nbFichiers", projetService.getFileCount(projetId));
+        model.addAttribute("annonces", annonceService.findByProjetId(projetId));
+        Tache tache = tacheService.findById(tacheId);
+        model.addAttribute("tache", tache);
+
+        return "groupe/group-createTache";
     }
 
 }

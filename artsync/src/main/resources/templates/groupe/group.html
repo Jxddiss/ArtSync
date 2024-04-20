@@ -95,9 +95,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     </div>
                 </div>
 
-                <div class="taskAdd">
+                <a th:href="@{/groupe/create/{projetId}(projetId=${projet.getId()})}" class="taskAdd">
                     <p><i class="bi bi-plus"></i> Ajouter tâche</p>
-                </div>
+                </a>
             </div>
         </div>
 
@@ -139,9 +139,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         </div>
                     </div>
                 </div>
-                <div class="taskAdd">
+                <a th:href="@{/groupe/create/{projetId}(projetId=${projet.getId()})}" class="taskAdd">
                     <p><i class="bi bi-plus"></i> Ajouter tâche</p>
-                </div>
+                </a>
             </div>
         </div>
         <!--Tache terminé-->
@@ -168,9 +168,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         </div>
                     </div>
                 </div>
-                <div class="taskAdd">
+                <a th:href="@{/groupe/create/{projetId}(projetId=${projet.getId()})}" class="taskAdd">
                     <p><i class="bi bi-plus"></i> Ajouter tâche</p>
-                </div>
+                </a>
             </div>
         </div>
     </div>

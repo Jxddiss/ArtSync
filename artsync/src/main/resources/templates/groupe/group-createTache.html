@@ -30,44 +30,38 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     <div th:replace="~{fragment/groupFragments :: groupHeaderFragment}">
 
     </div>
-        <!--Users-->
-        <div class="taskShowHolder">
-            <form action="">
-                <div class="searchBar">
-                    <input class="rechercheUser" type="text" id="tacheSearch" placeholder="Rechercher une tâche">
-                    <a th:href="@{/groupe/create/{projetId}(projetId=${projet.getId()})}" class="addTache">
-                        CRÉER UNE TÂCHE
-                    </a>
-                </div>
-            </form>
-
-            <div class="taskShowScroller">
-                <div th:each="tache : ${taches}" class="tacheCard">
-                    <a th:href="@{/groupe/group-tache/update/{projetId}/{tacheId}(projetId=${projet.getId()}, tacheId=${tache.getId()})}" class="tacheCardHeader">
-                        <div class="d-flex align-item-center justify-content-between">
-                            <h4>[[${tache.getTitre()}]]</h4>
-                            <p>[[${tache.dateCreation}]] <i class="bi bi-clock"></i></p>
-                        </div>
-
-                        <p>[[${tache.getDescription()}]]</p>
-
-                        <p class="etat" id="encours">[[${tache.getEtat()}]]</p>
-                        <hr>
-                    </a>
-                    <div th:object="${tache.getUtilisateur()}" class="d-flex tacheInfoUser">
-                        <img th:src="@{/media/images/{image}(image=${tache.getUtilisateur().getPhotoUrl()})}" alt="">
-                        <div class="d-flex flex-column tacheInfoUserCredentials">
-                            <p>[[${tache.utilisateur.getNom()}]] [[${tache.utilisateur.getPrenom()}]]</p>
-                            <b>@[[${tache.utilisateur.getPseudo()}]]</b>
-                        </div>
-                        <div class="tacheOptionsRight">
-                            <a th:href="@{/groupe/group-tache/{projetId}/{tacheId}(projetId=${projet.getId()}, tacheId=${tache.getId()})}" class="tacheCardFooterRightBtn"><i class="bi bi-trash"></i></a>
-                        </div>
+        <div class="taskCreateHolder">
+            <div class="formHolder">
+                <form th:action="@{/groupe/create/tache/{projetId}(projetId=${projetId})}" method="post">
+                    <label>Titre</label>
+                    <input type="text" name="titre" style="background-color: transparent" th:value="${tache != null ? tache.titre : ''}">
+                    <label>Description</label>
+                    <textarea name="description" cols="30" rows="10" style="background-color: transparent" th:text="${tache != null ? tache.description : ''}"></textarea>
+                    <div class="radioHolder">
+                        <input type="radio" th:checked="${tache != null && tache.etat == 'A faire'}" name="etat" value="A faire" id="afaire">
+                        <label class="etat1" for="afaire" id="noncommencee">Non commencé</label>
+                        <input type="radio" th:checked="${tache == null || (tache != null && tache.etat == 'En cours')}" name="etat" value="En cours" id="encours">
+                        <label class="etat1" for="encours" id="encours">En cours</label>
+                        <input type="radio" th:checked="${tache != null && tache.etat == 'Terminé'}" name="etat" value="Terminé" id="termine">
+                        <label class="etat1" for="termine" id="terminee">Terminé</label>
                     </div>
-                </div>
-
+                    <input type="hidden" name="tacheId" th:value="${tache != null ? tache.id : -1}">
+                    <select name="utilisateur" style="background-color: transparent">
+                        <option th:each="membre : ${membres}" th:value="${membre.getId()}" th:text="${membre.getPseudo()}" th:selected="${tache != null && tache.utilisateur.id == membre.getId()}"></option>
+                    </select>
+                    <div class="btnHolder">
+                        <button type="submit" th:text="${tache != null ? 'Mettre à jour' : 'CRÉER'}">CRÉER</button>
+                    </div>
+                </form>
             </div>
+            <div class="fichierHolder">
+                <div class="apercu">
+                    <img src="" alt="">
+                </div>
+            </div>
+
         </div>
+
     </div>
     <!--Annonces-->
     <div th:replace="~{fragment/annonceFragment :: annoncesFragment}">

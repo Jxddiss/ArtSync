@@ -12,4 +12,8 @@ public interface TacheService {
     List<Tache> findByProjetId(Long id);
     List<Tache> findByUtilisateurIdAndProjetId(Long utilisateurId, Long projetId);
     List<Tache> findByEtatAndProjetId(String etat, Long projetId);
+    Tache createTache(Tache tache);
+    void deleteTache(Long id);
+    Tache updateTache(Tache tache);
+
 }

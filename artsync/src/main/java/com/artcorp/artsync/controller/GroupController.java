@@ -101,5 +101,22 @@ public class GroupController {
 
         return "groupe/group-tache";
     }
+    @GetMapping("/groupe/group-demande/{projetId}")
+    public String getDemandeProjet(@PathVariable("projetId") Long projectId, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            return "auth";
+        }
+        Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+        model.addAttribute("utilisateur", utilisateur);
+        model.addAttribute("projet", projetService.findById(projectId));
+        model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
+        model.addAttribute("nbMembres", projetService.getMembersCount(projectId));
+        model.addAttribute("nbFichiers", projetService.getFileCount(projectId));
+        model.addAttribute("annonces", annonceService.findByProjetId(projectId));
+        model.addAttribute("demandes", demandeService.findByProjetId(projectId));
+
+        return "groupe/group-demande";
+    }
 
 }

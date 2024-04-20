@@ -118,5 +118,24 @@ public class GroupController {
 
         return "groupe/group-demande";
     }
+    @GetMapping("/groupe/group-gestion/{projetId}")
+    public String redirectGestion(@PathVariable("projetId") Long projectId, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            return "auth";
+        }
+        Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+        if (!projetService.findById(projectId).getAdmin().getId().equals(utilisateur.getId())) {
+            return "groupe/group";
+        }
+        model.addAttribute("utilisateur", utilisateur);
+        model.addAttribute("projet", projetService.findById(projectId));
+        model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
+        model.addAttribute("nbMembres", projetService.getMembersCount(projectId));
+        model.addAttribute("nbFichiers", projetService.getFileCount(projectId));
+        model.addAttribute("annonces", annonceService.findByProjetId(projectId));
+
+        return "groupe/group-gestion";
+    }
 
 }

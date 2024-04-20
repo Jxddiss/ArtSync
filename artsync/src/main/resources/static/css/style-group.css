@@ -520,7 +520,7 @@
     height: 50rem;
 }
 .rechercheUser{
-    width: 90%;
+    width: 100%;
     margin-right: 1%;
     background-color: transparent;
     border: 1px solid black;
@@ -530,18 +530,10 @@
 }
 .rechercheUser:focus{
     outline: none;
-    scale: 1.025;
+    scale: 1.015;
     transition: 0.25s;
 }
-.recherchebtn{
-    background-color: rgb(0,0,0,0.8);
-    border: none;
-    border-radius: 5px;
-    color: white;
-    height: 2.25rem;
-    width: 2.25rem;
-    font-size: 18px;
-}
+
 .recherchebtn:hover{
     cursor: pointer;
     background-color: rgb(0,0,0,1);

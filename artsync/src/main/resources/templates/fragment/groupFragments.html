@@ -42,9 +42,9 @@
             <div class="options">
                 <a th:href="@{/groupe/group/{projetId}(projetId=${projet.getId()})}" class="optionSelected">Tableau de Bord</a>
                 <a th:href="@{/groupe/group-tache/{projetId}(projetId=${projet.getId()})}">Tâche</a>
-                <a href="">Conversation</a>
+                <a th:href="@{/utilisateur/conversation}">Conversation</a>
                 <a th:if="${projet.getAdmin() != null and session.user != null and projet.getAdmin().getId()==session.user.getId()}" th:href="@{/groupe/group-demande/{projetId}(projetId=${projet.getId()})}">Demande</a>
-                <a th:if="${projet.getAdmin() != null and session.user != null and projet.getAdmin().getId()==session.user.getId()}" href="">Gestion</a>
+                <a th:if="${projet.getAdmin() != null and session.user != null and projet.getAdmin().getId()==session.user.getId()}" th:href="@{/groupe/group-gestion/{projetId}(projetId=${projet.getId()})}">Gestion</a>
             </div>
             <!--Membres et fichiers-->
             <div class="projectInfoContent">

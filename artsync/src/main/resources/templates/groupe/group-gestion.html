@@ -31,29 +31,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 
     </div>
         <!--Users-->
-        <div class="userHolder">
-            <form action="">
-                <div class="searchBar">
-                    <input class="rechercheUser" type="text" placeholder="Rechercher un utilisateur">
-                </div>
-            </form>
+        <div class="gestionContainer">
 
-            <div class="userHolderScroller">
-                <div th:each="membre : ${membres}" class="userCard">
-                    <a th:href="@{/utilisateur/profil/{pseudo}(pseudo=${membre.pseudo})}" class="userImgHolder">
-                        <img th:src="@{/media/images/{image}(image=${membre.getPhotoUrl()})}" alt="test">
-                    </a>
-                    <div class="userCardInfo">
-                        <p>[[${membre.prenom}]] [[${membre.nom}]] <span style="color: #5c91e1" th:if="${projet.getAdmin() != null and session.user != null and projet.getAdmin().getId() == session.user.getId()}"><i class="bi bi-star-fill"></i></span></p>
-                        <b>@[[${membre.pseudo}]]</b>
-                        <p>Artiste [[${membre.specialisation}]]</p>
-                    </div>
-                    <div class="optionBtn">
-                        <a th:if="${projet.getAdmin() != null and projet.getAdmin().getId() == session.user.getId()}" href="">SUPPRIMER</a>
-                    </div>
-                </div>
-            </div>
         </div>
+
     </div>
     <!--Annonces-->
     <div th:replace="~{fragment/annonceFragment :: annoncesFragment}">

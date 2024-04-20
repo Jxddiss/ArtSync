@@ -9,7 +9,7 @@
         <div th:each="annonce : ${annonces}" class="annonce">
             <p>[[${annonce.getMessage()}]]</p>
             <p><b>@[[${annonce.getUtilisateur().getPseudo()}]]</b></p>
-            <p>2024-03-31</p>
+            <p>[[${annonce.getDateCreation().toLocalDate()}]]</p>
             <hr>
         </div>
     </div>

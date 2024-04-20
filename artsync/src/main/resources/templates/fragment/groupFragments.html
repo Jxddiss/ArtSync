@@ -31,12 +31,12 @@
         <div class="projectContainer1">
             <!--Date et bouttons-->
             <div class="projectInfo">
-                <p> Commencé en [[${projet.dateCreation}]]</p> <p class="optionBtns"><i class="bi bi-question-lg"></i> <i class="bi bi-star"></i> <i class="bi bi-three-dots-vertical"></i></p>
+                <p> Commencé en [[${projet.dateCreation.toLocalDate()}]]</p> <p class="optionBtns"><i class="bi bi-question-lg"></i> <i class="bi bi-star"></i> <i class="bi bi-three-dots-vertical"></i></p>
             </div>
             <!--Titre et dernière mise à jour-->
             <div class="projectHeader">
                 <h3>[[${projet.titre}]]</h3>
-                <p>Mis à jour le [[${projet.dateModification}]]</p>
+                <p>Mis à jour le [[${projet.dateModification.toLocalDate()}]]</p>
             </div>
             <!--Options du projet-->
             <div class="options">

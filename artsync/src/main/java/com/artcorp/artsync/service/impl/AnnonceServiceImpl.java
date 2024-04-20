@@ -20,8 +20,9 @@ public class AnnonceServiceImpl implements AnnonceService {
     }
     @Override
     public List<Annonce> findByProjetId(Long id) {
-        return repos.findByProjetId(id);
-
+        List<Annonce> annonces = repos.findByProjetId(id);
+        annonces.sort((a1, a2) -> a2.getDateCreation().compareTo(a1.getDateCreation()));
+        return annonces;
     }
     @Override
     public Annonce createAnnonce(Annonce annonce) {

@@ -47,9 +47,6 @@ document.addEventListener("DOMContentLoaded", function() {
         const currentViewer = streamerPeerConnections.find(viewer => viewer.username === viewerPseudo);
         const streamerPeerConnection = currentViewer.peerConnection;
 
-        //=== préparation de l'envoie de notre vidéo, on l'ajoute à la connexion
-        streamerStream.getTracks().forEach(track => streamerPeerConnection.addTrack(track, streamerStream));
-
         //=== Ce qui sera fait a chaque fois qu'un ICE candidate est ajouté à la connection
         streamerPeerConnection.onicecandidate = (event) => {
             if (event.candidate) {
@@ -65,6 +62,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 }));
             }
         }
+
+        //=== préparation de l'envoie de notre vidéo, on l'ajoute à la connexion
+        streamerStream.getTracks().forEach(track => streamerPeerConnection.addTrack(track, streamerStream));
 
         streamerPeerConnection.createOffer().then((description) => {
             streamerPeerConnection.setLocalDescription(description);

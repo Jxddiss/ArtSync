@@ -68,9 +68,9 @@ public class LiveStreamController {
         return "redirect:/authentification";
     }
 
-    @MessageMapping("/live/offer/{pseudo}")
-    @SendTo("/topic/live/offer/{pseudo}")
-    public String liveVideo(@DestinationVariable String pseudo, String offer){
+    @MessageMapping("/live/offer/{pseudo1}/{pseudo2}")
+    @SendTo("/topic/live/offer/{pseudo1}/{pseudo2}")
+    public String liveVideo(@DestinationVariable String pseudo1, String offer){
         LOGGER.info("offer : " + offer);
         return offer;
     }
@@ -82,7 +82,7 @@ public class LiveStreamController {
     }
 
     @MessageMapping("/live/answer/{pseudo1}/{pseudo2}")
-    @SendTo("/topic/live/answer/{pseudo2}/{pseudo1}")
+    @SendTo("/topic/live/answer/{pseudo1}/{pseudo2}")
     public String liveVideoAnswers(@DestinationVariable String pseudo1, String answer){
         LOGGER.info("Received answer for user: " + pseudo1);
         LOGGER.info("Answer: " + answer);
@@ -90,7 +90,7 @@ public class LiveStreamController {
     }
 
     @MessageMapping("/live/candidate/{pseudo1}/{pseudo2}")
-    @SendTo("/topic/live/candidate/{pseudo2}/{pseudo1}")
+    @SendTo("/topic/live/candidate/{pseudo1}/{pseudo2}")
     public String liveVideoCandidate(@DestinationVariable String pseudo1, String candidate){
         LOGGER.info("Received candidate for user: " + pseudo1);
         LOGGER.info("Candidate: " + candidate);

@@ -34,10 +34,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <div class="demandeHolder">
 
             <div class="demandeHolderScroller">
-                <div th:each="demande : ${demandes}" class="userCard">
-                    <div class="userImgHolder">
+                <div  th:each="demande : ${demandes}" class="userCard">
+                    <a th:href="@{/utilisateur/profil/{pseudo}(pseudo=${demande.utilisateur.pseudo})}" class="userImgHolder">
                         <img th:src="@{/media/images/{image}(image=${demande.utilisateur.getPhotoUrl()})}" alt="test">
-                    </div>
+                    </a>
                     <div class="demandeCardInfo">
                         <p>[[${demande.utilisateur.prenom}]] [[${demande.utilisateur.nom}]]</p>
                         <b>@[[${demande.utilisateur.pseudo}]]</b>
@@ -47,9 +47,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         <a href="" id="accept">ACCEPTER</a>
                         <a href="" id="refuse">REFUSER</a>
                     </div>
-                </div>
+                </di>
             </div>
         </div>
+    </div>
     </div>
     <!--Annonces-->
     <div th:replace="~{fragment/annonceFragment :: annoncesFragment}">

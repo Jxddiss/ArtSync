@@ -41,9 +41,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 
             <div class="userHolderScroller">
                 <div th:each="membre : ${membres}" class="userCard">
-                    <div class="userImgHolder">
+                    <a th:href="@{/utilisateur/profil/{pseudo}(pseudo=${membre.pseudo})}" class="userImgHolder">
                         <img th:src="@{/media/images/{image}(image=${membre.getPhotoUrl()})}" alt="test">
-                    </div>
+                    </a>
                     <div class="userCardInfo">
                         <p>[[${membre.prenom}]] [[${membre.nom}]] <span style="color: #5c91e1" th:if="${projet.getAdmin() != null and session.user != null and projet.getAdmin().getId() == session.user.getId()}"><i class="bi bi-star-fill"></i></span></p>
                         <b>@[[${membre.pseudo}]]</b>

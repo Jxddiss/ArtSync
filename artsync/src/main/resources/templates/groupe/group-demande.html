@@ -34,7 +34,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <div class="demandeHolder">
 
             <div class="demandeHolderScroller">
-                <div  th:each="demande : ${demandes}" class="userCard">
+                <div th:if="${demandes.empty}" class="noDemandesMessage d-flex justify-content-center">
+                    <h4>Aucune demandes</h4>
+                </div>
+                <div th:each="demande : ${demandes}" class="userCard">
                     <a th:href="@{/utilisateur/profil/{pseudo}(pseudo=${demande.utilisateur.pseudo})}" class="userImgHolder">
                         <img th:src="@{/media/images/{image}(image=${demande.utilisateur.getPhotoUrl()})}" alt="test">
                     </a>
@@ -44,8 +47,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         <p>Artiste [[${demande.utilisateur.specialisation}]]</p>
                     </div>
                     <div class="optionBtnDemande">
-                        <a href="" id="accept">ACCEPTER</a>
-                        <a href="" id="refuse">REFUSER</a>
+                        <a th:href="@{/groupe/group-demande/accepter/{projetId}/{demandeId}(projetId=${projetId}, demandeId=${demande.getId()})}" id="accept">ACCEPTER</a>
+                        <a th:href="@{/groupe/group-demande/refuser/{projetId}/{demandeId}(projetId=${projetId}, demandeId=${demande.getId()})}" id="refuse">REFUSER</a>
                     </div>
                 </div>
             </div>

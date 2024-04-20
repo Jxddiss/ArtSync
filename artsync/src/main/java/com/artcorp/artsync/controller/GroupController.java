@@ -1,9 +1,6 @@
 package com.artcorp.artsync.controller;
 
-import com.artcorp.artsync.entity.Annonce;
-import com.artcorp.artsync.entity.Projet;
-import com.artcorp.artsync.entity.Tache;
-import com.artcorp.artsync.entity.Utilisateur;
+import com.artcorp.artsync.entity.*;
 import com.artcorp.artsync.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -14,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class GroupController {
@@ -247,5 +245,49 @@ public class GroupController {
 
         return "groupe/group-createTache";
     }
+    @GetMapping("groupe/group-demande/refuser/{projetId}/{demandeId}")
+    public String refuserDemande(@PathVariable Long projetId,
+                                 @PathVariable Long demandeId,
+                                 Model model,
+                                 HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            return "auth";
+        }
+        Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+        model.addAttribute("utilisateur", utilisateur);
+        model.addAttribute("projet", projetService.findById(projetId));
+        model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
+        model.addAttribute("membres", projetService.getMembers(projetId));
+        model.addAttribute("nbMembres", projetService.getMembersCount(projetId));
+        model.addAttribute("nbFichiers", projetService.getFileCount(projetId));
+        model.addAttribute("annonces", annonceService.findByProjetId(projetId));
+        demandeService.deleteDemande(demandeId);
 
+        return "redirect:/groupe/group-demande/{projetId}";
+    }
+    @GetMapping("groupe/group-demande/accepter/{projetId}/{demandeId}")
+    public String accepterDemande(@PathVariable Long projetId,
+                                  @PathVariable Long demandeId,
+                                  Model model,
+                                  HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            return "auth";
+        }
+        Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+        model.addAttribute("utilisateur", utilisateur);
+        model.addAttribute("projet", projetService.findById(projetId));
+        model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
+        model.addAttribute("membres", projetService.getMembers(projetId));
+        model.addAttribute("nbMembres", projetService.getMembersCount(projetId));
+        model.addAttribute("nbFichiers", projetService.getFileCount(projetId));
+        model.addAttribute("annonces", annonceService.findByProjetId(projetId));
+        Optional<Demande> demande = demandeService.findById(demandeId);
+        Utilisateur userToAdd = demande.get().getUtilisateur();
+        projetService.addUtilisateurToProjet(projetId, userToAdd.getId());
+        demandeService.deleteDemande(demandeId);
+        projetService.addUtilisateurToProjet(projetId, userToAdd.getId());
+        return "redirect:/groupe/group-demande/{projetId}";
+    }
 }

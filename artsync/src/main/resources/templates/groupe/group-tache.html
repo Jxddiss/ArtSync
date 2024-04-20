@@ -42,6 +42,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             </form>
 
             <div class="taskShowScroller">
+                <div th:if="${taches.empty}" style="width: 100% " class="d-flex justify-content-center">
+                    <h4>Aucune tâches</h4>
+                </div>
                 <div th:each="tache : ${taches}" class="tacheCard">
                     <a th:href="@{/groupe/group-tache/update/{projetId}/{tacheId}(projetId=${projet.getId()}, tacheId=${tache.getId()})}" class="tacheCardHeader">
                         <div class="d-flex align-item-center justify-content-between">

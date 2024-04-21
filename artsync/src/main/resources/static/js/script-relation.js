@@ -12,7 +12,6 @@ document.addEventListener("DOMContentLoaded", function() {
 //Carte activité
 document.addEventListener("DOMContentLoaded", function() {
     const activityCards = document.querySelectorAll('.activity-card');
-    console.log("yes");
     activityCards.forEach(function(card, index) {
       setTimeout(function() {
         card.classList.add('animate');
@@ -22,7 +21,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
 const newfilePreview = document.getElementById('newfilePreview');
 if(newfilePreview){
-    console.log("HARRO")
     const fileInput = document.getElementById('filtInput');
     fileInput.addEventListener('change', function(){
         const file = fileInput.files[0];

@@ -969,3 +969,156 @@
     font-weight: 450;
     margin-left: 1rem;
 }
+.fichiersHolder{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    height: 55rem;
+    width: 100%;
+    padding: 2%;
+}
+
+.folder{
+    text-decoration: none;
+    color: black;
+    display: flex;
+    height: 10rem;
+    width: 10rem;
+    justify-content: center;
+    align-items: center;
+}
+.folder:hover{
+    cursor: pointer;
+    transition: 0.25s;
+    scale: 1.1;
+
+}
+.folder i{
+    font-size: 8rem;
+    color: #595959;
+    margin-left: 4rem;
+}
+.folderImgHolder{
+    position: relative;
+    z-index: 1;
+    top: 17%;
+    left: -25%;
+    border: 1px solid black;
+    border-radius: 50%;
+}
+.folderImgHolder img{
+    height: 4rem;
+    width: 4rem;
+    border-radius: 50%;
+}
+.fichier{
+    padding-top: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 19rem;
+    width: 14rem;
+    border-radius: 7px;
+    border: 2px solid #bfc2c7;
+    background-color: rgba(111, 158, 224, 0.04);
+}
+.fichier:hover{
+    cursor: pointer;
+    transition: 0.25s;
+    scale: 1.1;
+    background-color: rgba(111, 158, 224, 0.1);
+    box-shadow: 10px 10px 10px 10px rgb(0,0,0,0.2);
+}
+.fichierImg{
+    border-radius: 7px;
+    height: 14rem;
+    width: 13rem;
+}
+.fichierImg img{
+    height: 100%;
+    width: 100%;
+    border-radius: 7px;
+}
+.fichierInfo{
+    margin-top: 0.75rem;
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    width: 100%;
+}
+.fichierInfo img{
+    height: 3rem;
+    width: 3rem;
+    border-radius: 50%;
+}
+.descFichier p{
+    margin: 0;
+}
+.createFichier{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 6rem;
+    height: 19rem;
+    width: 14rem;
+    background-color: rgba(142, 170, 211, 0.51);
+    border: 4px dashed rgba(92, 145, 225, 0.73);
+    border-radius: 7px;
+}
+.createFichier:hover{
+    transition: 0.25s;
+    scale: 1.05;
+    cursor: pointer;
+}
+
+.createFichier button{
+    border: none;
+    background-color: transparent;
+    color: rgba(92, 145, 225, 0.73);
+}
+.dialogFichier{
+    padding: 1%;
+    flex-direction: column;
+    align-items: center;
+    height: 32rem;
+    width: 25rem;
+    border: none;
+    border-radius: 7px;
+}
+.closeX{
+    font-size: 1.5rem !important;
+}
+.dialogHeaderFichier{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+.uploadHolder{
+    margin-top: 2rem;
+    border: 1px solid black;
+    height: 70%;
+    width: 67%;
+    border-radius: 7px;
+}
+.uploadHolder img{
+    height: 100%;
+    width: 100%;
+    border-radius: 7px;
+
+}
+#ajouterFile{
+    margin-top: 1rem;
+    border: none;
+    color: white;
+    background-color: rgba(92, 145, 225, 0.73);
+    border-radius: 7px;
+    font-size: 1rem;
+}
+#ajouterFile:hover{
+    background-color: rgba(92, 145, 225, 0.9);
+    scale: 1.05 ;
+    transition: 0.25s;
+}
+#fileUploadInput{
+    font-size: 1rem;
+}

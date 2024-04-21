@@ -27,3 +27,34 @@ if(newfilePreview){
         }
     });
 }
+
+const openFichier = document.getElementById("openFichier")
+if (openFichier){
+    const dialogFichier = document.getElementById("dialogFichier")
+    const close = document.getElementById("closeDialogFichier")
+    openFichier.addEventListener("click", () => {
+        dialogFichier.showModal();
+        dialogFichier.style.display = "flex"
+    })
+
+    close.addEventListener("click", () => {
+        dialogFichier.close();
+        dialogFichier.style.display = "none"
+    })
+}
+
+const imgApercuFile = document.getElementById("imgApercuFile")
+if (imgApercuFile){
+    const fileInput = document.getElementById('fileUploadInput');
+    fileInput.addEventListener('change', function(){
+        const file = fileInput.files[0];
+        if(file){
+            const reader = new FileReader();
+            reader.onload = function(){
+                const result = reader.result;
+                imgApercuFile.src = result;
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+}

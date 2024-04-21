@@ -58,7 +58,7 @@
                 </div>
                 <div class="vr"></div>
                 <div class="fileButton">
-                    <a href=""><i class="bi bi-card-image"></i> <span th:text="${nbFichiers }" ></span> fichiers</a>
+                    <a th:href="@{/groupe/group-folder/{projetId}(projetId=${projet.getId()})}"><i class="bi bi-card-image"></i> <span th:text="${nbFichiers}"></span>fichiers</a>
                 </div>
             </div>
             <hr>

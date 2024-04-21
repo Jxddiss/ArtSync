@@ -7,11 +7,17 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+
+import static com.artcorp.artsync.constant.FileConstant.USER_FOLDER;
 
 @Controller
 public class GroupController {
@@ -289,5 +295,40 @@ public class GroupController {
         demandeService.deleteDemande(demandeId);
         projetService.addUtilisateurToProjet(projetId, userToAdd.getId());
         return "redirect:/groupe/group-demande/{projetId}";
+    }
+    @PostMapping("/groupe/update/{projetId}")
+    public String updateProjet(@PathVariable("projetId") Long projetId,
+                               @RequestParam("titre") String titre,
+                               @RequestParam("description") String description,
+                               @RequestParam(value = "private", defaultValue = "false") boolean isPrivate,
+                               @RequestParam("upload") MultipartFile image,
+                               Model model,
+                               HttpServletRequest request) throws IOException {
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            return "auth";
+        }
+        Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+        model.addAttribute("utilisateur", utilisateur);
+        model.addAttribute("projet", projetService.findById(projetId));
+        model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
+        model.addAttribute("nbMembres", projetService.getMembersCount(projetId));
+        model.addAttribute("nbFichiers", projetService.getFileCount(projetId));
+        model.addAttribute("annonces", annonceService.findByProjetId(projetId));
+
+        Projet projet = projetService.findById(projetId);
+        projet.setTitre(titre);
+        projet.setDescription(description);
+        projet.setPublique(isPrivate);
+
+        String originalFilename = StringUtils.cleanPath(image.getOriginalFilename());
+        projet.setProjetPhoto(originalFilename);
+
+        File parentDir = new File(USER_FOLDER);
+        File saveFile = new File(parentDir.getAbsolutePath() + File.separator + originalFilename);
+        image.transferTo(saveFile);
+        projetService.updateProjet(projet);
+
+        return "groupe/group";
     }
 }

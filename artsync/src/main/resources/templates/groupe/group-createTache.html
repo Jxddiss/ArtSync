@@ -34,9 +34,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             <div class="formHolder">
                 <form th:action="@{/groupe/create/tache/{projetId}(projetId=${projetId})}" method="post">
                     <label>Titre</label>
-                    <input type="text" name="titre" style="background-color: transparent" th:value="${tache != null ? tache.titre : ''}">
+                    <input type="text" name="titre" style="background-color: transparent" th:value="${tache != null ? tache.titre : ''}" required>
                     <label>Description</label>
-                    <textarea name="description" cols="30" rows="10" style="background-color: transparent" th:text="${tache != null ? tache.description : ''}"></textarea>
+                    <textarea name="description" cols="30" rows="10" style="background-color: transparent" th:text="${tache != null ? tache.description : ''}" required></textarea>
                     <div class="radioHolder">
                         <input type="radio" th:checked="${tache != null && tache.etat == 'A faire'}" name="etat" value="A faire" id="afaire">
                         <label class="etat1" for="afaire" id="noncommencee">Non commencé</label>

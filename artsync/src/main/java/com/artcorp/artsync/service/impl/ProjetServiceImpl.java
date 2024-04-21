@@ -73,5 +73,9 @@ public class ProjetServiceImpl implements ProjetService {
     public int getFileCount(Long idProjet) {
         return repos.getFileCount(idProjet);
     }
+    @Override
+    public Projet updateProjet(Projet projet) {
+        return repos.save(projet);
+    }
 
 }

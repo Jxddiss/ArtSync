@@ -870,3 +870,68 @@
     transition: 0.25s;
     color: #fa9393;
 }
+.formContainerGestion{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 1rem;
+    height: 100%;
+    width: 100%;
+    padding: 2%;
+}
+
+.formContainerGestion input{
+    width: 50%;
+}
+
+#textGestion{
+    border: 1px solid black;
+    border-radius: 7px;
+    background-color: transparent;
+    width: 50%;
+    padding-inline: 0.5rem;
+}
+#descGestion{
+    border: 1px solid black;
+    border-radius: 7px;
+    background-color: transparent;
+    width: 50%;
+    height: 10rem;
+    resize: none;
+    padding: 0.5rem;
+}
+
+.imageGroupHolder{
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    align-items: center;
+}
+.imageGroupHolder img{
+    height: 8rem;
+    width: 8rem;
+    border-radius: 7px;
+    margin: 1rem;
+}
+.imageGroupHolder i{
+    font-size: 50px;
+    color: rgb(0,0,0,0.5);
+    margin:0;
+}
+.gestionBtn{
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    width: 25%;
+    padding-block: 0.5rem;
+    border: none;
+    border-radius: 7px;
+    color: white;
+    background-color: #5381ff;
+}
+.gestionBtn:hover{
+    scale: 1.05;
+    transition: 0.25s;
+    transition: 0.25s;
+}

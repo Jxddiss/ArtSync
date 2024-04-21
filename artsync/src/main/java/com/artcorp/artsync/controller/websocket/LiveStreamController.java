@@ -68,17 +68,23 @@ public class LiveStreamController {
         return "redirect:/authentification";
     }
 
-    @MessageMapping("/live/offer/{pseudo1}/{pseudo2}")
-    @SendTo("/topic/live/offer/{pseudo1}/{pseudo2}")
-    public String liveVideo(@DestinationVariable String pseudo1, String offer){
-        LOGGER.info("offer : " + offer);
-        return offer;
+    @MessageMapping("/live/start/{pseudo}")
+    @SendTo("/topic/live/start/{pseudo}")
+    public String startLiveVideo(String start){
+        return start;
     }
 
     @MessageMapping("/live/new/{pseudo}")
     @SendTo("/topic/live/new/{pseudo}")
     public String liveVideo(String pseudo){
         return pseudo;
+    }
+
+    @MessageMapping("/live/offer/{pseudo1}/{pseudo2}")
+    @SendTo("/topic/live/offer/{pseudo1}/{pseudo2}")
+    public String liveVideo(@DestinationVariable String pseudo1, String offer){
+        LOGGER.info("offer : " + offer);
+        return offer;
     }
 
     @MessageMapping("/live/answer/{pseudo1}/{pseudo2}")

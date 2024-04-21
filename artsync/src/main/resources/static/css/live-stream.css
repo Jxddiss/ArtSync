@@ -201,6 +201,16 @@ body {
     display: flex;
     gap: 1em;
 }
+
+.disabled{
+    background: #d86e6e !important;
+    color: #c9d7dc !important;
+}
+
+.disabled:hover{
+    background: #d86e6e !important;
+    transform: scale(1) translate(-50%,-50%)!important;
+}
 /* 
 ------------------------------
    Misc

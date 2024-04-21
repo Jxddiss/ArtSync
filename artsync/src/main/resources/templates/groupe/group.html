@@ -45,56 +45,25 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             <div class="taskHeader">
                 <div class="taskCount">
                     <p>À faire</p>
-                    <p class="count">3</p>
+                    <p class="count" th:text="${tachesAFaire.size()}"></p>
                 </div>
                 <i class="bi bi-three-dots"></i>
             </div>
             <div class="taskScroller">
-                <div class="task">
-                    <p class="taskTitle">Ajout de couleur</p>
+                <div th:each="tache : ${tachesAFaire}" class="task">
+                    <p class="taskTitle">[[${tache.titre}]]</p>
                     <div class="taskInfo">
-                        <p class="tag" id="inactif">INACTIF</p>
-                        <img src="profil.png" alt="PHOTO">
+                        <p class="tag" id="inactif">[[${tache.etat}]]</p>
+                        <img th:src="@{/media/images/{image}(image=${tache.utilisateur.getPhotoUrl()})}" alt="PHOTO">
                     </div>
                     <hr>
                     <div class="taskOption">
-                        <div class="taskBtns"><i class="bi bi-check-square"></i> <i class="bi bi-trash3"></i></div>
+                        <div class="taskBtns"><i  class="bi bi-check-square"></i> <i class="bi bi-trash3"></i></div>
                         <div class="taskDate">
-                            <p><i class="bi bi-calendar"></i> 2024-03-31</p>
+                            <p><i class="bi bi-calendar"></i> [[${tache.dateCreation.toLocalDate()}]]</p>
                         </div>
                     </div>
                 </div>
-
-                <div class="task">
-                    <p class="taskTitle">Ajout de couleur</p>
-                    <div class="taskInfo">
-                        <p class="tag" id="inactif">INACTIF</p>
-                        <img src="profil.png" alt="PHOTO">
-                    </div>
-                    <hr>
-                    <div class="taskOption">
-                        <div class="taskBtns"><i class="bi bi-check-square"></i> <i class="bi bi-trash3"></i></div>
-                        <div class="taskDate">
-                            <p><i class="bi bi-calendar"></i> 2024-03-31</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="task">
-                    <p class="taskTitle">Ajout de couleur</p>
-                    <div class="taskInfo">
-                        <p class="tag" id="inactif">INACTIF</p>
-                        <img src="profil.png" alt="PHOTO">
-                    </div>
-                    <hr>
-                    <div class="taskOption">
-                        <div class="taskBtns"><i class="bi bi-check-square"></i> <i class="bi bi-trash3"></i></div>
-                        <div class="taskDate">
-                            <p><i class="bi bi-calendar"></i> 2024-03-31</p>
-                        </div>
-                    </div>
-                </div>
-
                 <a th:href="@{/groupe/create/{projetId}(projetId=${projet.getId()})}" class="taskAdd">
                     <p><i class="bi bi-plus"></i> Ajouter tâche</p>
                 </a>
@@ -106,36 +75,22 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             <div class="taskHeader">
                 <div class="taskCount">
                     <p>En cours</p>
-                    <p class="count">2</p>
+                    <p class="count" th:text="${taches.size()}"></p>
                 </div>
                 <i class="bi bi-three-dots"></i>
             </div>
             <div class="taskScroller">
-                <div class="task">
-                    <p class="taskTitle">Ajout de couleur</p>
+                <div th:each="tache : ${taches}" class="task">
+                    <p class="taskTitle">[[${tache.titre}]]</p>
                     <div class="taskInfo">
-                        <p class="tag" id="actif">EN COURS</p>
-                        <img src="profil.png" alt="PHOTO">
+                        <p class="tag" id="actif">[[${tache.etat}]]</p>
+                        <img th:src="@{/media/images/{image}(image=${tache.utilisateur.getPhotoUrl()})}" alt="PHOTO">
                     </div>
                     <hr>
                     <div class="taskOption">
-                        <div class="taskBtns"><i class="bi bi-check-square"></i> <i class="bi bi-trash3"></i></div>
+                        <div class="taskBtns"><i style="color: orange" class="bi bi-check-square"></i> <i class="bi bi-trash3"></i></div>
                         <div class="taskDate">
-                            <p><i class="bi bi-calendar"></i> 2024-03-31</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="task">
-                    <p class="taskTitle">Ajout de couleur</p>
-                    <div class="taskInfo">
-                        <p class="tag" id="actif">EN COURS</p>
-                        <img src="profil.png" alt="PHOTO">
-                    </div>
-                    <hr>
-                    <div class="taskOption">
-                        <div class="taskBtns"><i class="bi bi-check-square"></i> <i class="bi bi-trash3"></i></div>
-                        <div class="taskDate">
-                            <p><i class="bi bi-calendar"></i> 2024-03-31</p>
+                            <p><i class="bi bi-calendar"></i> [[${tache.dateCreation.toLocalDate()}]]</p>
                         </div>
                     </div>
                 </div>
@@ -149,22 +104,22 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             <div class="taskHeader">
                 <div class="taskCount">
                     <p>Terminé</p>
-                    <p class="count">1</p>
+                    <p class="count" th:text="${tachesTerminees.size()}"></p>
                 </div>
                 <i class="bi bi-three-dots"></i>
             </div>
             <div class="taskScroller">
-                <div class="task">
-                    <p class="taskTitle">Ajout de couleur</p>
+                <div th:each="tache : ${tachesTerminees}" class="task">
+                    <p class="taskTitle">[[${tache.titre}]]</p>
                     <div class="taskInfo">
-                        <p class="tag" id="termine">TERMINÉ</p>
-                        <img src="profil.png" alt="PHOTO">
+                        <p class="tag" id="termine">[[${tache.etat}]]</p>
+                        <img th:src="@{/media/images/{image}(image=${tache.utilisateur.getPhotoUrl()})}" alt="PHOTO">
                     </div>
                     <hr>
                     <div class="taskOption">
-                        <div class="taskBtns"><i class="bi bi-check-square"></i> <i class="bi bi-trash3"></i></div>
+                        <div class="taskBtns"><i style="color: #4a8e44" class="bi bi-check-square"></i> <i class="bi bi-trash3"></i></div>
                         <div class="taskDate">
-                            <p><i class="bi bi-calendar"></i> 2024-03-31</p>
+                            <p><i class="bi bi-calendar"></i> [[${tache.dateCreation.toLocalDate()}]]</p>
                         </div>
                     </div>
                 </div>

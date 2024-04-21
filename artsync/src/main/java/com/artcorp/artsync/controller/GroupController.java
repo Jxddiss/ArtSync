@@ -63,12 +63,16 @@ public class GroupController {
             return "auth";
         }
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+        model.addAttribute("selected", "dashboard");
         model.addAttribute("utilisateur", utilisateur);
         model.addAttribute("nbFichiers", fichierService.countByProjet(projetService.findById(projectId)));
         model.addAttribute("projet", projetService.findById(projectId));
         model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
         model.addAttribute("nbMembres", projetService.getMembersCount(projectId));
         model.addAttribute("annonces", annonceService.findByProjetId(projectId));
+        model.addAttribute("taches", tacheService.findByEtatAndProjetId("En cours", projectId));
+        model.addAttribute("tachesAFaire", tacheService.findByEtatAndProjetId("À faire", projectId));
+        model.addAttribute("tachesTerminees", tacheService.findByEtatAndProjetId("Terminé", projectId));
 
         return "groupe/group";
     }
@@ -80,6 +84,7 @@ public class GroupController {
             return "auth";
         }
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+        model.addAttribute("selected", "users");
         model.addAttribute("utilisateur", utilisateur);
         model.addAttribute("projet", projetService.findById(projectId));
         model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
@@ -98,6 +103,7 @@ public class GroupController {
             return "auth";
         }
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+        model.addAttribute("selected", "taches");
         model.addAttribute("utilisateur", utilisateur);
         model.addAttribute("projet", projetService.findById(projectId));
         model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
@@ -115,6 +121,7 @@ public class GroupController {
             return "auth";
         }
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+        model.addAttribute("selected", "demandes");
         model.addAttribute("utilisateur", utilisateur);
         model.addAttribute("projet", projetService.findById(projectId));
         model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
@@ -135,6 +142,7 @@ public class GroupController {
         if (!projetService.findById(projectId).getAdmin().getId().equals(utilisateur.getId())) {
             return "groupe/group";
         }
+        model.addAttribute("selected", "gestion");
         model.addAttribute("utilisateur", utilisateur);
         model.addAttribute("projet", projetService.findById(projectId));
         model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
@@ -162,6 +170,7 @@ public class GroupController {
             return "auth";
         }
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+        model.addAttribute("selected", "taches");
         model.addAttribute("utilisateur", utilisateur);
         model.addAttribute("membres", projetService.getMembers(projetId));
         model.addAttribute("projet", projetService.findById(projetId));
@@ -203,6 +212,7 @@ public class GroupController {
             tacheService.createTache(tache);
         }
         model.addAttribute("utilisateur", utilisateur);
+        model.addAttribute("selected", "taches");
         model.addAttribute("projet", projetService.findById(projetId));
         model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
         model.addAttribute("nbMembres", projetService.getMembersCount(projetId));
@@ -221,6 +231,7 @@ public class GroupController {
             return "auth";
         }
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+        model.addAttribute("selected", "taches");
         model.addAttribute("utilisateur", utilisateur);
         model.addAttribute("projet", projetService.findById(projetId));
         model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
@@ -242,6 +253,7 @@ public class GroupController {
             return "auth";
         }
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+        model.addAttribute("selected", "taches");
         model.addAttribute("utilisateur", utilisateur);
         model.addAttribute("projet", projetService.findById(projetId));
         model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
@@ -264,6 +276,7 @@ public class GroupController {
             return "auth";
         }
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+        model.addAttribute("selected", "demandes");
         model.addAttribute("utilisateur", utilisateur);
         model.addAttribute("projet", projetService.findById(projetId));
         model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
@@ -286,6 +299,7 @@ public class GroupController {
         }
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
         model.addAttribute("utilisateur", utilisateur);
+        model.addAttribute("selected", "demandes");
         model.addAttribute("projet", projetService.findById(projetId));
         model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
         model.addAttribute("membres", projetService.getMembers(projetId));
@@ -312,6 +326,7 @@ public class GroupController {
             return "auth";
         }
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+        model.addAttribute("selected", "gestion");
         model.addAttribute("utilisateur", utilisateur);
         model.addAttribute("projet", projetService.findById(projetId));
         model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
@@ -347,6 +362,7 @@ public class GroupController {
             return "auth";
         }
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+        model.addAttribute("selected", "dashboard");
         model.addAttribute("utilisateur", utilisateur);
         model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
         model.addAttribute("nbMembres", projetService.getMembersCount(utilisateur.getId()));
@@ -383,6 +399,7 @@ public class GroupController {
             return "auth";
         }
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+        model.addAttribute("selected", "fichiers");
         model.addAttribute("utilisateur", utilisateur);
         model.addAttribute("projet", projetService.findById(projetId));
         model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
@@ -404,6 +421,7 @@ public class GroupController {
         Utilisateur user = userService.findById(userId);
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
         model.addAttribute("utilisateur", utilisateur);
+        model.addAttribute("selected", "fichiers");
         model.addAttribute("projet", projetService.findById(projetId));
         model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
         model.addAttribute("user", user);

@@ -41,7 +41,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 </div>
             </form>
 
-            <div class="taskShowScroller">
+            <div class="taskShowScroller" id="taskShowScroller">
                 <div th:if="${taches.empty}" style="width: 100% " class="d-flex justify-content-center">
                     <h4>Aucune tâches</h4>
                 </div>
@@ -49,12 +49,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     <a th:href="@{/groupe/group-tache/update/{projetId}/{tacheId}(projetId=${projet.getId()}, tacheId=${tache.getId()})}" class="tacheCardHeader">
                         <div class="d-flex align-item-center justify-content-between">
                             <h4>[[${tache.getTitre()}]]</h4>
-                            <p>[[${tache.dateCreation}]] <i class="bi bi-clock"></i></p>
+                            <p>[[${tache.dateCreation.toLocalDate()}]] <i class="bi bi-clock"></i></p>
                         </div>
 
                         <p>[[${tache.getDescription()}]]</p>
 
-                        <p class="etat" id="encours">[[${tache.getEtat()}]]</p>
+                        <p class="etat" th:id="${tache.getEtat() == 'En cours' ? 'encours' : (tache.getEtat() == 'Terminé' ? 'terminee' : 'noncommencee')}">[[${tache.getEtat()}]]</p>
                         <hr>
                     </a>
                     <div th:object="${tache.getUtilisateur()}" class="d-flex tacheInfoUser">

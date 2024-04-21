@@ -30,7 +30,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     <div th:replace="~{fragment/groupFragments :: groupHeaderFragment}">
 
     </div>
-        <div class="fichiersHolder">
+        <div class="fichiersHolder" id="fichiersHolder">
             <a th:each="membre : ${membres}" th:href="@{/groupe/group-fichier/{projetId}/{userId}(projetId=${projet.getId()}, userId=${membre.getId()})}" class="folder">
                 <i class="bi bi-folder"></i>
                 <div class="folderImgHolder">

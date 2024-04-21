@@ -58,3 +58,24 @@ if (imgApercuFile){
         }
     });
 }
+const tacheHolder = document.getElementById('taskShowScroller');
+if (tacheHolder){
+    const children = tacheHolder.children
+    gsap.to(children, {duration: 0.5, opacity: 1, scale:1, delay: 0.15, stagger: 0.1, ease:'back', filter: 'blur(0px)'})
+}
+const userHolder = document.getElementById('userHolderScroller');
+if (userHolder){
+    const children = userHolder.children
+    gsap.to(children, {duration: 0.5, opacity: 1, delay: 0.15, stagger: 0.1, ease:'back', filter: 'blur(0px)'})
+}
+
+const folderHolder = document.getElementById('fichiersHolder');
+if (folderHolder){
+    const children = folderHolder.children
+    gsap.to(children, {duration: 0.5, opacity: 1, scale: 1, delay: 0.15, stagger: 0.1, ease:'back', filter: 'blur(0px)'})
+}
+const fichierHolder = document.getElementById('fichiersHolder');
+if (fichierHolder){
+    const children = fichierHolder.children
+    gsap.to(children, {duration: 0.5, opacity: 1, scale: 1, delay: 0.15, stagger: 0.1, ease:'back', filter: 'blur(0px)'})
+}

@@ -5,9 +5,11 @@
         <hr>
         <!--Projet de l'utilisateur-->
         <div class="projectHolder">
-            <a th:href="@{/groupe/group/{projetId}(projetId=${projet.getId()})}" th:each="projet : ${projets}" class="project">
-                <img th:src="@{/media/images/{image}(image=${projet.getProjetPhoto()})}" alt="">
-                <h3>[[${projet.getTitre()}]]</h3>
+            <a th:href="@{/groupe/group/{projetId}(projetId=${userProjet.getId()})}"
+               th:class="${userProjet.getId() == projet.getId()} ? 'project projectSelected' : 'project'"
+               th:each="userProjet, projetId : ${projets}">
+                <img th:src="@{/media/images/{image}(image=${userProjet.getProjetPhoto()})}" alt="">
+                <h3>[[${userProjet.getTitre()}]]</h3>
             </a>
             <a th:href="@{/recherche(filtre='GROUPE')}" class="add">
                 <i class="bi bi-plus-square"></i>
@@ -44,20 +46,20 @@
             </div>
             <!--Options du projet-->
             <div class="options">
-                <a th:href="@{/groupe/group/{projetId}(projetId=${projet.getId()})}" class="optionSelected">Tableau de Bord</a>
-                <a th:href="@{/groupe/group-tache/{projetId}(projetId=${projet.getId()})}">Tâche</a>
+                <a th:class="${selected == 'dashboard'} ? 'optionSelected' : ''" th:href="@{/groupe/group/{projetId}(projetId=${projet.getId()})}">Tableau de Bord</a>
+                <a th:class="${selected == 'taches'} ? 'optionSelected' : ''" th:href="@{/groupe/group-tache/{projetId}(projetId=${projet.getId()})}">Tâche</a>
                 <a th:href="@{/utilisateur/conversation}">Conversation</a>
-                <a th:if="${projet.getAdmin() != null and session.user != null and projet.getAdmin().getId()==session.user.getId()}" th:href="@{/groupe/group-demande/{projetId}(projetId=${projet.getId()})}">Demande</a>
-                <a th:if="${projet.getAdmin() != null and session.user != null and projet.getAdmin().getId()==session.user.getId()}" th:href="@{/groupe/group-gestion/{projetId}(projetId=${projet.getId()})}">Gestion</a>
+                <a th:if="${projet.getAdmin() != null and session.user != null and projet.getAdmin().getId()==session.user.getId()}" th:class="${selected == 'demandes'} ? 'optionSelected' : ''" th:href="@{/groupe/group-demande/{projetId}(projetId=${projet.getId()})}">Demande</a>
+                <a th:if="${projet.getAdmin() != null and session.user != null and projet.getAdmin().getId()==session.user.getId()}" th:class="${selected == 'gestion'} ? 'optionSelected' : ''" th:href="@{/groupe/group-gestion/{projetId}(projetId=${projet.getId()})}">Gestion</a>
             </div>
             <!--Membres et fichiers-->
             <div class="projectInfoContent">
-                <div class="userCount">
+                <div th:class="${selected == 'users'} ? 'userCountSelected userCount' : 'userCount'">
                     <div><p>Membres</p></div>
                     <a th:href="@{/groupe/group-users/{projetId}(projetId=${projet.getId()})}" class="userContent"><p th:text="${nbMembres}"></p> <i class="bi bi-people"></i></a>
                 </div>
                 <div class="vr"></div>
-                <div class="fileButton">
+                <div th:class="${selected == 'fichiers'} ? 'fileSelected fileButton' : 'fileButton'">
                     <a th:href="@{/groupe/group-folder/{projetId}(projetId=${projet.getId()})}"><i class="bi bi-card-image"></i> <span th:text="${nbFichiers}"></span>fichiers</a>
                 </div>
             </div>

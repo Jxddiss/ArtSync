@@ -38,7 +38,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     <label>Description</label>
                     <textarea name="description" cols="30" rows="10" style="background-color: transparent" th:text="${tache != null ? tache.description : ''}" required></textarea>
                     <div class="radioHolder">
-                        <input type="radio" th:checked="${tache != null && tache.etat == 'A faire'}" name="etat" value="A faire" id="afaire">
+                        <input type="radio" th:checked="${tache != null && tache.etat == 'À faire'}" name="etat" value="À faire" id="afaire">
                         <label class="etat1" for="afaire" id="noncommencee">Non commencé</label>
                         <input type="radio" th:checked="${tache == null || (tache != null && tache.etat == 'En cours')}" name="etat" value="En cours" id="encours">
                         <label class="etat1" for="encours" id="encours">En cours</label>

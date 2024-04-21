@@ -31,11 +31,6 @@ public class LiveStreamController {
         this.messagingTemplate = messagingTemplate;
     }
 
-    @GetMapping("/live")
-    public String live(){
-        return "utilisateur/live-stream";
-    }
-
     @GetMapping("/live/start")
     public String startLive(Model model,
                             HttpServletRequest request,

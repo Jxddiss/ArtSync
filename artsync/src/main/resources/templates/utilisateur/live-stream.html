@@ -77,7 +77,7 @@
             <input type="text" id="input-chat" name="message" autocomplete="off">
         </div>
     </div>
-    <script th:if="${isStreamer != null}">
+    <script>
         const userPseudo = '[[${session.user.pseudo}]]';
         const userPhoto = '[[${session.user.getPhotoUrl()}]]';
         const streamVideo = document.getElementById("streamVideo");

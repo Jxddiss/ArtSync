@@ -18,4 +18,5 @@ public interface ProjetService {
     List<Utilisateur> getMembers(Long idProjet);
     int getFileCount(Long idProjet);
     Projet updateProjet(Projet projet);
+    Projet createProjet(Projet projet);
 }

@@ -77,5 +77,9 @@ public class ProjetServiceImpl implements ProjetService {
     public Projet updateProjet(Projet projet) {
         return repos.save(projet);
     }
+    @Override
+    public Projet createProjet(Projet projet) {
+        return repos.save(projet);
+    }
 
 }

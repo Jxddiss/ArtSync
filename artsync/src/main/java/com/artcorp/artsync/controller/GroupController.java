@@ -331,4 +331,43 @@ public class GroupController {
 
         return "groupe/group";
     }
+
+    @PostMapping("/groupe/create")
+    public String createProjet(@RequestParam("titre") String titre,
+                               @RequestParam("description") String description,
+                               @RequestParam(value = "private", defaultValue = "false") boolean isPrivate,
+                               @RequestParam("upload") MultipartFile image,
+                               Model model,
+                               HttpServletRequest request) throws IOException {
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            return "auth";
+        }
+        Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+        model.addAttribute("utilisateur", utilisateur);
+        model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
+        model.addAttribute("nbMembres", projetService.getMembersCount(utilisateur.getId()));
+        model.addAttribute("nbFichiers", projetService.getFileCount(utilisateur.getId()));
+        model.addAttribute("annonces", annonceService.findByProjetId(utilisateur.getId()));
+
+        Projet projet = new Projet();
+        projet.setTitre(titre);
+        projet.setDescription(description);
+        projet.setDateCreation(LocalDateTime.now());
+        projet.setDateModification(LocalDateTime.now());
+        projet.setPublique(isPrivate);
+        projet.setAdmin(utilisateur);
+        projet.setUtilisateurs(List.of(utilisateur));
+
+
+        String originalFilename = StringUtils.cleanPath(image.getOriginalFilename());
+        projet.setProjetPhoto(originalFilename);
+
+        File parentDir = new File(USER_FOLDER);
+        File saveFile = new File(parentDir.getAbsolutePath() + File.separator + originalFilename);
+        image.transferTo(saveFile);
+        projetService.createProjet(projet);
+
+        return "redirect:/groupe/group/" + projet.getId();
+    }
 }

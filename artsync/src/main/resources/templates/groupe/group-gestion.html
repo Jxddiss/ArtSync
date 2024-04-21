@@ -38,9 +38,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 <img src="" alt="" id="newfilePreview">
             </div>
             <form th:action="@{/groupe/update/{projetId}(projetId=${projetId})}" method="POST" class="formContainerGestion" enctype="multipart/form-data">
-                <div class="button-wrapper">
-                    <input type="file" name="upload" id="filtInput" accept=".jpg,.png,.webp,.gif" th:value="${projet.getProjetPhoto()}">
-                </div>
+                <input type="file" name="upload" id="filtInput" accept=".jpg,.png,.webp,.gif" th:value="${projet.getProjetPhoto()}">
                 <label>Titre</label>
                 <input type="titre" id="textGestion" name="titre" placeholder="Entrer un titre" th:value="${projet.getTitre()}">
                 <label>Description</label>

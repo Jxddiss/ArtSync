@@ -12,11 +12,17 @@ document.addEventListener("DOMContentLoaded", function() {
         iceServers: [
             {
                 urls: "stun:stun.l.google.com:19302"
+            },
+            {
+                urls:'turn:relay1.expressturn.com:3478',
+                username:'ef8EOWQXK1M7HXY1AI',
+                credential:'mor3P6U6DOFc1r3R'
             }
         ]
     };
 
-    if (navigator.mediaDevices.getUserMedia) {
+    buttonStart.addEventListener("click",(ev) =>{
+        ev.target.remove()
         navigator.mediaDevices.getUserMedia({ video: true,audio: true })
             .then(stream => {
                 const socketStream = new SockJS('/websocket');
@@ -34,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function() {
             .catch(function (error) {
                 console.log("Something went wrong! : " + error);
             });
-    }
+    })
 
     function handleNewViewer(viewerPseudo){
         const viewerPeerConnection = new RTCPeerConnection(config);

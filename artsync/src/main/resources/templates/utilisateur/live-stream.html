@@ -36,12 +36,16 @@
                 <img class="profil-pic-stream" src="/media/images/aok.jpg" alt="">
                 <h4>Apprentissage de  ...</h4>
             </div>
-            <video
-            autoplay="true"
-            class="video-box"
-            id="streamVideo"
-            >
-            </video>
+            <div class="video-box">
+                <video
+                    autoplay
+                    id="streamVideo"
+                >
+                </video>
+                <button type="button" id="play-stream" class="button-video">
+                    <i class="bi bi-play"></i>
+                </button>
+            </div>
             <div class="control-holder" th:if="${isStreamer != null && isStreamer}">
                 <button type="button"
                 class="button-video"
@@ -83,6 +87,7 @@
     <script th:if="${isStreamer != null}">
         const userPseudo = '[[${session.user.pseudo}]]';
         const streamVideo = document.getElementById("streamVideo");
+        const buttonStart = document.getElementById("play-stream");
     </script>
     <script>
         const pseudoStreamer = '[[${pseudoStreamer}]]';

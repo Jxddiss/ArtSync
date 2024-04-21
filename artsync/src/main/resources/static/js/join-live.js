@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function() {
     };
 
     buttonStart.addEventListener("click",(ev)=>{
-        ev.target.remove()
+        buttonStart.remove();
         viewerPeerConnection = new RTCPeerConnection(config);
 
         const socketViewer = new SockJS('/websocket');

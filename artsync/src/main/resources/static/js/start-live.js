@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function() {
     };
 
     buttonStart.addEventListener("click",(ev) =>{
-        ev.target.remove()
+        buttonStart.remove();
         navigator.mediaDevices.getUserMedia({ video: true,audio: true })
             .then(stream => {
                 const socketStream = new SockJS('/websocket');

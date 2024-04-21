@@ -35,8 +35,12 @@
             </div>
             <!--Titre et dernière mise à jour-->
             <div class="projectHeader">
-                <h3>[[${projet.titre}]]</h3>
-                <p>Mis à jour le [[${projet.dateModification.toLocalDate()}]]</p>
+                <div class="headerInfo">
+                    <img class="imgHeaderGroup" th:src="@{/media/images/{image}(image=${projet.getProjetPhoto()})}" alt="">
+                    <h3>[[${projet.titre}]]</h3>
+                </div>
+
+                <p class="mt-2">Mis à jour le [[${projet.dateModification.toLocalDate()}]]</p>
             </div>
             <!--Options du projet-->
             <div class="options">

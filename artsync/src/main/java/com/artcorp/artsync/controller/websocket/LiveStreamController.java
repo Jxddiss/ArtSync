@@ -102,4 +102,10 @@ public class LiveStreamController {
         LOGGER.info("Candidate: " + candidate);
         return candidate;
     }
+
+    @MessageMapping("/live/chat/{pseudo}")
+    @SendTo("/topic/live/chat/{pseudo}")
+    public String liveStreamChat(String chat){
+        return chat;
+    }
 }

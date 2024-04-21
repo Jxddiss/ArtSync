@@ -78,6 +78,31 @@ document.addEventListener("DOMContentLoaded", function() {
                 viewerPeerConnection.addIceCandidate(iceCandidate);
                 console.log("added candidate : " + JSON.stringify(candidateO));
             })
+
+            stompClientViewer.subscribe('/topic/live/chat/'+pseudoStreamer, function(message) {
+                addMessageLive(JSON.parse(message.body));
+            });
+
+            messageInput.addEventListener("keyup", function(event) {
+                if (event.key === "Enter") {
+                    sendChat();
+                }
+            });
         })
     });
+
+    function sendChat(){
+        if (messageInput.value.trim() !== ''){
+            const messageText = messageInput.value;
+            stompClientViewer.send('/app/live/chat/'+pseudoStreamer,{},JSON.stringify(
+                {
+                    senderPseudo:userPseudo,
+                    senderPhoto:userPhoto,
+                    text : messageText,
+                    dateTimeEnvoie : new Date(),
+                })
+            )
+            messageInput.value = '';
+        }
+    }
 });

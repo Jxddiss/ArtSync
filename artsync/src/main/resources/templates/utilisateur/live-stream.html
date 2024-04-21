@@ -73,24 +73,30 @@
             <h4>Chat</h4>
             <hr>
             <ul id="liste-chat-stream">
-                <li class="chat-stream">
-                    <img class="profil-pic-stream" src="/media/images/cat.png" alt="">
-                    <div class="chat-stream-body">
-                        <strong>@mark09y</strong>
-                        <p>Lorem ipsum dolor sit amet.</p>
-                    </div>
-                </li>
             </ul>
             <input type="text" id="input-chat" name="message" autocomplete="off">
         </div>
     </div>
     <script th:if="${isStreamer != null}">
         const userPseudo = '[[${session.user.pseudo}]]';
+        const userPhoto = '[[${session.user.getPhotoUrl()}]]';
         const streamVideo = document.getElementById("streamVideo");
         const buttonStart = document.getElementById("play-stream");
-    </script>
-    <script>
         const pseudoStreamer = '[[${pseudoStreamer}]]';
+        const listeChat = document.getElementById("liste-chat-stream");
+        const messageInput = document.getElementById("input-chat");
+
+        function addMessageLive(message){
+            const chatItem = document.createElement("li");
+            chatItem.classList.add("chat-stream");
+            chatItem.innerHTML = `<img class="profil-pic-stream" src=${"/media/images/" + message.senderPhoto} alt="">
+                    <div class="chat-stream-body">
+                        <strong>@${message.senderPseudo}</strong>
+                        <p>${message.text}</p>
+                    </div>`;
+            listeChat.appendChild(chatItem);
+            listeChat.scrollTop = listeChat.scrollHeight;
+        }
     </script>
     <script th:src="@{/js/live.js}"></script>
     <script th:if="${isStreamer}" th:src="@{/js/start-live.js}"></script>

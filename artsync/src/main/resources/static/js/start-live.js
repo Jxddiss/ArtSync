@@ -56,7 +56,9 @@ document.addEventListener("DOMContentLoaded", function() {
                         const viewerPseudo = newViewerEvent.body;
                         handleNewViewer(viewerPseudo);
                     });
-                    stompClientStream.send()
+                    stompClientStream.subscribe('/topic/live/chat/'+userPseudo, function(message) {
+                        addMessageLive(JSON.parse(message.body));
+                    });
                 });
                 streamVideo.srcObject = stream;
             })
@@ -68,6 +70,11 @@ document.addEventListener("DOMContentLoaded", function() {
         camToggle.addEventListener("click",toggleCam);
         displayToggle.addEventListener("click",toggleDisplay);
         endLiveButton.addEventListener("click",endLive);
+        messageInput.addEventListener("keyup", function(event) {
+            if (event.key === "Enter") {
+                sendChat();
+            }
+        });
     })
 
     function handleNewViewer(viewerPseudo){
@@ -238,5 +245,20 @@ document.addEventListener("DOMContentLoaded", function() {
         displayStream.getTracks().forEach(function(track) {
             track.stop();
         });
+    }
+
+    function sendChat(){
+        if (messageInput.value.trim() !== ''){
+            const messageText = messageInput.value;
+            stompClientStream.send('/app/live/chat/'+userPseudo,{},JSON.stringify(
+                {
+                    senderPseudo:userPseudo,
+                    senderPhoto:userPhoto,
+                    text : messageText,
+                    dateTimeEnvoie : new Date(),
+                })
+            )
+            messageInput.value = '';
+        }
     }
 });

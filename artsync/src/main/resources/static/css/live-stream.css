@@ -190,7 +190,7 @@ body {
 
 #liste-chat-stream{
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
     padding: .5em;
     flex-grow: 1;
     list-style: none;

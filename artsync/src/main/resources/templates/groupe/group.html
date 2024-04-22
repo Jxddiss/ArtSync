@@ -32,269 +32,107 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     <nav th:replace="${session.user == null} ? ~{fragment/fragments :: headerFragment} : ~{fragment/fragments :: headerUserFragment}"></nav>
 
     <!--Contenu-->
-    <div class="content">
+    <div th:replace="~{fragment/groupFragments :: groupHeaderFragment}">
 
-        <!--Navbar vertical-->
-        <div class="verticalNavbar">
-            <!--Projet de l'utilisateur-->
-            <div class="projectHolder">
-                <div class="project">
-                    <img src="art.jpg" alt="">
-                    <h3>Mystic Quest</h3>
-                </div>
-                <div class="project">
-                    <img src="art.jpg" alt="">
-                    <h3>GTA VI</h3>
-                </div>
-                <div class="project">
-                    <img src="art.jpg" alt="">
-                    <h3>Light No Fire</h3>
-                </div>
-                <div class="project">
-                    <img src="art.jpg" alt="">
-                    <h3>JJK Scene</h3>
-                </div>
-                <div class="add">
-                    <i class="bi bi-plus-square"></i>
-                    <p>Ajouter un projet</p>
-                </div>
-            </div>
-            <hr>
-            <!--Options de la navbar-->
-            <div class="navbarOptions">
-                <a href="" class="leaveBtn">QUITTER <i class="bi bi-box-arrow-right"></i></a>
-            </div>
-        </div>
-
-        <!--Contenu du projet courant-->
-        <div class="projectContent">
-           
-  
-            <!--Parti gauche du projet-->
-            <div class="projectContainer1">
-                 <!--Date et bouttons-->
-                <div class="projectInfo">
-                    <p> Commencé en 2024-03-31</p> <p class="optionBtns"><i class="bi bi-question-lg"></i> <i class="bi bi-star"></i> <i class="bi bi-three-dots-vertical"></i></p>
-                </div>
-                <!--Titre et dernière mise à jour-->
-                <div class="projectHeader">
-                    <h3>Mystic Quest</h3>
-                    <p>Mis à jour le 2024-03-31</p>
-                </div>
-                <!--Options du projet-->
-                <div class="options">
-                    <a href="" class="optionSelected">Tableau de Bord</a>
-                    <a href="">Tâche</a>
-                    <a href="">Conversation</a>
-                    <a href="">Fichiers</a>
-                </div>
-                <!--Membres et fichiers-->
-                <div class="projectInfoContent">
-                    <div class="userCount">
-                        <div><p>Membres</p></div>
-                        <div class="userContent"><p>5</p> <i class="bi bi-people"></i></div>
-                    </div>
-                    <div class="vr"></div>
-                    <div class="fileButton">
-                        <a href=""><i class="bi bi-card-image"></i> 9 fichiers</a>
-                    </div>
-                </div>
-                <!--Tâches-->
-                <div class="taskHolder">
-
-                    <!--Tache à faire-->
-                    <div class="taskContainer">
-                        <div class="taskHeader">
-                            <div class="taskCount">
-                                <p>À faire</p>
-                                <p class="count">3</p>
-                            </div>
-                            <i class="bi bi-three-dots"></i>
-                        </div>
-                        <div class="taskScroller">
-
-                            <div class="task">
-                                <p class="taskTitle">Ajout de couleur</p>
-                                <div class="taskInfo">
-                                    <p class="tag" id="inactif">INACTIF</p>
-                                    <img src="profil.png" alt="PHOTO">
-                                </div>
-                                <hr>
-                                <div class="taskOption">
-                                    <div class="taskBtns"><i class="bi bi-check-square"></i> <i class="bi bi-trash3"></i></div>
-                                    <div class="taskDate">
-                                        <p><i class="bi bi-calendar"></i> 2024-03-31</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="task">
-                                <p class="taskTitle">Ajout de couleur</p>
-                                <div class="taskInfo">
-                                    <p class="tag" id="inactif">INACTIF</p>
-                                    <img src="profil.png" alt="PHOTO">
-                                </div>
-                                <hr>
-                                <div class="taskOption">
-                                    <div class="taskBtns"><i class="bi bi-check-square"></i> <i class="bi bi-trash3"></i></div>
-                                    <div class="taskDate">
-                                        <p><i class="bi bi-calendar"></i> 2024-03-31</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="task">
-                                <p class="taskTitle">Ajout de couleur</p>
-                                <div class="taskInfo">
-                                    <p class="tag" id="inactif">INACTIF</p>
-                                    <img src="profil.png" alt="PHOTO">
-                                </div>
-                                <hr>
-                                <div class="taskOption">
-                                    <div class="taskBtns"><i class="bi bi-check-square"></i> <i class="bi bi-trash3"></i></div>
-                                    <div class="taskDate">
-                                        <p><i class="bi bi-calendar"></i> 2024-03-31</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="taskAdd">
-                                <p><i class="bi bi-plus"></i> Ajouter tâche</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!--Tâche en cours-->
-                    <div class="taskContainer">
-                        <div class="taskHeader">
-                            <div class="taskCount">
-                                <p>En cours</p>
-                                <p class="count">2</p>
-                            </div>
-                            <i class="bi bi-three-dots"></i>
-                        </div>
-                        <div class="taskScroller">
-
-                            <div class="task">
-                                <p class="taskTitle">Ajout de couleur</p>
-                                <div class="taskInfo">
-                                    <p class="tag" id="actif">EN COURS</p>
-                                    <img src="profil.png" alt="PHOTO">
-                                </div>
-                                <hr>
-                                <div class="taskOption">
-                                    <div class="taskBtns"><i class="bi bi-check-square"></i> <i class="bi bi-trash3"></i></div>
-                                    <div class="taskDate">
-                                        <p><i class="bi bi-calendar"></i> 2024-03-31</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="task">
-                                <p class="taskTitle">Ajout de couleur</p>
-                                <div class="taskInfo">
-                                    <p class="tag" id="actif">EN COURS</p>
-                                    <img src="profil.png" alt="PHOTO">
-                                </div>
-                                <hr>
-                                <div class="taskOption">
-                                    <div class="taskBtns"><i class="bi bi-check-square"></i> <i class="bi bi-trash3"></i></div>
-                                    <div class="taskDate">
-                                        <p><i class="bi bi-calendar"></i> 2024-03-31</p>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div class="taskAdd">
-                                <p><i class="bi bi-plus"></i> Ajouter tâche</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!--Tache terminé-->
-                    <div class="taskContainer">
-                        <div class="taskHeader">
-                            <div class="taskCount">
-                                <p>Terminé</p>
-                                <p class="count">1</p>
-                            </div>
-                            <i class="bi bi-three-dots"></i>
-                        </div>
-                        <div class="taskScroller">
-
-
-                            <div class="task">
-                                <p class="taskTitle">Ajout de couleur</p>
-                                <div class="taskInfo">
-                                    <p class="tag" id="termine">TERMINÉ</p>
-                                    <img src="profil.png" alt="PHOTO">
-                                </div>
-                                <hr>
-                                <div class="taskOption">
-                                    <div class="taskBtns"><i class="bi bi-check-square"></i> <i class="bi bi-trash3"></i></div>
-                                    <div class="taskDate">
-                                        <p><i class="bi bi-calendar"></i> 2024-03-31</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="taskAdd">
-                                <p><i class="bi bi-plus"></i> Ajouter tâche</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-            </div>
-            <div class="projectContainer2">
-                <div class="annonceHeader">
-                    <p>ANNONCES <i class="bi bi-plus-square"></i></p>
-                </div>
-                <div class="annonceHolder">
-                    <div class="annonce">
-                        <p>SVP J'ai besoin de quelqun pour les couleurs</p>
-                        <p><b>@johnDoe</b></p>
-                        <p>2024-03-31</p>
-                        <hr>
-                    </div>
-                    <div class="annonce">
-                        <p>Oubliez pas de m'envoyer vos fichiers d'ici jeudi.</p>
-                        <p><b>@johnDoe</b></p>
-                        <p>2024-03-31</p>
-                        <hr>
-                    </div>
-                    <div class="annonce">
-                        <p>Bonne année!!</p>
-                        <p><b>@johnDoe</b></p>
-                        <p>2024-03-31</p>
-                        <hr>
-                    </div>
-                    <div class="annonce">
-                        <p>Quelqu'un sait comment fix le bug du crayon qui bloque sur Krita ?</p>
-                        <p><b>@johnDoe</b></p>
-                        <p>2024-03-31</p>
-                        <hr>
-                    </div>
-                    <div class="annonce">
-                        <p>Envoyez moi un message si vous avez besoin d'aide</p>
-                        <p><b>@johnDoe</b></p>
-                        <p>2024-03-31</p>
-                        <hr>
-                    </div>
-                    <div class="annonce">
-                        <p>Bienvenue au projet!</p>
-                        <p><b>@johnDoe</b></p>
-                        <p>2024-03-31</p>
-                        <hr>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
     </div>
 
-    
+
+    <!--Tâches-->
+    <div class="taskHolder">
+
+        <!--Tache à faire-->
+        <div class="taskContainer">
+            <div class="taskHeader">
+                <div class="taskCount">
+                    <p>À faire</p>
+                    <p class="count" th:text="${tachesAFaire.size()}"></p>
+                </div>
+                <i class="bi bi-three-dots"></i>
+            </div>
+            <div class="taskScroller">
+                <div th:each="tache : ${tachesAFaire}" class="task">
+                    <p class="taskTitle">[[${tache.titre}]]</p>
+                    <div class="taskInfo">
+                        <p class="tag" id="inactif">[[${tache.etat}]]</p>
+                        <img th:src="@{/media/images/{image}(image=${tache.utilisateur.getPhotoUrl()})}" alt="PHOTO">
+                    </div>
+                    <hr>
+                    <div class="taskOption">
+                        <div class="taskBtns"><i  class="bi bi-check-square"></i> <i class="bi bi-trash3"></i></div>
+                        <div class="taskDate">
+                            <p><i class="bi bi-calendar"></i> [[${tache.dateCreation.toLocalDate()}]]</p>
+                        </div>
+                    </div>
+                </div>
+                <a th:href="@{/groupe/create/{projetId}(projetId=${projet.getId()})}" class="taskAdd">
+                    <p><i class="bi bi-plus"></i> Ajouter tâche</p>
+                </a>
+            </div>
+        </div>
+
+        <!--Tâche en cours-->
+        <div class="taskContainer">
+            <div class="taskHeader">
+                <div class="taskCount">
+                    <p>En cours</p>
+                    <p class="count" th:text="${taches.size()}"></p>
+                </div>
+                <i class="bi bi-three-dots"></i>
+            </div>
+            <div class="taskScroller">
+                <div th:each="tache : ${taches}" class="task">
+                    <p class="taskTitle">[[${tache.titre}]]</p>
+                    <div class="taskInfo">
+                        <p class="tag" id="actif">[[${tache.etat}]]</p>
+                        <img th:src="@{/media/images/{image}(image=${tache.utilisateur.getPhotoUrl()})}" alt="PHOTO">
+                    </div>
+                    <hr>
+                    <div class="taskOption">
+                        <div class="taskBtns"><i style="color: orange" class="bi bi-check-square"></i> <i class="bi bi-trash3"></i></div>
+                        <div class="taskDate">
+                            <p><i class="bi bi-calendar"></i> [[${tache.dateCreation.toLocalDate()}]]</p>
+                        </div>
+                    </div>
+                </div>
+                <a th:href="@{/groupe/create/{projetId}(projetId=${projet.getId()})}" class="taskAdd">
+                    <p><i class="bi bi-plus"></i> Ajouter tâche</p>
+                </a>
+            </div>
+        </div>
+        <!--Tache terminé-->
+        <div class="taskContainer">
+            <div class="taskHeader">
+                <div class="taskCount">
+                    <p>Terminé</p>
+                    <p class="count" th:text="${tachesTerminees.size()}"></p>
+                </div>
+                <i class="bi bi-three-dots"></i>
+            </div>
+            <div class="taskScroller">
+                <div th:each="tache : ${tachesTerminees}" class="task">
+                    <p class="taskTitle">[[${tache.titre}]]</p>
+                    <div class="taskInfo">
+                        <p class="tag" id="termine">[[${tache.etat}]]</p>
+                        <img th:src="@{/media/images/{image}(image=${tache.utilisateur.getPhotoUrl()})}" alt="PHOTO">
+                    </div>
+                    <hr>
+                    <div class="taskOption">
+                        <div class="taskBtns"><i style="color: #4a8e44" class="bi bi-check-square"></i> <i class="bi bi-trash3"></i></div>
+                        <div class="taskDate">
+                            <p><i class="bi bi-calendar"></i> [[${tache.dateCreation.toLocalDate()}]]</p>
+                        </div>
+                    </div>
+                </div>
+                <a th:href="@{/groupe/create/{projetId}(projetId=${projet.getId()})}" class="taskAdd">
+                    <p><i class="bi bi-plus"></i> Ajouter tâche</p>
+                </a>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div th:replace="~{fragment/annonceFragment :: annoncesFragment}">
+
+    </div>
     </body>
     <script th:src="@{/js/script-group.js}"></script>
 </html>

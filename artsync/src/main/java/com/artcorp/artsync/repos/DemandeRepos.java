@@ -10,5 +10,6 @@ public interface DemandeRepos extends JpaRepository<Demande, Long> {
     List<Demande> findByStatus(String status);
     List<Demande> findByUtilisateurId(Long id);
     List<Demande> findByProjetId(Long id);
+    void deleteAllByProjetId(Long id);
 
 }

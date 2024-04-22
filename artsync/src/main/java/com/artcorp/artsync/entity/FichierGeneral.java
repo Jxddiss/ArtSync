@@ -12,6 +12,9 @@ public class FichierGeneral {
     @JoinColumn(name = "post_id")
     private Post post;
     @ManyToOne
+    @JoinColumn(name = "projet_id")
+    private Projet projet;
+    @ManyToOne
     @JoinColumn(name = "utilisateur_id")
     private Utilisateur utilisateur;
 
@@ -21,6 +24,26 @@ public class FichierGeneral {
     public FichierGeneral(Long id, String urlMedia) {
         this.id = id;
         this.urlMedia = urlMedia;
+    }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public Projet getProjet() {
+        return projet;
+    }
+
+    public void setProjet(Projet projet) {
+        this.projet = projet;
+    }
+
+    public Utilisateur getUtilisateur() {
+        return utilisateur;
+    }
+
+    public void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
     }
 
     public Long getId() {

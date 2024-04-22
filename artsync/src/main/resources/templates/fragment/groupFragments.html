@@ -1,0 +1,68 @@
+<!--Navbar vertical-->
+<div th:fragment="groupHeaderFragment" class="content">
+    <div class="verticalNavbar">
+        <h4>VOS PROJETS</h4>
+        <hr>
+        <!--Projet de l'utilisateur-->
+        <div class="projectHolder">
+            <a th:href="@{/groupe/group/{projetId}(projetId=${userProjet.getId()})}"
+               th:class="${userProjet.getId() == projet.getId()} ? 'project projectSelected' : 'project'"
+               th:each="userProjet, projetId : ${projets}">
+                <img th:src="@{/media/images/{image}(image=${userProjet.getProjetPhoto()})}" alt="">
+                <h3>[[${userProjet.getTitre()}]]</h3>
+            </a>
+            <a th:href="@{/recherche(filtre='GROUPE')}" class="add">
+                <i class="bi bi-plus-square"></i>
+                <p>Ajouter un projet</p>
+            </a>
+        </div>
+        <h4  id="optionsHr">OPTIONS</h4>
+        <hr>
+        <!--Options de la navbar-->
+        <div class="navbarOptions">
+            <a th:if="${projet.getAdmin() != null and session.user != null and projet.getAdmin().getId() == session.user.getId()}" th:href="@{/groupe/group/supprimer/{projetId}(projetId=${projet.getId()})}" class="leaveBtn"> SUPPRIMER <i class="bi bi-trash"></i></a>
+            <a th:if="${projet.getAdmin() != null and session.user != null and projet.getAdmin().getId() != session.user.getId()}" th:href="@{/groupe/group/quitter/{projetId}(projetId=${projet.getId()})}" class="leaveBtn"> QUITTER <i class="bi bi-box-arrow-right"></i></a>
+        </div>
+    </div>
+
+    <!--Contenu du projet courant-->
+    <div class="projectContent" th:object="${projet}">
+
+
+        <!--Parti gauche du projet-->
+        <div class="projectContainer1">
+            <!--Date et bouttons-->
+            <div class="projectInfo">
+                <p> Commencé en [[${projet.dateCreation.toLocalDate()}]]</p> 
+            </div>
+            <!--Titre et dernière mise à jour-->
+            <div class="projectHeader">
+                <div class="headerInfo">
+                    <img class="imgHeaderGroup" th:src="@{/media/images/{image}(image=${projet.getProjetPhoto()})}" alt="">
+                    <h3>[[${projet.titre}]]</h3>
+                </div>
+
+                <p class="mt-2">Mis à jour le [[${projet.dateModification.toLocalDate()}]]</p>
+            </div>
+            <!--Options du projet-->
+            <div class="options">
+                <a th:class="${selected == 'dashboard'} ? 'optionSelected' : ''" th:href="@{/groupe/group/{projetId}(projetId=${projet.getId()})}">Tableau de Bord</a>
+                <a th:class="${selected == 'taches'} ? 'optionSelected' : ''" th:href="@{/groupe/group-tache/{projetId}(projetId=${projet.getId()})}">Tâche</a>
+                <a th:href="@{/utilisateur/conversation}">Conversation</a>
+                <a th:if="${projet.getAdmin() != null and session.user != null and projet.getAdmin().getId()==session.user.getId()}" th:class="${selected == 'demandes'} ? 'optionSelected' : ''" th:href="@{/groupe/group-demande/{projetId}(projetId=${projet.getId()})}">Demande</a>
+                <a th:if="${projet.getAdmin() != null and session.user != null and projet.getAdmin().getId()==session.user.getId()}" th:class="${selected == 'gestion'} ? 'optionSelected' : ''" th:href="@{/groupe/group-gestion/{projetId}(projetId=${projet.getId()})}">Gestion</a>
+            </div>
+            <!--Membres et fichiers-->
+            <div class="projectInfoContent">
+                <div th:class="${selected == 'users'} ? 'userCountSelected userCount' : 'userCount'">
+                    <div><p>Membres</p></div>
+                    <a th:href="@{/groupe/group-users/{projetId}(projetId=${projet.getId()})}" class="userContent"><p th:text="${nbMembres}"></p> <i class="bi bi-people"></i></a>
+                </div>
+                <div class="vr"></div>
+                <div th:class="${selected == 'fichiers'} ? 'fileSelected fileButton' : 'fileButton'">
+                    <a th:href="@{/groupe/group-folder/{projetId}(projetId=${projet.getId()})}"><i class="bi bi-card-image"></i> <span th:text="${nbFichiers}"></span>fichiers</a>
+                </div>
+            </div>
+            <hr>
+
+

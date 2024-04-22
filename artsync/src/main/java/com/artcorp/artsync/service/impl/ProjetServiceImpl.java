@@ -57,6 +57,34 @@ public class ProjetServiceImpl implements ProjetService {
         int presence = repos.checkIfUserIsInProjet(idProjet, idUtilisateur);
         return presence > 0;
     }
+    @Override
+    public List<Projet> findProjectsOfUser(Long idUtilisateur) {
+        return repos.findProjectsOfUser(idUtilisateur);
+    }
+    @Override
+    public int getMembersCount(Long idProjet) {
+        return repos.getMembersCount(idProjet);
+    }
+    @Override
+    public List<Utilisateur> getMembers(Long idProjet) {
+        return repos.getMembers(idProjet);
+    }
+    @Override
+    public int getFileCount(Long idProjet) {
+        return repos.getFileCount(idProjet);
+    }
+    @Override
+    public Projet updateProjet(Projet projet) {
+        return repos.save(projet);
+    }
+    @Override
+    public Projet createProjet(Projet projet) {
+        return repos.save(projet);
+    }
 
+    @Override
+    public void deleteProjet(Long id) {
+        repos.deleteById(id);
+    }
 
 }

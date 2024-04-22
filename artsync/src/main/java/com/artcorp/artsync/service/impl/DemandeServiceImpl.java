@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -48,6 +49,19 @@ public class DemandeServiceImpl implements DemandeService {
         demande.setProjet(projet);
         demande.setStatus("pending");
         return repos.save(demande);
+    }
+    @Override
+    public void deleteDemande(Long id) {
+        repos.deleteById(id);
+    }
+
+    @Override
+    public Optional<Demande> findById(Long demandeId) {
+        return repos.findById(demandeId);
+    }
+    @Override
+    public void deleteAllByProjetId(Long id) {
+        repos.deleteAllByProjetId(id);
     }
 
 }

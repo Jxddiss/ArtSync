@@ -458,7 +458,7 @@ public class GroupController {
         HttpSession session = request.getSession(false);
         if (session == null) {
             return "auth";
-        } 
+        }
         List<Utilisateur> users = projetService.getMembers(projetId);
         for (Utilisateur user : users) {
             projetService.removeUtilisateurFromProjet(projetId, user.getId());
@@ -469,6 +469,11 @@ public class GroupController {
         demandeService.deleteAllByProjetId(projetId);
         projetService.deleteProjet(projetId);
         return "recherche";
+    }
+    @GetMapping("/groupe/group/supprimer/user/{projetId}/{userId}")
+    public String supprimerUtilisateur(@PathVariable("projetId") Long projetId, @PathVariable("userId") Long userId) {
+        projetService.removeUtilisateurFromProjet(projetId, userId);
+        return "redirect:/groupe/group-users/" + projetId;
     }
 
 }

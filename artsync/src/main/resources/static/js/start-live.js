@@ -130,15 +130,15 @@ document.addEventListener("DOMContentLoaded", function() {
                 sdpMLineIndex: candidateO["label"],
                 candidate: candidateO["id"]
             });
-            if (streamerStream.remoteDescription){
-                streamerPeerConnection.addIceCandidate(iceCandidate)
-                    .then(()=>{
-                        console.log("added candidate : " + JSON.stringify(candidateO));
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    })
-            }
+
+            streamerPeerConnection.addIceCandidate(iceCandidate)
+                .then(()=>{
+                    console.log("added candidate : " + JSON.stringify(candidateO));
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+
         });
     }
 

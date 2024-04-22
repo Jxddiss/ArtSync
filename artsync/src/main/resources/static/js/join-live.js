@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", function() {
     //====== Déclaration des variables
     let viewerPeerConnection;
@@ -27,7 +28,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
         stompClientViewer.connect({}, function (frame){
             stompClientViewer.subscribe('/topic/live/count/'+pseudoStreamer,(ev)=>{
-                viewCount.innerText = ev.body;
+                let countEvent = JSON.parse(ev.body);
+                viewCount.innerText = countEvent.currentCount;
+                AddNewUserJoinMessage(countEvent.pseudo);
             })
 
             stompClientViewer.send('/app/live/new/'+pseudoStreamer,{},userPseudo);

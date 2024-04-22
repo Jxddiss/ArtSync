@@ -233,6 +233,10 @@ body {
     gap: 1em;
 }
 
+.stream-event{
+    align-self: center;
+}
+
 .disabled{
     background: #d86e6e !important;
     color: #c9d7dc !important;

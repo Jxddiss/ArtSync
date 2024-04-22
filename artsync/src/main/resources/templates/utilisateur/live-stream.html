@@ -106,6 +106,15 @@
             listeChat.appendChild(chatItem);
             listeChat.scrollTop = listeChat.scrollHeight;
         }
+
+        function AddNewUserJoinMessage(pseudo) {
+            const streamJoinElem = document.createElement("li")
+            streamJoinElem.classList.add("stream-event")
+            streamJoinElem.innerHTML = `Bienvenue ${pseudo} 👋
+                    <hr>`
+            listeChat.appendChild(streamJoinElem);
+            listeChat.scrollTop = listeChat.scrollHeight;
+        }
     </script>
     <script th:src="@{/js/live.js}"></script>
     <script th:if="${isStreamer}" th:src="@{/js/start-live.js}"></script>

@@ -51,12 +51,16 @@ document.addEventListener("DOMContentLoaded", function() {
                 stompClientStream = Stomp.over(socketStream);
                 streamerStream = stream;
                 stompClientStream.connect({}, function (frame){
-                    stompClientStream.send('/app/live/start/'+userPseudo,{},"");
+                    stompClientStream.send('/app/live/start/'+userPseudo,{},"Started");
                     stompClientStream.subscribe('/topic/live/new/' + userPseudo, (newViewerEvent) => {
                         currentCount ++;
                         viewCount.innerText = currentCount.toString();
-                        stompClientStream.send('/app/live/count/'+userPseudo,{},currentCount);
                         const viewerPseudo = newViewerEvent.body;
+                        stompClientStream.send('/app/live/count/'+userPseudo,{},JSON.stringify({
+                            currentCount:currentCount,
+                            pseudo:viewerPseudo,
+                        }));
+                        AddNewUserJoinMessage(viewerPseudo);
                         handleNewViewer(viewerPseudo);
                     });
                     stompClientStream.subscribe('/topic/live/chat/'+userPseudo, function(message) {

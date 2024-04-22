@@ -12,4 +12,5 @@ public interface DemandeService {
     Demande createDemande(Long idUtilisateur, Long idProjet);
     void deleteDemande(Long id);
     Optional<Demande> findById(Long demandeId);
+    void deleteAllByProjetId(Long id);
 }

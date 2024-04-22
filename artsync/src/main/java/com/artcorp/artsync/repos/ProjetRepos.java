@@ -30,5 +30,5 @@ public interface ProjetRepos extends JpaRepository<Projet, Long> {
 
      @Query("select count(f) from Projet p join p.fichiers f where p.id = ?1")
      public int getFileCount(Long idProjet);
-
+     public void deleteById(Long id);
 }

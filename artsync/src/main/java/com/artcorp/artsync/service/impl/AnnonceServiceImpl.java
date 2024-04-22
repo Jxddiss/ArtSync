@@ -29,4 +29,9 @@ public class AnnonceServiceImpl implements AnnonceService {
         return repos.save(annonce);
     }
 
+    @Override
+    public void deleteAllByProjetId(Long id) {
+        repos.deleteAllByProjetId(id);
+    }
+
 }

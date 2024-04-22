@@ -13,5 +13,6 @@ public interface FichierGeneralRepos extends JpaRepository<FichierGeneral, Long>
     List<FichierGeneral> findAllByProjet(Projet projet);
     List<FichierGeneral> findAllByProjetAndUtilisateur(Projet projet, Utilisateur utilisateur);
     Long countByProjet(Projet projet);
+    void deleteAllByProjet(Projet projet);
 
 }

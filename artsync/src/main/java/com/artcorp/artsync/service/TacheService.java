@@ -15,5 +15,6 @@ public interface TacheService {
     Tache createTache(Tache tache);
     void deleteTache(Long id);
     Tache updateTache(Tache tache);
+    void deleteAllByProjetId(Long id);
 
 }

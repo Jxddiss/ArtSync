@@ -20,8 +20,8 @@
         <hr>
         <!--Options de la navbar-->
         <div class="navbarOptions">
-            <a th:if="${projet.getAdmin() != null and session.user != null and projet.getAdmin().getId() == session.user.getId()}" href="" class="leaveBtn"> SUPPRIMER <i class="bi bi-trash"></i></a>
-            <a th:if="${projet.getAdmin() != null and session.user != null and projet.getAdmin().getId() != session.user.getId()}" href="" class="leaveBtn"> QUITTER <i class="bi bi-box-arrow-right"></i></a>
+            <a th:if="${projet.getAdmin() != null and session.user != null and projet.getAdmin().getId() == session.user.getId()}" th:href="@{/groupe/group/supprimer/{projetId}(projetId=${projet.getId()})}" class="leaveBtn"> SUPPRIMER <i class="bi bi-trash"></i></a>
+            <a th:if="${projet.getAdmin() != null and session.user != null and projet.getAdmin().getId() != session.user.getId()}" th:href="@{/groupe/group/quitter/{projetId}(projetId=${projet.getId()})}" class="leaveBtn"> QUITTER <i class="bi bi-box-arrow-right"></i></a>
         </div>
     </div>
 

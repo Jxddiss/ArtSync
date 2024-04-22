@@ -82,4 +82,9 @@ public class ProjetServiceImpl implements ProjetService {
         return repos.save(projet);
     }
 
+    @Override
+    public void deleteProjet(Long id) {
+        repos.deleteById(id);
+    }
+
 }

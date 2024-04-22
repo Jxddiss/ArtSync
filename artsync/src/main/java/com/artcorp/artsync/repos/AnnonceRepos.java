@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface AnnonceRepos extends JpaRepository<Annonce, Long> {
     public List<Annonce> findByProjetId(Long id);
+    public void deleteAllByProjetId(Long id);
 }

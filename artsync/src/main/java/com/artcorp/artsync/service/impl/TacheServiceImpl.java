@@ -69,4 +69,8 @@ public class TacheServiceImpl implements TacheService {
     public Tache updateTache(Tache tache) {
         return repos.save(tache);
     }
+    @Override
+    public void deleteAllByProjetId(Long id) {
+        repos.deleteAllByProjetId(id);
+    }
 }

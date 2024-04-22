@@ -59,5 +59,9 @@ public class DemandeServiceImpl implements DemandeService {
     public Optional<Demande> findById(Long demandeId) {
         return repos.findById(demandeId);
     }
+    @Override
+    public void deleteAllByProjetId(Long id) {
+        repos.deleteAllByProjetId(id);
+    }
 
 }

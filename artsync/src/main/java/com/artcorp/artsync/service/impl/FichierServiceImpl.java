@@ -37,4 +37,8 @@ public class FichierServiceImpl implements FichierService {
     public Long countByProjet(Projet projet) {
         return fichierGeneralRepository.countByProjet(projet);
     }
+    @Override
+    public void deleteAllByProjet(Projet projet) {
+        fichierGeneralRepository.deleteAllByProjet(projet);
+    }
 }

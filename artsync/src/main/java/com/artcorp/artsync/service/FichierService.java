@@ -11,4 +11,5 @@ public interface FichierService {
     FichierGeneral createFichier(FichierGeneral fichierGeneral);
     public List<FichierGeneral> findAllByProjetAndUtilisateur(Projet projet, Utilisateur utilisateur);
     Long countByProjet(Projet projet);
+    void deleteAllByProjet(Projet projet);
 }

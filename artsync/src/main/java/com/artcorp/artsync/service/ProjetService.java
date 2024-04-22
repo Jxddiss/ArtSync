@@ -19,4 +19,5 @@ public interface ProjetService {
     int getFileCount(Long idProjet);
     Projet updateProjet(Projet projet);
     Projet createProjet(Projet projet);
+    void deleteProjet(Long id);
 }

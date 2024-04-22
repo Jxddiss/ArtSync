@@ -443,4 +443,32 @@ public class GroupController {
         return "redirect:/groupe/group-fichier/" + projetId + "/" + userId;
     }
 
+    @GetMapping("/groupe/group/quitter/{projetId}")
+    public String quitterProjet(@PathVariable("projetId") Long projetId, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            return "auth";
+        }
+        Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+        projetService.removeUtilisateurFromProjet(projetId, utilisateur.getId());
+        return "recherche";
+    }
+    @GetMapping("/groupe/group/supprimer/{projetId}")
+    public String supprimerProjet(@PathVariable("projetId") Long projetId, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            return "auth";
+        } 
+        List<Utilisateur> users = projetService.getMembers(projetId);
+        for (Utilisateur user : users) {
+            projetService.removeUtilisateurFromProjet(projetId, user.getId());
+        }
+        fichierService.deleteAllByProjet(projetService.findById(projetId));
+        annonceService.deleteAllByProjetId(projetId);
+        tacheService.deleteAllByProjetId(projetId);
+        demandeService.deleteAllByProjetId(projetId);
+        projetService.deleteProjet(projetId);
+        return "recherche";
+    }
+
 }

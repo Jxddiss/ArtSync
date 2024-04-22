@@ -14,5 +14,6 @@ public interface TacheRepos extends JpaRepository<Tache, Long> {
     public List<Tache> findByProjetId(Long id);
     public List<Tache> findByUtilisateurIdAndProjetId(Long utilisateurId, Long projetId);
     public List<Tache> findByEtatAndProjetId(String etat, Long projetId);
+    public void deleteAllByProjetId(Long id);
 
 }

@@ -33,7 +33,7 @@
     <div id="video-chat">
         <div id="stream-holder">
             <div id="stream-title">
-                <img class="profil-pic-stream" src="/media/images/aok.jpg" alt="">
+                <img class="profil-pic-stream" th:src="@{/media/images/{image}(image=${streamerPic})}" alt="photo-streamer">
                 <h4>Apprentissage de  ...</h4>
             </div>
             <div class="video-box">
@@ -42,9 +42,16 @@
                     id="streamVideo"
                 >
                 </video>
-                <button type="button" id="play-stream" class="button-video">
-                    <i class="bi bi-play"></i>
+                <button  type="button" id="play-stream">
+                    <!--<i th:if="${isStreamer}" class="bi bi-play"></i>-->
+                    <span th:if="${isStreamer}">Commencer le live</span>
+                    <span th:if="${!isStreamer && streamStarted}">Rejoindre le live</span>
+                    <span th:if="${!streamStarted && !isStreamer}">Le live n'est pas en cours</span>
                 </button>
+                <div id="viewer-count">
+                    <span id="number-views">0</span>
+                    <i class="bi bi-people"></i>
+                </div>
             </div>
             <div class="control-holder" th:if="${isStreamer != null && isStreamer}">
                 <button type="button"
@@ -85,6 +92,8 @@
         const pseudoStreamer = '[[${pseudoStreamer}]]';
         const listeChat = document.getElementById("liste-chat-stream");
         const messageInput = document.getElementById("input-chat");
+        const viewCount = document.getElementById("number-views");
+        let currentCount = 0;
 
         function addMessageLive(message){
             const chatItem = document.createElement("li");
@@ -100,7 +109,7 @@
     </script>
     <script th:src="@{/js/live.js}"></script>
     <script th:if="${isStreamer}" th:src="@{/js/start-live.js}"></script>
-    <script th:unless="${isStreamer}" th:src="@{/js/join-live.js}"></script>
+    <script th:if="${!isStreamer && streamStarted}" th:src="@{/js/join-live.js}"></script>
     <div th:replace="${session.user != null} ? ~{fragment/notificationFragment :: notificationFragment} : ~{}"></div>
 </body>
 </html>

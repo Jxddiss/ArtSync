@@ -1,6 +1,7 @@
 package com.artcorp.artsync.controller.websocket;
 
 import com.artcorp.artsync.entity.Utilisateur;
+import com.artcorp.artsync.service.impl.UtilisateurServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
@@ -9,26 +10,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.HashSet;
+import java.util.Set;
 
 @Controller
 public class LiveStreamController {
-    private final SimpMessagingTemplate messagingTemplate;
     private Logger LOGGER = LoggerFactory.getLogger(getClass());
+    private UtilisateurServiceImpl utilisateurService;
+    private Set<String> currentStreamer = new HashSet<>();
 
     @Autowired
-    public LiveStreamController(SimpMessagingTemplate messagingTemplate) {
-        this.messagingTemplate = messagingTemplate;
+    public LiveStreamController(UtilisateurServiceImpl utilisateurService) {
+        this.utilisateurService = utilisateurService;
     }
 
     @GetMapping("/live/start")
@@ -39,6 +38,10 @@ public class LiveStreamController {
         Utilisateur user = (Utilisateur) session.getAttribute("user");
         if (user != null){
             String pseudo = user.getPseudo();
+            currentStreamer.add(pseudo);
+            String streamerPic = user.getPhotoUrl();
+            model.addAttribute("streamerPic",streamerPic);
+            model.addAttribute("streamStarted",true);
             model.addAttribute("isStreamer",true);
             return "utilisateur/live-stream";
         }
@@ -54,10 +57,22 @@ public class LiveStreamController {
         HttpSession session = request.getSession(false);
         Utilisateur user = (Utilisateur) session.getAttribute("user");
         if (user != null){
-            String viewerPseudo = user.getPseudo();
-            model.addAttribute("isStreamer",false);
-            model.addAttribute("pseudoStreamer", pseudo);
-            return "utilisateur/live-stream";
+            Utilisateur streamer = utilisateurService.findByPseudo(pseudo);
+            if(streamer != null){
+                String streamerPic = streamer.getPhotoUrl();
+                model.addAttribute("streamerPic",streamerPic);
+                model.addAttribute("isStreamer",false);
+                model.addAttribute("pseudoStreamer", pseudo);
+                if (currentStreamer.contains(pseudo)){
+                    model.addAttribute("streamStarted",true);
+                }else{
+                    model.addAttribute("streamStarted",false);
+                }
+                return "utilisateur/live-stream";
+            }else{
+                redirectAttributes.addFlashAttribute("error", "Stream inexistant");
+                return "redirect:/index";
+            }
         }
         redirectAttributes.addFlashAttribute("error", "Vous devez vous connecter pour avoir accès à cette page");
         return "redirect:/authentification";
@@ -102,5 +117,11 @@ public class LiveStreamController {
     @SendTo("/topic/live/chat/{pseudo}")
     public String liveStreamChat(String chat){
         return chat;
+    }
+
+    @MessageMapping("/live/count/{pseudo}")
+    @SendTo("/topic/live/count/{pseudo}")
+    public String getViewersCount(String count){
+        return count;
     }
 }

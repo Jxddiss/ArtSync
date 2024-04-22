@@ -26,7 +26,12 @@ document.addEventListener("DOMContentLoaded", function() {
         stompClientViewer = Stomp.over(socketViewer);
 
         stompClientViewer.connect({}, function (frame){
+            stompClientViewer.subscribe('/topic/live/count/'+pseudoStreamer,(ev)=>{
+                viewCount.innerText = ev.body;
+            })
+
             stompClientViewer.send('/app/live/new/'+pseudoStreamer,{},userPseudo);
+
             stompClientViewer.subscribe('/topic/live/offer/'+pseudoStreamer+"/"+userPseudo, (of) =>{
                 console.log("offer de : " + of.body);
                 offer = JSON.parse(of.body)["offer"];

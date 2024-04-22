@@ -53,6 +53,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 stompClientStream.connect({}, function (frame){
                     stompClientStream.send('/app/live/start/'+userPseudo,{},"");
                     stompClientStream.subscribe('/topic/live/new/' + userPseudo, (newViewerEvent) => {
+                        currentCount ++;
+                        viewCount.innerText = currentCount.toString();
+                        stompClientStream.send('/app/live/count/'+userPseudo,{},currentCount);
                         const viewerPseudo = newViewerEvent.body;
                         handleNewViewer(viewerPseudo);
                     });

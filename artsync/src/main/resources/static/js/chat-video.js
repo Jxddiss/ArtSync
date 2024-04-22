@@ -1,17 +1,17 @@
 document.addEventListener("DOMContentLoaded", function() {
 
+    //======= Déclaration des variables =================
     const remoteVideo = document.getElementById("remoteVideo");
     const localVideo = document.getElementById("localVideo");
     const hangUpButton = document.getElementById("hang-up-button");
     const camToggle = document.getElementById("cam-toggle");
     const microToggle = document.getElementById("micro-toggle");
     let localStream;
-    let remoteStream;
     let localPeer;
-
     let stompClientVideo;
+    let offer;
 
-    // ICE Server Configurations
+    // ==== Configuration des ICE servers (En cas de problème de parfeu pour la connection peer to peer )
     const config = {
         iceServers: [
             {
@@ -30,6 +30,10 @@ document.addEventListener("DOMContentLoaded", function() {
         toggleMic();
     });
 
+    /*
+    * Prend le media de la caméra et ensuite si la promesse est résolu
+    * un appel est lancé grace a WebRTC
+    * */
     video.addEventListener("click", function() {
         videoDialog.showModal();
         if (navigator.mediaDevices.getUserMedia) {
@@ -42,6 +46,11 @@ document.addEventListener("DOMContentLoaded", function() {
                 });
         }
     });
+
+    /*
+    * Lance un appel après avoir pris le média de l'utilisateur
+    * et désactive la vidéo pendant l'appel
+    * */
     phone.addEventListener("click", function() {
         videoDialog.showModal();
         if (navigator.mediaDevices.getUserMedia) {
@@ -54,14 +63,21 @@ document.addEventListener("DOMContentLoaded", function() {
                 });
         }
     });
+
+    /* Fonction qui permet de se connecter au websocket et denvoyer les information nécessaire a la
+    * connexion WebRTC. De plus, on définie les callback selon les évènnements WebRTC et met à jour
+    * le remote video
+    * */
     function call(stream,type){
         localStream = stream;
         if (type === "phone") {
+            //Désactive la caméra
             toggleCam();
         }
         const socketVideo = new SockJS('/websocket');
         stompClientVideo = Stomp.over(socketVideo);
         stompClientVideo.connect({}, function(frame) {
+            //==== Envoie une notification de type appel
             stompClientVideo.send("/app/notification/"+idAmi,{},JSON.stringify(
                 {
                     type: 'info',
@@ -73,12 +89,17 @@ document.addEventListener("DOMContentLoaded", function() {
                     imgSender: profilImgUserLogin
                 }
             ));
+
+            //=== Abonnements au topic de la conversation qui lance cette logique lorsqu'un appel est démaré a notre encontre
             stompClientVideo.subscribe('/topic/appel/call/'+conversationId+"/"+idUser, (call) => {
                 console.log("appel de : " + call.body);
+
+                //=== Ce qui sera fait a chaque fois qu'un stream est ajouté à la connection
                 localPeer.ontrack = (event) => {
                     remoteVideo.srcObject = event.streams[0];
                 }
 
+                //=== Ce qui sera fait a chaque fois qu'un ICE candidate est ajouté à la connection
                 localPeer.onicecandidate = (event) => {
                     if (event.candidate) {
                         var candidate = {
@@ -95,11 +116,16 @@ document.addEventListener("DOMContentLoaded", function() {
                     }
                 }
 
+                //=== préparation de l'envoie de notre vidéo, on l'ajoute à la connexion
                 localStream.getTracks().forEach(track => localPeer.addTrack(track, localStream));
 
+                //=== Préparation de l'offre de connexion, et on met la description de la connexion en local decription
+                // de notre côté
                 localPeer.createOffer().then((description) => {
                     localPeer.setLocalDescription(description);
                     console.log("Setting local description : " + JSON.stringify(description));
+
+                    //=== Envoie de l'offre au websocket de l'utilisateur
                     stompClientVideo.send('/app/chat/appel/offer/'+conversationId+"/"+idAmi, {}, JSON.stringify({
                         toUser: idAmi,
                         fromUser: idUser,
@@ -108,12 +134,20 @@ document.addEventListener("DOMContentLoaded", function() {
                 })
             });
 
-            stompClientVideo.subscribe('/topic/appel/offer/'+conversationId+"/"+idUser, (offer) => {
-                console.log("offer de : " + offer.body);
-                var offer = JSON.parse(offer.body)["offer"];
+            /*
+            * Abonnement au topic qui retourne toutes les offres qui nous son dirigées, Met le remote description selon
+            * l'offre reçu du websocket
+            * */
+            stompClientVideo.subscribe('/topic/appel/offer/'+conversationId+"/"+idUser, (of) => {
+                console.log("offer de : " + of.body);
+                offer = JSON.parse(of.body)["offer"];
+
+                //=== Ce qui sera fait a chaque fois qu'un stream est ajouté à la connection
                 localPeer.ontrack = (event) => {
                     remoteVideo.srcObject = event.streams[0];
                 }
+
+                //=== Ce qui sera fait a chaque fois qu'un ICE candidate est ajouté à la connection
                 localPeer.onicecandidate = (event) => {
                     if (event.candidate) {
                         var candidate = {
@@ -130,9 +164,14 @@ document.addEventListener("DOMContentLoaded", function() {
                     }
                 }
 
+                //=== préparation de l'envoie de notre vidéo, on l'ajoute à la connexion
                 localStream.getTracks().forEach(track => localPeer.addTrack(track, localStream));
 
+                //=== met l'offre en remote description
                 localPeer.setRemoteDescription(new RTCSessionDescription(offer));
+
+                //=== Préparation de l'offre de connexion, et on met la description de la connexion en local decription
+                // de notre côté
                 localPeer.createAnswer().then((description) => {
                     localPeer.setLocalDescription(description);
                     console.log("Setting local description : " + JSON.stringify(description));
@@ -144,12 +183,14 @@ document.addEventListener("DOMContentLoaded", function() {
                 })
             })
 
+            //== Abonnement au topic des réponse pour pouvoir mettre le remote description dans le cas ou on initie l'appel
             stompClientVideo.subscribe('/topic/appel/answer/'+conversationId+"/"+idUser, (answer) => {
                 console.log("answer de : " + answer.body);
                 var answerO = JSON.parse(answer.body)["answer"];
                 localPeer.setRemoteDescription(new RTCSessionDescription(answerO));
             })
 
+            //== Abonnement au topic des candidate pour pouvoir ajouté les candidate qui nous sont envoyé
             stompClientVideo.subscribe('/topic/appel/candidate/'+conversationId+"/"+idUser, (candidate) => {
                 console.log("candidate de : " + candidate.body);
                 var candidateO = JSON.parse(candidate.body)["candidate"];
@@ -161,8 +202,13 @@ document.addEventListener("DOMContentLoaded", function() {
                 console.log("added candidate : " + JSON.stringify(candidateO));
             })
 
+            //== Ajout de l'utilisateur dans la liste d'appels courrant au niveau du serveur WebSocket
             stompClientVideo.send("/app/chat/appel/add/"+conversationId, {}, idUser)
+
+            //== initiation d'un appel vers l'ami ===
             stompClientVideo.send("/app/chat/appel/call/"+conversationId+"/"+idAmi, {}, idUser)
+
+            //=== Écoute si l'appel à été arrêté et rénitialise les connections
             stompClientVideo.subscribe("/topic/appel/remove/"+conversationId, (call) => {
                 if (localPeer) {
                     localPeer.close();
@@ -174,6 +220,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 location.reload()
             })
 
+            //=== Fonction pour se déconnecter et rénitialiser toutes le connection
             hangUpButton.addEventListener("click", function() {
                 if (localPeer) {
                     localPeer.close();
@@ -186,9 +233,12 @@ document.addEventListener("DOMContentLoaded", function() {
                 location.reload()
             })
         })
+
+        //=== ajout de notre vidéo en local sur la page
         localVideo.srcObject = stream;
     }
 
+    //=== désactive la vidéo sur le stream courrant
     function toggleCam(){
         if (localStream) {
             localStream.getVideoTracks()[0].enabled = !localStream.getVideoTracks()[0].enabled;
@@ -200,6 +250,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
+    //=== désactive le micro sur le stream courrant
     function toggleMic(){
         if (localStream) {
             localStream.getAudioTracks()[0].enabled = !localStream.getAudioTracks()[0].enabled;

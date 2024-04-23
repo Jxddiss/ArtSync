@@ -71,7 +71,7 @@
           <!-- <img src="image/image1.png" alt="test picture"> -->
           <!-- <video src="media/ArtSync - Google Chrome 2024-03-07 15-10-39.mp4" style="height: 150%; width: 140%; object-fit: cover;"></video> -->
           <div class="media-holder" data-maximiser="true">
-            <img th:src="@{/media/image/{image}(image=${post.listeFichiers[0].urlMedia})}" th:alt="${post.listeFichiers[0].urlMedia}" />
+            <img th:src="@{/media/images/{image}(image=${post.listeFichiers[0].urlMedia})}" th:alt="${post.listeFichiers[0].urlMedia}" />
             <span class="tooltiptext"
               ><i class="bi bi-arrows-angle-contract"></i
             ></span>

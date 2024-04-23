@@ -116,6 +116,9 @@
             listeChat.scrollTop = listeChat.scrollHeight;
         }
     </script>
+    <script th:if="${isStreamer}">
+        streamVideo.muted = true;
+    </script>
     <script th:src="@{/js/live.js}"></script>
     <script th:if="${isStreamer}" th:src="@{/js/start-live.js}"></script>
     <script th:if="${!isStreamer && streamStarted}" th:src="@{/js/join-live.js}"></script>

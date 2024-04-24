@@ -27,7 +27,6 @@ public class FileHandlingControllerRest {
     public void getImageChat(@PathVariable("image") String fileName, HttpServletResponse response) throws IOException {
         File dir = new File(MEDIA_CHAT_BASE_FOLDER);
         File file = new File(dir.getAbsolutePath() + File.separator + fileName);
-        System.out.println(file.getAbsolutePath());
 
         if (file.exists()) {
             response.setContentType("image/jpeg");

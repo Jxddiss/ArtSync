@@ -44,7 +44,7 @@ public class ConversationController {
         HttpSession session = request.getSession(false);
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
 
-        if (session != null && utilisateur != null) {
+        if (utilisateur != null) {
             List<Conversation> conversations = conversationService.findByAllByUtilisateur(utilisateur);
 
             if (conversations != null){
@@ -66,7 +66,7 @@ public class ConversationController {
         HttpSession session = request.getSession(false);
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
 
-        if (session != null && utilisateur != null) {
+        if (utilisateur != null) {
             List<Conversation> listeConversations = conversationService.findByAllByUtilisateur(utilisateur);
 
             Conversation conversation = conversationService.findById(id);

@@ -72,7 +72,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             <!--UTILISATEURS-->
             <div th:if="${listUtilisateurs != null and listUtilisateurs.size() > 0}" th:each="user : ${listUtilisateurs}"  class="resultAnchor">
                 <div class="userResult">
-                    <a th:href="@{'/utilisateurs/'+${user.id}}" class="userProfilPic">
+                    <a th:href="@{'/utilisateur/profil/'+${user.pseudo}}" class="userProfilPic">
                         <img th:src="@{/media/images/{image}(image=${user.getPhotoUrl()})}" alt="">
                     </a>
                     <div class="userInfo">

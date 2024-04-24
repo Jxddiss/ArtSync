@@ -303,7 +303,6 @@
 .postHolder{
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
 }
 .publication{
     height: 20rem;

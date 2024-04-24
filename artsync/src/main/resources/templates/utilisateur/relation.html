@@ -62,18 +62,16 @@
                                 <h4 >[[${type}]]</h4>
                             </div>
                             <div class="col-md-10 d-flex justify-content-end gap-2 align-items-center">
-                                <i class="bi bi-grid-1x2-fill"></i>
-                                <i class="bi bi-grid-fill"></i>
                             </div>
                             <hr class="mt-2">
                         </div>
-                        <div  class=" d-flex flex-column data-holder">
-                            <div th:if="${projets != null}" class="row">
+
+                            <div th:if="${projets != null}" class="row data-holder">
                             <!--Row #1-->
-                                    <div th:each="projet : ${projets}" class="col-md-12">
+                                    <div  th:each="projet : ${projets}" class="col-md-12">
                                         <a th:href="@{/groupe/group/{projetId}(projetId=${projet.getId()})}">
                                             <div class="carte">
-                                                <div class="mini-container">
+                                                <div id="groupeContainer" class="mini-container">
                                                     <img th:src="@{/media/images/{image}(image=${projet.getProjetPhoto()})}" alt="">
                                                     <div class="d-flex flex-column groupRelationInfo">
                                                         <p>[[${projet.getTitre()}]] <span class="statut ${projet.isPublique() ? 'online' : 'offline'}"></span></p>
@@ -117,7 +115,7 @@
 
 
                         </div>
-                        <div th:if="${following != null}" class=" d-flex flex-wrap justify-content-around data-holder">
+                        <div th:if="${following != null}" class="data-holder">
                             <!--Row #1-->
                             <div th:if="${!following.isEmpty()}" th:each="user : ${following}" style="width: 23em">
                                 <a class="carte" style="color: black;" th:href="@{/utilisateur/profil/{pseudo}(pseudo=${user.pseudo})}">
@@ -134,7 +132,7 @@
                             </div>
                             <h4 class="d-flex justify-content-center" th:if="${following.isEmpty()}">Vous n'avez pas encore d'abonnements</h4>
                         </div>
-                        <div th:if="${followers != null}" class=" d-flex flex-wrap justify-content-around data-holder">
+                        <div th:if="${followers != null}" class=" data-holder">
                             <!--Row #1-->
                             <div th:if="${!followers.isEmpty()}" th:each="user : ${followers}" style="width: 23em">
                                 <a class="carte" style="color: black;" th:href="@{/utilisateur/profil/{pseudo}(pseudo=${user.pseudo})}">
@@ -151,12 +149,8 @@
                             </div>
                             <h4 class="d-flex justify-content-center" th:if="${followers.isEmpty()}">Vous n'avez pas d'abonnées</h4>
                         </div>
-                    <div class="row mt-4">
-                        <div class="col-md-12 d-flex justify-content-center align-items-center page gap-2">
-                            <i class="bi bi-circle-fill"></i> <i class="bi bi-circle"></i> <i class="bi bi-circle"></i>
-                        </div>
-                   </div>
-                </div>
+
+
                 
                 <!--Activité-->
 

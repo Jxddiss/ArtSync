@@ -76,18 +76,31 @@ a{
     cursor: pointer;
 }
 .data-holder{
-    height: fit-content;
+    padding-inline: 1.5rem;
+    max-height: 30rem;
     margin-inline: 20px;
+    display: flex;
+    align-items: start;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+    align-content: flex-start;
+
 }
 
 .carte{
     display: flex;
     align-items: center;
+    justify-content: space-between;
     border: 1px solid rgb(182, 182, 182);
-    border-radius: 4px;
-    height: 100px;
+    border-radius: 7px;
+    height: 7rem;
+    width: 100%;
     opacity: 0;
     margin-top: 0.5rem;
+    padding-inline: 1rem;
+    gap: 2rem;
 }
 .animate{
     animation: appear 0.65s ease-in-out;
@@ -100,25 +113,48 @@ a{
     scale: 1.025;
     transition: 0.25s;
 }
-.carte > img{
-    height: 5em;
-    width: 5em;
+.carte img{
+    height: 5rem;
+    width: 5rem;
     border-radius: 50%;
-    margin: 15px;
+    object-fit: cover;
 }
 .mini-container{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     padding: 2rem;
-    align-items: center;
-    gap: 1rem;
+    align-items: start;
+    width: 100%;
 }
 
 .mini-container img{
-    height: 4rem;
+    height: 15%;
     width: 4rem;
     border: none;
     border-radius: 7px;
+}
+.mini-container p{
+    margin: 0;
+}
+.mini-container p img{
+    filter: invert(100%);
+    height: 1.5rem;
+    width: 1.5rem;
+    margin-right: 0.5rem;
+}
+
+#groupeContainer{
+    display: flex;
+    flex-direction: row !important;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem;
+    width: 100%;
+}
+#groupeContainer img{
+    height: 5rem;
+    width: 5rem;
+    object-fit: cover;
 }
 .groupRelationInfo p{
     margin: 0;
@@ -147,6 +183,7 @@ a{
 }
 
 .supprimer{
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -154,10 +191,9 @@ a{
     color: rgb(248, 103, 103);
     border-radius:2px;
     text-align: center;
-    height: 20px;
-    width: 65px;
-    margin-left:55px;
+    height: 2rem;
 
+    width: 60%;
 }
 .supprimer:hover{
     background-color: rgb(255, 69, 69);

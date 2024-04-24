@@ -10,10 +10,7 @@ public class Conversation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToMany(mappedBy = "conversation",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "conversation")
     @OrderBy("dateTimeEnvoie ASC")
     private Set<Chat> listeChat;
     @ManyToOne

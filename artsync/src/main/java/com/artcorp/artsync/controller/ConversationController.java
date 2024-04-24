@@ -47,7 +47,7 @@ public class ConversationController {
         if (session != null && utilisateur != null) {
             List<Conversation> conversations = conversationService.findByAllByUtilisateur(utilisateur);
 
-            if (conversations != null || !conversations.isEmpty()){
+            if (conversations != null){
                 model.addAttribute("conversations", conversations);
             }else{
                 model.addAttribute("message", "Aucune conversation");

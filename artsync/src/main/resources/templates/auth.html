@@ -85,10 +85,17 @@
     </footer>
     <div id="notification-pop-liste" ></div>
     <script th:src="@{/js/script-auth.js}"></script>
-    <script th:src="@{/js/notification.js}"></script>
-    <script th:if="${error != null}">
+    <script th:if="${warn != null || error != null}" th:src="@{/js/notification.js}"></script>
+    <script th:if="${warn != null}">
         showNotification({
             type: 'warn',
+            message: '[[${warn}]]',
+            titre: 'Avertissement',
+        })
+    </script>
+    <script th:if="${error != null}">
+        showNotification({
+            type: 'danger',
             message: '[[${error}]]',
             titre: 'Avertissement',
         })

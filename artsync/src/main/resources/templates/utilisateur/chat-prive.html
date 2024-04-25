@@ -104,9 +104,7 @@
                                 <img th:if="${message.type == 'media'}" th:src="${message.getUrlMedia()}" alt="">
                             </div>
                             <img
-                            th:src="${message.utilisateurUn.getId() == session.user.getId()
-                            ? '/media/images/' + session.user.getPhotoUrl()
-                            : '/media/images/' + amiCourrant.getPhotoUrl()}"
+                            th:src="@{/media/images/{image}(image=${message.utilisateurUn.getPhotoUrl()})}"
                             alt="profil"
                             class="profile-pic-banner-border-small">
                         </div>
@@ -233,9 +231,6 @@
                     utilisateurUn : {
                         id:'[[${session.user.id}]]'
                     },
-                    utilisateurDeux : {
-                        id:'[[${amiCourrant.getId()}]]'
-                    },
                     idGroupe : 0,
                     dateTimeEnvoie : new Date(),
                     message : message,
@@ -272,9 +267,6 @@
                         type : "media",
                         utilisateurUn : {
                             id:'[[${session.user.id}]]'
-                        },
-                        utilisateurDeux : {
-                            id:'[[${amiCourrant.getId()}]]'
                         },
                         idGroupe : 0,
                         dateTimeEnvoie : new Date(),

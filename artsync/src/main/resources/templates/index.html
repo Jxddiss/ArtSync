@@ -400,8 +400,24 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 </div>
             </div>
         <div th:replace="${session.user != null} ? ~{fragment/notificationFragment :: notificationFragment} : ~{}"></div>
+        <div th:if="${session.user == null}" id="notification-pop-liste" ></div>
         <script th:src="@{/js/script-index-cubes.js}" type="module"></script>
         <script th:src="@{/js/script-index-galaxy.js}" type="module"></script>
         <script th:src="@{/js/script-index.js}"></script>
+        <script th:src="@{/js/notification.js}"></script>
+        <script th:if="${warn != null}">
+            showNotification({
+                type: 'warn',
+                message: '[[${error}]]',
+                titre: 'Avertissement',
+            })
+        </script>
+        <script th:if="${error != null}">
+            showNotification({
+                type: 'danger',
+                message: '[[${error}]]',
+                titre: 'Avertissement',
+            })
+        </script>
     </body>
 </html>

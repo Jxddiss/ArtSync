@@ -228,7 +228,7 @@
         </button>
     </form>
       <div class="storie-open">
-        <img src="../media/image/image12.jpg" alt="" />
+        <img src="../media/images/ban.jpg" alt="" />
         <div class="storie-info">
           <div class="nb-stories">
             <ul>
@@ -254,6 +254,8 @@
         </div>
       </div>
     </dialog>
+
     <div th:replace="${session.user != null} ? ~{fragment/notificationFragment :: notificationFragment} : ~{}"></div>
+    <script th:src="@{/js/notification.js}"></script>
   </body>
 </html>

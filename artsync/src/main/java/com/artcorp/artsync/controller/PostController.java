@@ -3,6 +3,7 @@ package com.artcorp.artsync.controller;
 import com.artcorp.artsync.entity.FichierGeneral;
 import com.artcorp.artsync.entity.Post;
 import com.artcorp.artsync.entity.Utilisateur;
+import com.artcorp.artsync.exception.domain.NotConnectedException;
 import com.artcorp.artsync.service.PostService;
 import com.artcorp.artsync.service.impl.PostServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
@@ -57,7 +58,7 @@ public class    PostController {
     @GetMapping("/feed")
     public String feed(HttpServletRequest request,
                        Model model,
-                       RedirectAttributes redirectAttributes) {
+                       RedirectAttributes redirectAttributes) throws Exception {
         HttpSession session = request.getSession(false);
         if (session != null) {
             Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
@@ -66,12 +67,13 @@ public class    PostController {
                 model.addAttribute("utilisateur", utilisateur);
                 model.addAttribute("listPosts", listPostsAbonnement);
                 return "utilisateur/feed";
+            }else{
+                throw new NotConnectedException("Veuiller vous connecter");
             }
-            redirectAttributes.addFlashAttribute("error", "Veuillez vous connecter pour voir votre feed");
-            return "redirect:/authentification";
+
+        }else{
+            throw new Exception("Session nul");
         }
-        redirectAttributes.addFlashAttribute("error", "Veuillez vous connecter pour voir votre feed");
-        return "redirect:/authentification";
     }
 
 

@@ -160,11 +160,9 @@
         </div>
     </div>
 
-
-
-
 </div>
 <div th:replace="${session.user != null} ? ~{fragment/notificationFragment :: notificationFragment} : ~{}"></div>
+<script th:src="@{/js/notification.js}"></script>
 <script th:src="@{/js/script-profil.js}"></script>
 </body>
 </html>

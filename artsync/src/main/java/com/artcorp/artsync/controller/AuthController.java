@@ -1,6 +1,7 @@
 package com.artcorp.artsync.controller;
 
 import com.artcorp.artsync.entity.Utilisateur;
+import com.artcorp.artsync.exception.domain.MauvaisIdentifiantException;
 import com.artcorp.artsync.service.impl.UtilisateurServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -25,17 +26,16 @@ public class AuthController {
     @PostMapping("/authentification")
     public String connexion(@RequestParam("username") String username,
                             @RequestParam("mdp") String mdp,
-                            HttpServletRequest request,
-                            RedirectAttributes redirectAttributes) {
+                            HttpServletRequest request) throws MauvaisIdentifiantException {
         Utilisateur utilisateur = utilisateurService.connexion(username, mdp);
 
         if (utilisateur != null) {
             HttpSession session = request.getSession();
             session.setAttribute("user", utilisateur);
             return "redirect:/feed";
+        }else{
+            throw new MauvaisIdentifiantException("Mauvais identifiants");
         }
-        redirectAttributes.addFlashAttribute("error", "Connexion echoué");
-        return "redirect:/authentification";
     }
 
     @PostMapping("/inscription")

@@ -30,7 +30,9 @@ document.addEventListener("DOMContentLoaded", function() {
             stompClientViewer.subscribe('/topic/live/count/'+pseudoStreamer,(ev)=>{
                 let countEvent = JSON.parse(ev.body);
                 viewCount.innerText = countEvent.currentCount;
-                AddNewUserJoinMessage(countEvent.pseudo);
+                if(countEvent.pseudo){
+                    AddNewUserJoinMessage(countEvent.pseudo);
+                }
             })
 
             stompClientViewer.send('/app/live/new/'+pseudoStreamer,{},userPseudo);
@@ -95,6 +97,13 @@ document.addEventListener("DOMContentLoaded", function() {
                 if (event.key === "Enter") {
                     sendChat();
                 }
+            });
+
+
+
+            window.addEventListener('beforeunload', function (e) {
+                delete e['returnValue'];
+                stompClientViewer.send('/app/live/leave/'+pseudoStreamer,{},userPseudo);
             });
         })
     });

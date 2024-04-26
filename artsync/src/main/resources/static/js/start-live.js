@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", function() {
     //====== Déclaration des variables
     let streamerPeerConnections = [];
@@ -65,6 +66,15 @@ document.addEventListener("DOMContentLoaded", function() {
                     });
                     stompClientStream.subscribe('/topic/live/chat/'+userPseudo, function(message) {
                         addMessageLive(JSON.parse(message.body));
+                    });
+                    stompClientStream.subscribe('/topic/live/leave/'+userPseudo, function(viewerLeaveEvent) {
+                        const viewerLeftPseudo = viewerLeaveEvent.body;
+                        currentCount--;
+                        viewCount.innerText = currentCount.toString();
+                        stompClientStream.send('/app/live/count/'+userPseudo,{},JSON.stringify({
+                            currentCount:currentCount
+                        }));
+                        handleUserLeave(viewerLeftPseudo);
                     });
                 });
                 streamVideo.srcObject = stream;
@@ -267,5 +277,18 @@ document.addEventListener("DOMContentLoaded", function() {
             )
             messageInput.value = '';
         }
+    }
+
+    function handleUserLeave(viewerLeftPseudo) {
+        streamerPeerConnections.forEach(peer => {
+            if (peer.username === viewerLeftPseudo) {
+                peer.peerConnection.close();
+                peer.peerConnection = null;
+                const index = streamerPeerConnections.indexOf(peer);
+                if (index > -1) {
+                    streamerPeerConnections.splice(index, 1);
+                }
+            }
+        })
     }
 });

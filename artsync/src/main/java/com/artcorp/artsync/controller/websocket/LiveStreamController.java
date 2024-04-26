@@ -124,4 +124,10 @@ public class LiveStreamController {
     public String getViewersCount(String count){
         return count;
     }
+
+    @MessageMapping("/live/leave/{pseudo}")
+    @SendTo("/topic/live/leave/{pseudo}")
+    public String leaveLive(String viewer){
+        return viewer;
+    }
 }

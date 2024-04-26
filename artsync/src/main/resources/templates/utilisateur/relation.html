@@ -370,8 +370,9 @@
         }
     </script>
     <script th:src="@{/js/script-relation.js}"></script>
-    <script th:src="@{/js/notification.js}"></script>
+
     <div th:replace="${session.user != null} ? ~{fragment/notificationFragment :: notificationFragment} : ~{}"></div>
+    <script th:src="@{/js/notification.js}"></script>
   </body>
   
 </html>

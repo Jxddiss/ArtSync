@@ -275,15 +275,6 @@ public class GroupController {
         if (session == null) {
             return "auth";
         }
-        Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
-        model.addAttribute("selected", "demandes");
-        model.addAttribute("utilisateur", utilisateur);
-        model.addAttribute("projet", projetService.findById(projetId));
-        model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
-        model.addAttribute("membres", projetService.getMembers(projetId));
-        model.addAttribute("nbMembres", projetService.getMembersCount(projetId));
-        model.addAttribute("nbFichiers", fichierService.countByProjet(projetService.findById(projetId)));
-        model.addAttribute("annonces", annonceService.findByProjetId(projetId));
         demandeService.deleteDemande(demandeId);
 
         return "redirect:/groupe/group-demande/{projetId}";
@@ -297,15 +288,6 @@ public class GroupController {
         if (session == null) {
             return "auth";
         }
-        Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
-        model.addAttribute("utilisateur", utilisateur);
-        model.addAttribute("selected", "demandes");
-        model.addAttribute("projet", projetService.findById(projetId));
-        model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
-        model.addAttribute("membres", projetService.getMembers(projetId));
-        model.addAttribute("nbMembres", projetService.getMembersCount(projetId));
-        model.addAttribute("nbFichiers", fichierService.countByProjet(projetService.findById(projetId)));
-        model.addAttribute("annonces", annonceService.findByProjetId(projetId));
         Optional<Demande> demande = demandeService.findById(demandeId);
         Utilisateur userToAdd = demande.get().getUtilisateur();
         projetService.addUtilisateurToProjet(projetId, userToAdd.getId());
@@ -325,15 +307,6 @@ public class GroupController {
         if (session == null) {
             return "auth";
         }
-        Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
-        model.addAttribute("selected", "gestion");
-        model.addAttribute("utilisateur", utilisateur);
-        model.addAttribute("projet", projetService.findById(projetId));
-        model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
-        model.addAttribute("nbMembres", projetService.getMembersCount(projetId));
-        model.addAttribute("nbFichiers", fichierService.countByProjet(projetService.findById(projetId)));
-        model.addAttribute("annonces", annonceService.findByProjetId(projetId));
-
         Projet projet = projetService.findById(projetId);
         projet.setTitre(titre);
         projet.setDescription(description);
@@ -347,7 +320,7 @@ public class GroupController {
         image.transferTo(saveFile);
         projetService.updateProjet(projet);
 
-        return "groupe/group";
+        return "redirect:/groupe/group/"+projet.getId();
     }
 
     @PostMapping("/groupe/create")

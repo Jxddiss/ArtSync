@@ -25,7 +25,25 @@
 
 <!--Content-->
 <div class="contentHolder">
-    <div class="bannerHolder">
+    <div class="bannerHolder" id="bannerButton">
+        <dialog id="dialogBanner">
+            <div class="dialogHeader">
+                <h3>Change banner</h3>
+                <i class="bi bi-x-lg" style="font-size: 30px" id="fermerBanner"></i>
+            </div>
+            <div class="bannerPreview">
+                <img id="bannerImgPreview" th:src="@{/media/images/{image}(image=${banniere.listeFichiers[0].urlMedia})}" alt="">
+            </div>
+            <div class="bannerForm">
+                <form th:action="@{changeBanner}" method="post" enctype="multipart/form-data">
+                    <input type="file" name="file" id="file-input3" class="form-control-file" accept=".jpg,.png,.webp,.gif">
+                    <div class="d-flex justify-content-center mt-2">
+                        <button type="submit" class="post-button">Confirmer</button>
+                    </div>
+                </form>
+            </div>
+
+        </dialog>
         <img th:if="${banniere != null}" th:src="@{/media/images/{image}(image=${banniere.listeFichiers[0].urlMedia})}" class="profile-banner" alt="Bannière du profile">
         <img th:if="${banniere == null}" th:src="@{/media/images/image18.png}" class="profile-banner" alt="Bannière du profile">
     </div>
@@ -36,10 +54,13 @@
                 <i class="bi bi-x-lg" id="fermerPfp"></i>
             </div>
             <div class="pfpPreview">
-                <img th:src="@{/media/images/{image}(image=${utilisateur.getPhotoUrl()})}" alt="" id="pfpPreview">
+                <img th:src="@{/media/images/{image}(image=${utilisateur.getPhotoUrl()})}" id="pfpBase">
+                <i id="arrow" class="arrow bi bi-arrow-right"></i>
+                <img src="" alt="" id="pfpPreview">
+
             </div>
             <div class="container mt-5">
-                <form action="modifier" method="POST" enctype="multipart/form-data">
+                <form th:action="@{changePfp}" method="POST" enctype="multipart/form-data">
                     <div class="container mt-2">
                         <div id="drop-area2" class="form-group d-flex justify-content-center">
                             <input type="file" name="file" id="file-input2" class="form-control-file" accept=".jpg,.png,.webp,.gif">
@@ -65,9 +86,9 @@
         </div>
         <div class="optionHolder">
             <div class="buttonsHolder">
-                <button><i class="bi bi-flag"></i></button>
-                <button><i class="bi bi-person-add"></i></button>
-                <button><i class="bi bi-chat-left-dots"></i></button>
+                <a><i style="color: red;" class="bi bi-record2"></i></a>
+                <a><i class="bi bi-person-add"></i></a>
+                <a><i class="bi bi-three-dots"></i></a>
             </div>
             <div>
                 <!--add post dialog-->

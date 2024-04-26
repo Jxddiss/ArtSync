@@ -11,11 +11,17 @@ const postPreview = document.getElementById('postPreview');
 const placeholderIcon = document.getElementById('placeholderIcon');
 const postInput = document.getElementById('file-input');
 const pfpPreview = document.getElementById('pfpPreview');
+const pfpBase = document.getElementById("pfpBase")
 const fileInput = document.getElementById('file-input2');
+const bannerInput = document.getElementById('file-input3');
 let fontStyle = [];
 const postElements = document.getElementsByClassName('post');
 const code = document.getElementById('codePortfolio');
-
+const arrow = document.getElementById("arrow")
+const bannerButton = document.getElementById("bannerButton")
+const dialogBanner = document.getElementById("dialogBanner")
+const bannerImgPreview = document.getElementById("bannerImgPreview")
+let bannerDialogOpen = false
 //btn section
 postBtn.addEventListener('click', () => {
     console.log('click');
@@ -72,15 +78,44 @@ if (closePfp && pfpPane) {
     });
 }
 
+//banner dialog
+if (bannerButton && dialogBanner) {
+    bannerButton.addEventListener('click', function() {
+        dialogBanner.showModal();
+        dialogBanner.style.display = "flex"
+    });
+}
+
+const bannerClose = document.getElementById('fermerBanner');
+
+if (bannerClose && dialogBanner) {
+    bannerClose.addEventListener('click', function() {
+        console.log("hi")
+        dialogBanner.close();
+    });
+}
 if (fileInput && pfpPreview) {
     fileInput.addEventListener('change', function() {
         const file = fileInput.files[0];
         const reader = new FileReader();
         reader.onload = function() {
             pfpPreview.src = reader.result;
+            gsap.to(pfpPreview, {duration: 0.75,x: '100%', opacity: 1, delay: 0.15, ease:'sine'});
+            gsap.to(pfpBase, {duration: 0.75,x: '-100%', opacity: 1, delay: 0.15, ease:'sine'});
+            gsap.to(arrow, {duration:0.5,x:'-210%', opacity:1, ease:'sine'})
         }
         reader.readAsDataURL(file);
         placeholderIcon.style.display = 'none';
+    });
+}
+if (bannerInput && bannerImgPreview) {
+    bannerInput.addEventListener('change', function() {
+        const file = bannerInput.files[0];
+        const reader = new FileReader();
+        reader.onload = function() {
+            bannerImgPreview.src = reader.result;
+        }
+        reader.readAsDataURL(file);
     });
 }
 

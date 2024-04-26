@@ -12,6 +12,8 @@ document.addEventListener("DOMContentLoaded", function() {
     const microToggle = document.getElementById("micro-toggle");
     const displayToggle = document.getElementById("display-toggle");
 
+    messageNotStarted.style.display = "none";
+
     let cam = true;
 
     const displayMediaOptions = {

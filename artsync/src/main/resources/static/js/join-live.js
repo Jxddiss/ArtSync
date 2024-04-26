@@ -5,6 +5,10 @@ document.addEventListener("DOMContentLoaded", function() {
     let stompClientViewer;
     let offer;
 
+
+
+    buttonStart.style.display = "none";
+
     // ==== Configuration des ICE servers (En cas de problème de parfeu pour la connection peer to peer )
     const config = {
         iceServers: [
@@ -19,14 +23,24 @@ document.addEventListener("DOMContentLoaded", function() {
         ]
     };
 
-    buttonStart.addEventListener("click",(ev)=>{
-        buttonStart.style.visibility = 'hidden';
-        viewerPeerConnection = new RTCPeerConnection(config);
+    const socketViewer = new SockJS('/websocket');
+    stompClientViewer = Stomp.over(socketViewer);
 
-        const socketViewer = new SockJS('/websocket');
-        stompClientViewer = Stomp.over(socketViewer);
+    stompClientViewer.connect({}, function (frame){
+        if(streamStarted){
+            messageNotStarted.style.display = "none";
+            buttonStart.style.display = "block";
+        }else{
+            stompClientViewer.subscribe('/topic/live/start/'+pseudoStreamer,(ev)=>{
+                messageNotStarted.style.display = "none";
+                buttonStart.style.display = "block";
+            });
+        }
 
-        stompClientViewer.connect({}, function (frame){
+        buttonStart.addEventListener("click",(ev)=>{
+            buttonStart.style.visibility = 'hidden';
+            viewerPeerConnection = new RTCPeerConnection(config);
+
             stompClientViewer.subscribe('/topic/live/count/'+pseudoStreamer,(ev)=>{
                 let countEvent = JSON.parse(ev.body);
                 viewCount.innerText = countEvent.currentCount;
@@ -99,13 +113,12 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
             });
 
-
-
             window.addEventListener('beforeunload', function (e) {
                 delete e['returnValue'];
                 stompClientViewer.send('/app/live/leave/'+pseudoStreamer,{},userPseudo);
             });
-        })
+
+        });
     });
 
     function sendChat(){

@@ -43,12 +43,14 @@
                     playsinline
                 >
                 </video>
-                <button  type="button" id="play-stream">
+                <button  type="button" id="play-stream" class="play-stream">
                     <!--<i th:if="${isStreamer}" class="bi bi-play"></i>-->
                     <span th:if="${isStreamer}">Commencer le live</span>
-                    <span th:if="${!isStreamer && streamStarted}">Rejoindre le live</span>
-                    <span th:if="${!streamStarted && !isStreamer}">Le live n'est pas en cours</span>
+                    <span th:if="${!isStreamer}">Rejoindre le live</span>
                 </button>
+                <div class="play-stream" id="message-not-started">
+                    <span>Le live n'est pas en cours</span>
+                </div>
                 <div id="viewer-count">
                     <span id="number-views">0</span>
                     <i class="bi bi-people"></i>
@@ -90,11 +92,13 @@
         const userPhoto = '[[${session.user.getPhotoUrl()}]]';
         const streamVideo = document.getElementById("streamVideo");
         const buttonStart = document.getElementById("play-stream");
+        const messageNotStarted = document.getElementById("message-not-started");
         const pseudoStreamer = '[[${pseudoStreamer}]]';
         const listeChat = document.getElementById("liste-chat-stream");
         const messageInput = document.getElementById("input-chat");
         const viewCount = document.getElementById("number-views");
         let currentCount = 0;
+        const streamStarted = [[${streamStarted}]];
 
         function addMessageLive(message){
             const chatItem = document.createElement("li");
@@ -122,7 +126,7 @@
     </script>
     <script th:src="@{/js/live.js}"></script>
     <script th:if="${isStreamer}" th:src="@{/js/start-live.js}"></script>
-    <script th:if="${!isStreamer && streamStarted}" th:src="@{/js/join-live.js}"></script>
+    <script th:if="${!isStreamer}" th:src="@{/js/join-live.js}"></script>
     <div th:replace="${session.user != null} ? ~{fragment/notificationFragment :: notificationFragment} : ~{}"></div>
     <script th:src="@{/js/notification.js}"></script>
 </body>

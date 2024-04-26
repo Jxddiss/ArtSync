@@ -1,6 +1,7 @@
 package com.artcorp.artsync.controller.websocket;
 
 import com.artcorp.artsync.entity.Utilisateur;
+import com.artcorp.artsync.exception.domain.NotConnectedException;
 import com.artcorp.artsync.service.impl.UtilisateurServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -33,27 +34,25 @@ public class LiveStreamController {
     @GetMapping("/live/start")
     public String startLive(Model model,
                             HttpServletRequest request,
-                            RedirectAttributes redirectAttributes){
+                            RedirectAttributes redirectAttributes) throws NotConnectedException {
         HttpSession session = request.getSession(false);
         Utilisateur user = (Utilisateur) session.getAttribute("user");
         if (user != null){
-            String pseudo = user.getPseudo();
-            currentStreamer.add(pseudo);
             String streamerPic = user.getPhotoUrl();
             model.addAttribute("streamerPic",streamerPic);
             model.addAttribute("streamStarted",true);
             model.addAttribute("isStreamer",true);
             return "utilisateur/live-stream";
+        }else {
+            throw new NotConnectedException("Veuillez vous connecter");
         }
-        redirectAttributes.addFlashAttribute("error", "Vous devez vous connecter pour avoir accès à cette page");
-        return "redirect:/authentification";
     }
 
     @GetMapping("/live/{pseudo}")
     public String joinLive(Model model,
                            HttpServletRequest request,
                            RedirectAttributes redirectAttributes,
-                           @PathVariable String pseudo){
+                           @PathVariable String pseudo) throws NotConnectedException {
         HttpSession session = request.getSession(false);
         Utilisateur user = (Utilisateur) session.getAttribute("user");
         if (user != null){
@@ -73,14 +72,16 @@ public class LiveStreamController {
                 redirectAttributes.addFlashAttribute("error", "Stream inexistant");
                 return "redirect:/index";
             }
+        }else {
+            throw new NotConnectedException("Veuillez vous connecter");
         }
-        redirectAttributes.addFlashAttribute("error", "Vous devez vous connecter pour avoir accès à cette page");
-        return "redirect:/authentification";
     }
 
     @MessageMapping("/live/start/{pseudo}")
     @SendTo("/topic/live/start/{pseudo}")
-    public String startLiveVideo(String start){
+    public String startLiveVideo(String start, @DestinationVariable String pseudo){
+        LOGGER.info("pseudo : "+pseudo);
+        currentStreamer.add(pseudo);
         return start;
     }
 

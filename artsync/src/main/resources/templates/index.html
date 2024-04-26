@@ -404,7 +404,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <script th:src="@{/js/script-index-cubes.js}" type="module"></script>
         <script th:src="@{/js/script-index-galaxy.js}" type="module"></script>
         <script th:src="@{/js/script-index.js}"></script>
-        <script th:if="${warn != null || error != null}" th:src="@{/js/notification.js}"></script>
+        <script th:src="@{/js/notification.js}"></script>
         <script th:if="${warn != null}">
             showNotification({
                 type: 'warn',

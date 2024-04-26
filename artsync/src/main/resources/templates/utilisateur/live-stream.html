@@ -123,6 +123,7 @@
     <script th:src="@{/js/live.js}"></script>
     <script th:if="${isStreamer}" th:src="@{/js/start-live.js}"></script>
     <script th:if="${!isStreamer && streamStarted}" th:src="@{/js/join-live.js}"></script>
+    <script th:src="@{/js/notification.js}"></script>
     <div th:replace="${session.user != null} ? ~{fragment/notificationFragment :: notificationFragment} : ~{}"></div>
 </body>
 </html>

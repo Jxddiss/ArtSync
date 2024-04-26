@@ -163,6 +163,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             -->
             </div>
         </div>
+        <script th:src="@{/js/notification.js}"></script>
         <div th:replace="${session.user != null} ? ~{fragment/notificationFragment :: notificationFragment} : ~{}"></div>
     </body>
     <script th:src="@{/js/script-recherche.js}"></script>

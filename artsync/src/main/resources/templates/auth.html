@@ -85,7 +85,7 @@
     </footer>
     <div id="notification-pop-liste" ></div>
     <script th:src="@{/js/script-auth.js}"></script>
-    <script th:if="${warn != null || error != null}" th:src="@{/js/notification.js}"></script>
+    <script th:src="@{/js/notification.js}"></script>
     <script th:if="${warn != null}">
         showNotification({
             type: 'warn',

@@ -39,7 +39,8 @@ public class AppController {
         return "boite-idee";
     }
     @GetMapping("/classement")
-    public String redirigerVersClassement() {
+    public String redirigerVersClassement(Model model) {
+        //Code ici vanetta
         return "classement";
     }
     @GetMapping("/recherche")
@@ -142,6 +143,6 @@ public class AppController {
         userService.updateRelations(id, idUtilisateur);
         utilisateur = userService.findById(idUtilisateur);
         session.setAttribute("user",utilisateur);
-        return "recherche";
+        return "redirect:/recherche";
     }
 }

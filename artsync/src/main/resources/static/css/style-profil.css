@@ -111,17 +111,18 @@
     margin-right: 2%;
 
 }
-.buttonsHolder button{
+.buttonsHolder a{
     background-color: transparent;
     border: none;
     width: 100%;
     opacity: 0.5;
-    font-size: 22px;
+    font-size: 30px;
 }
-.buttonsHolder button:hover{
+.buttonsHolder a:hover{
     color: rgb(55, 149, 208);
     opacity: 1;
     transition: 0.25s;
+    cursor: pointer;
 }
 
 .publier{
@@ -172,38 +173,38 @@
 
 /*DIALOGUE SECTION*/
 
-
 .pfpPane{
     flex-direction: column;
     align-items: center;
     padding-block: 1rem;
     padding-inline: 1rem;
     height:28rem;
-    border: 1px solid rgba(0, 0, 0, 0.5);
+    border: none;
     border-radius: 10px;
-    background-color: rgba(255, 255, 255, 0.9);
+    background: radial-gradient(ellipse at top right, #ededed 25%, #989ce8 100%) fixed;
+    box-shadow: rgba(172, 171, 192, 0.5) 0px 0px 15px 15px;
     width: 40rem;
 }
 .pfpPreview{
     margin-top: 2rem;
     display: flex;
     justify-content: center;
-    border-radius: 50%;
     align-items: center;
     font-size: 100px;
     color: rgba(0, 0, 0, 0.5);
-    width: 8rem;
+    width: 100%;
     height: 8rem;
-    background-color: rgba(193, 193, 193, 0.8);
 }
 .pfpPreview img{
-    width: 100%;
-    height: 100%;
+    width: 8rem;
+    height: 8rem;
     border-radius: 50%;
     object-fit: cover;
-
+    opacity: 1;
 }
-
+#pfpBase{
+    margin-left: 25%;
+}
 .postPane{
     flex-direction: column;
     align-items: center;
@@ -302,6 +303,7 @@
 
 .postHolder{
     display: flex;
+    justify-content: center;
     flex-wrap: wrap;
 }
 .publication{
@@ -391,6 +393,7 @@
     margin-top: 5rem;
     display: flex;
     text-decoration: none;
+
 }
 
 .post{
@@ -416,4 +419,49 @@
 }
 .createPortfolio:hover{
     cursor: pointer;
+}
+
+/*--------------------DIALOGUE----------------------*/
+.newImage{
+    width: 8rem;
+    height: 8rem;
+    border-radius: 50%;
+    position: relative;
+}
+#pfpPreview{
+    opacity: 0;
+    position: relative;
+    left: -25%;
+}
+.arrow{
+
+    font-size: 35px;
+    opacity: 0;
+}
+
+#dialogBanner[open]{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 75%;
+    height: 88%;
+    border: none;
+    border-radius: 10px;
+    background: radial-gradient(ellipse at top, #ededed 40%, #98cce8 100%) fixed;
+    box-shadow: rgba(172, 171, 192, 0.5) 0px 0px 15px 15px;
+}
+.bannerPreview{
+    margin-top: 2rem;
+    height: 70%;
+    width: 75%;
+    background-color: rgba(92, 145, 225, 0.18);
+    border-radius: 15px;
+    border: 6px dashed #5381af;
+}
+.bannerPreview img{
+    object-fit: cover;
+}
+.bannerForm{
+    margin-top: 2rem;
+
 }

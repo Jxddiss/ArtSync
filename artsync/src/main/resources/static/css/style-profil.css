@@ -465,3 +465,11 @@
     margin-top: 2rem;
 
 }
+
+.button-dialog{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 30px;
+    outline: none;
+}

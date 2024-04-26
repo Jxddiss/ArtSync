@@ -82,13 +82,7 @@ if (bannerButton && dialogBanner) {
         dialogBanner.showModal();
     });
 }
-const bannerClose = document.getElementById('fermerBanner');
-if (bannerClose && dialogBanner) {
-    bannerClose.addEventListener('click', function() {
-        console.log("hi")
-        dialogBanner.close();
-    });
-}
+
 
 if (fileInput && pfpPreview) {
     fileInput.addEventListener('change', function() {
@@ -113,6 +107,14 @@ if (bannerInput && bannerImgPreview) {
         }
         reader.readAsDataURL(file);
     });
+}
+
+function checkFile(form){
+    const input = form.querySelector("input[type='file']");
+    if (input.files && input.files[0]) {
+        return true;
+    }
+    return false;
 }
 
 //portfolio section

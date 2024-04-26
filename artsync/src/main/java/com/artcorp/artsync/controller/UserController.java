@@ -177,5 +177,15 @@ public class UserController {
         }
         return "auth";
     }
+    @GetMapping("/profil/settings")
+    public String redirigerSettings(Model model, HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+        if (session!=null){
+            Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+            model.addAttribute("utilisateur",utilisateur);
+            return "utilisateur/settings";
+        }
+        return "auth";
+    }
 
 }

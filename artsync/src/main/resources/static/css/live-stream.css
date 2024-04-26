@@ -165,7 +165,16 @@ body {
     background-color: #faf3f3;
     color: #1b1b1b;
 }
-  
+
+#titre-live-input{
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(201, 198, 198, 0.68);
+    font-size: 1.2rem;
+    outline: none;
+    color: #e9ebec;
+}
+
 .control-holder {
     position: fixed;
     bottom: 3%;

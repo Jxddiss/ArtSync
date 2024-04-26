@@ -32,6 +32,7 @@ document.addEventListener("DOMContentLoaded", function() {
             buttonStart.style.display = "block";
         }else{
             stompClientViewer.subscribe('/topic/live/start/'+pseudoStreamer,(ev)=>{
+                titreLive.innerText = ev.body;
                 messageNotStarted.style.display = "none";
                 buttonStart.style.display = "block";
             });
@@ -106,6 +107,15 @@ document.addEventListener("DOMContentLoaded", function() {
             stompClientViewer.subscribe('/topic/live/chat/'+pseudoStreamer, function(message) {
                 addMessageLive(JSON.parse(message.body));
             });
+
+            stompClientViewer.subscribe('/topic/live/end/'+pseudoStreamer, function (){
+                viewerPeerConnection.close();
+                streamVideo.srcObject = null;
+                messageNotStarted.innerText = "Live terminé"
+                buttonStart.style.display = "none";
+                buttonStart.style.visibility = 'visible';
+                messageNotStarted.style.display = "block";
+            })
 
             messageInput.addEventListener("keyup", function(event) {
                 if (event.key === "Enter") {

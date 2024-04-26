@@ -1,7 +1,9 @@
 package com.artcorp.artsync.controller.websocket;
 
+import com.artcorp.artsync.entity.LiveStream;
 import com.artcorp.artsync.entity.Utilisateur;
 import com.artcorp.artsync.exception.domain.NotConnectedException;
+import com.artcorp.artsync.service.impl.LiveStreamServiceImpl;
 import com.artcorp.artsync.service.impl.UtilisateurServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -24,11 +26,13 @@ import java.util.Set;
 public class LiveStreamController {
     private Logger LOGGER = LoggerFactory.getLogger(getClass());
     private UtilisateurServiceImpl utilisateurService;
+    private LiveStreamServiceImpl liveStreamService;
     private Set<String> currentStreamer = new HashSet<>();
 
     @Autowired
-    public LiveStreamController(UtilisateurServiceImpl utilisateurService) {
+    public LiveStreamController(UtilisateurServiceImpl utilisateurService, LiveStreamServiceImpl liveStreamService) {
         this.utilisateurService = utilisateurService;
+        this.liveStreamService = liveStreamService;
     }
 
     @GetMapping("/live/start")
@@ -59,6 +63,10 @@ public class LiveStreamController {
             Utilisateur streamer = utilisateurService.findByPseudo(pseudo);
             if(streamer != null){
                 String streamerPic = streamer.getPhotoUrl();
+                LiveStream liveStream = liveStreamService.findByPseudo(pseudo);
+                if (liveStream != null){
+                    model.addAttribute("titre",liveStream.getTitre());
+                }
                 model.addAttribute("streamerPic",streamerPic);
                 model.addAttribute("isStreamer",false);
                 model.addAttribute("pseudoStreamer", pseudo);
@@ -79,10 +87,15 @@ public class LiveStreamController {
 
     @MessageMapping("/live/start/{pseudo}")
     @SendTo("/topic/live/start/{pseudo}")
-    public String startLiveVideo(String start, @DestinationVariable String pseudo){
+    public String startLiveVideo(String titre, @DestinationVariable String pseudo){
         LOGGER.info("pseudo : "+pseudo);
         currentStreamer.add(pseudo);
-        return start;
+        LiveStream liveStream = new LiveStream();
+        liveStream.setActive(true);
+        liveStream.setPseudoStreamer(pseudo);
+        liveStream.setTitre(titre);
+        liveStreamService.addLive(liveStream);
+        return titre;
     }
 
     @MessageMapping("/live/new/{pseudo}")
@@ -130,5 +143,15 @@ public class LiveStreamController {
     @SendTo("/topic/live/leave/{pseudo}")
     public String leaveLive(String viewer){
         return viewer;
+    }
+
+    @MessageMapping("/live/end/{pseudo}")
+    @SendTo("/topic/live/end/{pseudo}")
+    public String endLive(String pseudoStreamer){
+        currentStreamer.remove(pseudoStreamer);
+        LiveStream liveStream = liveStreamService.findByPseudo(pseudoStreamer);
+        liveStream.setActive(false);
+        liveStreamService.addLive(liveStream);
+        return pseudoStreamer;
     }
 }

@@ -34,7 +34,9 @@
         <div id="stream-holder">
             <div id="stream-title">
                 <img class="profil-pic-stream" th:src="@{/media/images/{image}(image=${streamerPic})}" alt="photo-streamer">
-                <h4>Apprentissage de  ...</h4>
+                <h4 id="live-stream-titre" th:if="${titre == null}">...</h4>
+                <h4 id="live-stream-titre" th:if="${titre != null}">[[${titre}]]</h4>
+                <input id="titre-live-input" type="text" name="liveTitre" placeholder="titre" th:if="${isStreamer}">
             </div>
             <div class="video-box">
                 <video
@@ -49,7 +51,7 @@
                     <span th:if="${!isStreamer}">Rejoindre le live</span>
                 </button>
                 <div class="play-stream" id="message-not-started">
-                    <span>Le live n'est pas en cours</span>
+                    Le live n'est pas en cours
                 </div>
                 <div id="viewer-count">
                     <span id="number-views">0</span>
@@ -99,6 +101,7 @@
         const viewCount = document.getElementById("number-views");
         let currentCount = 0;
         const streamStarted = [[${streamStarted}]];
+        const titreLive = document.getElementById("live-stream-titre");
 
         function addMessageLive(message){
             const chatItem = document.createElement("li");

@@ -1,0 +1,246 @@
+body{
+    background: radial-gradient(ellipse at top, #ffffff 50%, #a3cae5 100%) fixed;
+}
+
+.contentHolder{
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+
+}
+.verticalNavbar{
+
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 12%;
+    border-right: 1px solid black;
+}
+.settingHolder{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 55%;
+    gap:1.5rem;
+}
+.navHolder{
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+
+}
+.navHolder a{
+    text-decoration: none;
+    color: black;
+    width: 100%;
+    font-size: 20px;
+    padding-block: 0.5rem;
+    height: fit-content;
+    margin: 0;
+}
+.navHolder a:hover{
+    background-image: linear-gradient(to right, rgb(255,255,255), rgba(108, 177, 255, 0.5));
+    border-right: 3px solid #4d87ff;
+}
+#selected{
+    background-image: linear-gradient(to right, rgb(255,255,255), rgba(108, 177, 255, 0.5));
+    border-right: 3px solid #4d87ff;
+}
+.profilContainer{
+
+    display: flex;
+    margin-top: 5%;
+    height: 10rem;
+    align-items: center;
+    padding-inline: 1rem;
+    width: 75%;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid black;
+}
+.profilPicHolder{
+    height: 9rem;
+    width: 9rem;
+    border-radius: 50%;
+
+}
+.profilPicHolder img{
+    border: 8px solid rgb(255,255,255,0.5);
+    height: 9rem;
+    width: 9rem;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.profilPicHolder:hover{
+    scale: 1.05;
+    box-shadow: 7px 7px 7px 7px rgb(0,0,0,0.25);
+    transition: 0.25s;
+}
+.profilInfo{
+
+    display: flex;
+    flex-direction: column;
+    width: 75%;
+    height: 80%;
+}
+.info{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:1rem;
+    height: 50%;
+}
+.buttonHolder{
+    display: flex;
+    height: 50%;
+    justify-content: center;
+    align-items: center;
+}
+.buttonHolder a{
+    text-align: center;
+    font-size: 25px;
+    text-decoration: none;
+    color: white;
+    font-weight: 600;
+    margin: 0;
+    background-color: rgb(255, 77, 77);
+    width: 75%;
+    padding-block: 0.5rem;
+    border-radius: 4px;
+}
+.buttonHolder a:hover{
+    border: 3px solid rgb(255, 77, 77);
+    background-color: rgb(255,255,255);
+    color: rgb(255, 77, 77);
+    transition: 0.25s;
+}
+.vr{
+    height: 90%;
+    background-color: black;
+}
+#pseudo{
+    opacity: 0.5;
+}
+#pseudo:hover{
+    opacity: 1;
+    cursor: pointer;
+}
+.profilOptions{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 75%;
+    height: 12rem;
+    border-radius: 7px;
+    background: radial-gradient(ellipse at top left, #ffffff 50%, #a3cae5 100%) fixed;
+}
+.profilOptions:hover{
+    scale: 1.025;
+    transition: 0.25s;
+    box-shadow: 5px 5px 10px 7px rgb(0,0,0,0.1);
+}
+.accountInfo{
+    display: flex;
+    height: 92%;
+    width: 98%;
+    border-radius: 7px;
+}
+.accountHeader{
+    width: 35%;
+    padding: 1rem;
+    font-size: 15px;
+}
+
+#compte{
+    background-color: #fcd8c1;
+}
+#perso{
+    background-color: #c3fcc1;
+}
+#utilisateur{
+    background-color: #c9c1fc;
+}
+.inputHeader{
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    width: 100%;
+}
+.accountBody{
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    width: 65%;
+    background-color: #e1e9ef;
+}
+.inputHeader input{
+    width: 40%;
+    font-size: 25px;
+    background-color: rgb(239, 239, 239);
+    border: 1px solid black;
+    border-radius: 4px;
+}
+.inputHeader input:focus{
+    outline: none;
+    border: 1px solid black;
+    scale: 1.05;
+    transition: 0.25s;
+}
+.inputBody button{
+    border-radius: 6px;
+    background-color: transparent;
+    border: none;
+    width: 85%;
+    font-size: 30px;
+    color: #494949;
+    font-weight: 300;
+    border: 1px solid #363636;
+}
+.inputBody button:hover{
+    scale: 1.05;
+    transition: 0.25s;
+}
+.inputBody{
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: center;
+}
+.inputHeader2{
+    width: 100%;
+}
+.inputHeader2 input{
+    padding-inline: 1rem;
+    width: 100%;
+    font-size: 25px;
+    background-color: rgb(239, 239, 239);
+    border: 1px solid black;
+    border-radius: 4px;
+}
+.inputHeader2 input:focus{
+    outline: none;
+    border: 1px solid black;
+    scale: 1.05;
+    transition: 0.25s;
+}
+.inputBody2 button{
+    border-radius: 6px;
+    background-color: transparent;
+    border: 1px solid #363636;
+    width: 100%;
+    font-size: 30px;
+    color: #494949;
+    font-weight: 300;
+}
+
+.inputBody2 button:hover{
+    scale: 1.05;
+    transition: 0.25s;
+}
+
+.inputBody2{
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: center;
+}

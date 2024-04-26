@@ -125,4 +125,67 @@ public class UserController {
         redirectAttributes.addFlashAttribute("error", "Vous devez vous connecter pour avoir accès à cette page");
         return "redirect:/authentification";
     }
+    @PostMapping("/profil/changePfp")
+    public String changeProfilPicture(HttpServletRequest request, @RequestParam("file") MultipartFile file) throws IOException {
+        HttpSession session = request.getSession(false);
+        if (session!=null){
+            String originalFilename = StringUtils.cleanPath(file.getOriginalFilename());
+            Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+            utilisateur.setPhotoUrl(originalFilename);
+            File parentDir = new File(USER_FOLDER);
+            File saveFile = new File(parentDir.getAbsolutePath() + File.separator + originalFilename);
+            file.transferTo(saveFile);
+            utilisateurService.update(utilisateur);
+            return "redirect:/utilisateur/profil/"+utilisateur.getPseudo()+"";
+        }
+        return "auth";
+    }
+    @PostMapping("/profil/changeBanner")
+    public String changerBanner(HttpServletRequest request, @RequestParam("file") MultipartFile file) throws IOException {
+        HttpSession session = request.getSession(false);
+        if (session!=null){
+
+            Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+
+            String originalFilename = StringUtils.cleanPath(file.getOriginalFilename());
+            FichierGeneral fichierGeneral = new FichierGeneral();
+            fichierGeneral.setUrlMedia(originalFilename);
+            if (postService.findBanniereUtilisateur(utilisateur) != null){
+                postService.deletePost(postService.findBanniereUtilisateur(utilisateur));
+            }
+            Post post = new Post();
+            post.setUtilisateur(utilisateur);
+            post.setTitre("titre");
+            post.setType("Banniere");
+            post.setTexte("banniere");
+            post.setPublique(false);
+            post.setDate(LocalDateTime.now());
+            post.setPseudoUtilisateur(utilisateur.getPseudo());
+
+            fichierGeneral.setPost(post);
+
+            HashSet<FichierGeneral> listFichiers = new HashSet<>();
+            listFichiers.add(fichierGeneral);
+            post.setListeFichiers(listFichiers);
+
+            File parentDir = new File(USER_FOLDER);
+            File saveFile = new File(parentDir.getAbsolutePath() + File.separator + originalFilename);
+            file.transferTo(saveFile);
+            postService.addPost(post);
+
+            return "redirect:/utilisateur/profil/"+utilisateur.getPseudo()+"";
+        }
+        return "auth";
+    }
+    @GetMapping("/profil/settings")
+    public String redirigerSettings(Model model, HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+        if (session!=null){
+            Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+            model.addAttribute("utilisateur",utilisateur);
+            return "utilisateur/settings";
+        }
+        return "auth";
+    }
+
 }

@@ -90,7 +90,10 @@ public class LiveStreamController {
     public String startLiveVideo(String titre, @DestinationVariable String pseudo){
         LOGGER.info("pseudo : "+pseudo);
         currentStreamer.add(pseudo);
-        LiveStream liveStream = new LiveStream();
+        LiveStream liveStream = liveStreamService.findByPseudo(pseudo);
+        if (liveStream == null){
+            liveStream = new LiveStream();
+        }
         liveStream.setActive(true);
         liveStream.setPseudoStreamer(pseudo);
         liveStream.setTitre(titre);

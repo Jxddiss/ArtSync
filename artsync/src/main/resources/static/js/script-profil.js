@@ -67,14 +67,12 @@ if (postInput && postPreview) {
 if (changePfp && pfpPane) {
     changePfp.addEventListener('click', function() {
         pfpPane.showModal()
-        pfpPane.style.display = 'flex';
     });
 }
 const closePfp = document.getElementById('fermerPfp');
 if (closePfp && pfpPane) {
     closePfp.addEventListener('click', function() {
         pfpPane.close();
-        pfpPane.style.display = 'none';
     });
 }
 
@@ -82,18 +80,16 @@ if (closePfp && pfpPane) {
 if (bannerButton && dialogBanner) {
     bannerButton.addEventListener('click', function() {
         dialogBanner.showModal();
-        dialogBanner.style.display = "flex"
     });
 }
-
 const bannerClose = document.getElementById('fermerBanner');
-
 if (bannerClose && dialogBanner) {
     bannerClose.addEventListener('click', function() {
         console.log("hi")
         dialogBanner.close();
     });
 }
+
 if (fileInput && pfpPreview) {
     fileInput.addEventListener('change', function() {
         const file = fileInput.files[0];

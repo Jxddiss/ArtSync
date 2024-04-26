@@ -139,7 +139,7 @@ public class UserController {
             File saveFile = new File(parentDir.getAbsolutePath() + File.separator + originalFilename);
             file.transferTo(saveFile);
             utilisateurService.update(utilisateur);
-            return "redirect:/utilisateur/profil/"+utilisateur.getPseudo()+"";
+            return "redirect:/utilisateur/profil/"+utilisateur.getPseudo();
         }
         return "auth";
     }

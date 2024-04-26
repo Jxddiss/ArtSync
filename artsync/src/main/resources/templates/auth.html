@@ -67,10 +67,6 @@
                 </div>
         </form>
     </div>
-    <script th:if="${error != null}">
-        alert("[[${error}]]");
-    </script>
-
     <!--TEST-->
     <div class="wrapper">
       <img src="media/image/3D-0.jpg" class="img-bg-element" alt="test">
@@ -87,7 +83,22 @@
             ARTSYNC
       </div>
     </footer>
-    
+    <div id="notification-pop-liste" ></div>
     <script th:src="@{/js/script-auth.js}"></script>
+    <script th:src="@{/js/notification.js}"></script>
+    <script th:if="${warn != null}">
+        showNotification({
+            type: 'warn',
+            message: '[[${warn}]]',
+            titre: 'Avertissement',
+        })
+    </script>
+    <script th:if="${error != null}">
+        showNotification({
+            type: 'danger',
+            message: '[[${error}]]',
+            titre: 'Avertissement',
+        })
+    </script>
   </body>
 </html>

@@ -40,6 +40,7 @@
                 <video
                     autoplay
                     id="streamVideo"
+                    playsinline
                 >
                 </video>
                 <button  type="button" id="play-stream">
@@ -123,5 +124,6 @@
     <script th:if="${isStreamer}" th:src="@{/js/start-live.js}"></script>
     <script th:if="${!isStreamer && streamStarted}" th:src="@{/js/join-live.js}"></script>
     <div th:replace="${session.user != null} ? ~{fragment/notificationFragment :: notificationFragment} : ~{}"></div>
+    <script th:src="@{/js/notification.js}"></script>
 </body>
 </html>

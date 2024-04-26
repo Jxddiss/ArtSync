@@ -26,16 +26,21 @@
 <!--Content-->
 <div class="contentHolder">
     <div class="bannerHolder" id="bannerButton">
-        <dialog id="dialogBanner">
+        <dialog id="dialogBanner" >
             <div class="dialogHeader">
                 <h3>Changement de bannière</h3>
-                <i class="bi bi-x-lg" style="font-size: 30px" id="fermerBanner"></i>
+                <form method="modal">
+                    <button class="button-dialog">
+                        <i class="bi bi-x-lg" id="fermerBanner"></i>
+                    </button>
+                </form>
             </div>
             <div class="bannerPreview">
-                <img id="bannerImgPreview" th:src="@{/media/images/{image}(image=${banniere.listeFichiers[0].urlMedia})}" alt="">
+                <img th:if="${banniere != null}" th:src="@{/media/images/{image}(image=${banniere.listeFichiers[0].urlMedia})}" class="profile-banner" alt="Bannière du profile" id="bannerImgPreview">
+                <img th:if="${banniere == null}" th:src="@{/media/images/image18.png}" class="profile-banner" alt="Bannière du profile" id="bannerImgPreview">
             </div>
             <div class="bannerForm">
-                <form th:action="@{changeBanner}" method="post" enctype="multipart/form-data">
+                <form th:action="@{changeBanner}" method="post" enctype="multipart/form-data" onsubmit="return checkFile(this)">
                     <input type="file" name="file" id="file-input3" class="form-control-file" accept=".jpg,.png,.webp,.gif">
                     <div class="d-flex justify-content-center mt-2">
                         <button type="submit" class="post-button">Confirmer</button>
@@ -60,7 +65,7 @@
 
             </div>
             <div class="container mt-5">
-                <form th:action="@{changePfp}" method="POST" enctype="multipart/form-data">
+                <form th:action="@{changePfp}" method="POST" enctype="multipart/form-data" onsubmit="return checkFile(this)">
                     <div class="container mt-2">
                         <div id="drop-area2" class="form-group d-flex justify-content-center">
                             <input type="file" name="file" id="file-input2" class="form-control-file" accept=".jpg,.png,.webp,.gif">
@@ -102,7 +107,7 @@
                         <i class="bi bi-image" id="placeholderIcon"></i>
                     </div>
                     <div>
-                        <form class="postForm" th:action="@{/ajouter-post}" method="POST" enctype="multipart/form-data">
+                        <form class="postForm" th:action="@{/ajouter-post}" method="POST" enctype="multipart/form-data" onsubmit="return checkFile(this)">
                             <div class="form-head">
                                 <label for="titre">Titre:</label>
                                 <label for="type">Type:</label>
@@ -131,9 +136,6 @@
 
                         </form>
                     </div>
-
-
-
                 </dialog>
                 <button th:if="${utilisateur.getId() == session.user.getId()}" class="publier" id="ouvrir">PUBLIER</button>
             </div>
@@ -160,11 +162,9 @@
         </div>
     </div>
 
-
-
-
 </div>
 <div th:replace="${session.user != null} ? ~{fragment/notificationFragment :: notificationFragment} : ~{}"></div>
+<script th:src="@{/js/notification.js}"></script>
 <script th:src="@{/js/script-profil.js}"></script>
 </body>
 </html>

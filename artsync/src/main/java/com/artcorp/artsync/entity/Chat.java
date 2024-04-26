@@ -13,12 +13,6 @@ public class Chat {
     @ManyToOne
     @JoinColumn(name = "utilisateur_un_id", nullable = false)
     private Utilisateur utilisateurUn;
-    @ManyToOne
-    @JoinColumn(name = "utilisateur_deux_id")
-    private Utilisateur utilisateurDeux;
-    @ManyToOne
-    @JoinColumn(name = "projet_id")
-    private Projet projet;
     private LocalDateTime dateTimeEnvoie;
     private String message;
     private String urlMedia;
@@ -33,8 +27,6 @@ public class Chat {
         this.id = id;
         this.type = type;
         this.utilisateurUn = utilisateurUn;
-        this.utilisateurDeux = utilisateurDeux;
-        this.projet = projet;
         this.dateTimeEnvoie = dateTimeEnvoie;
         this.message = message;
         this.urlMedia = urlMedia;
@@ -54,22 +46,6 @@ public class Chat {
 
     public void setUtilisateurUn(Utilisateur utilisateurUn) {
         this.utilisateurUn = utilisateurUn;
-    }
-
-    public Utilisateur getUtilisateurDeux() {
-        return utilisateurDeux;
-    }
-
-    public void setUtilisateurDeux(Utilisateur utilisateurDeux) {
-        this.utilisateurDeux = utilisateurDeux;
-    }
-
-    public Projet getProjet() {
-        return projet;
-    }
-
-    public void setProjet(Projet projet) {
-        this.projet = projet;
     }
 
     public LocalDateTime getDateTimeEnvoie() {
@@ -118,8 +94,6 @@ public class Chat {
                 "id=" + id +
                 ", type='" + type + '\'' +
                 ", utilisateurUn=" + utilisateurUn +
-                ", utilisateurDeux=" + utilisateurDeux +
-                ", projet=" + projet +
                 ", dateTimeEnvoie=" + dateTimeEnvoie +
                 ", message='" + message + '\'' +
                 ", urlMedia='" + urlMedia + '\'' +

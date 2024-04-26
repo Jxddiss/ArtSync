@@ -102,7 +102,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 //=== Ce qui sera fait a chaque fois qu'un ICE candidate est ajouté à la connection
                 localPeer.onicecandidate = (event) => {
                     if (event.candidate) {
-                        var candidate = {
+                        let candidate = {
                             type: 'candidate',
                             label: event.candidate.sdpMLineIndex,
                             id: event.candidate.candidate,
@@ -150,7 +150,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 //=== Ce qui sera fait a chaque fois qu'un ICE candidate est ajouté à la connection
                 localPeer.onicecandidate = (event) => {
                     if (event.candidate) {
-                        var candidate = {
+                        let candidate = {
                             type: 'candidate',
                             label: event.candidate.sdpMLineIndex,
                             id: event.candidate.candidate,
@@ -186,15 +186,15 @@ document.addEventListener("DOMContentLoaded", function() {
             //== Abonnement au topic des réponse pour pouvoir mettre le remote description dans le cas ou on initie l'appel
             stompClientVideo.subscribe('/topic/appel/answer/'+conversationId+"/"+idUser, (answer) => {
                 console.log("answer de : " + answer.body);
-                var answerO = JSON.parse(answer.body)["answer"];
+                let answerO = JSON.parse(answer.body)["answer"];
                 localPeer.setRemoteDescription(new RTCSessionDescription(answerO));
             })
 
             //== Abonnement au topic des candidate pour pouvoir ajouté les candidate qui nous sont envoyé
             stompClientVideo.subscribe('/topic/appel/candidate/'+conversationId+"/"+idUser, (candidate) => {
                 console.log("candidate de : " + candidate.body);
-                var candidateO = JSON.parse(candidate.body)["candidate"];
-                var iceCandidate = new RTCIceCandidate({
+                let candidateO = JSON.parse(candidate.body)["candidate"];
+                let iceCandidate = new RTCIceCandidate({
                     sdpMLineIndex: candidateO["label"],
                     candidate: candidateO["id"]
                 });

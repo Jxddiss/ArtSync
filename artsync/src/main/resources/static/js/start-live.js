@@ -265,6 +265,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function endLive(){
+        stompClientStream.send('/app/live/end/'+userPseudo,{},userPseudo);
         buttonStart.style.visibility = 'visible';
         streamVideo.srcObject = null;
         streamerPeerConnections.forEach(peer =>{
@@ -277,10 +278,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 streamerPeerConnections.splice(index, 1);
             }
         })
-        if (stompClientStream) {
-            stompClientStream.send("/app/live/end/remove/"+ userPseudo,{},'');
-            stompClientStream.disconnect();
-        }
         streamerStream.getTracks().forEach(function(track) {
             track.stop();
         });

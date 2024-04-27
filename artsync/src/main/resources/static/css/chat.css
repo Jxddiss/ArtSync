@@ -567,11 +567,28 @@ ul {
     border-radius: 10px;
     border: 1px solid rgba(0, 0, 0, 0.432);
     background-color: rgba(40, 39, 39, 0.71);
+}
+.video-box2 {
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.432);
+    background-color: rgba(40, 39, 39, 0.71);
     height: 75%;
     width: 90%;
 }
 
 #remote-holder {
+    position: absolute;
+    height: 95%;
+    width: 85%;
+}
+#remoteVideo, #localVideo {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    -webkit-transform: scaleX(-1);
+}
+
+    #remote-holder2 {
     position: absolute;
     align-self: center;
     padding-inline: 5%;
@@ -599,7 +616,7 @@ ul {
     max-width: 85%;
     z-index: 5;
 }
-.video-box:hover{
+.video-box2:hover{
     transition: 0.1s;
     cursor: pointer;
     box-shadow: 0px 0px 5px 5px rgb(255,255,255,0.15);

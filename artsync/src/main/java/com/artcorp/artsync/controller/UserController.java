@@ -137,7 +137,7 @@ public class UserController {
             utilisateur.setPhotoUrl(originalFilename);
             File parentDir = new File(USER_FOLDER);
             File saveFile = new File(parentDir.getAbsolutePath() + File.separator + originalFilename);
-            file.transferTo(saveFile);
+            Files.copy(file.getInputStream(),saveFile.toPath(),StandardCopyOption.REPLACE_EXISTING);
             utilisateurService.update(utilisateur);
             return "redirect:/utilisateur/profil/"+utilisateur.getPseudo();
         }

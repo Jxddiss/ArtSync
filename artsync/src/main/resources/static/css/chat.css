@@ -735,3 +735,7 @@ border-radius: 25px;
     background: #555; 
 }
 /* code à Ali */
+
+#groupAnchor{
+    text-decoration: none;
+}

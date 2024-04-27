@@ -48,7 +48,7 @@
             <div class="options">
                 <a th:class="${selected == 'dashboard'} ? 'optionSelected' : ''" th:href="@{/groupe/group/{projetId}(projetId=${projet.getId()})}">Tableau de Bord</a>
                 <a th:class="${selected == 'taches'} ? 'optionSelected' : ''" th:href="@{/groupe/group-tache/{projetId}(projetId=${projet.getId()})}">Tâche</a>
-                <a th:href="@{/utilisateur/conversation}">Conversation</a>
+                <a th:href="@{/utilisateur/conversation/{id}(id=${conversation.getId()})}">Conversation</a>
                 <a th:if="${projet.getAdmin() != null and session.user != null and projet.getAdmin().getId()==session.user.getId()}" th:class="${selected == 'demandes'} ? 'optionSelected' : ''" th:href="@{/groupe/group-demande/{projetId}(projetId=${projet.getId()})}">Demande</a>
                 <a th:if="${projet.getAdmin() != null and session.user != null and projet.getAdmin().getId()==session.user.getId()}" th:class="${selected == 'gestion'} ? 'optionSelected' : ''" th:href="@{/groupe/group-gestion/{projetId}(projetId=${projet.getId()})}">Gestion</a>
             </div>

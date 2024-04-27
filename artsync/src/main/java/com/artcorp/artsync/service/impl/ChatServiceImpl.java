@@ -28,4 +28,9 @@ public class ChatServiceImpl implements ChatService {
     public Chat save(Chat chat) {
         return chatRepos.save(chat);
     }
+
+    @Override
+    public void deleteAllByConversationId(Long id) {
+        chatRepos.deleteAllByConversationId(id);
+    }
 }

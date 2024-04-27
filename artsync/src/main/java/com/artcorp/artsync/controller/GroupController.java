@@ -14,8 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static com.artcorp.artsync.constant.FileConstant.USER_FOLDER;
 
@@ -33,6 +32,10 @@ public class GroupController {
     TacheService tacheService;
     @Autowired
     FichierService fichierService;
+    @Autowired
+    ConversationService conversationService;
+    @Autowired
+    ChatService chatService;
     @GetMapping("/group/join")
     public String rejoindreGroup(@RequestParam("id") Long id, @RequestParam("type") String type, HttpServletRequest request) {
 
@@ -67,6 +70,7 @@ public class GroupController {
         model.addAttribute("utilisateur", utilisateur);
         model.addAttribute("nbFichiers", fichierService.countByProjet(projetService.findById(projectId)));
         model.addAttribute("projet", projetService.findById(projectId));
+        model.addAttribute("conversation",conversationService.findByProjet(projetService.findById(projectId)));
         model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
         model.addAttribute("nbMembres", projetService.getMembersCount(projectId));
         model.addAttribute("annonces", annonceService.findByProjetId(projectId));
@@ -87,6 +91,7 @@ public class GroupController {
         model.addAttribute("selected", "users");
         model.addAttribute("utilisateur", utilisateur);
         model.addAttribute("projet", projetService.findById(projectId));
+        model.addAttribute("conversation",conversationService.findByProjet(projetService.findById(projectId)));
         model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
         model.addAttribute("membres", projetService.getMembers(projectId));
         model.addAttribute("nbMembres", projetService.getMembersCount(projectId));
@@ -106,6 +111,7 @@ public class GroupController {
         model.addAttribute("selected", "taches");
         model.addAttribute("utilisateur", utilisateur);
         model.addAttribute("projet", projetService.findById(projectId));
+        model.addAttribute("conversation",conversationService.findByProjet(projetService.findById(projectId)));
         model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
         model.addAttribute("nbMembres", projetService.getMembersCount(projectId));
         model.addAttribute("nbFichiers", fichierService.countByProjet(projetService.findById(projectId)));
@@ -124,6 +130,7 @@ public class GroupController {
         model.addAttribute("selected", "demandes");
         model.addAttribute("utilisateur", utilisateur);
         model.addAttribute("projet", projetService.findById(projectId));
+        model.addAttribute("conversation",conversationService.findByProjet(projetService.findById(projectId)));
         model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
         model.addAttribute("nbMembres", projetService.getMembersCount(projectId));
         model.addAttribute("nbFichiers", fichierService.countByProjet(projetService.findById(projectId)));
@@ -145,6 +152,7 @@ public class GroupController {
         model.addAttribute("selected", "gestion");
         model.addAttribute("utilisateur", utilisateur);
         model.addAttribute("projet", projetService.findById(projectId));
+        model.addAttribute("conversation",conversationService.findByProjet(projetService.findById(projectId)));
         model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
         model.addAttribute("nbMembres", projetService.getMembersCount(projectId));
         model.addAttribute("nbFichiers", fichierService.countByProjet(projetService.findById(projectId)));
@@ -174,6 +182,7 @@ public class GroupController {
         model.addAttribute("utilisateur", utilisateur);
         model.addAttribute("membres", projetService.getMembers(projetId));
         model.addAttribute("projet", projetService.findById(projetId));
+        model.addAttribute("conversation",conversationService.findByProjet(projetService.findById(projetId)));
         model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
         model.addAttribute("nbMembres", projetService.getMembersCount(projetId));
         model.addAttribute("nbFichiers", fichierService.countByProjet(projetService.findById(projetId)));
@@ -214,6 +223,7 @@ public class GroupController {
         model.addAttribute("utilisateur", utilisateur);
         model.addAttribute("selected", "taches");
         model.addAttribute("projet", projetService.findById(projetId));
+        model.addAttribute("conversation",conversationService.findByProjet(projetService.findById(projetId)));
         model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
         model.addAttribute("nbMembres", projetService.getMembersCount(projetId));
         model.addAttribute("nbFichiers", fichierService.countByProjet(projetService.findById(projetId)));
@@ -234,6 +244,7 @@ public class GroupController {
         model.addAttribute("selected", "taches");
         model.addAttribute("utilisateur", utilisateur);
         model.addAttribute("projet", projetService.findById(projetId));
+        model.addAttribute("conversation",conversationService.findByProjet(projetService.findById(projetId)));
         model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
         model.addAttribute("nbMembres", projetService.getMembersCount(projetId));
         model.addAttribute("nbFichiers", fichierService.countByProjet(projetService.findById(projetId)));
@@ -256,6 +267,7 @@ public class GroupController {
         model.addAttribute("selected", "taches");
         model.addAttribute("utilisateur", utilisateur);
         model.addAttribute("projet", projetService.findById(projetId));
+        model.addAttribute("conversation",conversationService.findByProjet(projetService.findById(projetId)));
         model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
         model.addAttribute("membres", projetService.getMembers(projetId));
         model.addAttribute("nbMembres", projetService.getMembersCount(projetId));
@@ -275,15 +287,6 @@ public class GroupController {
         if (session == null) {
             return "auth";
         }
-        Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
-        model.addAttribute("selected", "demandes");
-        model.addAttribute("utilisateur", utilisateur);
-        model.addAttribute("projet", projetService.findById(projetId));
-        model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
-        model.addAttribute("membres", projetService.getMembers(projetId));
-        model.addAttribute("nbMembres", projetService.getMembersCount(projetId));
-        model.addAttribute("nbFichiers", fichierService.countByProjet(projetService.findById(projetId)));
-        model.addAttribute("annonces", annonceService.findByProjetId(projetId));
         demandeService.deleteDemande(demandeId);
 
         return "redirect:/groupe/group-demande/{projetId}";
@@ -297,15 +300,6 @@ public class GroupController {
         if (session == null) {
             return "auth";
         }
-        Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
-        model.addAttribute("utilisateur", utilisateur);
-        model.addAttribute("selected", "demandes");
-        model.addAttribute("projet", projetService.findById(projetId));
-        model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
-        model.addAttribute("membres", projetService.getMembers(projetId));
-        model.addAttribute("nbMembres", projetService.getMembersCount(projetId));
-        model.addAttribute("nbFichiers", fichierService.countByProjet(projetService.findById(projetId)));
-        model.addAttribute("annonces", annonceService.findByProjetId(projetId));
         Optional<Demande> demande = demandeService.findById(demandeId);
         Utilisateur userToAdd = demande.get().getUtilisateur();
         projetService.addUtilisateurToProjet(projetId, userToAdd.getId());
@@ -325,15 +319,6 @@ public class GroupController {
         if (session == null) {
             return "auth";
         }
-        Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
-        model.addAttribute("selected", "gestion");
-        model.addAttribute("utilisateur", utilisateur);
-        model.addAttribute("projet", projetService.findById(projetId));
-        model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
-        model.addAttribute("nbMembres", projetService.getMembersCount(projetId));
-        model.addAttribute("nbFichiers", fichierService.countByProjet(projetService.findById(projetId)));
-        model.addAttribute("annonces", annonceService.findByProjetId(projetId));
-
         Projet projet = projetService.findById(projetId);
         projet.setTitre(titre);
         projet.setDescription(description);
@@ -347,7 +332,7 @@ public class GroupController {
         image.transferTo(saveFile);
         projetService.updateProjet(projet);
 
-        return "groupe/group";
+        return "redirect:/groupe/group/"+projet.getId();
     }
 
     @PostMapping("/groupe/create")
@@ -378,7 +363,6 @@ public class GroupController {
         projet.setAdmin(utilisateur);
         projet.setUtilisateurs(List.of(utilisateur));
 
-
         String originalFilename = StringUtils.cleanPath(image.getOriginalFilename());
         projet.setProjetPhoto(originalFilename);
 
@@ -386,6 +370,12 @@ public class GroupController {
         File saveFile = new File(parentDir.getAbsolutePath() + File.separator + originalFilename);
         image.transferTo(saveFile);
         projetService.createProjet(projet);
+
+        Conversation conversation = new Conversation();
+        conversation.setUtilisateurUn(projet.getAdmin());
+        conversation.setProjet(projet);
+        conversationService.createConvo(conversation);
+
 
         return "redirect:/groupe/group/" + projet.getId();
     }
@@ -402,6 +392,7 @@ public class GroupController {
         model.addAttribute("selected", "fichiers");
         model.addAttribute("utilisateur", utilisateur);
         model.addAttribute("projet", projetService.findById(projetId));
+        model.addAttribute("conversation",conversationService.findByProjet(projetService.findById(projetId)));
         model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
         model.addAttribute("membres", projetService.getMembers(projetId));
         model.addAttribute("nbMembres", projetService.getMembersCount(projetId));
@@ -423,6 +414,7 @@ public class GroupController {
         model.addAttribute("utilisateur", utilisateur);
         model.addAttribute("selected", "fichiers");
         model.addAttribute("projet", projetService.findById(projetId));
+        model.addAttribute("conversation",conversationService.findByProjet(projetService.findById(projetId)));
         model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
         model.addAttribute("user", user);
         model.addAttribute("fichiers", fichierService.findAllByProjetAndUtilisateur(projetService.findById(projetId), userService.findById(userId)));
@@ -467,6 +459,8 @@ public class GroupController {
         annonceService.deleteAllByProjetId(projetId);
         tacheService.deleteAllByProjetId(projetId);
         demandeService.deleteAllByProjetId(projetId);
+        chatService.deleteAllByConversationId(conversationService.findByProjet(projetService.findById(projetId)).getId());
+        conversationService.deleteAllByProjetId(projetId);
         projetService.deleteProjet(projetId);
         return "recherche";
     }

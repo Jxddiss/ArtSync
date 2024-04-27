@@ -45,11 +45,11 @@
                 </div>
                 <h4 class="animation delais">GROUPES</h4>
                 <div id="liste-groupe" class="liste-options-contact">
-                    <a class="carte" style="text-decoration: none; color: black" href="">
-                        <img src="/media/images/art.jpg" alt="">
+                    <a id="projetA" th:href="@{/utilisateur/conversation/{id}(id=${conversationP.getId()})}" th:each="conversationP : ${conversationProjet}" class="carte" style="text-decoration: none; color: black" href="">
+                        <img th:src="@{/media/images/{image}(image=${conversationP.projet.getProjetPhoto()})}" alt="">
                         <div class="mini-container">
-                            <p>À faire</p>
-                            <p>À faire</p>
+                            <p>[[${conversationP.projet.getTitre()}]]</p>
+                            <p>[[${conversationP.projet.getDescription()}]]</p>
                         </div>
                     </a>
                 </div>

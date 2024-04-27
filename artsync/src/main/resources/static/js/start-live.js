@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", function() {
     //====== Déclaration des variables
     let streamerPeerConnections = [];
@@ -10,6 +11,12 @@ document.addEventListener("DOMContentLoaded", function() {
     const camToggle = document.getElementById("cam-toggle");
     const microToggle = document.getElementById("micro-toggle");
     const displayToggle = document.getElementById("display-toggle");
+    const inputTitre = document.getElementById("titre-live-input");
+
+
+    messageNotStarted.style.display = "none";
+    titreLive.style.display = "none";
+    buttonStart.style.display = "none";
 
     let cam = true;
 
@@ -43,46 +50,74 @@ document.addEventListener("DOMContentLoaded", function() {
         ]
     };
 
-    buttonStart.addEventListener("click",(ev) =>{
-        buttonStart.style.visibility = 'hidden';
-        navigator.mediaDevices.getUserMedia({ video: true,audio: true })
-            .then(stream => {
-                const socketStream = new SockJS('/websocket');
-                stompClientStream = Stomp.over(socketStream);
-                streamerStream = stream;
-                stompClientStream.connect({}, function (frame){
-                    stompClientStream.send('/app/live/start/'+userPseudo,{},"Started");
-                    stompClientStream.subscribe('/topic/live/new/' + userPseudo, (newViewerEvent) => {
-                        currentCount ++;
-                        viewCount.innerText = currentCount.toString();
-                        const viewerPseudo = newViewerEvent.body;
-                        stompClientStream.send('/app/live/count/'+userPseudo,{},JSON.stringify({
-                            currentCount:currentCount,
-                            pseudo:viewerPseudo,
-                        }));
-                        AddNewUserJoinMessage(viewerPseudo);
-                        handleNewViewer(viewerPseudo);
-                    });
-                    stompClientStream.subscribe('/topic/live/chat/'+userPseudo, function(message) {
-                        addMessageLive(JSON.parse(message.body));
-                    });
-                });
-                streamVideo.srcObject = stream;
-            })
-            .catch(function (error) {
-                console.log("Something went wrong! : " + error);
-            });
-
-        microToggle.addEventListener("click",toggleMic);
-        camToggle.addEventListener("click",toggleCam);
-        displayToggle.addEventListener("click",toggleDisplay);
-        endLiveButton.addEventListener("click",endLive);
-        messageInput.addEventListener("keyup", function(event) {
-            if (event.key === "Enter") {
-                sendChat();
+    inputTitre.addEventListener("keyup",function (ev){
+        if(ev.key === "Enter"){
+            if (inputTitre.value.trim() !== ''){
+                titreLive.innerText = inputTitre.value;
+                titreLive.style.display = "block";
+                inputTitre.value = '';
+                inputTitre.remove();
+                buttonStart.style.display = "block";
+                startLive();
             }
-        });
+        }
     })
+
+    function startLive(){
+        buttonStart.addEventListener("click",(ev) =>{
+            buttonStart.style.visibility = 'hidden';
+            navigator.mediaDevices.getUserMedia({ video: true,audio: true })
+                .then(stream => {
+                    const socketStream = new SockJS('/websocket');
+                    stompClientStream = Stomp.over(socketStream);
+                    streamerStream = stream;
+                    stompClientStream.connect({}, function (frame){
+                        stompClientStream.send('/app/live/start/'+userPseudo,{},titreLive.innerText.toString());
+                        stompClientStream.subscribe('/topic/live/new/' + userPseudo, (newViewerEvent) => {
+                            currentCount ++;
+                            viewCount.innerText = currentCount.toString();
+                            const viewerPseudo = newViewerEvent.body;
+                            stompClientStream.send('/app/live/count/'+userPseudo,{},JSON.stringify({
+                                currentCount:currentCount,
+                                pseudo:viewerPseudo,
+                            }));
+                            AddNewUserJoinMessage(viewerPseudo);
+                            handleNewViewer(viewerPseudo);
+                        });
+                        stompClientStream.subscribe('/topic/live/chat/'+userPseudo, function(message) {
+                            addMessageLive(JSON.parse(message.body));
+                        });
+                        stompClientStream.subscribe('/topic/live/leave/'+userPseudo, function(viewerLeaveEvent) {
+                            const viewerLeftPseudo = viewerLeaveEvent.body;
+                            currentCount--;
+                            viewCount.innerText = currentCount.toString();
+                            stompClientStream.send('/app/live/count/'+userPseudo,{},JSON.stringify({
+                                currentCount:currentCount
+                            }));
+                            handleUserLeave(viewerLeftPseudo);
+                        });
+                        window.addEventListener('beforeunload', function (e) {
+                            delete e['returnValue'];
+                            stompClientStream.send('/app/live/end/'+userPseudo,{},userPseudo);
+                        });
+                    });
+                    streamVideo.srcObject = stream;
+                })
+                .catch(function (error) {
+                    console.log("Something went wrong! : " + error);
+                });
+
+            microToggle.addEventListener("click",toggleMic);
+            camToggle.addEventListener("click",toggleCam);
+            displayToggle.addEventListener("click",toggleDisplay);
+            endLiveButton.addEventListener("click",endLive);
+            messageInput.addEventListener("keyup", function(event) {
+                if (event.key === "Enter") {
+                    sendChat();
+                }
+            });
+        })
+    }
 
     function handleNewViewer(viewerPseudo){
         const viewerPeerConnection = new RTCPeerConnection(config);
@@ -230,6 +265,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function endLive(){
+        stompClientStream.send('/app/live/end/'+userPseudo,{},userPseudo);
         buttonStart.style.visibility = 'visible';
         streamVideo.srcObject = null;
         streamerPeerConnections.forEach(peer =>{
@@ -242,10 +278,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 streamerPeerConnections.splice(index, 1);
             }
         })
-        if (stompClientStream) {
-            stompClientStream.send("/app/live/end/remove/"+ userPseudo,{},'');
-            stompClientStream.disconnect();
-        }
         streamerStream.getTracks().forEach(function(track) {
             track.stop();
         });
@@ -267,5 +299,18 @@ document.addEventListener("DOMContentLoaded", function() {
             )
             messageInput.value = '';
         }
+    }
+
+    function handleUserLeave(viewerLeftPseudo) {
+        streamerPeerConnections.forEach(peer => {
+            if (peer.username === viewerLeftPseudo) {
+                peer.peerConnection.close();
+                peer.peerConnection = null;
+                const index = streamerPeerConnections.indexOf(peer);
+                if (index > -1) {
+                    streamerPeerConnections.splice(index, 1);
+                }
+            }
+        })
     }
 });

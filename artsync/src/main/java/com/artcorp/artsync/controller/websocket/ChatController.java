@@ -39,6 +39,7 @@ public class ChatController {
             chat.setUrlMedia(RELATIVE_PATH  + chat.getUrlMedia());
         }
         chatService.save(chat);
+        System.out.println(chat);
         return chat;
     }
 

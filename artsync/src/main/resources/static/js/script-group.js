@@ -79,3 +79,8 @@ if (fichierHolder){
     const children = fichierHolder.children
     gsap.to(children, {duration: 0.5, opacity: 1, scale: 1, delay: 0.15, stagger: 0.1, ease:'back', filter: 'blur(0px)'})
 }
+const demandeHolder = document.getElementById("demandeHolderScroller")
+if (demandeHolder){
+    const children = demandeHolder.children
+    gsap.to(children, {duration: 0.5, opacity: 1, delay: 0.15, stagger: 0.1, ease:'back', filter: 'blur(0px)'})
+}

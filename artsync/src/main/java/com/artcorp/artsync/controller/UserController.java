@@ -1,6 +1,7 @@
 package com.artcorp.artsync.controller;
 
 import com.artcorp.artsync.entity.*;
+import com.artcorp.artsync.exception.domain.FileFormatException;
 import com.artcorp.artsync.repos.ProjetRepos;
 import com.artcorp.artsync.service.impl.PortfolioServiceImpl;
 import com.artcorp.artsync.service.impl.PostServiceImpl;
@@ -17,6 +18,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
@@ -134,9 +137,9 @@ public class UserController {
             utilisateur.setPhotoUrl(originalFilename);
             File parentDir = new File(USER_FOLDER);
             File saveFile = new File(parentDir.getAbsolutePath() + File.separator + originalFilename);
-            file.transferTo(saveFile);
+            Files.copy(file.getInputStream(),saveFile.toPath(),StandardCopyOption.REPLACE_EXISTING);
             utilisateurService.update(utilisateur);
-            return "redirect:/utilisateur/profil/"+utilisateur.getPseudo()+"";
+            return "redirect:/utilisateur/profil/"+utilisateur.getPseudo();
         }
         return "auth";
     }
@@ -147,33 +150,37 @@ public class UserController {
 
             Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
 
-            String originalFilename = StringUtils.cleanPath(file.getOriginalFilename());
-            FichierGeneral fichierGeneral = new FichierGeneral();
-            fichierGeneral.setUrlMedia(originalFilename);
-            if (postService.findBanniereUtilisateur(utilisateur) != null){
-                postService.deletePost(postService.findBanniereUtilisateur(utilisateur));
+            if (utilisateur != null){
+                if (file != null){
+                    String originalFilename = StringUtils.cleanPath(file.getOriginalFilename());
+                    FichierGeneral fichierGeneral = new FichierGeneral();
+                    fichierGeneral.setUrlMedia(originalFilename);
+                    if (postService.findBanniereUtilisateur(utilisateur) != null){
+                        postService.deletePost(postService.findBanniereUtilisateur(utilisateur));
+                    }
+                    Post post = new Post();
+                    post.setUtilisateur(utilisateur);
+                    post.setTitre("titre");
+                    post.setType("Banniere");
+                    post.setTexte("banniere");
+                    post.setPublique(false);
+                    post.setDate(LocalDateTime.now());
+                    post.setPseudoUtilisateur(utilisateur.getPseudo());
+
+                    fichierGeneral.setPost(post);
+
+                    HashSet<FichierGeneral> listFichiers = new HashSet<>();
+                    listFichiers.add(fichierGeneral);
+                    post.setListeFichiers(listFichiers);
+
+                    File parentDir = new File(USER_FOLDER);
+                    File saveFile = new File(parentDir.getAbsolutePath() + File.separator + originalFilename);
+                    Files.copy(file.getInputStream(),saveFile.toPath(),StandardCopyOption.REPLACE_EXISTING);
+                    postService.addPost(post);
+                }
             }
-            Post post = new Post();
-            post.setUtilisateur(utilisateur);
-            post.setTitre("titre");
-            post.setType("Banniere");
-            post.setTexte("banniere");
-            post.setPublique(false);
-            post.setDate(LocalDateTime.now());
-            post.setPseudoUtilisateur(utilisateur.getPseudo());
 
-            fichierGeneral.setPost(post);
-
-            HashSet<FichierGeneral> listFichiers = new HashSet<>();
-            listFichiers.add(fichierGeneral);
-            post.setListeFichiers(listFichiers);
-
-            File parentDir = new File(USER_FOLDER);
-            File saveFile = new File(parentDir.getAbsolutePath() + File.separator + originalFilename);
-            file.transferTo(saveFile);
-            postService.addPost(post);
-
-            return "redirect:/utilisateur/profil/"+utilisateur.getPseudo()+"";
+            return "redirect:/utilisateur/profil/"+utilisateur.getPseudo();
         }
         return "auth";
     }

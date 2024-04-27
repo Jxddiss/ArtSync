@@ -10,6 +10,69 @@ document.addEventListener("DOMContentLoaded", function() {
   const localVideo = document.getElementById("localVideo");
   const localVideoHolder = document.getElementById("local-holder");
 
+  const videoBoxes = document.querySelectorAll('.video-box2');
+  const remoteHolder = document.getElementById('remote-holder2');
+  const secondaryVideoHolder = document.getElementById('secondary-video-holder');
+
+  videoBoxes.forEach(videoBox => {
+    videoBox.addEventListener('click', () => {
+      const videoHolder = videoBox.closest('.videoHolder');
+      const focusedVideoHolder = document.querySelector('.focus');
+
+      if (focusedVideoHolder && focusedVideoHolder.parentElement !== videoHolder) {
+        focusedVideoHolder.parentElement.style.flex = '1 0 auto';
+        focusedVideoHolder.parentElement.style.marginRight = "0%";
+        focusedVideoHolder.classList.remove('focus');
+        secondaryVideoHolder.append(focusedVideoHolder.parentElement);
+        videoHolder.style.flex = '0 0 80%';
+        videoHolder.style.marginRight = "20%";
+        videoBox.classList.add('focus')
+        remoteHolder.append(videoHolder)
+      }
+      else if (!focusedVideoHolder && !videoBox.classList.contains('focus')) {
+        videoHolder.style.flex = '0 0 80%';
+        videoHolder.style.marginRight = "20%";
+        videoBox.classList.add('focus');
+        const otherVideoHolders = Array.from(remoteHolder.children).filter(child => child !== videoHolder.parentElement);
+        otherVideoHolders.forEach(holder => {
+          secondaryVideoHolder.appendChild(holder);
+        });
+        remoteHolder.append(videoHolder)
+      }
+      else if (focusedVideoHolder.parentElement === videoHolder) {
+        videoHolder.style.flex = '1 0 auto';
+        videoHolder.style.marginRight = "0%";
+        videoBox.classList.remove('focus');
+        videoBoxes.forEach(vidBox => remoteHolder.append(vidBox.parentElement))
+      }
+    });
+  });
+
+  const userInfoHolders = document.querySelectorAll(".userInfoHolder")
+  if (userInfoHolders){
+    userInfoHolders.forEach(holder => {
+      holder.addEventListener('mouseenter', () => {
+          gsap.to(holder.querySelector('h4'),{
+            x:"75%",
+            duration: 0.25,
+            delay:0.25,
+            opacity:1,
+            ease:"back"
+          })
+      });
+
+      holder.addEventListener('mouseleave', () => {
+        gsap.to(holder.querySelector('h4'),{
+          x:"-75%",
+          duration: 0.25,
+          delay:0.025,
+          opacity:0,
+          ease:"sine"
+        })
+      });
+    });
+  }
+
 
   btnOpenOptions.addEventListener("click", function(e) {
     if (options.dataset.state === "inactive") {

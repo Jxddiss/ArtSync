@@ -56,12 +56,14 @@
             </div>
             <h4 class="animation delais">GROUPES</h4>
             <div id="liste-groupe" class="liste-options-contact">
-                <a class="carte" th:each="conversationP : ${conversationProjet}" th:href="@{/utilisateur/conversation/{id}(id=${conversationP.getId()})}">
+                <a class="carte" id="groupAnchor"
+                   th:each="conversationP : ${conversationProjet}"
+                   th:href="@{/utilisateur/conversation/{id}(id=${conversationP.getId()})}"
+                   th:class="${conversationP.getId() == conversationCourrante.getId()} ? 'carte carte-active' : 'carte'">
                     <img th:src="@{/media/images/{image}(image=${conversationP.projet.getProjetPhoto()})}" alt="">
                     <div class="mini-container">
                         <p>[[${conversationP.projet.getTitre()}]]</p>
-                        <p>[[${conversationP.projet.getDescription()}]]</p>
-                        <p> <img src="/media/logo/animationIcon.png" alt="logo-role"><img src="/media/logo/digitalIcon.png" alt="logo-role"></p>
+                        <p style="margin-left: 0">[[${conversationP.projet.getDescription()}]]</p>
                     </div>
                 </a>
             </div>
@@ -89,8 +91,8 @@
                     <div class="header-profile">
                         <div class="content-header">
                             <div class="info-profil">
-                                <h4>[[${conversationCourrante.projet.getTitre()}]]<span class="statut online"></span></h4>
-                                <p>[[${conversationCourrante.projet.getDescription()}]]</p>
+                                <h4>[[${conversationCourrante.projet.getTitre()}]]</h4>
+                                <p style="text-align: center; width: 100%">[[${conversationCourrante.projet.getDescription()}]]</p>
                             </div>
                             <div class="img-container">
                                 <img th:src="@{/media/images/{image}(image=${conversationCourrante.projet.getProjetPhoto()})}" alt="" id="photo-profile">
@@ -124,51 +126,51 @@
         </div>
     </div>
     <dialog id="video-chat2">
-        <div id="remote-holder">
+        <div id="remote-holder2">
             <div class="videoHolder">
-                <video style="background-color: red !important;" autoplay class="video-box"></video>
+                <video style="background-color: red !important;" autoplay class="video-box2"></video>
                 <div class="userInfoHolder">
                     <img src="https://www.w3schools.com/w3images/lights.jpg" alt="">
                     <h4>@johnDoe</h4>
                 </div>
             </div>
             <div class="videoHolder">
-                <video style="background-color: rebeccapurple !important;" autoplay class="video-box"></video>
+                <video style="background-color: rebeccapurple !important;" autoplay class="video-box2"></video>
                 <div class="userInfoHolder">
                     <img src="https://www.w3schools.com/w3images/lights.jpg" alt="">
                     <h4>@johnDoe</h4>
                 </div>
             </div>
             <div class="videoHolder">
-                <video style="background-color: darkblue !important;" autoplay class="video-box"></video>
+                <video style="background-color: darkblue !important;" autoplay class="video-box2"></video>
                 <div class="userInfoHolder">
                     <img src="https://www.w3schools.com/w3images/lights.jpg" alt="">
                     <h4>@johnDoe</h4>
                 </div>
             </div>
             <div class="videoHolder">
-                <video style="background-color: aliceblue !important;" autoplay class="video-box"></video>
+                <video style="background-color: aliceblue !important;" autoplay class="video-box2"></video>
                 <div class="userInfoHolder">
                     <img src="https://www.w3schools.com/w3images/lights.jpg" alt="">
                     <h4>@johnDoe</h4>
                 </div>
             </div>
             <div class="videoHolder">
-                <video style="background-color: #4a8e44 !important;" autoplay class="video-box"></video>
+                <video style="background-color: #4a8e44 !important;" autoplay class="video-box2"></video>
                 <div class="userInfoHolder">
                     <img src="https://www.w3schools.com/w3images/lights.jpg" alt="">
                     <h4>@johnDoe</h4>
                 </div>
             </div>
             <div class="videoHolder">
-                <video style="background-color: greenyellow !important;" autoplay class="video-box"></video>
+                <video style="background-color: greenyellow !important;" autoplay class="video-box2"></video>
                 <div class="userInfoHolder">
                     <img src="https://www.w3schools.com/w3images/lights.jpg" alt="">
                     <h4>@johnDoe</h4>
                 </div>
             </div>
             <div class="videoHolder">
-                <video autoplay class="video-box"></video>
+                <video autoplay class="video-box2"></video>
                 <div class="userInfoHolder">
                     <img src="https://www.w3schools.com/w3images/lights.jpg" alt="">
                     <h4>@johnDoe</h4>

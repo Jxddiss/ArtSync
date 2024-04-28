@@ -43,26 +43,36 @@
                         <h4 id="pseudo" th:text="'@'+${utilisateur.getPseudo().toUpperCase()}"></h4>
                     </div>
                     <div class="buttonHolder">
-                        <a href=""> SUPPRIMER COMPTER </a>
+                        <dialog id="supprimerDialog">
+                            <div class="dialogPrompt">
+                                <h5>Voulez-vous vraiment supprimer votre compte ?</h5>
+                                <div class="dialogButtons">
+                                    <a th:href="@{/utilisateur/profil/settings/delete}">CONFIRMER</a>
+                                    <p id="closeDialog">ANNULER</p>
+                                </div>
+                            </div>
+                        </dialog>
+                        <p id="openDialog"> SUPPRIMER COMPTER </p>
                     </div>
                 </div>
             </div>
+            <form th:action="@{/utilisateur/profil/settings/update}" th:object="${utilisateur}" method="post">
             <div class="profilOptions">
                 <div class="accountInfo">
                     <div class="accountHeader" id="compte">
-                        <h4>Information du compte</h4>
+                        <div class="headerAccountButton d-flex">
+                            <h4>Information du compte</h4>
+                            <i id="editCompte" style="font-size: 25px" class="bi bi-pencil-square"></i>
+                        </div>
                         <p>Information concernant votre utilisateur et votre identifiant</p>
                     </div>
                     <div class="accountBody">
-                        <form action="">
                             <div class="inputHeader">
-                                <input type="text" th:value="'@' +${utilisateur.getPseudo()}" name="pseudo" readonly>
-                                <input type="text" th:value="'#' +${utilisateur.getId()}" readonly>
+                                <input th:field="*{pseudo}" style="width: 100%" type="text" th:value="'@' +${utilisateur.getPseudo()}" placeholder="Pseudo" name="pseudo" readonly>
                             </div>
-                            <div class="inputBody">
+                            <div class="inputBody2">
                                 <button type="submit">SAUVEGARDER</button>
                             </div>
-                        </form>
                     </div>
                 </div>
             </div>
@@ -70,18 +80,24 @@
             <div class="profilOptions">
                 <div class="accountInfo">
                     <div class="accountHeader" id="perso">
-                        <h4>Information personnel</h4>
+                        <div class="headerAccountButton d-flex">
+                            <h4>Information personnel</h4>
+                            <i id="editPerso" style="font-size: 25px" class="bi bi-pencil-square"></i>
+                        </div>
                         <p>Information concernant vos données personnelles </p>
                     </div>
                     <div class="accountBody">
-                        <form action="">
                             <div class="inputHeader2">
-                                <input type="email" th:value="${utilisateur.getEmail()}" name="pseudo" readonly>
+                                <input type="email" th:field="*{email}" th:value="${utilisateur.getEmail()}" name="email" placeholder="E-mail" readonly>
                             </div>
+                            <div class="inputHeader mt-1">
+                                <input  style="width: 100%" type="text" th:field="*{nom}" th:value="${utilisateur.getNom()}" placeholder="Nom" name="nom" readonly>
+                                <input type="text" th:field="*{prenom}" th:value="${utilisateur.getPrenom()}" placeholder="Prénom" name="prenom" readonly>
+                            </div>
+
                             <div class="inputBody2">
                                 <button type="submit">SAUVEGARDER</button>
                             </div>
-                        </form>
                     </div>
                 </div>
             </div>
@@ -89,21 +105,70 @@
             <div class="profilOptions">
                 <div class="accountInfo">
                     <div class="accountHeader" id="utilisateur">
-                        <h4>Information d'utilisateur</h4>
+                        <div class="headerAccountButton d-flex">
+                            <h4>Information d'utilisateur</h4>
+                            <i id="editUser" style="font-size: 25px" class="bi bi-pencil-square"></i>
+                        </div>
+
                         <p>Information concernant votre identifiant</p>
                     </div>
                     <div class="accountBody">
-                        <form action="">
                             <div class="inputHeader2">
-                                <input type="password" th:value="${utilisateur.getPassword()}" name="pseudo" readonly>
+                                <input type="password" th:field="*{password}" th:value="${utilisateur.getPassword()}" placeholder="Mot de passe" name="pseudo" readonly>
                             </div>
                             <div class="inputBody2">
                                 <button type="submit">SAUVEGARDER</button>
                             </div>
-                        </form>
                     </div>
                 </div>
             </div>
+            </form>
         </div>
     </div>
+    <script>
+        const editCompte = document.getElementById("editCompte")
+        const editPerso = document.getElementById("editPerso")
+        const editUser = document.getElementById("editUser")
+        const inputs = document.querySelectorAll("input")
+
+        const openDialog = document.getElementById("openDialog")
+        const closeDialog = document.getElementById("closeDialog")
+        const dialog = document.getElementById("supprimerDialog")
+        let open= false
+
+        openDialog.addEventListener("click",function (){
+            open=true
+            dialog.showModal();
+        })
+        closeDialog.addEventListener("click", function (){
+            open = false
+            dialog.close();
+        })
+
+        editCompte.addEventListener("click",function(){
+            if (inputs.item(0).readOnly){
+                inputs.item(0).readOnly = false;
+            }else {
+                inputs.item(0).readOnly = true;
+            }
+        });
+        editPerso.addEventListener("click",function(){
+            if (inputs.item(1).readOnly){
+                inputs.item(1).readOnly = false;
+                inputs.item(2).readOnly = false;
+                inputs.item(3).readOnly = false;
+            }else {
+                inputs.item(1).readOnly = true;
+                inputs.item(2).readOnly = true;
+                inputs.item(3).readOnly = true;
+            }
+        });
+        editUser.addEventListener("click",function(){
+            if (inputs.item(4).readOnly){
+                inputs.item(4).readOnly = false;
+            }else {
+                inputs.item(4).readOnly = true;
+            }
+        });
+    </script>
 </body>

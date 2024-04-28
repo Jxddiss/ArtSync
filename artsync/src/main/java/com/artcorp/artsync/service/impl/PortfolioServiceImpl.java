@@ -45,4 +45,9 @@ public class PortfolioServiceImpl implements PortfolioService {
     public Portfolio findByUtilisateur(Utilisateur utilisateur) {
         return portfolioRepos.findByUtilisateur(utilisateur);
     }
+
+    @Override
+    public void deletePortfolio(Portfolio portfolio) {
+        portfolioRepos.delete(portfolio);
+    }
 }

@@ -1,11 +1,8 @@
 package com.artcorp.artsync.controller;
 
 import com.artcorp.artsync.entity.*;
-import com.artcorp.artsync.exception.domain.FileFormatException;
 import com.artcorp.artsync.repos.ProjetRepos;
-import com.artcorp.artsync.service.impl.PortfolioServiceImpl;
-import com.artcorp.artsync.service.impl.PostServiceImpl;
-import com.artcorp.artsync.service.impl.UtilisateurServiceImpl;
+import com.artcorp.artsync.service.impl.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,13 +31,21 @@ public class UserController {
     private ProjetRepos projetRepos;
     private PostServiceImpl postService;
     private PortfolioServiceImpl portfolioService;
+    private ConversationServiceImpl conversationService;
+    private ChatServiceImpl chatService;
+    private  ProjetServiceImpl projetService;
+    private TacheServiceImpl tacheService;
 
     @Autowired
-    public UserController(UtilisateurServiceImpl utilisateurService, ProjetRepos projetRepos, PostServiceImpl postService, PortfolioServiceImpl portfolioService) {
+    public UserController(UtilisateurServiceImpl utilisateurService, ProjetRepos projetRepos, PostServiceImpl postService, PortfolioServiceImpl portfolioService, ConversationServiceImpl conversationService, ChatServiceImpl chatService, ProjetServiceImpl projetService, TacheServiceImpl tacheService) {
         this.utilisateurService = utilisateurService;
         this.projetRepos = projetRepos;
         this.postService = postService;
         this.portfolioService = portfolioService;
+        this.conversationService = conversationService;
+        this.chatService = chatService;
+        this.projetService = projetService;
+        this.tacheService = tacheService;
     }
 
     @GetMapping("/feed")
@@ -193,6 +198,36 @@ public class UserController {
             return "utilisateur/settings";
         }
         return "auth";
+    }
+
+    @PostMapping("/profil/settings/update")
+    public String updateUser(Utilisateur utilisateur, HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+        if (session!=null){
+            System.out.println(utilisateur.toString());
+            Utilisateur user = (Utilisateur) session.getAttribute("user");
+            utilisateur.setId(user.getId());
+            utilisateur.setSpecialisation(user.getSpecialisation());
+            utilisateur.setStatut(user.getStatut());
+            utilisateur.setPhotoUrl(user.getPhotoUrl());
+            if (utilisateur.getPassword()==null){
+                utilisateur.setPassword(user.getPassword());
+            }
+            utilisateurService.update(utilisateur);
+            session.setAttribute("user",utilisateur);
+            return "redirect:/utilisateur/profil/settings";
+        }
+        return "auth";
+    }
+    @GetMapping("/profil/settings/delete")
+    public String deleteUser(HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+        if (session!=null){
+            Utilisateur user = (Utilisateur) session.getAttribute("user");
+            utilisateurService.delete(user.getId());
+
+        }
+        return "redirect:/authentification";
     }
 
 }

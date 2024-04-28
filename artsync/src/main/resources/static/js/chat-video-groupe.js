@@ -7,6 +7,8 @@ document.addEventListener("DOMContentLoaded", function() {
     const camToggle = document.getElementById("cam-toggle");
     const microToggle = document.getElementById("micro-toggle");
     const displayToggle = document.getElementById("display-toggle");
+    const secondaryVideoHolder = document.getElementById('secondary-video-holder');
+    const videoBoxes = document.querySelectorAll('.video-box2');
     let localStream;
     let displayStream;
     let peerConnectionArray = [];
@@ -18,9 +20,17 @@ document.addEventListener("DOMContentLoaded", function() {
     const config = {
         iceServers: [
             {
-                urls: "stun:stun.l.google.com:19302"
+                urls: "stun:stun1.l.google.com:19302"
+            },
+            {
+                urls:'turn:relay1.expressturn.com:3478',
+                username:'ef8EOWQXK1M7HXY1AI',
+                credential:'mor3P6U6DOFc1r3R'
             }
-        ]
+        ],
+        trickle: true,
+        rtcpMuxPolicy:"negotiate",
+        bundlePolicy:"max-compat"
     };
 
     const displayMediaOptions = {
@@ -37,6 +47,12 @@ document.addEventListener("DOMContentLoaded", function() {
         monitorTypeSurfaces: "include",
     };
 
+    const offerOptions = {
+        offerToReceiveAudio: true,
+        offerToReceiveVideo: true,
+        voiceActivityDetection: false,
+        iceRestart: false,
+    };
 
     camToggle.addEventListener("click", function() {
         toggleCam();
@@ -76,12 +92,16 @@ document.addEventListener("DOMContentLoaded", function() {
                                 photoUrl: photoUrl,
                                 pseudo: pseudoUser
                              }));
-                            handleUserJoin(user,"new")
+                            if (user.id.toString() !== idUser){
+                                handleUserJoin(user,"new")
+                            }
                         });
 
                         stompClientVideo.subscribe('/topic/appel/groupe/add/' + conversationId+"/"+idUser, (newUserEvent) => {
                             const user = JSON.parse(newUserEvent.body)
-                            handleUserJoin(user,"add")
+                            if (user.id.toString() !== idUser){
+                                handleUserJoin(user,"add")
+                            }
                         });
                         //----HANDLE LEAVE------
                         // stompClientVideo.subscribe('/topic/live/leave/'+userPseudo, function(viewerLeaveEvent) {
@@ -122,52 +142,58 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function handleUserJoin(user, type){
         let track = false
-        if (user.id.toString() === idUser) {
-            return
-        }
-        const peerConnection = new RTCPeerConnection(config);
+        const peer = new RTCPeerConnection(config);
         peerConnectionArray.push({
             userId: user.id,
-            peerConnection: peerConnection
+            peerConnection: peer
         });
+
+        const currentUser = peerConnectionArray.find(utilisateur => utilisateur.userId === user.id);
+        const peerConnection = currentUser.peerConnection;
+
+        stompClientVideo.subscribe('/topic/appel/groupe/candidate/'+conversationId+"/"+user.id+"/"+idUser, (candidate) => {
+            console.log("candidate de : " + JSON.parse(candidate.body)["fromUser"]);
+            let candidateO = JSON.parse(candidate.body)["candidate"];
+            let iceCandidate = new RTCIceCandidate({
+                sdpMLineIndex: candidateO["label"],
+                candidate: candidateO["id"]
+            });
+            peerConnection.addIceCandidate(iceCandidate).then(()=>{
+                console.log("added candidate : ")
+            }).catch(error =>{
+                console.log("--------------- erreur --------------" + error);
+            })
+        })
+
         peerConnection.ontrack = (event) => {
             //remoteVideo.srcObject = event.streams[0];
             if (!track){
                 track = true
                 appendVideo(event.streams[0],user)
             }
+        }
 
-        }
-        peerConnection.onicecandidate = (event) => {
-            if (event.candidate) {
-                let candidate = {
-                    type: 'candidate',
-                    label: event.candidate.sdpMLineIndex,
-                    id: event.candidate.candidate,
-                }
-                console.log("sending candidate : " + JSON.stringify(candidate));
-                stompClientVideo.send('/app/chat/appel/group/candidate/'+conversationId+"/"+idUser+"/"+user.id, {}, JSON.stringify({
-                    toUser: user.id,
-                    fromUser: idUser,
-                    candidate: candidate
-                }));
-            }
-        }
         localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
 
-        stompClientVideo.subscribe('/topic/appel/groupe/candidate/'+conversationId+"/"+user.id+"/"+idUser, (candidate) => {
-            console.log("candidate de : " + candidate.body);
-            let candidateO = JSON.parse(candidate.body)["candidate"];
-            let iceCandidate = new RTCIceCandidate({
-                sdpMLineIndex: candidateO["label"],
-                candidate: candidateO["id"]
-            });
-            peerConnection.addIceCandidate(iceCandidate);
-            console.log("added candidate : " + JSON.stringify(candidateO));
-        })
         //create offer
         if (type==="new"){
             stompClientVideo.subscribe('/topic/appel/groupe/ready/'+conversationId+"/"+user.id+"/"+idUser, () =>{
+                peerConnection.onicecandidate = (event) => {
+                    if (event.candidate) {
+                        let candidate = {
+                            type: 'candidate',
+                            label: event.candidate.sdpMLineIndex,
+                            id: event.candidate.candidate,
+                        }
+                        console.log("sending candidate : " + JSON.stringify(candidate));
+                        stompClientVideo.send('/app/chat/appel/group/candidate/'+conversationId+"/"+idUser+"/"+user.id, {}, JSON.stringify({
+                            toUser: user.id,
+                            fromUser: idUser,
+                            candidate: candidate
+                        }));
+                    }
+                }
+
                 peerConnection.createOffer().then((description) => {
                     peerConnection.setLocalDescription(description);
                     console.log("Setting local description : " + JSON.stringify(description));
@@ -180,74 +206,81 @@ document.addEventListener("DOMContentLoaded", function() {
                     }))
 
                 })
+
+                peerConnection.oniceconnectionstatechange = () => {
+                    console.log(`ICE connection state changed to: ${peerConnection.iceConnectionState}`);
+                    if (peerConnection.iceConnectionState === "disconnected" || peerConnection.iceConnectionState === "failed") {
+                        // Re-gather ICE candidates and attempt to re-establish the connection
+                        peerConnection.createOffer()
+                            .then((description) => {
+                                peerConnection.setLocalDescription(description);
+                                stompClientVideo.send('/app/chat/appel/groupe/offer/'+conversationId+"/"+idUser+"/"+user.id, {}, JSON.stringify({
+                                    toUser: user.id,
+                                    fromUser: idUser,
+                                    offer: description
+                                }))
+                            })
+                            .catch((error) => {
+                                console.error("Error creating offer:", error);
+                            });
+                    }
+                };
+            })
+
+            //== Abonnement au topic des réponse pour pouvoir mettre le remote description dans le cas ou on initie l'appel
+            stompClientVideo.subscribe('/topic/appel/groupe/answer/'+conversationId+"/"+user.id+"/"+idUser, (answer) => {
+                console.log("answer de : " + JSON.parse(answer.body)["fromUser"]);
+                let answerO = JSON.parse(answer.body)["answer"];
+                peerConnection.setRemoteDescription(new RTCSessionDescription(answerO));
             })
         }
 
-        //get offer
-        stompClientVideo.subscribe('/topic/appel/groupe/offer/'+conversationId+"/"+user.id+"/"+idUser, (of) => {
-            console.log("offer de : " + of.body);
-            offer = JSON.parse(of.body)["offer"];
+        if(type === "add"){
+            //get offer
+            stompClientVideo.subscribe('/topic/appel/groupe/offer/'+conversationId+"/"+user.id+"/"+idUser, (of) => {
+                console.log("offer de : " + JSON.parse(of.body)["fromUser"]);
+                offer = JSON.parse(of.body)["offer"];
 
-            stompClientVideo.send('/app/chat/appel/groupe/ready/'+conversationId+"/"+idUser+"/"+user.id,{},"ready")
-
-
-            //=== Ce qui sera fait a chaque fois qu'un ICE candidate est ajouté à la connection
-            peerConnection.onicecandidate = (event) => {
-                if (event.candidate) {
-                    let candidate = {
-                        type: 'candidate',
-                        label: event.candidate.sdpMLineIndex,
-                        id: event.candidate.candidate,
+                //=== Ce qui sera fait a chaque fois qu'un ICE candidate est ajouté à la connection
+                peerConnection.onicecandidate = (event) => {
+                    if (event.candidate) {
+                        let candidate = {
+                            type: 'candidate',
+                            label: event.candidate.sdpMLineIndex,
+                            id: event.candidate.candidate,
+                        }
+                        //console.log("sending candidate : " + JSON.stringify(candidate));
+                        stompClientVideo.send('/app/chat/appel/groupe/candidate/'+conversationId+"/"+idUser+"/"+user.id, {}, JSON.stringify({
+                            toUser: user.id,
+                            fromUser: idUser,
+                            candidate: candidate
+                        }));
                     }
-                    console.log("sending candidate : " + JSON.stringify(candidate));
-                    stompClientVideo.send('/app/chat/appel/groupe/candidate/'+conversationId+"/"+idUser+"/"+user.id, {}, JSON.stringify({
+                }
+
+                //=== préparation de l'envoie de notre vidéo, on l'ajoute à la connexion
+                //localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
+
+                //=== met l'offre en remote description
+                peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
+
+                //=== Préparation de l'offre de connexion, et on met la description de la connexion en local decription
+                // de notre côté
+                peerConnection.createAnswer().then((description) => {
+                    peerConnection.setLocalDescription(description);
+                    console.log("Setting local description : " + JSON.stringify(description));
+                    stompClientVideo.send('/app/chat/appel/groupe/answer/'+conversationId+"/"+idUser+"/"+user.id, {}, JSON.stringify({
                         toUser: user.id,
                         fromUser: idUser,
-                        candidate: candidate
-                    }));
-                }
-            }
+                        answer: description
+                    }))
+                })
 
-            //=== préparation de l'envoie de notre vidéo, on l'ajoute à la connexion
-
-            //=== met l'offre en remote description
-            peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
-
-            //=== Préparation de l'offre de connexion, et on met la description de la connexion en local decription
-            // de notre côté
-            peerConnection.createAnswer().then((description) => {
-                peerConnection.setLocalDescription(description);
-                console.log("Setting local description : " + JSON.stringify(description));
-                stompClientVideo.send('/app/chat/appel/groupe/answer/'+conversationId+"/"+idUser+"/"+user.id, {}, JSON.stringify({
-                    toUser: user.id,
-                    fromUser: idUser,
-                    answer: description
-                }))
             })
-        })
-        //== Abonnement au topic des réponse pour pouvoir mettre le remote description dans le cas ou on initie l'appel
-        stompClientVideo.subscribe('/topic/appel/groupe/answer/'+conversationId+"/"+user.id+"/"+idUser, (answer) => {
-            console.log("answer de : " + answer.body);
-            let answerO = JSON.parse(answer.body)["answer"];
-            peerConnection.setRemoteDescription(new RTCSessionDescription(answerO));
-        })
 
-
-    }
-    /* Fonction qui permet de se connecter au websocket et denvoyer les information nécessaire a la
-    * connexion WebRTC. De plus, on définie les callback selon les évènnements WebRTC et met à jour
-    * le remote video
-    * */
-    function call(stream,type){
-        localStream = stream;
-        if (type === "phone") {
-            //Désactive la caméra
-            toggleCam();
+            stompClientVideo.send('/app/chat/appel/groupe/ready/'+conversationId+"/"+idUser+"/"+user.id,{},"ready")
         }
 
-
-        //=== ajout de notre vidéo en local sur la page
-        localVideo.srcObject = stream;
     }
 
     //=== désactive la vidéo sur le stream courrant
@@ -341,8 +374,40 @@ document.addEventListener("DOMContentLoaded", function() {
                 </div>
         `
         console.log(videoHolderElement.firstChild)
+        let videoBox = videoHolderElement.querySelector("video")
         videoHolderElement.querySelector("video").srcObject = stream;
         remoteHolder.append(videoHolderElement)
+        videoBox.addEventListener('click', () => {
+            const videoHolder = videoBox.closest('.videoHolder');
+            const focusedVideoHolder = document.querySelector('.focus');
+
+            if (focusedVideoHolder && focusedVideoHolder.parentElement !== videoHolder) {
+                focusedVideoHolder.parentElement.style.flex = '1 0 auto';
+                focusedVideoHolder.parentElement.style.marginRight = "0%";
+                focusedVideoHolder.classList.remove('focus');
+                secondaryVideoHolder.append(focusedVideoHolder.parentElement);
+                videoHolder.style.flex = '0 0 80%';
+                videoHolder.style.marginRight = "20%";
+                videoBox.classList.add('focus')
+                remoteHolder.append(videoHolder)
+            }
+            else if (!focusedVideoHolder && !videoBox.classList.contains('focus')) {
+                videoHolder.style.flex = '0 0 80%';
+                videoHolder.style.marginRight = "20%";
+                videoBox.classList.add('focus');
+                const otherVideoHolders = Array.from(remoteHolder.children).filter(child => child !== videoHolder.parentElement);
+                otherVideoHolders.forEach(holder => {
+                    secondaryVideoHolder.appendChild(holder);
+                });
+                remoteHolder.append(videoHolder)
+            }
+            else if (focusedVideoHolder.parentElement === videoHolder) {
+                videoHolder.style.flex = '1 0 auto';
+                videoHolder.style.marginRight = "0%";
+                videoBox.classList.remove('focus');
+                videoBoxes.forEach(vidBox => remoteHolder.append(vidBox.parentElement))
+            }
+        });
     }
 })
 

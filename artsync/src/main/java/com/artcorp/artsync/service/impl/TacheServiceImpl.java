@@ -39,7 +39,7 @@ public class TacheServiceImpl implements TacheService {
     }
 
     @Override
-    public Tache findByUtilisateurId(Long id) {
+    public List<Tache> findByUtilisateurId(Long id) {
         return repos.findByUtilisateurId(id);
     }
 

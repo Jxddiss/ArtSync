@@ -50,5 +50,10 @@ public class ConversationServiceImpl implements ConversationService {
         conversationRepos.deleteAllByProjetId(id);
     }
 
+    @Override
+    public void deleteById(Long id) {
+        conversationRepos.deleteById(id);
+    }
+
 
 }

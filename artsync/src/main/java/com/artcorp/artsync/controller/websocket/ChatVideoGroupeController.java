@@ -49,6 +49,12 @@ public class ChatVideoGroupeController {
         return candidate;
     }
 
+    @MessageMapping("/chat/appel/groupe/ready/{conversationId}/{userId}/{userId2}")
+    @SendTo("/topic/appel/groupe/ready/{conversationId}/{userId}/{userId2}")
+    public String ready(String candidate) {
+        return candidate;
+    }
+
 
 }
 

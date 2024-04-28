@@ -167,16 +167,19 @@ document.addEventListener("DOMContentLoaded", function() {
         })
         //create offer
         if (type==="new"){
-            peerConnection.createOffer().then((description) => {
-                peerConnection.setLocalDescription(description);
-                console.log("Setting local description : " + JSON.stringify(description));
+            stompClientVideo.subscribe('/topic/appel/groupe/ready/'+conversationId+"/"+user.id+"/"+idUser, () =>{
+                peerConnection.createOffer().then((description) => {
+                    peerConnection.setLocalDescription(description);
+                    console.log("Setting local description : " + JSON.stringify(description));
 
-                //=== Envoie de l'offre au websocket de l'utilisateur
-                stompClientVideo.send('/app/chat/appel/groupe/offer/'+conversationId+"/"+idUser+"/"+user.id, {}, JSON.stringify({
-                    toUser: user.id,
-                    fromUser: idUser,
-                    offer: description
-                }))
+                    //=== Envoie de l'offre au websocket de l'utilisateur
+                    stompClientVideo.send('/app/chat/appel/groupe/offer/'+conversationId+"/"+idUser+"/"+user.id, {}, JSON.stringify({
+                        toUser: user.id,
+                        fromUser: idUser,
+                        offer: description
+                    }))
+
+                })
             })
         }
 
@@ -185,7 +188,7 @@ document.addEventListener("DOMContentLoaded", function() {
             console.log("offer de : " + of.body);
             offer = JSON.parse(of.body)["offer"];
 
-            //=== Ce qui sera fait a chaque fois qu'un stream est ajouté à la connection
+            stompClientVideo.send('/app/chat/appel/groupe/ready/'+conversationId+"/"+idUser+"/"+user.id,{},"ready")
 
 
             //=== Ce qui sera fait a chaque fois qu'un ICE candidate est ajouté à la connection

@@ -11,7 +11,6 @@ document.addEventListener("DOMContentLoaded", function() {
   const localVideoHolder = document.getElementById("local-holder");
 
   const videoBoxes = document.querySelectorAll('.video-box2');
-  const remoteHolder = document.getElementById('remote-holder2');
   const secondaryVideoHolder = document.getElementById('secondary-video-holder');
 
   videoBoxes.forEach(videoBox => {

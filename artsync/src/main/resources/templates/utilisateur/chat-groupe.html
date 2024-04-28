@@ -127,56 +127,6 @@
     </div>
     <dialog id="video-chat2">
         <div id="remote-holder2">
-            <div class="videoHolder">
-                <video style="background-color: red !important;" autoplay class="video-box2"></video>
-                <div class="userInfoHolder">
-                    <img src="https://www.w3schools.com/w3images/lights.jpg" alt="">
-                    <h4>@johnDoe</h4>
-                </div>
-            </div>
-            <div class="videoHolder">
-                <video style="background-color: rebeccapurple !important;" autoplay class="video-box2"></video>
-                <div class="userInfoHolder">
-                    <img src="https://www.w3schools.com/w3images/lights.jpg" alt="">
-                    <h4>@johnDoe</h4>
-                </div>
-            </div>
-            <div class="videoHolder">
-                <video style="background-color: darkblue !important;" autoplay class="video-box2"></video>
-                <div class="userInfoHolder">
-                    <img src="https://www.w3schools.com/w3images/lights.jpg" alt="">
-                    <h4>@johnDoe</h4>
-                </div>
-            </div>
-            <div class="videoHolder">
-                <video style="background-color: aliceblue !important;" autoplay class="video-box2"></video>
-                <div class="userInfoHolder">
-                    <img src="https://www.w3schools.com/w3images/lights.jpg" alt="">
-                    <h4>@johnDoe</h4>
-                </div>
-            </div>
-            <div class="videoHolder">
-                <video style="background-color: #4a8e44 !important;" autoplay class="video-box2"></video>
-                <div class="userInfoHolder">
-                    <img src="https://www.w3schools.com/w3images/lights.jpg" alt="">
-                    <h4>@johnDoe</h4>
-                </div>
-            </div>
-            <div class="videoHolder">
-                <video style="background-color: greenyellow !important;" autoplay class="video-box2"></video>
-                <div class="userInfoHolder">
-                    <img src="https://www.w3schools.com/w3images/lights.jpg" alt="">
-                    <h4>@johnDoe</h4>
-                </div>
-            </div>
-            <div class="videoHolder">
-                <video autoplay class="video-box2"></video>
-                <div class="userInfoHolder">
-                    <img src="https://www.w3schools.com/w3images/lights.jpg" alt="">
-                    <h4>@johnDoe</h4>
-                </div>
-            </div>
-
 
         </div>
         <div id="secondary-video-holder" class="secondary-video-holder"></div>
@@ -206,12 +156,18 @@
             id="micro-toggle">
                 <i class="bi bi-mic"></i>
             </button>
+            <button type="button"
+                    class="button-video"
+                    id="display-toggle">
+                <i class="bi bi-display"></i>
+            </button>
         </div>
     </dialog>
 
 <script th:inline="javascript" th:if="${conversationCourrante != null}">
     const idProjet = '[[${conversationCourrante.projet.getId()}]]';
     const pseudoUser = [[${session.user.pseudo}]];
+    const photoUrl = [[${session.user.photoUrl}]];
 
     //== Scroll automatiquement vers le bas du chat ==
     const chatBox = document.getElementById("chat-box");
@@ -288,7 +244,7 @@
                     }
                 }
             ));
-            stompClient.send("/app/notification/"+idProjet,{},JSON.stringify(
+            stompClient.send("/app/notification/projet/"+idProjet,{},JSON.stringify(
                 {
                     type: 'info',
                     pseudoSender: pseudoUser,
@@ -347,6 +303,7 @@
     const video = document.getElementById("button-fonction-video");
     const phone = document.getElementById("button-fonction-call");
     const videoDialog = document.getElementById("video-chat2");
+    const remoteHolder = document.getElementById('remote-holder2');
 
 </script>
     <script type="text/javascript" th:src="@{/js/chat.js}" ></script>

@@ -35,9 +35,12 @@ public class UserController {
     private ChatServiceImpl chatService;
     private  ProjetServiceImpl projetService;
     private TacheServiceImpl tacheService;
+    private AnnonceServiceImpl annonceService;
+    private FichierServiceImpl fichierService;
+    private DemandeServiceImpl demandeService;
 
     @Autowired
-    public UserController(UtilisateurServiceImpl utilisateurService, ProjetRepos projetRepos, PostServiceImpl postService, PortfolioServiceImpl portfolioService, ConversationServiceImpl conversationService, ChatServiceImpl chatService, ProjetServiceImpl projetService, TacheServiceImpl tacheService) {
+    public UserController(UtilisateurServiceImpl utilisateurService, ProjetRepos projetRepos, PostServiceImpl postService, PortfolioServiceImpl portfolioService, ConversationServiceImpl conversationService, ChatServiceImpl chatService, ProjetServiceImpl projetService, TacheServiceImpl tacheService, AnnonceServiceImpl annonceService, FichierServiceImpl fichierService, DemandeServiceImpl demandeService) {
         this.utilisateurService = utilisateurService;
         this.projetRepos = projetRepos;
         this.postService = postService;
@@ -46,6 +49,9 @@ public class UserController {
         this.chatService = chatService;
         this.projetService = projetService;
         this.tacheService = tacheService;
+        this.annonceService = annonceService;
+        this.fichierService = fichierService;
+        this.demandeService = demandeService;
     }
 
     @GetMapping("/feed")
@@ -206,15 +212,15 @@ public class UserController {
         if (session!=null){
             System.out.println(utilisateur.toString());
             Utilisateur user = (Utilisateur) session.getAttribute("user");
-            utilisateur.setId(user.getId());
-            utilisateur.setSpecialisation(user.getSpecialisation());
-            utilisateur.setStatut(user.getStatut());
-            utilisateur.setPhotoUrl(user.getPhotoUrl());
-            if (utilisateur.getPassword()==null){
-                utilisateur.setPassword(user.getPassword());
+            user.setPseudo(utilisateur.getPseudo());
+            user.setNom(utilisateur.getNom());
+            user.setPrenom(utilisateur.getPrenom());
+            if (!utilisateur.getPassword().equals("")){
+                System.out.println("password changé à : "+utilisateur.getPassword());
+                user.setPassword(utilisateur.getPassword());
             }
-            utilisateurService.update(utilisateur);
-            session.setAttribute("user",utilisateur);
+            utilisateurService.update(user);
+            session.setAttribute("user",user);
             return "redirect:/utilisateur/profil/settings";
         }
         return "auth";
@@ -224,8 +230,55 @@ public class UserController {
         HttpSession session = request.getSession(false);
         if (session!=null){
             Utilisateur user = (Utilisateur) session.getAttribute("user");
+            List<Post> posts = postService.findPostByUser(user);
+            for (Post post: posts){
+                postService.deletePost(post);
+            }
+            System.out.println("POSTS SUPPRIMÉS");
+            List<Conversation> conversations = conversationService.findByAllByUtilisateur(user);
+            for (Conversation conversation: conversations){
+                if (conversation.getProjet()==null){
+                    chatService.deleteAllByConversationId(conversation.getId());
+                    conversationService.deleteById(conversation.getId());
+                }
+            }
+            System.out.println("CONVERSATION ET CHATS SUPPRIMÉES");
+            List<Projet> projets = projetService.findProjectsOfUser(user.getId());
+            for (Projet projet:projets){
+                if (projet.getAdmin().equals(user)){
+                    List<Utilisateur> users = projetService.getMembers(projet.getId());
+                    for (Utilisateur utilisateur : users) {
+                        projetService.removeUtilisateurFromProjet(projet.getId(), user.getId());
+                    }
+                    fichierService.deleteAllByProjet(projetService.findById(projet.getId()));
+                    annonceService.deleteAllByProjetId(projet.getId());
+                    tacheService.deleteAllByProjetId(projet.getId());
+                    demandeService.deleteAllByProjetId(projet.getId());
+                    chatService.deleteAllByConversationId(conversationService.findByProjet(projetService.findById(projet.getId())).getId());
+                    conversationService.deleteAllByProjetId(projet.getId());
+                    projetService.deleteProjet(projet.getId());
+                }
+                else {
+                    projetService.removeUtilisateurFromProjet(projet.getId(),user.getId());
+                }
+            }
+            System.out.println("PROJETS SUPPRIMÉS");
+            Set<Utilisateur> followers = user.getFollowers();
+            for (Utilisateur follower: followers){
+                utilisateurService.updateRelations(user.getId(),follower.getId());
+            }
+            System.out.println("FOLLOWERS RETIRÉS");
+            Set<Utilisateur> followings = user.getFollowing();
+            for (Utilisateur following: followings){
+                utilisateurService.updateRelations(following.getId(),user.getId());
+            }
+            System.out.println("FOLLOWINGS RETIRÉS");
+            if (portfolioService.findByUtilisateur(user)!=null){
+                portfolioService.deletePortfolio(portfolioService.findByUtilisateur(user));
+            }
+            System.out.println("PORTFOLIO SUPPRIMÉ");
             utilisateurService.delete(user.getId());
-
+            System.out.println("UTILISATEUR SUPPRIMÉ");
         }
         return "redirect:/authentification";
     }

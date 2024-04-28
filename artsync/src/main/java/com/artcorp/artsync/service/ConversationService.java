@@ -17,4 +17,6 @@ public interface ConversationService {
     void createConvo(Conversation conversation);
     void updateConvo(Conversation conversation);
     void deleteAllByProjetId(Long id);
+
+    void deleteById(Long id);
 }

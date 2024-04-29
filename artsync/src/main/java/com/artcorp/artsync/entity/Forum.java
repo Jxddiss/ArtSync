@@ -3,6 +3,7 @@ package com.artcorp.artsync.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Set;
 
 @Entity
@@ -25,6 +26,8 @@ public class Forum {
     private Utilisateur utilisateur;
     @OneToMany(mappedBy = "forum")
     private Set<Commentaire> listeCommentaires;
+    @Transient
+    private ArrayList<String> tags;
     public Forum() {
     }
     public Forum(Long id, String titre, LocalDateTime dateCreation, String filtres, boolean publique, Utilisateur utilisateur, Set<Commentaire> listeCommentaires) {
@@ -91,5 +94,44 @@ public class Forum {
 
     public void setListeCommentaires(Set<Commentaire> listeCommentaires) {
         this.listeCommentaires = listeCommentaires;
+    }
+
+    public String getContenu() {
+        return contenu;
+    }
+
+    public void setContenu(String contenu) {
+        this.contenu = contenu;
+    }
+
+    public Set<FichierGeneral> getListeFichiers() {
+        return listeFichiers;
+    }
+
+    public void setListeFichiers(Set<FichierGeneral> listeFichiers) {
+        this.listeFichiers = listeFichiers;
+    }
+
+    public ArrayList<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(ArrayList<String> tags) {
+        this.tags = tags;
+    }
+
+    @Override
+    public String toString() {
+        return "Forum{" +
+                "id=" + id +
+                ", titre='" + titre + '\'' +
+                ", contenu='" + contenu + '\'' +
+                ", listeFichiers=" + listeFichiers +
+                ", dateCreation=" + dateCreation +
+                ", filtres='" + filtres + '\'' +
+                ", publique=" + publique +
+                ", utilisateur=" + utilisateur +
+                ", listeCommentaires=" + listeCommentaires +
+                '}';
     }
 }

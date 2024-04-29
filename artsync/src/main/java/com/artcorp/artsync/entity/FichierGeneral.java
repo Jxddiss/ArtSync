@@ -49,6 +49,14 @@ public class FichierGeneral {
         this.utilisateur = utilisateur;
     }
 
+    public Forum getForum() {
+        return forum;
+    }
+
+    public void setForum(Forum forum) {
+        this.forum = forum;
+    }
+
     public Long getId() {
         return id;
     }

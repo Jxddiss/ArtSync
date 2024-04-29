@@ -29,9 +29,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     <!--Content-->
     <div class="content">
         <div class="verticalHeader">
-            <h4>OPTIONS</h4>
-            <hr>
-            <div class="sectionsHolder">
+            <h4 th:if="${session.user != null}">OPTIONS</h4>
+            <hr th:if="${session.user != null}">
+            <div th:if="${session.user != null}" class="sectionsHolder">
                 <div class="section">
                     <i class="bi bi-chat-right-text"></i> <p>Vos Threads</p>
                 </div>
@@ -47,9 +47,46 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         <i class="bi bi-x-lg" id="closeDialog"></i>
                     </div>
                     <div class="formHolder">
-                        <form th:object="${forum}" action="">
-                            <input type="text" name="titre" th:field="*{titre}">
-                            <textarea name="contenu" th:field="*{contenu}"></textarea>
+                        <form class="form" th:object="${forum}" th:action="@{/forum/create}" method="POST" enctype="multipart/form-data">
+                            
+                            <label for="titre">Titre</label>
+                            <div style="height: 5%; width: 100%" class="d-flex">
+                                <input id="titreInput" type="text" name="titre" th:field="*{titre}">
+                                <div class="d-flex" style="height: 5% ;width: 10%">
+
+                                    <input name="fichier" id="fileButton" class="custom-file-label" type="file" style="opacity: 0" accept=".jpg,.png,.webp,.gif">
+                                </div>
+
+                            </div>
+                            <label style="margin-top: 2%"  for="contenu">Contenu</label>
+                            <textarea name="contenu"></textarea>
+                            <div class="filterHolder">
+                                <div>
+                                    <input type="checkbox" checked name="tag" value="CONSEIL"><label for="" class="tag" id="conseil">CONSEIL</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="tag" value="QUESTION"><label for="" class="tag"  id="question">QUESTION</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox"  name="tag" value="ANNONCE"><label for="" class="tag" id="annonce">ANNONCE</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox"  name="tag" value="INSPIRAION"><label for="" class="tag" id="inspiration">INSPIRAION</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="tag" value="FEEDBACK"><label for="" class="tag" id="feedback">FEEDBACK</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="tag" value="PROJET"><label for="" class="tag" id="projet">PROJET</label>
+                                </div>
+                            </div>
+                            <div id="radioBtn">
+                                <input type="radio" name="publique"> <label style="margin-right: 155%" for="publique">Public</label>
+                            </div>
+                            <button type="submit">
+                                PUBLIER
+                            </button>
+
                         </form>
                     </div>
                 </dialog>
@@ -94,28 +131,28 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             </div>
             <div class="resultHolder">
 
-                <div class="forumHolder">
+                <div th:each="thread : ${threads}" class="forumHolder">
                     <div class="threadHeader">
-                        <p>Tutoriel pour faire de l'animation</p>
+                        <p>[[${thread.titre}]]</p>
                     </div>
                     <div class="threadInfo">
                         <div class="threadUserPfp">
-                            <img src="../media/image/profil.png" alt="">
+                            <img th:src="@{/media/images/{image}(image=${thread.utilisateur.getPhotoUrl()})}" alt="">
                         </div>
                         <div class="threadUserInfo">
-                            <p><b>@johnDoe</b></p>
-                            <p>Artiste Numérique</p>
-                            <p><small>2024-03-30</small></p>
+                            <p><b>@[[${thread.utilisateur.pseudo}]]</b></p>
+                            <p>Artiste [[${thread.utilisateur.specialisation}]]</p>
+                            <p><small>[[${thread.dateCreation.toLocalDate()}]]</small></p>
                         </div>
                         <div class="threadTags">
-                            <p class="tag" id="conseil">conseil</p>
+                            <th:block th:each="tag : ${thread.getTags()}">
+                                <p th:text="${tag}" class="tag" th:id="${tag}"></p>
+                            </th:block>
                         </div>
                     </div>
                     <div class="threadContent">
-                        <p>Je voulais partager avec vous quelques conseils et techniques 
-                            pour créer des animations artistiques époustouflantes dans Krita.
-                            Si vous êtes passionné par l'art et que vous souhaitez donner vie à vos créations, 
-                            alors ce guide est fait pour vous !
+                        <p>
+                            [[${thread.contenu}]]
                         </p>
                     </div>
                     <div class="threadOptions">
@@ -124,98 +161,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     </div>
                 </div>
 
-                <div class="forumHolder">
-                    <div class="threadHeader">
-                        <p>Tutoriel pour faire de l'animation</p>
-                    </div>
-                    <div class="threadInfo">
-                        <div class="threadUserPfp">
-                            <img src="../media/image/profil.png" alt="">
-                        </div>
-                        <div class="threadUserInfo">
-                            <p><b>@johnDoe</b></p>
-                            <p>Artiste Numérique</p>
-                            <p><small>2024-03-30</small></p>
-                        </div>
-                        <div class="threadTags">
-                            <p class="tag" id="annonce">annonce</p>
-                            <p class="tag" id="feedback">feedback</p>
-                            <p class="tag" id="projet">projet</p>
-                        </div>
-                    </div>
-                    <div class="threadContent">
-                        <p>Je voulais partager avec vous quelques conseils et techniques 
-                            pour créer des animations artistiques époustouflantes dans Krita.
-                            Si vous êtes passionné par l'art et que vous souhaitez donner vie à vos créations, 
-                            alors ce guide est fait pour vous !
-                        </p>
-                    </div>
-                    <div class="threadOptions">
-                        <p class="chatThread"><i class="bi bi-bookmark"></i></p>
-                        <p class="chatThread"><i class="bi bi-chat"></i> Ajouter une réponse</p>
-                    </div>
-                </div>
 
-                <div class="forumHolder">
-                    <div class="threadHeader">
-                        <p>Tutoriel pour faire de l'animation</p>
-                    </div>
-                    <div class="threadInfo">
-                        <div class="threadUserPfp">
-                            <img src="../media/image/profil.png" alt="">
-                        </div>
-                        <div class="threadUserInfo">
-                            <p><b>@johnDoe</b></p>
-                            <p>Artiste Numérique</p>
-                            <p><small>2024-03-30</small></p>
-                        </div>
-                        <div class="threadTags">
-                            <p class="tag" id="inspiration">inspiration</p>
-                        </div>
-                    </div>
-                    <div class="threadContent">
-                        <p>Je voulais partager avec vous quelques conseils et techniques 
-                            pour créer des animations artistiques époustouflantes dans Krita.
-                            Si vous êtes passionné par l'art et que vous souhaitez donner vie à vos créations, 
-                            alors ce guide est fait pour vous !
-                        </p>
-                    </div>
-                    <div class="threadOptions">
-                        <p class="chatThread"><i class="bi bi-bookmark"></i></p>
-                        <p class="chatThread"><i class="bi bi-chat"></i> Ajouter une réponse</p>
-                    </div>
-                </div>
-
-                <div class="forumHolder">
-                    <div class="threadHeader">
-                        <p>Tutoriel pour faire de l'animation</p>
-                    </div>
-                    <div class="threadInfo">
-                        <div class="threadUserPfp">
-                            <img src="../media/image/profil.png" alt="">
-                        </div>
-                        <div class="threadUserInfo">
-                            <p><b>@johnDoe</b></p>
-                            <p>Artiste Numérique</p>
-                            <p><small>2024-03-30</small></p>
-                        </div>
-                        <div class="threadTags">
-                            <p class="tag" id="question">question</p>
-                            <p class="tag" id="annonce">annonce</p>
-                        </div>
-                    </div>
-                    <div class="threadContent">
-                        <p>Je voulais partager avec vous quelques conseils et techniques 
-                            pour créer des animations artistiques époustouflantes dans Krita.
-                            Si vous êtes passionné par l'art et que vous souhaitez donner vie à vos créations, 
-                            alors ce guide est fait pour vous !
-                        </p>
-                    </div>
-                    <div class="threadOptions">
-                        <p class="chatThread"><i class="bi bi-bookmark"></i></p>
-                        <p class="chatThread"><i class="bi bi-chat"></i> Ajouter une réponse</p>
-                    </div>
-                </div>
             </div>
         </div>
         <div class="filterContent">
@@ -239,6 +185,19 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         closeDialog.addEventListener("click",function (){
             createDialog.close();
         })
+
+        let checkboxes = document.querySelectorAll('input[type="checkbox"][name="tag"]');
+        checkboxes.forEach(function(checkbox) {
+            checkbox.addEventListener('change', function() {
+                let atLeastOneChecked = Array.from(checkboxes).some(function(checkbox) {
+                    return checkbox.checked;
+                });
+                if (!atLeastOneChecked) {
+                    document.querySelector('input[type="checkbox"][value="CONSEIL"]').checked = true;
+                }
+            });
+        });
+
     </script>
     <script th:src="@{/js/script-forum.js}"></script>
 </html>

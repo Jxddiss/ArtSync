@@ -12,6 +12,10 @@ public class Forum {
     private Long id;
     @Column(unique = false, nullable = false, length = 64)
     private String titre;
+    @Column(unique = false, nullable = false, length = 500)
+    private String contenu;
+    @OneToMany(mappedBy = "forum", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<FichierGeneral> listeFichiers;
     private LocalDateTime dateCreation;
     @Column(nullable = false, length = 125)
     private String filtres;

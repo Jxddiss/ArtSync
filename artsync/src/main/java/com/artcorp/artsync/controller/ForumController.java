@@ -4,6 +4,7 @@ import com.artcorp.artsync.entity.Forum;
 import com.artcorp.artsync.service.ForumService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,13 +17,15 @@ public class ForumController {
     private ForumService forumService;
 
     @GetMapping("/forum")
-    public String redirigerVersForum() {
+    public String redirigerVersForum(Model model) {
+        model.addAttribute("forum",new Forum());
         return "forum/forum";
     }
 
     @PostMapping("/forum/create")
     @ResponseBody
     public Forum createForum(@RequestBody Forum forum) {
+
         return forumService.createForum(forum);
     }
 }

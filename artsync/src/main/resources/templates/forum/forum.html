@@ -41,7 +41,19 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 <div class="section">
                     <i class="bi bi-bookmark-check"></i> <p>Threads enregistrés</p>
                 </div>
-                <div class="section">
+                <dialog id="creationDialog">
+                    <div class="dialogHeader">
+                        <h4>Créer un thread</h4>
+                        <i class="bi bi-x-lg" id="closeDialog"></i>
+                    </div>
+                    <div class="formHolder">
+                        <form th:object="${forum}" action="">
+                            <input type="text" name="titre" th:field="*{titre}">
+                            <textarea name="contenu" th:field="*{contenu}"></textarea>
+                        </form>
+                    </div>
+                </dialog>
+                <div class="section" id="openDialog">
                     <i class="bi bi-plus-square"></i> <p>Créer un thread</p>
                 </div>
             </div>
@@ -216,5 +228,17 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         </div>
     </div>
     </body>
+    <script>
+        const openDialog = document.getElementById("openDialog")
+        const createDialog = document.getElementById("creationDialog")
+        const closeDialog = document.getElementById("closeDialog")
+
+        openDialog.addEventListener("click", function (){
+            createDialog.showModal();
+        })
+        closeDialog.addEventListener("click",function (){
+            createDialog.close();
+        })
+    </script>
     <script th:src="@{/js/script-forum.js}"></script>
 </html>

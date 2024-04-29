@@ -12,6 +12,9 @@ public class FichierGeneral {
     @JoinColumn(name = "post_id")
     private Post post;
     @ManyToOne
+    @JoinColumn(name = "forum_id")
+    private Forum forum;
+    @ManyToOne
     @JoinColumn(name = "projet_id")
     private Projet projet;
     @ManyToOne

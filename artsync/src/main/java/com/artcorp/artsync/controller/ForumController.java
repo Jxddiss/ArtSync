@@ -20,6 +20,7 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
@@ -43,7 +44,6 @@ public class ForumController {
         model.addAttribute("threads",forums);
         return "forum/forum";
     }
-    //Fais une méthode qui get tout tes forums
 
     //Fais une méthode qui get tout les forums de tes abonnements
     
@@ -75,6 +75,42 @@ public class ForumController {
         return "redirect:/forum";
     }
 
+    //Fais une méthode qui get tout tes forums
+    @GetMapping("/forums/all")
+    public String getAllForums(Model model) {
+        List<Forum> allForums = forumService.getAllForums();
+        model.addAttribute("allForums", allForums);
+        return "forum/all_forums";
+    }
+
+    //Fais une méthode qui get tout les forums de tes abonnements
+    @GetMapping("/forums/subscribed")
+    public String showSubscribedForums(Model model) {
+        Long userId = getCurrentUserId();
+        List<Forum> subscribedForums = forumService.findAllSubscribedForums(userId);
+        model.addAttribute("threads", subscribedForums);
+        return "forum/subscribed_forums";
+    }
+
+    private Long getCurrentUserId() {
+
+        return null;
+    }
+
+
+    //Fais une méthode qui get tout les forums de tes abonnements
+    @GetMapping("/search")
+    public String searchForums(@RequestParam(value = "searchTerm", required = false) String searchTerm, Model model) {
+        List<Forum> forums;
+        if (searchTerm != null && !searchTerm.isEmpty()) {
+            forums = forumService.searchForumsByTitle(searchTerm);
+        } else {
+            forums = Collections.emptyList();
+        }
+        model.addAttribute("threads", forums);
+        return "forums";
+    }
+
     public ArrayList<String> getTags(String string){
         ArrayList<String> tags = new ArrayList<>();
         String[] tagArray = string.split(",");
@@ -83,4 +119,6 @@ public class ForumController {
         }
         return tags;
     }
+
+
 }

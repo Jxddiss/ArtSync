@@ -31,5 +31,25 @@ public class ForumServiceImpl implements ForumService {
         return forumRepos.findByPubliqueTrue();
     }
 
+    @Override
+    public List<Forum> findAll() {
+        return forumRepos.findAll();
+    }
+
+    @Override
+    public List<Forum> findAllSubscribedForums(Long userId) {
+        return forumRepos.findSubscribedForumsByUserId(userId);
+    }
+
+    @Override
+    public List<Forum> getAllForums() {
+        return forumRepos.findAll();
+    }
+
+    @Override
+    public List<Forum> searchForumsByTitle(String title) {
+        return null;
+    }
+
 
 }

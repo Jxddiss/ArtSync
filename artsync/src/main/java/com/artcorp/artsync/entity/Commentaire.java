@@ -10,4 +10,8 @@ public class Commentaire {
     @ManyToOne
     @JoinColumn(name = "post_id")
     private Post post;
+
+    @ManyToOne
+    @JoinColumn(name = "forum_id")
+    private Forum forum;
 }

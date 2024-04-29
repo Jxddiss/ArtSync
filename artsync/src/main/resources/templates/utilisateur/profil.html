@@ -26,7 +26,7 @@
 <!--Content-->
 <div class="contentHolder">
     <div class="bannerHolder" id="bannerButton">
-        <dialog id="dialogBanner" >
+        <dialog th:if="${utilisateur.getId() == session.user.getId()}" id="dialogBanner" >
             <div class="dialogHeader">
                 <h3>Changement de bannière</h3>
                 <form method="modal">
@@ -93,7 +93,7 @@
             <div class="buttonsHolder">
                 <a class="bi bi-record2" th:href="@{/live/start}"></a>
                 <a class="bi bi-person-add"></a>
-                <a th:src="@{settings}" class="bi bi-three-dots"></a>
+                <a th:href="@{settings}" class="bi bi-three-dots"></a>
             </div>
             <div>
                 <!--add post dialog-->

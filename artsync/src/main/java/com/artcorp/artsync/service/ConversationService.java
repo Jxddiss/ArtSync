@@ -13,4 +13,10 @@ public interface ConversationService {
     Conversation findByProjet(Projet projet);
 
     Conversation findById(Long id);
+
+    void createConvo(Conversation conversation);
+    void updateConvo(Conversation conversation);
+    void deleteAllByProjetId(Long id);
+
+    void deleteById(Long id);
 }

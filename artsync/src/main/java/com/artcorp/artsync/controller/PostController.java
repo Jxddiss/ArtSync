@@ -20,6 +20,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
@@ -112,7 +114,7 @@ public class    PostController {
 
                 File parentDir = new File(USER_FOLDER);
                 File saveFile = new File(parentDir.getAbsolutePath() + File.separator + originalFilename);
-                image.transferTo(saveFile);
+                Files.copy(image.getInputStream(),saveFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
                 postService.addPost(post);
             }
             return "redirect:/utilisateur/profil/" + utilisateur.getPseudo();

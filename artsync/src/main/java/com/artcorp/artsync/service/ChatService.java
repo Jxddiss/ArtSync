@@ -9,4 +9,5 @@ public interface ChatService {
     @Query("SELECT c FROM Chat c WHERE c.conversation.id = ?1 ORDER BY c.dateTimeEnvoie DESC")
     List<Chat> findAllByConversationId(Long conversationId);
     Chat save(Chat chat);
+    void deleteAllByConversationId(Long id);
 }

@@ -84,7 +84,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         <a th:if="${!user.getIn()}" th:href="@{/recherche/follow(id=${user.id},type='follow')}" class="addButton">
                             <i class="bi bi-person-add"></i>
                         </a>
-                        <a th:unless="${!user.getIn()}" th:href="@{/recherche/follow(id=${user.id},type='unfollow')}" class="removeButton">
+                        <a th:unless="${!user.getIn()}" th:href="@{/recherche/follow(id=${user.id},type='follow')}" class="removeButton">
                             <i class="bi bi-person-dash"></i>
                         </a>
                     </div>

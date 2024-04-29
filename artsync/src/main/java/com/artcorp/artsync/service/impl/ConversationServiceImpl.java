@@ -35,4 +35,25 @@ public class ConversationServiceImpl implements ConversationService {
     public Conversation findById(Long id) {
         return conversationRepos.findById(id).get();
     }
+
+    @Override
+    public void createConvo(Conversation conversation) {
+        conversationRepos.save(conversation);
+    }
+    @Override
+    public void updateConvo(Conversation conversation){
+        conversationRepos.save(conversation);
+    }
+
+    @Override
+    public void deleteAllByProjetId(Long id) {
+        conversationRepos.deleteAllByProjetId(id);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        conversationRepos.deleteById(id);
+    }
+
+
 }

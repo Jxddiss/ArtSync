@@ -35,7 +35,6 @@ public class ForumController {
     public String redirigerVersForum(Model model) {
         List<Forum> forums = forumService.findAllByPubliqueTrue();
         for (Forum forum: forums){
-            System.out.println("erreur ICIIIII");
             if (forum.getFiltres()!=null){
                 forum.setTags(getTags(forum.getFiltres()));
             }

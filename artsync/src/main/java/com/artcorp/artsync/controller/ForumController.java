@@ -43,6 +43,11 @@ public class ForumController {
         model.addAttribute("threads",forums);
         return "forum/forum";
     }
+    //Fais une méthode qui get tout tes forums
+
+    //Fais une méthode qui get tout les forums de tes abonnements
+    
+    //**Oublie pas de faire le thymeleaf, il faut afficher**
 
     @PostMapping("/forum/create")
     public String createForum(Forum forum,

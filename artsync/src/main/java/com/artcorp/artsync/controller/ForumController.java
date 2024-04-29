@@ -46,7 +46,7 @@ public class ForumController {
     }
 
     //Fais une méthode qui get tout les forums de tes abonnements
-    
+
     //**Oublie pas de faire le thymeleaf, il faut afficher**
 
     @PostMapping("/forum/create")

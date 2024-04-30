@@ -124,10 +124,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         </p>
                     </div>
                     <div class="groupButtons">
-                        <a class="addButton" th:if="${session.user != null && !projet.in}" th:href="@{/group/join(id=${projet.id}, type='rejoindre')}">
+                        <a class="addButton" th:projet-data="${projet.getId()}" th:if="${session.user != null && session.user.getPseudo() != projet.getAdmin().getPseudo() && !projet.in}" onclick="return modifierRelationGroupe(this);">
                             <i class="bi bi-box-arrow-in-right"></i>
                         </a>
-                        <a class="removeButton" th:if="${session.user != null && projet.in}" th:href="@{/group/join(id=${projet.id}, type='quitter')}">
+                        <a class="removeButton" th:projet-data="${projet.getId()}" th:if="${session.user != null && session.user.getPseudo() != projet.getAdmin().getPseudo() && projet.in}" onclick="return modifierRelationGroupe(this);">
                             <i class="bi bi-x-lg"></i>
                         </a>
                     </div>
@@ -189,6 +189,41 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     success : function (data) {
                         if(data === "true"){
                             console.log("Controller Reached")
+
+                        }else{
+                            console.log("Failed")
+
+                        }
+                    },
+                })
+
+            }
+            function modifierRelationGroupe(button){
+                let projetId = button.getAttribute("projet-data");
+                let operation
+                if (button.firstElementChild.classList.contains("bi-box-arrow-in-right")){
+                    button.innerHTML =`
+                        <i class="bi bi-x-lg"></i>
+                        `
+                    console.log(button.getAttribute("projet-data"))
+                    button.classList.remove("addButton")
+                    button.classList.add("removeButton")
+                    operation = "add"
+                }else if (button.firstElementChild.classList.contains("bi-x-lg")){
+                    button.innerHTML =`
+                        <i class="bi bi-box-arrow-in-right"></i>
+                        `
+                    button.classList.remove("removeButton")
+                    button.classList.add("addButton")
+                    operation = "leave"
+                }
+                $.ajax({
+                    type: "POST",
+                    url: window.location.origin.toString()+"/recherche/updateRelationGrp",
+                    data: {projetId: projetId,operation:operation},
+                    success : function (data) {
+                        if(data!=="false"){
+                            console.log(data)
 
                         }else{
                             console.log("Failed")

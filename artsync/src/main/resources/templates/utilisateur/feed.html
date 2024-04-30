@@ -119,7 +119,7 @@
             ></span>
           </div>
           <div class="auteur-info">
-            <a href="#!" class="">
+            <a th:href="@{/utilisateur/profil/{pseudo}(pseudo=${post.utilisateur.pseudo})}" class="">
               <img th:src="@{/media/images/{image}(image=${post.utilisateur.getPhotoUrl()})}"
                 alt=""
                 class="profile-pic-banner-border-small"

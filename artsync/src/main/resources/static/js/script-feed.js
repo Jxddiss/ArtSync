@@ -11,7 +11,7 @@ document.querySelectorAll(".media-holder").forEach((mediaHolder) => {
   const media = mediaHolder.firstElementChild;
 
   tootltip.addEventListener("click", function () {
-    if (mediaHolder.dataset.maximiser == "true") {
+    if (mediaHolder.dataset.maximiser === "true") {
       media.style.objectFit = "contain";
       mediaHolder.dataset.maximiser = "false";
       tootltipIcon.classList.remove("bi-arrows-angle-contract");

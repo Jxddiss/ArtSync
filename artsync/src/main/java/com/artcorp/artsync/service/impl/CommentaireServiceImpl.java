@@ -2,6 +2,7 @@ package com.artcorp.artsync.service.impl;
 
 import com.artcorp.artsync.entity.Commentaire;
 import com.artcorp.artsync.entity.Forum;
+import com.artcorp.artsync.entity.Utilisateur;
 import com.artcorp.artsync.repos.CommentaireRepos;
 import com.artcorp.artsync.service.CommentaireService;
 import jakarta.transaction.Transactional;
@@ -27,5 +28,15 @@ public class CommentaireServiceImpl implements CommentaireService {
     @Override
     public List<Commentaire> findAllByForum(Forum forum) {
         return commentaireRepos.findAllByForum(forum);
+    }
+
+    @Override
+    public void deleteCommentaire(Commentaire commentaire) {
+        commentaireRepos.delete(commentaire);
+    }
+
+    @Override
+    public List<Commentaire> findAllByUser(Utilisateur utilisateur) {
+        return commentaireRepos.findAllByUtilisateur(utilisateur);
     }
 }

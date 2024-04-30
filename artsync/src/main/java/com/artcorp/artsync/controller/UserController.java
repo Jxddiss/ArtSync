@@ -38,9 +38,11 @@ public class UserController {
     private AnnonceServiceImpl annonceService;
     private FichierServiceImpl fichierService;
     private DemandeServiceImpl demandeService;
+    private ForumServiceImpl forumService;
+    private CommentaireServiceImpl commentaireService;
 
     @Autowired
-    public UserController(UtilisateurServiceImpl utilisateurService, ProjetRepos projetRepos, PostServiceImpl postService, PortfolioServiceImpl portfolioService, ConversationServiceImpl conversationService, ChatServiceImpl chatService, ProjetServiceImpl projetService, TacheServiceImpl tacheService, AnnonceServiceImpl annonceService, FichierServiceImpl fichierService, DemandeServiceImpl demandeService) {
+    public UserController(UtilisateurServiceImpl utilisateurService, ProjetRepos projetRepos, PostServiceImpl postService, PortfolioServiceImpl portfolioService, ConversationServiceImpl conversationService, ChatServiceImpl chatService, ProjetServiceImpl projetService, TacheServiceImpl tacheService, AnnonceServiceImpl annonceService, FichierServiceImpl fichierService, DemandeServiceImpl demandeService, ForumServiceImpl forumService, CommentaireServiceImpl commentaireService) {
         this.utilisateurService = utilisateurService;
         this.projetRepos = projetRepos;
         this.postService = postService;
@@ -52,6 +54,8 @@ public class UserController {
         this.annonceService = annonceService;
         this.fichierService = fichierService;
         this.demandeService = demandeService;
+        this.forumService = forumService;
+        this.commentaireService = commentaireService;
     }
 
     @GetMapping("/feed")
@@ -287,6 +291,20 @@ public class UserController {
                 portfolioService.deletePortfolio(portfolioService.findByUtilisateur(user));
             }
             System.out.println("PORTFOLIO SUPPRIMÉ");
+            List<Forum> forums = forumService.findAllByUtilisateur(user);
+            for (Forum forum:forums){
+                List<Commentaire> commentaires = commentaireService.findAllByForum(forum);
+                for (Commentaire commentaire:commentaires){
+                    commentaireService.deleteCommentaire(commentaire);
+                }
+                forumService.deleteForum(forum);
+            }
+            System.out.println("FORUM SUPPRIMÉS");
+            List<Commentaire> commentaires = commentaireService.findAllByUser(user);
+            for (Commentaire commentaire:commentaires){
+                commentaireService.deleteCommentaire(commentaire);
+            }
+            System.out.println("COMMENTAIRES SUPPRIMÉS");
             utilisateurService.delete(user.getId());
             System.out.println("UTILISATEUR SUPPRIMÉ");
         }

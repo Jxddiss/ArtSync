@@ -41,7 +41,7 @@ public class ForumServiceImpl implements ForumService {
         return forumRepos.findAllByUtilisateur(utilisateur);
     }
     @Override
-    public List<Forum> findAllByUtilisateurFollowing(Utilisateur utilisateur) {
-        return forumRepos.findAllByUtilisateurFollowing(utilisateur);
+    public List<Forum> findAllByUtilisateurAndPublique(Utilisateur utilisateur) {
+        return forumRepos.findAllByUtilisateurAndPublique(utilisateur, true);
     }
 }

@@ -13,5 +13,5 @@ public interface ForumService {
     List<Forum> findAll();
     List<Forum> searchForumsByTitle(String title);
     List<Forum> findAllByUtilisateur(Utilisateur utilisateur);
-    List<Forum> findAllByUtilisateurFollowing(Utilisateur utilisateur);
+    List<Forum> findAllByUtilisateurAndPublique(Utilisateur utilisateur);
 }

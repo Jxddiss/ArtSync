@@ -75,7 +75,11 @@ public class ForumController {
             return "auth";
         }
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
-        List<Forum> forums = forumService.findAllByUtilisateurFollowing(utilisateur);
+        List<Forum> forums = new ArrayList<Forum>();
+        for (Utilisateur following: utilisateur.getFollowing()){
+            List<Forum> forumFollowing = forumService.findAllByUtilisateurAndPublique(following);
+            forums.addAll(forumFollowing);
+        }
         if (forums.size()<1){
             model.addAttribute("message","Vous n'avez aucun thread de vos abonnements.");
         }

@@ -16,7 +16,7 @@ public interface ForumRepos extends JpaRepository<Forum, Long>{
   @Query("select f from Forum f where f.titre like %?1% and f.publique = true")
   List<Forum> findByKeyword(String keyword);
   List<Forum> findAllByUtilisateur(Utilisateur utilisateur);
-  List<Forum> findAllByUtilisateurFollowing(Utilisateur utilisateur);
+  List<Forum> findAllByUtilisateurAndPublique(Utilisateur utilisateur, boolean publique);
 
 
 

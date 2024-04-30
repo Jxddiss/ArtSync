@@ -1,5 +1,6 @@
 package com.artcorp.artsync.exception;
 
+import com.artcorp.artsync.exception.domain.FileFormatException;
 import com.artcorp.artsync.exception.domain.MauvaisIdentifiantException;
 import com.artcorp.artsync.exception.domain.NotConnectedException;
 import org.slf4j.Logger;
@@ -27,6 +28,12 @@ public class ExceptionHandling {
     public String nonConnected(RedirectAttributes redirectAttributes){
         redirectAttributes.addFlashAttribute(WARN, VEUILLER_VOUS_CONNECTER);
         return "redirect:/authentification";
+    }
+
+    @ExceptionHandler(FileFormatException.class)
+    public String fileFormatExceptionHandler(RedirectAttributes redirectAttributes, FileFormatException fileFormatException){
+        redirectAttributes.addFlashAttribute("error", "Fichier non pris en charge");
+        return "redirect:"+fileFormatException.getMessage();
     }
 
     @ExceptionHandler(Exception.class)

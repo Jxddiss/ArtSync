@@ -159,7 +159,7 @@
             </button>
         </div>
     </dialog>
-
+    <script type="text/javascript" th:src="@{/js/chat.js}" ></script>
 <script th:inline="javascript" th:if="${amiCourrant != null}">
     const idAmi = '[[${amiCourrant.getId()}]]';
     const pseudoUser = [[${session.user.pseudo}]];
@@ -255,37 +255,41 @@
             const file = inputs[1].files[0];
 
             inputs[1].value = '';
-            const formData = new FormData();
-            formData.append("file", file);
-            fetch(backEndUrl + '/api/chat/upload', {
-                method: 'POST',
-                body: formData
-            }).then(function() {
-                stompClient.send("/app/chat/[[${conversationCourrante.getId()}]]", {}, JSON.stringify(
-                    {
-                        type : "media",
-                        utilisateurUn : {
-                            id:'[[${session.user.id}]]'
-                        },
-                        idGroupe : 0,
-                        dateTimeEnvoie : new Date(),
-                        conversation: {
-                            id : '[[${conversationCourrante.getId()}]]'
-                        },
-                        urlMedia : file.name
-                    }
-                ));
-                stompClient.send("/app/notification/"+idAmi,{},JSON.stringify(
-                    {
-                        type: 'info',
-                        pseudoSender: pseudoUser,
-                        message: 'Nouveau message de ',
-                        titre: 'Nouveau message',
-                        urlNotif: window.location.pathname.toString(),
-                        imgSender: profilImgUserLogin
-                    }
-                ));
-            })
+            if(isImage(file.name)){
+                const formData = new FormData();
+                formData.append("file", file);
+                fetch(backEndUrl + '/api/chat/upload', {
+                    method: 'POST',
+                    body: formData
+                }).then(function() {
+                    stompClient.send("/app/chat/[[${conversationCourrante.getId()}]]", {}, JSON.stringify(
+                        {
+                            type : "media",
+                            utilisateurUn : {
+                                id:'[[${session.user.id}]]'
+                            },
+                            idGroupe : 0,
+                            dateTimeEnvoie : new Date(),
+                            conversation: {
+                                id : '[[${conversationCourrante.getId()}]]'
+                            },
+                            urlMedia : file.name
+                        }
+                    ));
+                    stompClient.send("/app/notification/"+idAmi,{},JSON.stringify(
+                        {
+                            type: 'info',
+                            pseudoSender: pseudoUser,
+                            message: 'Nouveau message de ',
+                            titre: 'Nouveau message',
+                            urlNotif: window.location.pathname.toString(),
+                            imgSender: profilImgUserLogin
+                        }
+                    ));
+                })
+            }else{
+                alert("Il ne s'agit pas d'un fichier valide");
+            }
         }
         document.getElementById('input-chat').value = '';
     });
@@ -299,7 +303,6 @@
     const videoDialog = document.getElementById("video-chat");
 
 </script>
-    <script type="text/javascript" th:src="@{/js/chat.js}" ></script>
     <script type="text/javascript" th:src="@{/js/chat-video.js}" ></script>
 </body>
 </html>

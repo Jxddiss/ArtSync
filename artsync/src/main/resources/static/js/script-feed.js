@@ -1,4 +1,8 @@
 const dialogOpenStories = document.getElementById("stories-open-dialog");
+const btnPublier = document .getElementById("btn-publier")
+const postPane = document.getElementById('postPane');
+const closeButton = document.getElementById('fermer');
+const postInput = document.getElementById('file-input');
 
 //=========== change aspect-ratio media ========
 document.querySelectorAll(".media-holder").forEach((mediaHolder) => {
@@ -95,4 +99,33 @@ stories.childNodes.forEach((story) => {
   });
 })
 
-//========= Stories Open Dialog =============
+//========= publier Open Dialog =============
+btnPublier.addEventListener('click', function() {
+  postPane.showModal()
+  postPane.style.display = 'flex';
+});
+
+
+
+closeButton.addEventListener('click', function() {
+  postPane.close();
+  postPane.style.display = 'none';
+});
+
+//postPreview section
+postInput.addEventListener('change', function() {
+  const file = postInput.files[0];
+  const reader = new FileReader();
+  reader.onload = function() {
+    postPreview.src = reader.result;
+  }
+  reader.readAsDataURL(file);
+});
+
+function checkFile(form){
+  const input = form.querySelector("input[type='file']");
+  if (input.files && input.files[0]) {
+    return true;
+  }
+  return false;
+}

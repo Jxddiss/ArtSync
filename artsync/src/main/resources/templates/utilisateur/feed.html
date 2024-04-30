@@ -66,7 +66,47 @@
         </ul>
       </div>
       <div id="container-post">
-        <button class="btn-publier" type="button">
+        <dialog class="postPane" id="postPane">
+          <div class="dialogHeader">
+            <h3>Créer une publication</h3>
+            <i class="bi bi-x-lg" id="fermer"></i>
+          </div>
+          <div class="postPreviewHolder">
+            <img src="" alt="" id="postPreview">
+            <i class="bi bi-image" id="placeholderIcon"></i>
+          </div>
+          <div>
+            <form class="postForm" th:action="@{/ajouter-post}" method="POST" enctype="multipart/form-data" onsubmit="return checkFile(this)">
+              <div class="form-head">
+                <label for="titre">Titre:</label>
+                <label for="type">Type:</label>
+              </div>
+              <div class="form-headInput">
+                <input type="text" name="titre" class="form-control" id="titre" placeholder="Entrez le titre" required>
+                <input type="text" name="type" class="form-control" id="type" placeholder="Entrez le type de post" required>
+              </div>
+              <div class="form-group mt-1">
+                <label for="description">Description:</label>
+                <textarea class="form-control" name="description" id="description" placeholder="Entrez la description" rows="5" required></textarea>
+              </div>
+
+              <div class="form-group form-check mt-3 d-flex justify-content-evenly">
+                <div>
+                  <input type="checkbox" value="0" class="form-check-input" id="publique" name="publique">
+                  <label class="form-check-label" for="publique">Public</label>
+                </div>
+
+                <input type="file" name="file" id="file-input" class="form-control-file" accept=".jpg,.png,.webp,.gif">
+              </div>
+
+              <div class="d-flex justify-content-center">
+                <button type="submit" class="post-button">Publier</button>
+              </div>
+
+            </form>
+          </div>
+        </dialog>
+        <button class="btn-publier" type="button" id="btn-publier">
           Publier <i class="bi bi-plus-lg"></i>
         </button>
         <section class="post" th:if="${listPosts} != null" th:each="post, i : ${listPosts}" th:class="${i == 0} ? 'post' : 'post trig'">

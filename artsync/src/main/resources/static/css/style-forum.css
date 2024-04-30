@@ -164,6 +164,7 @@
     align-items: center;
     scale: 0.5;
     opacity: 0;
+    transition: 0.25s;
 }
 .forumHolder:hover{
     background: radial-gradient(circle, rgba(225,245,255,0.5) 0%, rgba(233,245,255,0.5) 51%, rgba(226,250,255,0.75) 100%);

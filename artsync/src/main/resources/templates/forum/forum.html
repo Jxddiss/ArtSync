@@ -33,6 +33,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             <hr th:if="${session.user != null}">
             <div th:if="${session.user != null}" class="sectionsHolder">
                 <a th:href="@{/forum/user}" class="section">
+                    <i class="bi bi-threads"></i> <p>Threads</p>
+                </a>
+                <a th:href="@{/forum}" class="section">
                     <i class="bi bi-chat-right-text"></i> <p>Vos Threads</p>
                 </a>
                 <a th:href="@{/forum/following}" class="section">
@@ -94,27 +97,27 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     <i class="bi bi-plus-square"></i> <p>Créer un thread</p>
                 </div>
             </div>
-            <h4>FILTRES</h4>
+            <h4 style="margin-top: 7%">FILTRES</h4>
             <hr>
             <div class="sectionFilter">
-                <form action="" class="filterForm">
+                <form action="" class="filterForm" id="filterTags">
                     <div>
-                        <input class="form-check-input" type="checkbox" value="TEST"><label for="" class="tag" id="conseil">CONSEIL</label>
+                        <input class="form-check-input filterTag" type="checkbox" value="conseil"><label for="" class="tag" id="conseil">CONSEIL</label>
                     </div>
                     <div>
-                        <input class="form-check-input" type="checkbox" value="TEST"><label for="" class="tag" id="question">QUESTION</label>
+                        <input class="form-check-input filterTag" type="checkbox" value="question"><label for="" class="tag" id="question">QUESTION</label>
                     </div>
                     <div>
-                        <input class="form-check-input" type="checkbox" value="TEST"><label for="" class="tag" id="annonce">ANNONCE</label>
+                        <input class="form-check-input filterTag" type="checkbox" value="annonce"><label for="" class="tag" id="annonce">ANNONCE</label>
                     </div>
                     <div>
-                        <input class="form-check-input" type="checkbox" value="TEST"><label for="" class="tag" id="inspiration">INSPIRAION</label>
+                        <input class="form-check-input filterTag" type="checkbox" value="inspiration"><label for="" class="tag" id="inspiration">INSPIRAION</label>
                     </div>
                     <div>
-                        <input class="form-check-input" type="checkbox" value="TEST"><label for="" class="tag" id="feedback">FEEDBACK</label>
+                        <input class="form-check-input filterTag" type="checkbox" value="feedback"><label for="" class="tag" id="feedback">FEEDBACK</label>
                     </div>
                     <div>
-                        <input class="form-check-input" type="checkbox" value="TEST"><label for="" class="tag" id="projet">PROJET</label>
+                        <input class="form-check-input filterTag" type="checkbox" value="projet"><label for="" class="tag" id="projet">PROJET</label>
                     </div>
                 </form>
             </div>
@@ -180,24 +183,28 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         const createDialog = document.getElementById("creationDialog")
         const closeDialog = document.getElementById("closeDialog")
 
-        openDialog.addEventListener("click", function (){
-            createDialog.showModal();
-        })
-        closeDialog.addEventListener("click",function (){
-            createDialog.close();
-        })
+        if (openDialog){
+            openDialog.addEventListener("click", function (){
+                createDialog.showModal();
+            })
+            closeDialog.addEventListener("click",function (){
+                createDialog.close();
+            })
 
-        let checkboxes = document.querySelectorAll('input[type="checkbox"][name="tag"]');
-        checkboxes.forEach(function(checkbox) {
-            checkbox.addEventListener('change', function() {
-                let atLeastOneChecked = Array.from(checkboxes).some(function(checkbox) {
-                    return checkbox.checked;
+
+
+            let checkboxes = document.querySelectorAll('input[type="checkbox"][name="tag"]');
+            checkboxes.forEach(function(checkbox) {
+                checkbox.addEventListener('change', function() {
+                    let atLeastOneChecked = Array.from(checkboxes).some(function(checkbox) {
+                        return checkbox.checked;
+                    });
+                    if (!atLeastOneChecked) {
+                        document.querySelector('input[type="checkbox"][value="CONSEIL"]').checked = true;
+                    }
                 });
-                if (!atLeastOneChecked) {
-                    document.querySelector('input[type="checkbox"][value="CONSEIL"]').checked = true;
-                }
             });
-        });
+        }
 
     </script>
     <script th:src="@{/js/script-forum.js}"></script>

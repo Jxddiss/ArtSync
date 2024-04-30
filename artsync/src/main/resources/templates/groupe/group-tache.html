@@ -32,9 +32,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     </div>
         <!--Users-->
         <div class="taskShowHolder">
-            <form action="">
+            <form th:action="@{/groupe/group-tache/recherche}" method="post">
                 <div class="searchBar">
-                    <input class="rechercheUser" type="text" id="tacheSearch" placeholder="Rechercher une tâche">
+
+                    <input type="hidden" name="projetId" th:value="${projet.getId()}">
+                    <input class="rechercheUser" type="text" id="tacheSearch" name="keyword" placeholder="Rechercher une tâche">
                     <a th:href="@{/groupe/create/{projetId}(projetId=${projet.getId()})}" class="addTache">
                         CRÉER UNE TÂCHE
                     </a>

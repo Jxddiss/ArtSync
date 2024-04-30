@@ -96,9 +96,6 @@ public class AppController {
             if ("UTILISATEUR".equals(filtre)) {
                 List<Utilisateur> listUtilisateurs = userService.findAll();
                 for (Utilisateur user : listUtilisateurs) {
-                    for (Utilisateur following: user.getFollowing()){
-                        System.out.println("utilisateur "+user.getPseudo()+" has a follower named " +following.getPseudo());
-                    }
                     if (utilisateur!=null){
                         for (Utilisateur follower: user.getFollowers()){
                             if (follower.getPseudo().equals(utilisateur.getPseudo())){
@@ -107,9 +104,6 @@ public class AppController {
                             }
                         }
                     }
-                }
-                if (utilisateur!=null && listUtilisateurs.contains(utilisateur)) {
-                    listUtilisateurs.remove(utilisateur);
                 }
                 model.addAttribute("listUtilisateurs", listUtilisateurs);
                 if (listUtilisateurs.size()<1){

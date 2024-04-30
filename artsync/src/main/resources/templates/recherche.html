@@ -81,10 +81,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         <p>Artiste [[${user.specialisation}]]</p>
                     </div>
                     <div class="userButtons">
-                        <a th:if="${session.user != null && !user.getIn()}" th:href="@{/recherche/follow(id=${user.id},type='follow')}" class="addButton">
+                        <a th:if="${session.user != null && !user.getIn()}" th:user-data="${user.getId()}" onclick="return modifierRelation(this);" class="addButton">
                             <i class="bi bi-person-add"></i>
                         </a>
-                        <a th:if="${session.user != null && user.getIn()}" th:href="@{/recherche/follow(id=${user.id},type='follow')}" class="removeButton">
+                        <a th:if="${session.user != null && user.getIn()}" th:user-data="${user.getId()}" onclick="return modifierRelation(this);" class="removeButton">
                             <i class="bi bi-person-dash"></i>
                         </a>
                     </div>
@@ -165,7 +165,42 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         </div>
 
         <div th:replace="${session.user != null} ? ~{fragment/notificationFragment :: notificationFragment} : ~{}"></div>
+        <script>
+            function modifierRelation(button){
+                let userId = button.getAttribute("user-data");
+                if (button.firstElementChild.classList.contains("bi-person-add")){
+                    button.innerHTML =`
+                        <i class="bi bi-person-dash"></i>
+                        `
+                    console.log(button.getAttribute("user-data"))
+                    button.classList.remove("addButton")
+                    button.classList.add("removeButton")
+                }else if (button.firstElementChild.classList.contains("bi-person-dash")){
+                    button.innerHTML =`
+                        <i class="bi bi-person-add"></i>
+                        `
+                    button.classList.remove("removeButton")
+                    button.classList.add("addButton")
+                }
+                $.ajax({
+                    type: "POST",
+                    url: window.location.origin.toString()+"/recherche/updateRelationUsr",
+                    data: {userId: userId},
+                    success : function (data) {
+                        if(data === "true"){
+                            console.log("Controller Reached")
+
+                        }else{
+                            console.log("Failed")
+
+                        }
+                    },
+                })
+
+            }
+        </script>
         <script th:src="@{/js/notification.js}"></script>
+
     </body>
     <script th:src="@{/js/script-recherche.js}"></script>
 </html>

@@ -134,8 +134,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 </div>
             </div>
 
-            <!--
-            <a href="" class="resultAnchor">
+            <a th:each="stream : ${listStreams}" th:href="${'/live/'+stream.getUtilisateur().getPseudo()}" class="resultAnchor">
                 <div class="streamResult">
                     <div class="streamPreviewHolder">
                         <div class="streamPreview">
@@ -144,23 +143,23 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                 LIVE
                             </div>
                             <div class="viewCount">
-                                12 <i class="bi bi-eye"></i>
+                                 <i class="bi bi-eye"></i>
                             </div>
                         </div>
                     </div>
                     <div class="streamInfo">
                         <div class="streamerInfo">
-                            <img src="media/image/profil.png" alt="">
+                            <img th:src="@{/media/images/{image}(image=${stream.getUtilisateur().getPhotoUrl()})}" alt="">
                             <div class="streamerUser">
-                                <p>Tutoriel ajout de couleur</p>
-                                <p><b>@johnDoe</b></p>
+                                <p>[[${stream.titre}]]</p>
+                                <p><b th:text="${'@'+stream.getUtilisateur().getPseudo()}"></b></p>
                             </div>
                             
                         </div>
                     </div>
                 </div>
             </a>
-            -->
+
             </div>
         </div>
 

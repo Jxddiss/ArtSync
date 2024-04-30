@@ -1,9 +1,6 @@
 package com.artcorp.artsync.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class LiveStream {
@@ -13,6 +10,8 @@ public class LiveStream {
     private String titre;
     private String pseudoStreamer;
     private boolean active;
+    @Transient
+    private Utilisateur utilisateur;
 
 
     public LiveStream() {
@@ -35,6 +34,14 @@ public class LiveStream {
 
     public String getTitre() {
         return titre;
+    }
+
+    public Utilisateur getUtilisateur() {
+        return utilisateur;
+    }
+
+    public void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
     }
 
     public void setTitre(String titre) {

@@ -1,6 +1,7 @@
 package com.artcorp.artsync.service.impl;
 
 import com.artcorp.artsync.entity.Forum;
+import com.artcorp.artsync.entity.Utilisateur;
 import com.artcorp.artsync.repos.ForumRepos;
 import com.artcorp.artsync.service.ForumService;
 import jakarta.transaction.Transactional;
@@ -12,8 +13,6 @@ import java.util.List;
 @Transactional
 @Service
 public class ForumServiceImpl implements ForumService {
-
-
     @Autowired
     private ForumRepos forumRepos;
 
@@ -25,31 +24,24 @@ public class ForumServiceImpl implements ForumService {
         Forum forumCree = forumRepos.save(forum);
         return forumCree;
     }
-
     @Override
     public List<Forum> findAllByPubliqueTrue() {
         return forumRepos.findByPubliqueTrue();
     }
-
     @Override
     public List<Forum> findAll() {
         return forumRepos.findAll();
     }
-
-    @Override
-    public List<Forum> findAllSubscribedForums(Long userId) {
-        return forumRepos.findSubscribedForumsByUserId(userId);
-    }
-
-    @Override
-    public List<Forum> getAllForums() {
-        return forumRepos.findAll();
-    }
-
     @Override
     public List<Forum> searchForumsByTitle(String title) {
-        return null;
+        return forumRepos.findByKeyword(title);
     }
-
-
+    @Override
+    public List<Forum> findAllByUtilisateur(Utilisateur utilisateur) {
+        return forumRepos.findAllByUtilisateur(utilisateur);
+    }
+    @Override
+    public List<Forum> findAllByUtilisateurFollowing(Utilisateur utilisateur) {
+        return forumRepos.findAllByUtilisateurFollowing(utilisateur);
+    }
 }

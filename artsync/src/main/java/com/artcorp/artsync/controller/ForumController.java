@@ -35,6 +35,29 @@ public class ForumController {
     @GetMapping("/forum")
     public String redirigerVersForum(Model model) {
         List<Forum> forums = forumService.findAllByPubliqueTrue();
+        if (forums.size()<1){
+            model.addAttribute("message","Il n'y a aucun thread.");
+        }
+        for (Forum forum: forums){
+            if (forum.getFiltres()!=null){
+                forum.setTags(getTags(forum.getFiltres()));
+            }
+        }
+        model.addAttribute("forum",new Forum());
+        model.addAttribute("threads",forums);
+        return "forum/forum";
+    }
+    @GetMapping("/forum/user")
+    public String getYourThreads(Model model ,HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            return "auth";
+        }
+        Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+        List<Forum> forums = forumService.findAllByUtilisateur(utilisateur);
+        if (forums.size()<1){
+            model.addAttribute("message","Vous n'avez aucun thread.");
+        }
         for (Forum forum: forums){
             if (forum.getFiltres()!=null){
                 forum.setTags(getTags(forum.getFiltres()));
@@ -45,10 +68,26 @@ public class ForumController {
         return "forum/forum";
     }
 
-    //Fais une méthode qui get tout les forums de tes abonnements
-
-    //**Oublie pas de faire le thymeleaf, il faut afficher**
-
+    @GetMapping("/forum/following")
+    public String getFollowingThreads(Model model ,HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            return "auth";
+        }
+        Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+        List<Forum> forums = forumService.findAllByUtilisateurFollowing(utilisateur);
+        if (forums.size()<1){
+            model.addAttribute("message","Vous n'avez aucun thread de vos abonnements.");
+        }
+        for (Forum forum: forums){
+            if (forum.getFiltres()!=null){
+                forum.setTags(getTags(forum.getFiltres()));
+            }
+        }
+        model.addAttribute("forum",new Forum());
+        model.addAttribute("threads",forums);
+        return "forum/forum";
+    }
     @PostMapping("/forum/create")
     public String createForum(Forum forum,
                              HttpServletRequest request,
@@ -74,41 +113,17 @@ public class ForumController {
         forumService.createForum(forum);
         return "redirect:/forum";
     }
-
-    //Fais une méthode qui get tout tes forums
-    @GetMapping("/forums/all")
-    public String getAllForums(Model model) {
-        List<Forum> allForums = forumService.getAllForums();
-        model.addAttribute("allForums", allForums);
-        return "forum/all_forums";
-    }
-
-    //Fais une méthode qui get tout les forums de tes abonnements
-    @GetMapping("/forums/subscribed")
-    public String showSubscribedForums(Model model) {
-        Long userId = getCurrentUserId();
-        List<Forum> subscribedForums = forumService.findAllSubscribedForums(userId);
-        model.addAttribute("threads", subscribedForums);
-        return "forum/subscribed_forums";
-    }
-
-    private Long getCurrentUserId() {
-
-        return null;
-    }
-
-
-    //Fais une méthode qui get tout les forums de tes abonnements
-    @GetMapping("/search")
-    public String searchForums(@RequestParam(value = "searchTerm", required = false) String searchTerm, Model model) {
-        List<Forum> forums;
-        if (searchTerm != null && !searchTerm.isEmpty()) {
-            forums = forumService.searchForumsByTitle(searchTerm);
-        } else {
-            forums = Collections.emptyList();
+    @PostMapping("/forum/search")
+    public String searchForums(@RequestParam(value = "keyword") String keyword, Model model) {
+        List<Forum> forums = forumService.searchForumsByTitle(keyword);
+        for (Forum forum: forums){
+            if (forum.getFiltres()!=null){
+                forum.setTags(getTags(forum.getFiltres()));
+            }
         }
+        model.addAttribute("forum",new Forum());
         model.addAttribute("threads", forums);
-        return "forums";
+        return "forum/forum";
     }
 
     public ArrayList<String> getTags(String string){

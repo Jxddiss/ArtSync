@@ -46,13 +46,10 @@ public class    PostController {
         List<Post> postsEnVedette = null;
         List<Post> posts = null;
         if (session == null) {
-            postsEnVedette = postService.findByPubliqueEnVedette(true);
             posts = postService.findByPubliqueEnVedette(true);
         }else{
-            postsEnVedette = postService.findAllPostsEnVedette();
             posts = postService.findAllPosts();
         }
-        model.addAttribute("postsEnVedette", postsEnVedette);
         model.addAttribute("posts", posts);
         return "explorer";
     }

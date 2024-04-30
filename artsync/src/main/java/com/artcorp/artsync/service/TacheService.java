@@ -16,5 +16,6 @@ public interface TacheService {
     void deleteTache(Long id);
     Tache updateTache(Tache tache);
     void deleteAllByProjetId(Long id);
+    List<Tache> findByKeyword(String keyword, Long projetId);
 
 }

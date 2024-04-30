@@ -32,9 +32,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     </div>
         <!--Users-->
         <div class="userHolder">
-            <form action="">
+            <form th:action="@{/groupe/group-users/recherche}" method="post">
                 <div class="searchBar">
-                    <input class="rechercheUser" type="text" placeholder="Rechercher un utilisateur">
+                    <input type="hidden" name="projetId" th:value="${projet.getId()}">
+                    <input class="rechercheUser" type="text" name="keyword" placeholder="Rechercher un utilisateur">
                 </div>
             </form>
 

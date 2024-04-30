@@ -101,6 +101,26 @@ public class GroupController {
 
         return "groupe/group-users";
     }
+    @PostMapping("/groupe/group-users/recherche")
+    public String getMembresProjet(@RequestParam("projetId") Long projectId,@RequestParam("keyword") String keyword, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            return "auth";
+        }
+        Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+        model.addAttribute("selected", "users");
+        model.addAttribute("utilisateur", utilisateur);
+        model.addAttribute("projet", projetService.findById(projectId));
+        model.addAttribute("conversation",conversationService.findByProjet(projetService.findById(projectId)));
+        model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
+        model.addAttribute("membres", projetService.findByKeyWordAndProjet(projectId,keyword));
+        model.addAttribute("nbMembres", projetService.getMembersCount(projectId));
+        model.addAttribute("nbFichiers", fichierService.countByProjet(projetService.findById(projectId)));
+        model.addAttribute("annonces", annonceService.findByProjetId(projectId));
+
+
+        return "groupe/group-users";
+    }
     @GetMapping("/groupe/group-tache/{projetId}")
     public String getTacheProjet(@PathVariable("projetId") Long projectId, Model model, HttpServletRequest request) {
         HttpSession session = request.getSession(false);
@@ -117,6 +137,25 @@ public class GroupController {
         model.addAttribute("nbFichiers", fichierService.countByProjet(projetService.findById(projectId)));
         model.addAttribute("annonces", annonceService.findByProjetId(projectId));
         model.addAttribute("taches", tacheService.findByProjetId(projectId));
+
+        return "groupe/group-tache";
+    }
+    @PostMapping("/groupe/group-tache/recherche")
+    public String rechercheTache(@RequestParam("projetId") Long projectId,@RequestParam("keyword") String keyword, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            return "auth";
+        }
+        Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+        model.addAttribute("selected", "taches");
+        model.addAttribute("utilisateur", utilisateur);
+        model.addAttribute("projet", projetService.findById(projectId));
+        model.addAttribute("conversation",conversationService.findByProjet(projetService.findById(projectId)));
+        model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
+        model.addAttribute("nbMembres", projetService.getMembersCount(projectId));
+        model.addAttribute("nbFichiers", fichierService.countByProjet(projetService.findById(projectId)));
+        model.addAttribute("annonces", annonceService.findByProjetId(projectId));
+        model.addAttribute("taches", tacheService.findByKeyword(keyword,projectId));
 
         return "groupe/group-tache";
     }

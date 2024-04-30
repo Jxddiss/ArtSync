@@ -1,6 +1,7 @@
 package com.artcorp.artsync.repos;
 
 import com.artcorp.artsync.entity.Projet;
+import com.artcorp.artsync.entity.Tache;
 import com.artcorp.artsync.entity.Utilisateur;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -30,5 +31,7 @@ public interface ProjetRepos extends JpaRepository<Projet, Long> {
 
      @Query("select count(f) from Projet p join p.fichiers f where p.id = ?1")
      public int getFileCount(Long idProjet);
+     @Query("select u from Projet p join p.utilisateurs u where p.id = ?1 and (u.pseudo like %?2% or u.prenom like %?2% or u.nom like %?2%)")
+     public List<Utilisateur> findUsersOfProjectByKeyword(Long idprojet,String keyword);
      public void deleteById(Long id);
 }

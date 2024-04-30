@@ -7,7 +7,6 @@ document.addEventListener("DOMContentLoaded", function() {
     const camToggle = document.getElementById("cam-toggle");
     const microToggle = document.getElementById("micro-toggle");
     const displayToggle = document.getElementById("display-toggle");
-    const secondaryVideoHolder = document.getElementById('secondary-video-holder');
     const videoBoxes = document.querySelectorAll('.video-box2');
     let localStream;
     let displayStream;
@@ -125,7 +124,7 @@ document.addEventListener("DOMContentLoaded", function() {
     /*
     * Lance un appel après avoir pris le média de l'utilisateur
     * et désactive la vidéo pendant l'appel
-    * */
+    *
     phone.addEventListener("click", function() {
         videoDialog.showModal();
         if (navigator.mediaDevices.getUserMedia) {
@@ -137,7 +136,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     console.log("Something went wrong! : " + error);
                 });
         }
-    });
+    });*/
 
 
     function handleUserJoin(user, type){
@@ -278,7 +277,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
             })
 
-            stompClientVideo.send('/app/chat/appel/groupe/ready/'+conversationId+"/"+idUser+"/"+user.id,{},"ready")
+            setTimeout(()=>{
+                stompClientVideo.send('/app/chat/appel/groupe/ready/'+conversationId+"/"+idUser+"/"+user.id,{},"ready")
+            },500)
         }
 
     }
@@ -362,52 +363,53 @@ document.addEventListener("DOMContentLoaded", function() {
         streamVideo.srcObject = stream;
     }
     function appendVideo(stream,user){
-
+        console.log(user.photoUrl)
         //À FAIRE - > INFO USER
         const videoHolderElement = document.createElement("div");
         videoHolderElement.classList.add("videoHolder")
+        videoHolderElement.dataset.focus = "false";
         videoHolderElement.innerHTML = `
-                <video autoplay class="video-box2"></video>
+                <video autoplay class="video-box2" playsinline></video>
                 <div class="userInfoHolder">
-                    <img src="https://www.w3schools.com/w3images/lights.jpg" alt="">
-                    <h4>@johnDoe</h4>
+                    <img src="/media/images/${user.photoUrl}" alt="">
+                    <h4>@${user.pseudo}</h4>
                 </div>
         `
-        console.log(videoHolderElement.firstChild)
+        let infoHolder = videoHolderElement.querySelector(".userInfoHolder");
+        infoHolder.style.opacity = "0";
         let videoBox = videoHolderElement.querySelector("video")
         videoHolderElement.querySelector("video").srcObject = stream;
-        remoteHolder.append(videoHolderElement)
+        unfocusedVideoHolder.append(videoHolderElement)
         videoBox.addEventListener('click', () => {
-            const videoHolder = videoBox.closest('.videoHolder');
-            const focusedVideoHolder = document.querySelector('.focus');
-
-            if (focusedVideoHolder && focusedVideoHolder.parentElement !== videoHolder) {
-                focusedVideoHolder.parentElement.style.flex = '1 0 auto';
-                focusedVideoHolder.parentElement.style.marginRight = "0%";
-                focusedVideoHolder.classList.remove('focus');
-                secondaryVideoHolder.append(focusedVideoHolder.parentElement);
-                videoHolder.style.flex = '0 0 80%';
-                videoHolder.style.marginRight = "20%";
-                videoBox.classList.add('focus')
-                remoteHolder.append(videoHolder)
-            }
-            else if (!focusedVideoHolder && !videoBox.classList.contains('focus')) {
-                videoHolder.style.flex = '0 0 80%';
-                videoHolder.style.marginRight = "20%";
-                videoBox.classList.add('focus');
-                const otherVideoHolders = Array.from(remoteHolder.children).filter(child => child !== videoHolder.parentElement);
-                otherVideoHolders.forEach(holder => {
-                    secondaryVideoHolder.appendChild(holder);
-                });
-                remoteHolder.append(videoHolder)
-            }
-            else if (focusedVideoHolder.parentElement === videoHolder) {
-                videoHolder.style.flex = '1 0 auto';
-                videoHolder.style.marginRight = "0%";
-                videoBox.classList.remove('focus');
-                videoBoxes.forEach(vidBox => remoteHolder.append(vidBox.parentElement))
+            if (videoBox.parentElement.dataset.focus === "false"){
+                videoBox.parentElement.dataset.focus = "true";
+                unfocusedVideoHolder.removeChild(videoBox.parentElement)
+                if (secondaryVideoHolder.firstChild){
+                    secondaryVideoHolder.firstChild.dataset.focus = "false";
+                    unfocusedVideoHolder.appendChild(secondaryVideoHolder.firstChild);
+                }
+                secondaryVideoHolder.appendChild(videoBox.parentElement);
+                secondaryVideoHolder.style.width = "90%";
+                unfocusedVideoHolder.style.width = "20em";
+            }else{
+                videoBox.parentElement.dataset.focus = "false";
+                if (videoBox.parentElement.parentElement === secondaryVideoHolder){
+                    secondaryVideoHolder.removeChild(videoBox.parentElement);
+                    unfocusedVideoHolder.appendChild(videoBox.parentElement);
+                    secondaryVideoHolder.style.width = "";
+                    unfocusedVideoHolder.style.width = ""
+                }
             }
         });
+
+        videoBox.addEventListener("mouseenter",()=>{
+            let infoHolder = videoHolderElement.querySelector(".userInfoHolder");
+            infoHolder.style.opacity = "1";
+        })
+        videoBox.addEventListener("mouseout",()=>{
+            let infoHolder = videoHolderElement.querySelector(".userInfoHolder");
+            infoHolder.style.opacity = "0";
+        })
     }
 })
 

@@ -127,14 +127,17 @@
     </div>
     <dialog id="video-chat2">
         <div id="remote-holder2">
+            <div id="secondary-video-holder" class="secondary-video-holder"></div>
+            <div id="unfocused-video-holder">
 
+            </div>
         </div>
-        <div id="secondary-video-holder" class="secondary-video-holder"></div>
         <div id="local-holder">
 
             <video 
             autoplay
             muted
+            playsinline
             class="video-box"
             id="localVideo">
 
@@ -303,7 +306,7 @@
     const video = document.getElementById("button-fonction-video");
     const phone = document.getElementById("button-fonction-call");
     const videoDialog = document.getElementById("video-chat2");
-    const remoteHolder = document.getElementById('remote-holder2');
+    const unfocusedVideoHolder = document.getElementById('unfocused-video-holder');
     const secondaryVideoHolder = document.getElementById('secondary-video-holder');
 
 </script>

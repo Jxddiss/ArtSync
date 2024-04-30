@@ -74,7 +74,7 @@
                                                 <div id="groupeContainer" class="mini-container">
                                                     <img th:src="@{/media/images/{image}(image=${projet.getProjetPhoto()})}" alt="">
                                                     <div class="d-flex flex-column groupRelationInfo">
-                                                        <p>[[${projet.getTitre()}]] <span class="statut ${projet.isPublique() ? 'online' : 'offline'}"></span></p>
+                                                        <p>[[${projet.getTitre()}]] </p>
                                                         <p>[[${projet.getDescription()}]]</p>
                                                         <p>[[${projet.getDateCreation().toLocalDate()}]]</p>
                                                     </div>
@@ -121,7 +121,7 @@
                                 <div class="carte" style="color: black;">
                                     <a th:href="@{/utilisateur/profil/{pseudo}(pseudo=${user.pseudo})}"><img th:src="@{/media/images/{image}(image=${user.photoUrl})}"  alt=""></a>
                                     <div class="mini-container" style="padding: 0;">
-                                        <p>[[${user.prenom}]] [[${user.nom}]] <span class="statut online"></span></p>
+                                        <p>[[${user.prenom}]] [[${user.nom}]] </p>
                                         <p>@[[${user.pseudo}]]</p>
                                         <p> <img src="/media/logo/digitalIcon.png" alt="logo-role">[[${user.specialisation}]]</p>
                                     </div>
@@ -138,7 +138,7 @@
                                 <a class="carte" style="color: black;" th:href="@{/utilisateur/profil/{pseudo}(pseudo=${user.pseudo})}">
                                     <img th:src="@{/media/images/{image}(image=${user.photoUrl})}" alt="">
                                     <div class="mini-container" style="padding: 0;">
-                                        <p>[[${user.prenom}]] [[${user.nom}]] <span class="statut online"></span></p>
+                                        <p>[[${user.prenom}]] [[${user.nom}]] <span th:class="'statut ' + ${user.statut}"></span></p>
                                         <p>@[[${user.pseudo}]]</p>
                                         <p> <img src="/media/logo/digitalIcon.png" alt="logo-role">[[${user.specialisation}]]</p>
                                     </div>

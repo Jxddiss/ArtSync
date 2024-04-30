@@ -48,7 +48,7 @@
 
                     <img th:src="@{/media/images/{image}(image=${ami.getPhotoUrl()})}" alt="">
                     <div class="mini-container">
-                        <p>[[${ami.prenom}]] [[${ami.nom}]] <span class="statut online"></span></p>
+                        <p>[[${ami.prenom}]] [[${ami.nom}]] <span th:class="'statut ' + ${ami.statut}"></span></p>
                         <p>@[[${ami.pseudo}]]</p>
                         <p> <img src="/media/logo/digitalIcon.png" alt="logo-role">[[${ami.specialisation}]]</p>
                     </div>

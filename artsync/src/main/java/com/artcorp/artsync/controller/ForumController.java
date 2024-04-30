@@ -1,9 +1,7 @@
 package com.artcorp.artsync.controller;
 
-import com.artcorp.artsync.entity.FichierGeneral;
-import com.artcorp.artsync.entity.Forum;
-import com.artcorp.artsync.entity.Post;
-import com.artcorp.artsync.entity.Utilisateur;
+import com.artcorp.artsync.entity.*;
+import com.artcorp.artsync.service.CommentaireService;
 import com.artcorp.artsync.service.ForumService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -31,6 +29,8 @@ public class ForumController {
 
     @Autowired
     private ForumService forumService;
+    @Autowired
+    private CommentaireService commentaireService;
 
     @GetMapping("/forum")
     public String redirigerVersForum(Model model) {
@@ -39,6 +39,7 @@ public class ForumController {
             model.addAttribute("message","Il n'y a aucun thread.");
         }
         for (Forum forum: forums){
+            forum.setListeCommentaires(commentaireService.findAllByForum(forum));
             if (forum.getFiltres()!=null){
                 forum.setTags(getTags(forum.getFiltres()));
             }
@@ -84,6 +85,7 @@ public class ForumController {
             model.addAttribute("message","Vous n'avez aucun thread de vos abonnements.");
         }
         for (Forum forum: forums){
+            forum.setListeCommentaires(commentaireService.findAllByForum(forum));
             if (forum.getFiltres()!=null){
                 forum.setTags(getTags(forum.getFiltres()));
             }
@@ -121,6 +123,7 @@ public class ForumController {
     public String searchForums(@RequestParam(value = "keyword") String keyword, Model model) {
         List<Forum> forums = forumService.searchForumsByTitle(keyword);
         for (Forum forum: forums){
+            forum.setListeCommentaires(commentaireService.findAllByForum(forum));
             if (forum.getFiltres()!=null){
                 forum.setTags(getTags(forum.getFiltres()));
             }

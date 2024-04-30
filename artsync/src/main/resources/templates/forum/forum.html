@@ -160,8 +160,25 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         </p>
                     </div>
                     <div class="threadOptions">
-                        <p class="chatThread"><i class="bi bi-bookmark"></i></p>
-                        <p class="chatThread"><i class="bi bi-chat"></i> Ajouter une réponse</p>
+                        <div class="d-flex gap-3">
+                            <p class="chatThread"><i class="bi bi-bookmark"></i></p>
+                        </div>
+                        <div class="chevronDiv">
+                            <i class="bi bi-chevron-down" id="chevron"></i>
+                        </div>
+                    </div>
+                    <div class="commentSection">
+                        <form class="commentForm" method="post" onsubmit="return ajouterCommentaire(this);">
+                            <input type="text" required name="comment" placeholder="Écrire un commentaire">
+                            <input type="hidden" name="forumId" th:value="${thread.getId()}">
+                            <button type="submit">ENVOYER</button>
+                        </form>
+                        <div class="comment" th:each="comment:${thread.getListeCommentaires()}">
+                            <img th:src="@{/media/images/{image}(image=${comment.utilisateur.getPhotoUrl()})}" alt="">
+                            <div class="commentContent">
+                                <p th:text="${comment.getMessage()}"></p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -177,12 +194,17 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             </div>
         </div>
     </div>
+    <!--IGNORE c'est pour le js-->
+    <img th:if="${session.user!=null}" th:src="@{/media/images/{image}(image=${session.user.getPhotoUrl()})}" id="permission">
     </body>
+
+
     <script>
         const openDialog = document.getElementById("openDialog")
         const createDialog = document.getElementById("creationDialog")
         const closeDialog = document.getElementById("closeDialog")
-
+        const commentForms = document.querySelectorAll(".commentForm")
+        const permission = document.getElementById("permission")
         if (openDialog){
             openDialog.addEventListener("click", function (){
                 createDialog.showModal();
@@ -205,6 +227,31 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 });
             });
         }
+
+        commentForms.forEach(commentForm =>{
+            if (permission){
+                commentForm.addEventListener("submit", function (event){
+                    event.preventDefault();
+
+                    const comment = commentForm.querySelector("input").value
+
+                    const newComment = document.createElement("div");
+                    newComment.classList.add("comment")
+                    newComment.innerHTML=`
+                        <img src=${permission.src} alt="">
+                           <div class="commentContent">
+                                 ${comment}
+                           </div>
+                    `
+                    newComment.style.opacity=1;
+                    commentForm.parentElement.append(newComment)
+                    commentForm.querySelector("input").value = ""
+                })
+            }else{
+                commentForm.remove()
+            }
+        })
+
 
     </script>
     <script th:src="@{/js/script-forum.js}"></script>

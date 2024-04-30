@@ -17,7 +17,5 @@ public interface ForumRepos extends JpaRepository<Forum, Long>{
   List<Forum> findByKeyword(String keyword);
   List<Forum> findAllByUtilisateur(Utilisateur utilisateur);
   List<Forum> findAllByUtilisateurAndPublique(Utilisateur utilisateur, boolean publique);
-
-
-
+  Forum findForumById(Long id);
 }

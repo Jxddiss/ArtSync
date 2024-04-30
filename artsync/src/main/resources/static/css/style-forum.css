@@ -274,7 +274,7 @@
 }
 .threadOptions{
     display: flex;
-    justify-content: start;
+    justify-content: space-between;
     gap: 1rem;
     width: 85%;
     height: 15%;
@@ -294,6 +294,80 @@
     transition: 0.2s;
     scale: 1.025;
     cursor: pointer;
+}
+#chevron{
+    opacity: 0.5;
+}
+#chevron:hover{
+    font-size: 22px;
+    opacity: 1;
+    transform: translateX(10%);
+    transition: 0.25s;
+}
+
+.commentSection{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+    margin-top: 2%;
+    min-height: 0;
+    height: 0px;
+    width: 100%;
+    padding-top: 1rem;
+    border-radius: 0px 0px 12px 12px ;
+}
+.commentForm{
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    width: 100%;
+    height: 2.5rem;
+    opacity: 0;
+}
+.commentForm input{
+    background-color: transparent;
+    border: 1px solid black;
+    border-radius: 15px;
+    padding-inline: 1rem;
+    outline: none;
+    width: 60%;
+}
+.commentForm button{
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    background-color: #5381ff;
+    color: white;
+    width: 15%;
+}
+.commentForm button:hover{
+    border-radius: 8px;
+    border: 1px solid #5381ff;
+    background-color: transparent;
+    color: #5381ff;
+    transition: 0.1s;
+}
+.comment{
+    display: flex;
+    align-items: center;
+    padding-inline: 2% ;
+    padding-block: 3%;
+    position: relative;
+    opacity: 0;
+    min-height: 5rem;
+    border-radius: 8px;
+    backdrop-filter: brightness(0.9);
+    width: 85%;
+    gap: 2rem;
+}
+.comment img{
+    height: 4rem;
+    width: 4rem;
+    border-radius: 50%;
+}
+.commentContent{
+
 }
 /*-------------------FILTER CONTENT-------------------*/
 .filterContent{

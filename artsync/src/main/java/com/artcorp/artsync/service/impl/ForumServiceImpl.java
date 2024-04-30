@@ -44,4 +44,9 @@ public class ForumServiceImpl implements ForumService {
     public List<Forum> findAllByUtilisateurAndPublique(Utilisateur utilisateur) {
         return forumRepos.findAllByUtilisateurAndPublique(utilisateur, true);
     }
+
+    @Override
+    public Forum findById(Long id) {
+        return forumRepos.findForumById(id);
+    }
 }

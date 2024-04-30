@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -25,12 +26,12 @@ public class Forum {
     @JoinColumn(name = "user_id")
     private Utilisateur utilisateur;
     @OneToMany(mappedBy = "forum")
-    private Set<Commentaire> listeCommentaires;
+    private List<Commentaire> listeCommentaires;
     @Transient
     private ArrayList<String> tags;
     public Forum() {
     }
-    public Forum(Long id, String titre, LocalDateTime dateCreation, String filtres, boolean publique, Utilisateur utilisateur, Set<Commentaire> listeCommentaires) {
+    public Forum(Long id, String titre, LocalDateTime dateCreation, String filtres, boolean publique, Utilisateur utilisateur, List<Commentaire> listeCommentaires) {
         this.id = id;
         this.titre = titre;
         this.dateCreation = dateCreation;
@@ -88,11 +89,11 @@ public class Forum {
         this.utilisateur = utilisateur;
     }
 
-    public Set<Commentaire> getListeCommentaires() {
+    public List<Commentaire> getListeCommentaires() {
         return listeCommentaires;
     }
 
-    public void setListeCommentaires(Set<Commentaire> listeCommentaires) {
+    public void setListeCommentaires(List<Commentaire> listeCommentaires) {
         this.listeCommentaires = listeCommentaires;
     }
 

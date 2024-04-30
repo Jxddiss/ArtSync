@@ -12,6 +12,9 @@ public class FichierGeneral {
     @JoinColumn(name = "post_id")
     private Post post;
     @ManyToOne
+    @JoinColumn(name = "forum_id")
+    private Forum forum;
+    @ManyToOne
     @JoinColumn(name = "projet_id")
     private Projet projet;
     @ManyToOne
@@ -44,6 +47,14 @@ public class FichierGeneral {
 
     public void setUtilisateur(Utilisateur utilisateur) {
         this.utilisateur = utilisateur;
+    }
+
+    public Forum getForum() {
+        return forum;
+    }
+
+    public void setForum(Forum forum) {
+        this.forum = forum;
     }
 
     public Long getId() {

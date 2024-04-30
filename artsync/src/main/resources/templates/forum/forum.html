@@ -29,43 +29,95 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     <!--Content-->
     <div class="content">
         <div class="verticalHeader">
-            <h4>OPTIONS</h4>
-            <hr>
-            <div class="sectionsHolder">
-                <div class="section">
+            <h4 th:if="${session.user != null}">OPTIONS</h4>
+            <hr th:if="${session.user != null}">
+            <div th:if="${session.user != null}" class="sectionsHolder">
+                <a th:href="@{/forum}" class="section">
+                    <i class="bi bi-threads"></i> <p>Threads</p>
+                </a>
+                <a th:href="@{/forum/user}" class="section">
                     <i class="bi bi-chat-right-text"></i> <p>Vos Threads</p>
-                </div>
-                <div class="section">
+                </a>
+                <a th:href="@{/forum/following}" class="section">
                     <i class="bi bi-person-vcard"></i> <p>Threads de vos abonnements</p>
-                </div>
-                <div class="section">
+                </a>
+                <a class="section">
                     <i class="bi bi-bookmark-check"></i> <p>Threads enregistrés</p>
-                </div>
-                <div class="section">
+                </a>
+                <dialog id="creationDialog">
+                    <div class="dialogHeader">
+                        <h4>Créer un thread</h4>
+                        <i class="bi bi-x-lg" id="closeDialog"></i>
+                    </div>
+                    <div class="formHolder">
+                        <form class="form" th:object="${forum}" th:action="@{/forum/create}" method="POST" enctype="multipart/form-data">
+                            
+                            <label for="titre">Titre</label>
+                            <div style="height: 5%; width: 100%" class="d-flex">
+                                <input id="titreInput" type="text" name="titre" th:field="*{titre}">
+                                <div class="d-flex" style="height: 5% ;width: 10%">
+
+                                    <input name="fichier" id="fileButton" class="custom-file-label" type="file" style="opacity: 0" accept=".jpg,.png,.webp,.gif">
+                                </div>
+
+                            </div>
+                            <label style="margin-top: 2%"  for="contenu">Contenu</label>
+                            <textarea name="contenu"></textarea>
+                            <div class="filterHolder">
+                                <div>
+                                    <input type="checkbox" checked name="tag" value="CONSEIL"><label for="" class="tag" id="conseil">CONSEIL</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="tag" value="QUESTION"><label for="" class="tag"  id="question">QUESTION</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox"  name="tag" value="ANNONCE"><label for="" class="tag" id="annonce">ANNONCE</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox"  name="tag" value="INSPIRAION"><label for="" class="tag" id="inspiration">INSPIRAION</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="tag" value="FEEDBACK"><label for="" class="tag" id="feedback">FEEDBACK</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="tag" value="PROJET"><label for="" class="tag" id="projet">PROJET</label>
+                                </div>
+                            </div>
+                            <div id="radioBtn">
+                                <input type="radio" name="publique"> <label style="margin-right: 155%" for="publique">Public</label>
+                            </div>
+                            <button type="submit">
+                                PUBLIER
+                            </button>
+
+                        </form>
+                    </div>
+                </dialog>
+                <div class="section" id="openDialog">
                     <i class="bi bi-plus-square"></i> <p>Créer un thread</p>
                 </div>
             </div>
-            <h4>FILTRES</h4>
+            <h4 style="margin-top: 7%">FILTRES</h4>
             <hr>
             <div class="sectionFilter">
-                <form action="" class="filterForm">
+                <form action="" class="filterForm" id="filterTags">
                     <div>
-                        <input class="form-check-input" type="checkbox" value="TEST"><label for="" class="tag" id="conseil">CONSEIL</label>
+                        <input class="form-check-input filterTag" type="checkbox" value="conseil"><label for="" class="tag" id="conseil">CONSEIL</label>
                     </div>
                     <div>
-                        <input class="form-check-input" type="checkbox" value="TEST"><label for="" class="tag" id="question">QUESTION</label>
+                        <input class="form-check-input filterTag" type="checkbox" value="question"><label for="" class="tag" id="question">QUESTION</label>
                     </div>
                     <div>
-                        <input class="form-check-input" type="checkbox" value="TEST"><label for="" class="tag" id="annonce">ANNONCE</label>
+                        <input class="form-check-input filterTag" type="checkbox" value="annonce"><label for="" class="tag" id="annonce">ANNONCE</label>
                     </div>
                     <div>
-                        <input class="form-check-input" type="checkbox" value="TEST"><label for="" class="tag" id="inspiration">INSPIRAION</label>
+                        <input class="form-check-input filterTag" type="checkbox" value="inspiration"><label for="" class="tag" id="inspiration">INSPIRAION</label>
                     </div>
                     <div>
-                        <input class="form-check-input" type="checkbox" value="TEST"><label for="" class="tag" id="feedback">FEEDBACK</label>
+                        <input class="form-check-input filterTag" type="checkbox" value="feedback"><label for="" class="tag" id="feedback">FEEDBACK</label>
                     </div>
                     <div>
-                        <input class="form-check-input" type="checkbox" value="TEST"><label for="" class="tag" id="projet">PROJET</label>
+                        <input class="form-check-input filterTag" type="checkbox" value="projet"><label for="" class="tag" id="projet">PROJET</label>
                     </div>
                 </form>
             </div>
@@ -75,135 +127,62 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             <h3>FORUMS</h3>
             <hr>
             <div class="rechercheContainer">
-                <form action="" class="rechercheForm">
-                    <input type="text" placeholder="Rechercher un thread">
+                <form th:action="@{/forum/search}" method="post" class="rechercheForm">
+                    <input name="keyword" type="text" placeholder="Rechercher un thread">
                     <button type="submit">Rechercher</button>
                 </form>
             </div>
+
             <div class="resultHolder">
-
-                <div class="forumHolder">
+                <h4 th:if="${message}" th:text="${message}"></h4>
+                <div th:each="thread : ${threads}" class="forumHolder">
                     <div class="threadHeader">
-                        <p>Tutoriel pour faire de l'animation</p>
+                        <p>[[${thread.titre}]]</p>
                     </div>
                     <div class="threadInfo">
                         <div class="threadUserPfp">
-                            <img src="../media/image/profil.png" alt="">
+                            <img th:src="@{/media/images/{image}(image=${thread.utilisateur.getPhotoUrl()})}" alt="">
                         </div>
                         <div class="threadUserInfo">
-                            <p><b>@johnDoe</b></p>
-                            <p>Artiste Numérique</p>
-                            <p><small>2024-03-30</small></p>
+                            <p><b>@[[${thread.utilisateur.pseudo}]]</b></p>
+                            <p>Artiste [[${thread.utilisateur.specialisation}]]</p>
+                            <p><small>[[${thread.dateCreation.toLocalDate()}]]</small></p>
                         </div>
                         <div class="threadTags">
-                            <p class="tag" id="conseil">conseil</p>
+                            <th:block th:each="tag : ${thread.getTags()}">
+                                <p th:text="${tag}" class="tag" th:id="${tag}"></p>
+                            </th:block>
                         </div>
                     </div>
                     <div class="threadContent">
-                        <p>Je voulais partager avec vous quelques conseils et techniques 
-                            pour créer des animations artistiques époustouflantes dans Krita.
-                            Si vous êtes passionné par l'art et que vous souhaitez donner vie à vos créations, 
-                            alors ce guide est fait pour vous !
+                        <p>
+                            [[${thread.contenu}]]
                         </p>
                     </div>
                     <div class="threadOptions">
-                        <p class="chatThread"><i class="bi bi-bookmark"></i></p>
-                        <p class="chatThread"><i class="bi bi-chat"></i> Ajouter une réponse</p>
+                        <div class="d-flex gap-3">
+                            <p class="chatThread"><i class="bi bi-bookmark"></i></p>
+                        </div>
+                        <div class="chevronDiv">
+                            <i class="bi bi-chevron-down" id="chevron"></i>
+                        </div>
+                    </div>
+                    <div class="commentSection">
+                        <form class="commentForm" method="post" onsubmit="return ajouterCommentaire(this);">
+                            <input type="text" required name="comment" placeholder="Écrire un commentaire">
+                            <input type="hidden" name="forumId" th:value="${thread.getId()}">
+                            <button type="submit">ENVOYER</button>
+                        </form>
+                        <div class="comment" th:each="comment:${thread.getListeCommentaires()}">
+                            <img th:src="@{/media/images/{image}(image=${comment.utilisateur.getPhotoUrl()})}" alt="">
+                            <div class="commentContent">
+                                <p th:text="${comment.getMessage()}"></p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="forumHolder">
-                    <div class="threadHeader">
-                        <p>Tutoriel pour faire de l'animation</p>
-                    </div>
-                    <div class="threadInfo">
-                        <div class="threadUserPfp">
-                            <img src="../media/image/profil.png" alt="">
-                        </div>
-                        <div class="threadUserInfo">
-                            <p><b>@johnDoe</b></p>
-                            <p>Artiste Numérique</p>
-                            <p><small>2024-03-30</small></p>
-                        </div>
-                        <div class="threadTags">
-                            <p class="tag" id="annonce">annonce</p>
-                            <p class="tag" id="feedback">feedback</p>
-                            <p class="tag" id="projet">projet</p>
-                        </div>
-                    </div>
-                    <div class="threadContent">
-                        <p>Je voulais partager avec vous quelques conseils et techniques 
-                            pour créer des animations artistiques époustouflantes dans Krita.
-                            Si vous êtes passionné par l'art et que vous souhaitez donner vie à vos créations, 
-                            alors ce guide est fait pour vous !
-                        </p>
-                    </div>
-                    <div class="threadOptions">
-                        <p class="chatThread"><i class="bi bi-bookmark"></i></p>
-                        <p class="chatThread"><i class="bi bi-chat"></i> Ajouter une réponse</p>
-                    </div>
-                </div>
 
-                <div class="forumHolder">
-                    <div class="threadHeader">
-                        <p>Tutoriel pour faire de l'animation</p>
-                    </div>
-                    <div class="threadInfo">
-                        <div class="threadUserPfp">
-                            <img src="../media/image/profil.png" alt="">
-                        </div>
-                        <div class="threadUserInfo">
-                            <p><b>@johnDoe</b></p>
-                            <p>Artiste Numérique</p>
-                            <p><small>2024-03-30</small></p>
-                        </div>
-                        <div class="threadTags">
-                            <p class="tag" id="inspiration">inspiration</p>
-                        </div>
-                    </div>
-                    <div class="threadContent">
-                        <p>Je voulais partager avec vous quelques conseils et techniques 
-                            pour créer des animations artistiques époustouflantes dans Krita.
-                            Si vous êtes passionné par l'art et que vous souhaitez donner vie à vos créations, 
-                            alors ce guide est fait pour vous !
-                        </p>
-                    </div>
-                    <div class="threadOptions">
-                        <p class="chatThread"><i class="bi bi-bookmark"></i></p>
-                        <p class="chatThread"><i class="bi bi-chat"></i> Ajouter une réponse</p>
-                    </div>
-                </div>
-
-                <div class="forumHolder">
-                    <div class="threadHeader">
-                        <p>Tutoriel pour faire de l'animation</p>
-                    </div>
-                    <div class="threadInfo">
-                        <div class="threadUserPfp">
-                            <img src="../media/image/profil.png" alt="">
-                        </div>
-                        <div class="threadUserInfo">
-                            <p><b>@johnDoe</b></p>
-                            <p>Artiste Numérique</p>
-                            <p><small>2024-03-30</small></p>
-                        </div>
-                        <div class="threadTags">
-                            <p class="tag" id="question">question</p>
-                            <p class="tag" id="annonce">annonce</p>
-                        </div>
-                    </div>
-                    <div class="threadContent">
-                        <p>Je voulais partager avec vous quelques conseils et techniques 
-                            pour créer des animations artistiques époustouflantes dans Krita.
-                            Si vous êtes passionné par l'art et que vous souhaitez donner vie à vos créations, 
-                            alors ce guide est fait pour vous !
-                        </p>
-                    </div>
-                    <div class="threadOptions">
-                        <p class="chatThread"><i class="bi bi-bookmark"></i></p>
-                        <p class="chatThread"><i class="bi bi-chat"></i> Ajouter une réponse</p>
-                    </div>
-                </div>
             </div>
         </div>
         <div class="filterContent">
@@ -215,6 +194,65 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             </div>
         </div>
     </div>
+    <!--IGNORE c'est pour le js-->
+    <img th:if="${session.user!=null}" th:src="@{/media/images/{image}(image=${session.user.getPhotoUrl()})}" id="permission">
     </body>
+
+
+    <script>
+        const openDialog = document.getElementById("openDialog")
+        const createDialog = document.getElementById("creationDialog")
+        const closeDialog = document.getElementById("closeDialog")
+        const commentForms = document.querySelectorAll(".commentForm")
+        const permission = document.getElementById("permission")
+        if (openDialog){
+            openDialog.addEventListener("click", function (){
+                createDialog.showModal();
+            })
+            closeDialog.addEventListener("click",function (){
+                createDialog.close();
+            })
+
+
+
+            let checkboxes = document.querySelectorAll('input[type="checkbox"][name="tag"]');
+            checkboxes.forEach(function(checkbox) {
+                checkbox.addEventListener('change', function() {
+                    let atLeastOneChecked = Array.from(checkboxes).some(function(checkbox) {
+                        return checkbox.checked;
+                    });
+                    if (!atLeastOneChecked) {
+                        document.querySelector('input[type="checkbox"][value="CONSEIL"]').checked = true;
+                    }
+                });
+            });
+        }
+
+        commentForms.forEach(commentForm =>{
+            if (permission){
+                commentForm.addEventListener("submit", function (event){
+                    event.preventDefault();
+
+                    const comment = commentForm.querySelector("input").value
+
+                    const newComment = document.createElement("div");
+                    newComment.classList.add("comment")
+                    newComment.innerHTML=`
+                        <img src=${permission.src} alt="">
+                           <div class="commentContent">
+                                 ${comment}
+                           </div>
+                    `
+                    newComment.style.opacity=1;
+                    commentForm.parentElement.append(newComment)
+                    commentForm.querySelector("input").value = ""
+                })
+            }else{
+                commentForm.remove()
+            }
+        })
+
+
+    </script>
     <script th:src="@{/js/script-forum.js}"></script>
 </html>

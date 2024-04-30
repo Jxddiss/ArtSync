@@ -20,4 +20,5 @@ public interface ProjetService {
     Projet updateProjet(Projet projet);
     Projet createProjet(Projet projet);
     void deleteProjet(Long id);
+    List<Utilisateur> findByKeyWordAndProjet(Long projetId, String keyword);
 }

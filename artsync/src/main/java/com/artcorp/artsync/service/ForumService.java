@@ -15,4 +15,5 @@ public interface ForumService {
     List<Forum> findAllByUtilisateur(Utilisateur utilisateur);
     List<Forum> findAllByUtilisateurAndPublique(Utilisateur utilisateur);
     Forum findById(Long id);
+    void deleteForum(Forum forum);
 }

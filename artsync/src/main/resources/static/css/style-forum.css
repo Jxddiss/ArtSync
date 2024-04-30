@@ -464,9 +464,10 @@
     width: 100%;
 }
 #titreInput{
-    width: 90%;
+    width: 100% !important;
 }
 #fileButton{
+    display: none;
     position: relative;
     right: 2rem;
     height: 2rem;
@@ -506,21 +507,26 @@
 }
 .filterHolder{
     margin-top: 1rem;
-    width: 120%;
+    height: 9rem;
+    width: auto;
+    margin-inline:auto;
     display: flex;
+    flex-wrap: wrap;
+
 }
 .filterHolder div{
+
     gap: 1rem;
     display: flex;
     align-self: start;
 }
 .filterHolder div input{
-    width: 2rem;
-    height: 2rem;
+    width: 1rem;
+    height: 1rem;
     margin-left: 1rem;
 }
 .filterHolder div label{
-    font-size: 15px;
+    font-size: 16px;
     margin: 0;
     align-self: center;
 }

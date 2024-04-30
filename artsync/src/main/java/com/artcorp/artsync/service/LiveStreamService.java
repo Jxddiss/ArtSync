@@ -8,4 +8,5 @@ public interface LiveStreamService {
     List<LiveStream> getAllActiveLiveStream();
     LiveStream findByPseudo(String pseudo);
     LiveStream addLive(LiveStream liveStream);
+    List<LiveStream> findAllByKeyword(String keyword);
 }

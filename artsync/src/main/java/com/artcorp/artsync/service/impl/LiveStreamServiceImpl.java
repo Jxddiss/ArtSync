@@ -33,4 +33,9 @@ public class LiveStreamServiceImpl implements LiveStreamService {
     public LiveStream addLive(LiveStream liveStream) {
         return liveStreamRepos.save(liveStream);
     }
+
+    @Override
+    public List<LiveStream> findAllByKeyword(String keyword) {
+        return liveStreamRepos.findAllByKeyword(keyword);
+    }
 }

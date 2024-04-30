@@ -90,10 +90,10 @@
             </div>
         </div>
         <div class="optionHolder">
-            <div class="buttonsHolder">
-                <a class="bi bi-record2" th:href="@{/live/start}"></a>
-                <a class="bi bi-person-add"></a>
-                <a th:href="@{settings}" class="bi bi-three-dots"></a>
+            <div class="buttonsHolder" style="justify-content: center">
+                <a th:class="${utilisateur.getIn()} ? 'bi bi-person-dash' : 'bi bi-person-add'" th:if="${session.user!=null && utilisateur.getPseudo()!=session.user.getPseudo()}" th:user-data="${utilisateur.getId()}" onclick="return modifierRelation(this);"></a>
+                <a class="bi bi-record2" style="color: red" th:if="${session.user!=null && utilisateur.getPseudo() == session.user.getPseudo()}" th:href="@{/live/start}"></a>
+                <a th:if="${session.user!=null && utilisateur.getPseudo() == session.user.getPseudo()}" th:href="@{settings}" class="bi bi-three-dots"></a>
             </div>
             <div>
                 <!--add post dialog-->
@@ -179,6 +179,32 @@
         message: '[[${succes}]]',
         titre: 'Succès',
     })
+</script>
+<script>
+    function modifierRelation(button){
+        let userId = button.getAttribute("user-data");
+        if (button.classList.contains("bi-person-add")){
+            button.classList.remove("bi-person-add")
+            button.classList.add("bi-person-dash")
+        }else if (button.classList.contains("bi-person-dash")){
+            button.classList.remove("bi-person-dash")
+            button.classList.add("bi-person-add")
+        }
+        $.ajax({
+            type: "POST",
+            url: window.location.origin.toString()+"/recherche/updateRelationUsr",
+            data: {userId: userId},
+            success : function (data) {
+                if(data === "true"){
+                    console.log("Controller Reached")
+
+                }else{
+                    console.log("Failed")
+
+                }
+            },
+        })
+    }
 </script>
 </body>
 </html>

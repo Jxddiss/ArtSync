@@ -1,7 +1,9 @@
 package com.artcorp.artsync.controller;
 
+import com.artcorp.artsync.entity.LiveStream;
 import com.artcorp.artsync.entity.Projet;
 import com.artcorp.artsync.entity.Utilisateur;
+import com.artcorp.artsync.service.LiveStreamService;
 import com.artcorp.artsync.service.UtilisateurService;
 import com.artcorp.artsync.service.ProjetService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,6 +30,8 @@ public class AppController {
     UtilisateurService userService;
     @Autowired
     ProjetService projetService;
+    @Autowired
+    LiveStreamService liveStreamService;
 
     @GetMapping("/index")
     public String redirigerVersIndex() {
@@ -65,7 +69,7 @@ public class AppController {
             if ("UTILISATEUR".equals(filtre)) {
                 List<Utilisateur> listUtilisateurs = userService.findByKeyword(search);
                 for (Utilisateur user : listUtilisateurs) {
-                    if (utilisateur!=null && (user.getFollowers().contains(utilisateur) || user.getAmis().contains(utilisateur))) {
+                    if (utilisateur!=null && (user.getFollowing().contains(utilisateur))) {
                         user.setIn(true);
                     }
                 }
@@ -90,24 +94,32 @@ public class AppController {
                     model.addAttribute("message", "Aucun projet trouvé avec le filtre '"+search+"'");
                 }
             } else {
-                //ajoute stream ici quand on sera rendu la
+                List<LiveStream> streams = liveStreamService.findAllByKeyword(search);
+                for (LiveStream stream: streams){
+                    stream.setUtilisateur(userService.findByPseudo(stream.getPseudoStreamer()));
+                }
+                model.addAttribute("listStreams", streams);
+                if (streams.size()<1){
+                    model.addAttribute("message", "Aucun stream trouvé");
+                }
             }
         } else {
             if ("UTILISATEUR".equals(filtre)) {
                 List<Utilisateur> listUtilisateurs = userService.findAll();
                 for (Utilisateur user : listUtilisateurs) {
-                    if (utilisateur!=null && (user.getFollowers().contains(utilisateur) || user.getAmis().contains(utilisateur))) {
-                        user.setIn(true);
+                    if (utilisateur!=null){
+                        for (Utilisateur follower: user.getFollowers()){
+                            if (follower.getPseudo().equals(utilisateur.getPseudo())){
+                                user.setIn(true);
+                                break;
+                            }
+                        }
                     }
-                }
-                if (utilisateur!=null && listUtilisateurs.contains(utilisateur)) {
-                    listUtilisateurs.remove(utilisateur);
                 }
                 model.addAttribute("listUtilisateurs", listUtilisateurs);
                 if (listUtilisateurs.size()<1){
                     model.addAttribute("message", "Aucun utilisateur trouvé");
                 }
-
             } else if ("GROUPE".equals(filtre)) {
                 List<Projet> listProjets = projetService.findAll();
                 for (Projet projet : listProjets) {
@@ -122,7 +134,14 @@ public class AppController {
                     model.addAttribute("message", "Aucun projet trouvé");
                 }
             } else {
-                //ajoute stream ici quand on sera rendu la
+                List<LiveStream> streams = liveStreamService.getAllActiveLiveStream();
+                for (LiveStream stream: streams){
+                    stream.setUtilisateur(userService.findByPseudo(stream.getPseudoStreamer()));
+                }
+                model.addAttribute("listStreams", streams);
+                if (streams.size()<1){
+                    model.addAttribute("message", "Aucun stream trouvé");
+                }
             }
         }
         model.addAttribute("filtre", filtre);

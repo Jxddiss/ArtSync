@@ -147,12 +147,16 @@
     background-color: transparent;
     cursor: pointer;
     font-size: 25px;
+    opacity: 0.5;
+    color: black;
 }
 .addButton:hover{
+    opacity: 1;
     color: rgb(86, 182, 64);
     transition: 0.15s;
 }
 .removeButton:hover{
+    opacity: 1;
     color: rgb(182, 64, 64);
     transition: 0.15s;
 }

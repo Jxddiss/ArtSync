@@ -49,4 +49,9 @@ public class ForumServiceImpl implements ForumService {
     public Forum findById(Long id) {
         return forumRepos.findForumById(id);
     }
+
+    @Override
+    public void deleteForum(Forum forum) {
+        forumRepos.delete(forum);
+    }
 }

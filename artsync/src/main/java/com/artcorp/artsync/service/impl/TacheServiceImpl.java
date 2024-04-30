@@ -73,4 +73,9 @@ public class TacheServiceImpl implements TacheService {
     public void deleteAllByProjetId(Long id) {
         repos.deleteAllByProjetId(id);
     }
+
+    @Override
+    public List<Tache> findByKeyword(String keyword, Long projetId) {
+        return repos.findByKeywordAndProjetId(keyword,projetId);
+    }
 }

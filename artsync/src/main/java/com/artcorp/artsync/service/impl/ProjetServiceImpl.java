@@ -87,4 +87,9 @@ public class ProjetServiceImpl implements ProjetService {
         repos.deleteById(id);
     }
 
+    @Override
+    public List<Utilisateur> findByKeyWordAndProjet(Long projetId, String keyword) {
+        return repos.findUsersOfProjectByKeyword(projetId,keyword);
+    }
+
 }

@@ -55,7 +55,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             <label for="titre">Titre</label>
                             <div style="height: 5%; width: 100%" class="d-flex">
                                 <input id="titreInput" type="text" name="titre" th:field="*{titre}">
-                                <div class="d-flex" style="height: 5% ;width: 10%">
+                                <div  class="d-flex" style=" display:none; height: 5%;">
 
                                     <input name="fichier" id="fileButton" class="custom-file-label" type="file" style="opacity: 0" accept=".jpg,.png,.webp,.gif">
                                 </div>
@@ -195,7 +195,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         </div>
     </div>
     <!--IGNORE c'est pour le js-->
-    <img th:if="${session.user!=null}" th:src="@{/media/images/{image}(image=${session.user.getPhotoUrl()})}" id="permission">
+    <img style="display: none" th:if="${session.user!=null}" th:src="@{/media/images/{image}(image=${session.user.getPhotoUrl()})}" id="permission">
     </body>
 
 

@@ -90,10 +90,10 @@
             </div>
         </div>
         <div class="optionHolder">
-            <div class="buttonsHolder">
-                <a class="bi bi-record2" style="color: red" th:if="${session.user!=null && utilisateur.getPseudo() == session.user.getPseudo()}" th:href="@{/live/start}"></a>
+            <div class="buttonsHolder" style="justify-content: center">
                 <a th:class="${utilisateur.getIn()} ? 'bi bi-person-dash' : 'bi bi-person-add'" th:if="${session.user!=null && utilisateur.getPseudo()!=session.user.getPseudo()}" th:user-data="${utilisateur.getId()}" onclick="return modifierRelation(this);"></a>
-                <a th:href="@{settings}" class="bi bi-three-dots"></a>
+                <a class="bi bi-record2" style="color: red" th:if="${session.user!=null && utilisateur.getPseudo() == session.user.getPseudo()}" th:href="@{/live/start}"></a>
+                <a th:if="${session.user!=null && utilisateur.getPseudo() == session.user.getPseudo()}" th:href="@{settings}" class="bi bi-three-dots"></a>
             </div>
             <div>
                 <!--add post dialog-->

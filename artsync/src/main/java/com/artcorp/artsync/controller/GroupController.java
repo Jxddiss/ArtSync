@@ -482,7 +482,7 @@ public class GroupController {
         }
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
         projetService.removeUtilisateurFromProjet(projetId, utilisateur.getId());
-        return "recherche";
+        return "redirect:/utilisateur/relation/groupes";
     }
     @GetMapping("/groupe/group/supprimer/{projetId}")
     public String supprimerProjet(@PathVariable("projetId") Long projetId, HttpServletRequest request) {

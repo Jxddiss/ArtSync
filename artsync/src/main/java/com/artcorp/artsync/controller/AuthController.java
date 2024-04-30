@@ -28,9 +28,11 @@ public class AuthController {
                             @RequestParam("mdp") String mdp,
                             HttpServletRequest request) throws MauvaisIdentifiantException {
         Utilisateur utilisateur = utilisateurService.connexion(username, mdp);
-        utilisateur.setStatut("online");
-        utilisateur = utilisateurService.update(utilisateur);
+
         if (utilisateur != null) {
+            utilisateur.setStatut("online");
+            utilisateur = utilisateurService.update(utilisateur);
+
             HttpSession session = request.getSession();
             session.setAttribute("user", utilisateur);
             return "redirect:/feed";

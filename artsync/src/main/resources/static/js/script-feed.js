@@ -28,19 +28,35 @@ document.querySelectorAll(".media-holder").forEach((mediaHolder) => {
 /*========= change icon like and mouseover click ============*/
 
 document.querySelectorAll(".like").forEach((likeSymbol) => {
+  const postId = likeSymbol.getAttribute("post-id")
+  const icon = likeSymbol.querySelector("i");
+  if(localStorage.getItem(`like-post-${postId}`)){
+    if(localStorage.getItem(`like-post-${postId}`) === "true"){
+      likeSymbol.dataset.clicked = "true";
+      icon.style.color = "red";
+      let fill = icon.classList[1] + "-fill";
+      icon.classList.remove(icon.classList[1]);
+      icon.classList.add(fill);
+    }else{
+      likeSymbol.dataset.clicked = "false";
+    }
+  }else{
+    localStorage.setItem(`like-post-${postId}`,`false`);
+  }
+
   likeSymbol.firstElementChild.addEventListener("mouseout", (e) => {
     if (likeSymbol.dataset.clicked === "false") {
-      let newIconClass = e.target.classList[1].replace("-fill", "");
-      e.target.classList.remove(e.target.classList[1]);
-      e.target.classList.add(newIconClass);
+      let newIconClass = icon.classList[1].replace("-fill", "");
+      icon.classList.remove(icon.classList[1]);
+      icon.classList.add(newIconClass);
     }
   });
 
   likeSymbol.firstElementChild.addEventListener("mouseover", (e) => {
     if (likeSymbol.dataset.clicked === "false") {
-      let fill = e.target.classList[1] + "-fill";
-      e.target.classList.remove(e.target.classList[1]);
-      e.target.classList.add(fill);
+      let fill = icon.classList[1] + "-fill";
+      icon.classList.remove(icon.classList[1]);
+      icon.classList.add(fill);
     }
   });
 
@@ -51,9 +67,10 @@ document.querySelectorAll(".like").forEach((likeSymbol) => {
     if (likeSymbol.dataset.clicked === "false") {
       likeSymbol.dataset.clicked = "true";
       e.target.style.color = "red";
-      likePost("like", likeSymbol.getAttribute("post-id"));
+      likePost("like",likeSymbol.getAttribute("post-id"));
       nbLike++
       likeSymbol.querySelector("p").innerText = `${nbLike} J'aimes`;
+      localStorage.setItem(`like-post-${postId}`,`true`);
     } else {
       likePost("unlike", likeSymbol.getAttribute("post-id"));
       let newIconClass = e.target.classList[1].replace("-fill", "");
@@ -63,6 +80,7 @@ document.querySelectorAll(".like").forEach((likeSymbol) => {
       e.target.style.color = "black";
       nbLike--
       likeSymbol.querySelector("p").innerText = `${nbLike} J'aimes`;
+      localStorage.setItem(`like-post-${postId}`,`false`);
     }
   });
 });

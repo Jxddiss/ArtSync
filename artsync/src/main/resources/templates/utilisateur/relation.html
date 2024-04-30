@@ -33,7 +33,7 @@
                             <a th:href="@{/utilisateur/relation/abonnes}">
                                 <div class="relation-button">
                                     <p>ABONNÉES</p>
-                                    <small>14 followers <span>+15%</span></small>
+                                    <small><span th:text="${session.user.getFollowers().size()+' '}" > </span>followers</small>
                                 </div>
                             </a>
                         </div>
@@ -41,7 +41,7 @@
                             <a th:href="@{/utilisateur/relation}">
                                 <div class="relation-button">
                                     <p>ABONNEMENTS</p>
-                                    <small>63 followings <span>+10%</span></small>
+                                    <small><span th:text="${session.user.getFollowing().size()+' '}" > </span>followings</small>
                                 </div>
                             </a>
                         </div>
@@ -49,7 +49,7 @@
                             <a th:href="@{/utilisateur/relation/groupes}">
                             <div class="relation-button">
                                 <p>GROUPE</p>
-                                <small>5 groupes</small>
+                                <small th:text="${projetCount + ' groupes'}"></small>
                             </div>
                         </a>
                         </div>
@@ -118,17 +118,17 @@
                         <div th:if="${following != null}" class="data-holder">
                             <!--Row #1-->
                             <div th:if="${!following.isEmpty()}" th:each="user : ${following}" style="width: 23em">
-                                <a class="carte" style="color: black;" th:href="@{/utilisateur/profil/{pseudo}(pseudo=${user.pseudo})}">
-                                    <img th:src="@{/media/images/{image}(image=${user.photoUrl})}"  alt="">
+                                <div class="carte" style="color: black;">
+                                    <a th:href="@{/utilisateur/profil/{pseudo}(pseudo=${user.pseudo})}"><img th:src="@{/media/images/{image}(image=${user.photoUrl})}"  alt=""></a>
                                     <div class="mini-container" style="padding: 0;">
                                         <p>[[${user.prenom}]] [[${user.nom}]] <span class="statut online"></span></p>
                                         <p>@[[${user.pseudo}]]</p>
                                         <p> <img src="/media/logo/digitalIcon.png" alt="logo-role">[[${user.specialisation}]]</p>
                                     </div>
                                     <div class="supprimer">
-                                        <p>RETIRER</p>
+                                        <p onclick="return modifierRelation(this);" th:user-data="${user.getId()}">RETIRER</p>
                                     </div>
-                                </a>
+                                </div>
                             </div>
                             <h4 class="d-flex justify-content-center" th:if="${following.isEmpty()}">Vous n'avez pas encore d'abonnements</h4>
                         </div>
@@ -141,9 +141,6 @@
                                         <p>[[${user.prenom}]] [[${user.nom}]] <span class="statut online"></span></p>
                                         <p>@[[${user.pseudo}]]</p>
                                         <p> <img src="/media/logo/digitalIcon.png" alt="logo-role">[[${user.specialisation}]]</p>
-                                    </div>
-                                    <div class="supprimer">
-                                        <p>RETIRER</p>
                                     </div>
                                 </a>
                             </div>
@@ -367,6 +364,25 @@
             closeProjetCreation.addEventListener("click", () => {
                 dialogCreateProject.close();
             })
+        }
+        function modifierRelation(button){
+            let userId = button.getAttribute("user-data");
+            button.parentElement.parentElement.parentElement.remove()
+            $.ajax({
+                type: "POST",
+                url: window.location.origin.toString()+"/recherche/updateRelationUsr",
+                data: {userId: userId},
+                success : function (data) {
+                    if(data === "true"){
+                        console.log("Controller Reached")
+
+                    }else{
+                        console.log("Failed")
+
+                    }
+                },
+            })
+
         }
     </script>
     <script th:src="@{/js/script-relation.js}"></script>

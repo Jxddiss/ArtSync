@@ -55,6 +55,12 @@ public class ChatVideoGroupeController {
         return candidate;
     }
 
+    @MessageMapping("/chat/appel/groupe/leave/{conversationId}")
+    @SendTo("/topic/appel/groupe/leave/{conversationId}")
+    public String leave(String userId){
+        return userId;
+    }
+
 
 }
 

@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", function() {
 
     //======= Déclaration des variables =================
@@ -65,6 +66,29 @@ document.addEventListener("DOMContentLoaded", function() {
        toggleDisplay()
     });
 
+    hangUpButton.addEventListener("click",()=>{
+        stompClientVideo.send('/app/chat/appel/groupe/leave/'+conversationId,{},idUser);
+        peerConnectionArray.forEach(peer =>{
+            peer.peerConnection.close();
+            peer.peerConnection = null;
+            const index = peerConnectionArray.indexOf(peer);
+            if (index > -1) {
+                peerConnectionArray.splice(index, 1);
+            }
+        })
+        localStream.getTracks().forEach(function(track) {
+            track.stop();
+        });
+        if(displayStream){
+            displayStream.getTracks().forEach(function(track) {
+                track.stop();
+            });
+        }
+        unfocusedVideoHolder.innerHTML = "";
+        secondaryVideoHolder.innerHTML = "";
+        window.location.reload();
+    })
+
     /*
     * Prend le media de la caméra et ensuite si la promesse est résolu
     * un appel est lancé grace a WebRTC
@@ -103,17 +127,18 @@ document.addEventListener("DOMContentLoaded", function() {
                             }
                         });
                         //----HANDLE LEAVE------
-                        // stompClientVideo.subscribe('/topic/live/leave/'+userPseudo, function(viewerLeaveEvent) {
-                        //     const viewerLeftPseudo = viewerLeaveEvent.body;
-                        //     currentCount--;
-                        //     viewCount.innerText = currentCount.toString();
-                        //     stompClientStream.send('/app/live/count/'+userPseudo,{},JSON.stringify({
-                        //         currentCount:currentCount
-                        //     }));
-                        //     handleUserLeave(viewerLeftPseudo);
-                        // });
+                        stompClientVideo.subscribe('/topic/appel/groupe/leave/'+conversationId, function(userLeaveEvent) {
+                            const leaveUserId = userLeaveEvent.body;
+                            handleUserLeave(leaveUserId);
+                         });
+
+                        window.addEventListener('beforeunload', function (e) {
+                            delete e['returnValue'];
+                            stompClientVideo.send('/app/chat/appel/groupe/leave/'+conversationId,{},idUser);
+                        });
                     });
                     localVideo.srcObject = stream;
+
                 })
                 .catch(function (error) {
                     console.log("Something went wrong! : " + error);
@@ -284,6 +309,24 @@ document.addEventListener("DOMContentLoaded", function() {
 
     }
 
+    function handleUserLeave(leaveUserId) {
+        console.log("------------------- leave",leaveUserId)
+        peerConnectionArray.forEach(peer => {
+            console.log("---------------- peer : ",peer.userId)
+            if (peer.userId.toString() === leaveUserId.toString()) {
+                console.log("----------------found peer : ",peer.userId)
+                peer.peerConnection.close();
+                peer.peerConnection = null;
+                const videoHolder = document.getElementById(`user-${peer.userId}`);
+                videoHolder.remove();
+                const index = peerConnectionArray.indexOf(peer);
+                if (index > -1) {
+                    peerConnectionArray.splice(index, 1);
+                }
+            }
+        })
+    }
+
     //=== désactive la vidéo sur le stream courrant
     function toggleCam(){
         if (localStream) {
@@ -367,6 +410,7 @@ document.addEventListener("DOMContentLoaded", function() {
         //À FAIRE - > INFO USER
         const videoHolderElement = document.createElement("div");
         videoHolderElement.classList.add("videoHolder")
+        videoHolderElement.id = "user-"+user.id;
         videoHolderElement.dataset.focus = "false";
         videoHolderElement.innerHTML = `
                 <video autoplay class="video-box2" playsinline></video>

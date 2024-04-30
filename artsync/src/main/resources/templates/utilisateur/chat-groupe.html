@@ -251,8 +251,8 @@
                 {
                     type: 'info',
                     pseudoSender: pseudoUser,
-                    message: 'Nouveau message de ',
-                    titre: 'Nouveau message',
+                    message: 'Nouveau message de groupe',
+                    titre: 'Groupe ' + [[${conversationCourrante.projet.titre}]],
                     urlNotif: window.location.pathname.toString(),
                     imgSender: profilImgUserLogin
                 }
@@ -285,12 +285,12 @@
                             urlMedia : file.name
                         }
                     ));
-                    stompClient.send("/app/notification/"+idProjet,{},JSON.stringify(
+                    stompClient.send("/app/notification/projet/"+idProjet,{},JSON.stringify(
                         {
                             type: 'info',
                             pseudoSender: pseudoUser,
-                            message: 'Nouveau message de ',
-                            titre: 'Nouveau message',
+                            message: 'Nouveau message de groupe',
+                            titre: 'Groupe [[${conversationCourrante.projet.getTitre()}]]',
                             urlNotif: window.location.pathname.toString(),
                             imgSender: profilImgUserLogin
                         }

@@ -54,13 +54,15 @@
               <img th:src="@{/media/images/{image}(image=${session.user.getPhotoUrl()})}"
                 alt=""
                 class="profile-pic-banner-border-small"
-              />Profile
+              />[[${session.user.getPrenom()}]] [[${session.user.getNom()}]]
             </a>
           </li>
           <li><a th:href="@{/utilisateur/conversation}"><img src="../media/logo/friend.svg" alt="" />Amis</a></li>
           <li><a th:href="@{/utilisateur/relation/groupes}"><img src="../media/logo/group.svg" alt="" />Groupes</a></li>
           <li><a th:href="@{/utilisateur/souvenirs}"><img src="../media/logo/clock.svg" alt="" />Souvenirs</a></li>
-          <li><a th:href="@{/utilisateur/fichiers}"><img src="../media/logo/folder.svg" alt="" />Fichiers</a></li>
+          <li><a th:href="@{/classement}"><i style="font-size: 38px; margin-right: 1rem" class="bi bi-award"></i>Classement</a></li>
+          <li><a th:href="@{/idee}"><i  style="font-size: 38px; margin-right: 1rem" class="bi bi-stars"></i>Boite à idée</a></li>
+
         </ul>
       </div>
       <div id="container-post">

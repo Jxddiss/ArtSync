@@ -31,68 +31,11 @@
     <body>
     <nav th:replace="${session.user == null} ? ~{fragment/fragments :: headerFragment} : ~{fragment/fragments :: headerUserFragment}"></nav>
 
-        <div class="container-content">
-            <div class="nav-cote nav-cote-large animation" id="nav-cote">
-                <button id="open-nav-cote">
-                    <i id="icone-fleche" class="fas fa-times"></i>
-                </button>
-                <form id="filtre" method="get" action="explorerController">
-                    <h3>FILTRES</h3>
-                    <h5>TYPE</h5>
-                    <div class="radio">
-                        <label>
-                            <input type="radio" name="trie" value="modelisation">
-                            Modelisation
-                        </label>
-                    </div>
-                    <div class="radio">
-                        <label>
-                            <input type="radio" name="trie" value="art traditionnel">
-                            art traditionnel
-                        </label>
-                    </div>
-                    <div class="radio">
-                        <label>
-                            <input type="radio" name="trie" value="art numerique">
-                            art numérique
-                        </label>
-                    </div>
-                    <div class="radio">
-                        <label>
-                            <input type="radio" name="trie" value="animation">
-                            Animation
-                        </label>
-                    </div>
-                    <h5>TRIER PAR</h5>
-                    <div class="radio">
-                        <label>
-                            <input type="radio" name="trie" value="popularite">
-                            Popularité
-                        </label>
-                    </div>
-                    <div class="radio">
-                        <label>
-                            <input type="radio" name="trie" value="recent">
-                            Récent
-                        </label>
-                    </div>
-                    <div class="radio">
-                        <label>
-                            <input type="radio" name="trie" value="ancien">
-                            Ancien
-                        </label>
-                    </div>
-                    <button type="submit">APPLIQUER</button>
-                </form>
-            </div>
             <div class="container-post">
-
-                <h2 class="animation">POSTES EN VEDETTE</h2>
                 <div class="container-cards">
-                    <section th:if="${postsEnVedette} != null" th:each="post, i : ${postsEnVedette}" th:class="${i == 0} ? 'card-sample card1' : 'card-sample'">
-                        <div class="img-card" th:style="'background-image:url(\'media/images/'+ ${post.getListeFichiers()[0].getUrlMedia()} +'\');'">
-                            
-                        </div>
+                    <section th:if="${posts} != null" th:each="post : ${posts}" class="card-sample">
+                        <img class="img-card" th:src="@{/media/images/{image}(image=${post.getListeFichiers()[0].getUrlMedia()})}"
+                             th:alt="${post.getListeFichiers()[0].getUrlMedia()}">
                         <div class="text no-animation">
                             <h2>[[${post.getTitre()}]]</h2>
                             <p>@[[${post.getPseudoUtilisateur()}]]</p>
@@ -110,20 +53,12 @@
                                 <div class="interactions">
                                     <div class="icones-interactions">
                                         <div class="icon-img">
-                                            <img class="" src="media/logo/like.png" alt="">
+                                            <i class="bi bi-balloon-heart"></i>
                                             <p>[[${post.nbLikes}]] J'aime</p>
                                         </div>
                                         <div class="icon-img">
-                                            <img class="" src="media/logo/comment.png" alt="">
+                                            <i class="bi bi-chat-left"></i>
                                             <p>2 Comments</p>
-                                        </div>
-                                        <div class="icon-img">
-                                            <img class="" src="media/logo/share.png" alt="">
-                                            <p>[[${post.nbPartages}]] partage</p>
-                                        </div>
-                                        <div class="icon-img">
-                                            <img class="" src="media/logo/view.png" alt="">
-                                            <p>[[${post.nbVues}]] vues</p>
                                         </div>
                                     </div>
                                 </div>
@@ -135,50 +70,8 @@
                         </div>
                     </section>
                 </div>
-                <h2 class="animation delais">EXPLORER</h2>
-                <div class="postes-feed">
-                        <div th:each="post : ${posts}" class="poste">
-                            <img th:src="@{/media/image/{image}(image=${post.listeFichiers[0].urlMedia})}" th:alt="${post.listeFichiers[0].urlMedia}">
-                            <div class="card-post">
-                                <!--Description-->
-                                <div class="">
-                                    <p>[[${post.texte}]]</p>
-                                </div>
-                                <div class="liste-commentaires">
-
-                                </div>
-                                <!--Écrire commentaire-->
-                                <div class="env-commentaire">
-                                    <div class="interactions">
-                                        <div class="icones-interactions">
-                                            <div class="icon-img">
-                                                <img class="" src="media/logo/like.png" alt="">
-                                                <p>[[${post.nbLikes}]] J'aime</p>
-                                            </div>
-                                            <div class="icon-img">
-                                                <img class="" src="media/logo/comment.png" alt="">
-                                                <p>2 Comments</p>
-                                            </div>
-                                            <div class="icon-img">
-                                                <img class="" src="media/logo/share.png" alt="">
-                                                <p>[[${post.nbPartages}]] partage</p>
-                                            </div>
-                                            <div class="icon-img">
-                                                <img class="" src="media/logo/view.png" alt="">
-                                                <p>[[${post.nbVues}]] vues</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <form class="input-box-commentaire">
-                                        <input type="text" placeholder="  Écrire un commentaire...">
-                                        <button class="btn-commentaire ">Envoyer</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                </div>
             </div>
-        </div>
+
     <div th:replace="${session.user != null} ? ~{fragment/notificationFragment :: notificationFragment} : ~{}"></div>
     <script th:src="@{/js/notification.js}"></script>
     </body>

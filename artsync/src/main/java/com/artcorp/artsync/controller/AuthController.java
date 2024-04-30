@@ -28,7 +28,8 @@ public class AuthController {
                             @RequestParam("mdp") String mdp,
                             HttpServletRequest request) throws MauvaisIdentifiantException {
         Utilisateur utilisateur = utilisateurService.connexion(username, mdp);
-
+        utilisateur.setStatut("online");
+        utilisateur = utilisateurService.update(utilisateur);
         if (utilisateur != null) {
             HttpSession session = request.getSession();
             session.setAttribute("user", utilisateur);
@@ -63,6 +64,11 @@ public class AuthController {
     @GetMapping("/deconnexion")
     public String deconnexion(HttpServletRequest request) {
         HttpSession session = request.getSession();
+        Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+        if (utilisateur != null){
+            utilisateur.setStatut("offline");
+            utilisateurService.update(utilisateur);
+        }
         session.invalidate();
         return "redirect:/";
     }

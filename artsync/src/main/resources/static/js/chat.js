@@ -61,5 +61,22 @@ function translateAvecDelai(element, translation, delay) {
     element.style.transform = "translate(" + translation + ")";
     element.classList.toggle("btn-ouvert");
   }, delay);
-  
+
+}
+
+function getExtension(filename) {
+  let parts = filename.split('.');
+  return parts[parts.length - 1];
+}
+
+function isImage(filename) {
+  let ext = getExtension(filename);
+  switch (ext.toLowerCase()) {
+    case 'jpg':
+    case 'gif':
+    case 'bmp':
+    case 'png':
+      return true;
+  }
+  return false;
 }

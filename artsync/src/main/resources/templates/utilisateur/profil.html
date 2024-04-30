@@ -166,6 +166,20 @@
 <div th:replace="${session.user != null} ? ~{fragment/notificationFragment :: notificationFragment} : ~{}"></div>
 <script th:src="@{/js/notification.js}"></script>
 <script th:src="@{/js/script-profil.js}"></script>
+<script th:if="${error != null}">
+    showNotification({
+        type: 'danger',
+        message: '[[${error}]]',
+        titre: 'Avertissement',
+    })
+</script>
+<script th:if="${succes != null}">
+    showNotification({
+        type: 'success',
+        message: '[[${succes}]]',
+        titre: 'Succès',
+    })
+</script>
 <script>
     function modifierRelation(button){
         let userId = button.getAttribute("user-data");

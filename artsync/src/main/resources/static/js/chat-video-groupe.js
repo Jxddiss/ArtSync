@@ -403,11 +403,10 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
 
-        streamVideo.srcObject = stream;
+        localVideo.srcObject = stream;
     }
     function appendVideo(stream,user){
-        console.log(user.photoUrl)
-        //À FAIRE - > INFO USER
+
         const videoHolderElement = document.createElement("div");
         videoHolderElement.classList.add("videoHolder")
         videoHolderElement.id = "user-"+user.id;

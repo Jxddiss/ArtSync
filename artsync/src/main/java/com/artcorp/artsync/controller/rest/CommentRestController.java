@@ -2,9 +2,11 @@ package com.artcorp.artsync.controller.rest;
 
 import com.artcorp.artsync.entity.Commentaire;
 import com.artcorp.artsync.entity.Forum;
+import com.artcorp.artsync.entity.Post;
 import com.artcorp.artsync.entity.Utilisateur;
 import com.artcorp.artsync.service.CommentaireService;
 import com.artcorp.artsync.service.ForumService;
+import com.artcorp.artsync.service.impl.PostServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,8 @@ public class CommentRestController {
     private CommentaireService commentaireService;
     @Autowired
     private ForumService forumService;
+    @Autowired
+    private PostServiceImpl postService;
 
     @PostMapping("/forum/comment")
     public String rechercheUtilisateur(@Param("comment") String comment,@Param("forumId") Long forumId, HttpServletRequest request){
@@ -33,6 +37,25 @@ public class CommentRestController {
         commentaire.setForum(forum);
         commentaire.setMessage(comment);
         commentaire.setUtilisateur(utilisateur);
+        if(comment != null){
+            commentaireService.save(commentaire);
+            return "true";
+        }
+        return "false";
+    }
+
+    @PostMapping("/post/comment")
+    public String commenterPost(@Param("comment") String comment,@Param("postId") Long postId, HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+
+        Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+
+        Post post = postService.findById(postId);
+
+        Commentaire commentaire = new Commentaire();
+        commentaire.setMessage(comment);
+        commentaire.setUtilisateur(utilisateur);
+        commentaire.setPost(post);
         if(comment != null){
             commentaireService.save(commentaire);
             return "true";

@@ -3,6 +3,7 @@ package com.artcorp.artsync.controller;
 import com.artcorp.artsync.entity.FichierGeneral;
 import com.artcorp.artsync.entity.Post;
 import com.artcorp.artsync.entity.Utilisateur;
+import com.artcorp.artsync.exception.domain.FileFormatException;
 import com.artcorp.artsync.exception.domain.NotConnectedException;
 import com.artcorp.artsync.service.PostService;
 import com.artcorp.artsync.service.impl.PostServiceImpl;
@@ -23,12 +24,14 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.artcorp.artsync.constant.FileConstant.USER_FOLDER;
+import static org.springframework.http.MediaType.*;
 
 @Controller
 public class    PostController {
@@ -46,13 +49,10 @@ public class    PostController {
         List<Post> postsEnVedette = null;
         List<Post> posts = null;
         if (session == null) {
-            postsEnVedette = postService.findByPubliqueEnVedette(true);
             posts = postService.findByPubliqueEnVedette(true);
         }else{
-            postsEnVedette = postService.findAllPostsEnVedette();
             posts = postService.findAllPosts();
         }
-        model.addAttribute("postsEnVedette", postsEnVedette);
         model.addAttribute("posts", posts);
         return "explorer";
     }
@@ -86,12 +86,17 @@ public class    PostController {
                              @RequestParam("description") String texte,
                              @RequestParam("type") String type,
                              @RequestParam("titre") String titre,
-                             @RequestParam("publique") boolean publique,
-                             RedirectAttributes redirectAttributes) throws IOException {
+                             @RequestParam(name = "publique", required = false) boolean publique,
+                             RedirectAttributes redirectAttributes) throws IOException, FileFormatException {
         HttpSession session = request.getSession(false);
+
         if (session != null) {
             Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
             if (image != null){
+
+                if (!Arrays.asList(IMAGE_JPEG_VALUE, IMAGE_PNG_VALUE, IMAGE_GIF_VALUE).contains(image.getContentType())){
+                    throw new FileFormatException("/utilisateur/profil/" + utilisateur.getPseudo());
+                }
 
                 String originalFilename = StringUtils.cleanPath(image.getOriginalFilename());
                 FichierGeneral fichierGeneral = new FichierGeneral();
@@ -116,6 +121,8 @@ public class    PostController {
                 File saveFile = new File(parentDir.getAbsolutePath() + File.separator + originalFilename);
                 Files.copy(image.getInputStream(),saveFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
                 postService.addPost(post);
+                redirectAttributes.addFlashAttribute("succes","Post ajouté avec succès");
+
             }
             return "redirect:/utilisateur/profil/" + utilisateur.getPseudo();
         }

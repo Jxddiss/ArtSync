@@ -626,6 +626,93 @@ body:has(#storie-open-dialog[open]){
   background-color: rgb(0, 0, 0, 0.07);
   font-size: 1.1rem;
 }
+
+/*========= Post pane =========== */
+.postPane{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  flex-direction: column;
+  align-items: center;
+  padding-block: 1rem;
+  padding-inline: 1rem;
+  min-height: 50rem;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.9);
+  width: 40rem;
+}
+.dialogHeader{
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+.postPreviewHolder{
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  border-radius: 10px;
+  align-items: center;
+  font-size: 100px;
+  color: rgba(0, 0, 0, 0.5);
+  width: 95%;
+  height: 25rem;
+  background-color: rgba(193, 193, 193, 0.8);
+}
+.postPreviewHolder img{
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  object-fit: fill;
+}
+#placeholderIcon{
+  position: absolute;
+  z-index: -1;
+}
+#fermer{
+  float: right;
+  font-size: 20px;
+}
+#fermer:hover{
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.postForm{
+  width: 100%;
+}
+.form-head{
+  margin-top: 2%;
+  display: flex;
+  gap: 47%;
+  align-items: center;
+  width: 100%;
+
+
+}
+.form-headInput{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 1rem;
+}
+.post-button{
+  background-color: #dbdbdb;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  padding-inline: 1rem;
+  padding-block: 0.5rem;
+  font-size: 20px;
+  margin-top: 1rem;
+}
+.post-button:hover{
+  cursor: pointer;
+  transition: 0.25s;
+  background-color: #a8a8a8;
+}
+
 /*========= Scrollbar(s) ==========*/
 ::-webkit-scrollbar {
   display: none;

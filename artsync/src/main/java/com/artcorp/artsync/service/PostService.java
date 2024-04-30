@@ -26,4 +26,6 @@ public interface PostService {
     List<Post> findPostByUser(Utilisateur utilisateur);
 
     Post findBanniereUtilisateur(Utilisateur utilisateur);
+
+    Post findById(Long postId);
 }

@@ -101,4 +101,9 @@ public class PostServiceImpl implements PostService {
     public Post findBanniereUtilisateur(Utilisateur utilisateur) {
         return postRepos.findBanniereUtilisateur(utilisateur);
     }
+
+    @Override
+    public Post findById(Long postId) {
+        return postRepos.findById(postId).get();
+    }
 }

@@ -129,3 +129,55 @@ function checkFile(form){
   }
   return false;
 }
+
+//========== commentaire =========
+const commentaireForm = document.querySelectorAll(".input-box-commentaire");
+const listeEnvComm = document.querySelectorAll(".liste-commentaires");
+commentaireForm.forEach(commentForm =>{
+    let commentHolder;
+    listeEnvComm.forEach(commEnv =>{
+      if (commEnv.getAttribute("post-id") === commentForm.getAttribute("post-id")){
+        console.log("----------------------- ici -------------------")
+        commentHolder = commEnv;
+      }
+    })
+
+    let commentInput = commentForm.querySelector("input");
+    commentForm.addEventListener("submit", function (event){
+      event.preventDefault();
+
+      const comment = commentInput.value
+
+      const newComment = document.createElement("li");
+      newComment.classList.add("commentaire")
+      newComment.innerHTML=`
+                        <a href="#!" class="info-comment">
+                        <img
+                          src="/media/images/${userImage}"
+                          alt=""
+                          class="profile-pic-banner-border-small"
+                        />
+                      </a>
+                      <p>
+                        ${comment}
+                      </p>
+                    `
+      commentHolder.appendChild(newComment);
+      commentForm.querySelector("input").value = ""
+    })
+})
+
+function ajouterCommentaire(form){
+  $.ajax({
+    type: "POST",
+    url: window.location.origin.toString()+"/post/comment",
+    data: {comment: form.comment.value, postId: form.postId.value},
+    success : function (data) {
+      if(data === "true"){
+        console.log("PASSED")
+      }else{
+        console.log("FAILED")
+      }
+    },
+  })
+}

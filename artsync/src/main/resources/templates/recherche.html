@@ -71,7 +71,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 
             <!--UTILISATEURS-->
             <div th:if="${listUtilisateurs != null and listUtilisateurs.size() > 0}" th:each="user : ${listUtilisateurs}"  class="resultAnchor">
-                <div class="userResult">
+                <div th:if="${ session.user == null || (session.user != null && user.getPseudo()!=session.user.getPseudo())}" class="userResult">
                     <a th:href="@{'/utilisateur/profil/'+${user.pseudo}}" class="userProfilPic">
                         <img th:src="@{/media/images/{image}(image=${user.getPhotoUrl()})}" alt="">
                     </a>
@@ -81,10 +81,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         <p>Artiste [[${user.specialisation}]]</p>
                     </div>
                     <div class="userButtons">
-                        <a th:if="${!user.getIn()}" th:href="@{/recherche/follow(id=${user.id},type='follow')}" class="addButton">
+                        <a th:if="${session.user != null && !user.getIn()}" th:href="@{/recherche/follow(id=${user.id},type='follow')}" class="addButton">
                             <i class="bi bi-person-add"></i>
                         </a>
-                        <a th:unless="${!user.getIn()}" th:href="@{/recherche/follow(id=${user.id},type='follow')}" class="removeButton">
+                        <a th:if="${session.user != null && user.getIn()}" th:href="@{/recherche/follow(id=${user.id},type='follow')}" class="removeButton">
                             <i class="bi bi-person-dash"></i>
                         </a>
                     </div>
@@ -124,10 +124,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         </p>
                     </div>
                     <div class="groupButtons">
-                        <a class="addButton" th:if="${!projet.in}" th:href="@{/group/join(id=${projet.id}, type='rejoindre')}">
+                        <a class="addButton" th:if="${session.user != null && !projet.in}" th:href="@{/group/join(id=${projet.id}, type='rejoindre')}">
                             <i class="bi bi-box-arrow-in-right"></i>
                         </a>
-                        <a class="removeButton" th:unless="${!projet.in}" th:href="@{/group/join(id=${projet.id}, type='quitter')}">
+                        <a class="removeButton" th:if="${session.user != null && projet.in}" th:href="@{/group/join(id=${projet.id}, type='quitter')}">
                             <i class="bi bi-x-lg"></i>
                         </a>
                     </div>

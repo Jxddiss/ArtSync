@@ -91,8 +91,8 @@
         </div>
         <div class="optionHolder">
             <div class="buttonsHolder">
-                <a class="bi bi-record2" th:href="@{/live/start}"></a>
-                <a class="bi bi-person-add"></a>
+                <a class="bi bi-record2" style="color: red" th:if="${session.user!=null && utilisateur.getPseudo() == session.user.getPseudo()}" th:href="@{/live/start}"></a>
+                <a th:class="${utilisateur.getIn()} ? 'bi bi-person-dash' : 'bi bi-person-add'" th:if="${session.user!=null && utilisateur.getPseudo()!=session.user.getPseudo()}" th:user-data="${utilisateur.getId()}" onclick="return modifierRelation(this);"></a>
                 <a th:href="@{settings}" class="bi bi-three-dots"></a>
             </div>
             <div>
@@ -166,5 +166,31 @@
 <div th:replace="${session.user != null} ? ~{fragment/notificationFragment :: notificationFragment} : ~{}"></div>
 <script th:src="@{/js/notification.js}"></script>
 <script th:src="@{/js/script-profil.js}"></script>
+<script>
+    function modifierRelation(button){
+        let userId = button.getAttribute("user-data");
+        if (button.classList.contains("bi-person-add")){
+            button.classList.remove("bi-person-add")
+            button.classList.add("bi-person-dash")
+        }else if (button.classList.contains("bi-person-dash")){
+            button.classList.remove("bi-person-dash")
+            button.classList.add("bi-person-add")
+        }
+        $.ajax({
+            type: "POST",
+            url: window.location.origin.toString()+"/recherche/updateRelationUsr",
+            data: {userId: userId},
+            success : function (data) {
+                if(data === "true"){
+                    console.log("Controller Reached")
+
+                }else{
+                    console.log("Failed")
+
+                }
+            },
+        })
+    }
+</script>
 </body>
 </html>

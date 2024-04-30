@@ -65,7 +65,7 @@ public class AppController {
             if ("UTILISATEUR".equals(filtre)) {
                 List<Utilisateur> listUtilisateurs = userService.findByKeyword(search);
                 for (Utilisateur user : listUtilisateurs) {
-                    if (utilisateur!=null && (user.getFollowers().contains(utilisateur) || user.getAmis().contains(utilisateur))) {
+                    if (utilisateur!=null && (user.getFollowing().contains(utilisateur))) {
                         user.setIn(true);
                     }
                 }
@@ -96,18 +96,19 @@ public class AppController {
             if ("UTILISATEUR".equals(filtre)) {
                 List<Utilisateur> listUtilisateurs = userService.findAll();
                 for (Utilisateur user : listUtilisateurs) {
-                    if (utilisateur!=null && (user.getFollowers().contains(utilisateur) || user.getAmis().contains(utilisateur))) {
-                        user.setIn(true);
+                    if (utilisateur!=null){
+                        for (Utilisateur follower: user.getFollowers()){
+                            if (follower.getPseudo().equals(utilisateur.getPseudo())){
+                                user.setIn(true);
+                                break;
+                            }
+                        }
                     }
-                }
-                if (utilisateur!=null && listUtilisateurs.contains(utilisateur)) {
-                    listUtilisateurs.remove(utilisateur);
                 }
                 model.addAttribute("listUtilisateurs", listUtilisateurs);
                 if (listUtilisateurs.size()<1){
                     model.addAttribute("message", "Aucun utilisateur trouvé");
                 }
-
             } else if ("GROUPE".equals(filtre)) {
                 List<Projet> listProjets = projetService.findAll();
                 for (Projet projet : listProjets) {

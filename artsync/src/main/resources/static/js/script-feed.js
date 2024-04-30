@@ -66,18 +66,18 @@ document.querySelectorAll(".like").forEach((likeSymbol) => {
 
     if (likeSymbol.dataset.clicked === "false") {
       likeSymbol.dataset.clicked = "true";
-      e.target.style.color = "red";
+      icon.style.color = "red";
       likePost("like",likeSymbol.getAttribute("post-id"));
       nbLike++
       likeSymbol.querySelector("p").innerText = `${nbLike} J'aimes`;
       localStorage.setItem(`like-post-${postId}`,`true`);
     } else {
       likePost("unlike", likeSymbol.getAttribute("post-id"));
-      let newIconClass = e.target.classList[1].replace("-fill", "");
-      e.target.classList.remove(e.target.classList[1]);
-      e.target.classList.add(newIconClass);
+      let newIconClass = icon.classList[1].replace("-fill", "");
+      icon.classList.remove(icon.classList[1]);
+      icon.classList.add(newIconClass);
       likeSymbol.dataset.clicked = "false";
-      e.target.style.color = "black";
+      icon.style.color = "black";
       nbLike--
       likeSymbol.querySelector("p").innerText = `${nbLike} J'aimes`;
       localStorage.setItem(`like-post-${postId}`,`false`);

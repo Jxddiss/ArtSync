@@ -45,15 +45,24 @@ document.querySelectorAll(".like").forEach((likeSymbol) => {
   });
 
   likeSymbol.firstElementChild.addEventListener("click", (e) => {
+    const info = likeSymbol.querySelector("p").innerText
+    let nbLike = +info.split(" ").at(0);
+
     if (likeSymbol.dataset.clicked === "false") {
       likeSymbol.dataset.clicked = "true";
       e.target.style.color = "red";
+      likePost("like", likeSymbol.getAttribute("post-id"));
+      nbLike++
+      likeSymbol.querySelector("p").innerText = `${nbLike} J'aimes`;
     } else {
+      likePost("unlike", likeSymbol.getAttribute("post-id"));
       let newIconClass = e.target.classList[1].replace("-fill", "");
       e.target.classList.remove(e.target.classList[1]);
       e.target.classList.add(newIconClass);
       likeSymbol.dataset.clicked = "false";
       e.target.style.color = "black";
+      nbLike--
+      likeSymbol.querySelector("p").innerText = `${nbLike} J'aimes`;
     }
   });
 });
@@ -172,6 +181,23 @@ function ajouterCommentaire(form){
     type: "POST",
     url: window.location.origin.toString()+"/post/comment",
     data: {comment: form.comment.value, postId: form.postId.value},
+    success : function (data) {
+      if(data === "true"){
+        console.log("PASSED")
+      }else{
+        console.log("FAILED")
+      }
+    },
+  })
+}
+
+
+
+function likePost(type, postId){
+  $.ajax({
+    type: "POST",
+    url: window.location.origin.toString()+"/post/like",
+    data: {like: type, postId: postId},
     success : function (data) {
       if(data === "true"){
         console.log("PASSED")

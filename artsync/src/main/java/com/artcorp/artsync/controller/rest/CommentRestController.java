@@ -63,4 +63,16 @@ public class CommentRestController {
         return "false";
     }
 
+    @PostMapping("/post/like")
+    public String updatePost(@Param("like") String like, @Param("postId") Long postId){
+        if(like.equalsIgnoreCase("like")){
+            postService.likePost(postId);
+            return "true";
+        }else if(like.equalsIgnoreCase("unlike")){
+            postService.unLikePost(postId);
+            return "true";
+        }
+        return "false";
+    }
+
 }

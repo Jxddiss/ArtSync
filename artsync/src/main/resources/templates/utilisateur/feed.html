@@ -150,9 +150,9 @@
           <div class="env-commentaire">
             <div class="interactions">
               <div class="icones-interactions">
-                <div class="icon-img like" data-clicked="false">
+                <div class="icon-img like" data-clicked="false" th:post-id="${post.id}">
                   <i class="bi bi-balloon-heart"></i>
-                  <p>[[${post.nbLikes}]] J'aime</p>
+                  <p>[[${post.nbLikes}]] J'aimes</p>
                 </div>
                 <div class="icon-img" data-clicked="false">
                   <i class="bi bi-chat-left"></i>

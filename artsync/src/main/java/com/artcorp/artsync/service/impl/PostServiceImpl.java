@@ -106,4 +106,18 @@ public class PostServiceImpl implements PostService {
     public Post findById(Long postId) {
         return postRepos.findById(postId).get();
     }
+
+    @Override
+    public void likePost(Long postId) {
+        Post post = postRepos.findById(postId).get();
+        post.setNbLikes(post.getNbLikes() + 1);
+        postRepos.save(post);
+    }
+
+    @Override
+    public void unLikePost(Long postId) {
+        Post post = postRepos.findById(postId).get();
+        post.setNbLikes(post.getNbLikes() - 1);
+        postRepos.save(post);
+    }
 }

@@ -28,4 +28,7 @@ public interface PostService {
     Post findBanniereUtilisateur(Utilisateur utilisateur);
 
     Post findById(Long postId);
+
+    void likePost(Long postId);
+    void unLikePost(Long postId);
 }

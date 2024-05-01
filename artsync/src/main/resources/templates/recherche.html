@@ -78,7 +78,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     <div class="userInfo">
                         <p>[[${user.prenom}]] [[${user.nom}]]</p>
                         <p><b>@[[${user.pseudo}]]</b></p>
-                        <p>Artiste [[${user.specialisation}]]</p>
+                        <p>[[${user.specialisation}]]</p>
                     </div>
                     <div class="userButtons">
                         <a th:if="${session.user != null && !user.getIn()}" th:user-data="${user.getId()}" onclick="return modifierRelation(this);" class="addButton">

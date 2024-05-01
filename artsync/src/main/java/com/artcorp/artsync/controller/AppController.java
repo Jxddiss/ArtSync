@@ -43,7 +43,7 @@ public class AppController {
         return "boite-idee";
     }
     @GetMapping("/classement")
-    public String redirigerVersClassement(Model model) {
+    public String redirigerVersClassement(Model model) { 
         //Code ici vanetta
         return "classement";
     }

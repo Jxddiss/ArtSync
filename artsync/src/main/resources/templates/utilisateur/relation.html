@@ -122,8 +122,8 @@
                                     <a th:href="@{/utilisateur/profil/{pseudo}(pseudo=${user.pseudo})}"><img th:src="@{/media/images/{image}(image=${user.photoUrl})}"  alt=""></a>
                                     <div class="mini-container" style="padding: 0;">
                                         <p>[[${user.prenom}]] [[${user.nom}]] </p>
-                                        <p>@[[${user.pseudo}]]</p>
-                                        <p> <img src="/media/logo/digitalIcon.png" alt="logo-role">[[${user.specialisation}]]</p>
+                                        <b>@[[${user.pseudo}]]</b>
+                                        <p>[[${user.specialisation}]]</p>
                                     </div>
                                     <div class="supprimer">
                                         <p onclick="return modifierRelation(this);" th:user-data="${user.getId()}">RETIRER</p>
@@ -139,8 +139,8 @@
                                     <img th:src="@{/media/images/{image}(image=${user.photoUrl})}" alt="">
                                     <div class="mini-container" style="padding: 0;">
                                         <p>[[${user.prenom}]] [[${user.nom}]] <span th:class="'statut ' + ${user.statut}"></span></p>
-                                        <p>@[[${user.pseudo}]]</p>
-                                        <p> <img src="/media/logo/digitalIcon.png" alt="logo-role">[[${user.specialisation}]]</p>
+                                        <b>@[[${user.pseudo}]]</b>
+                                        <p>[[${user.specialisation}]]</p>
                                     </div>
                                 </a>
                             </div>

@@ -87,7 +87,7 @@
                     <div class="header-profile">
                         <div class="content-header">
                             <div class="info-profil">
-                                <h4>[[${amiCourrant.prenom}]] [[${amiCourrant.nom}]] <span class="statut online"></span></h4>
+                                <h4>[[${amiCourrant.prenom}]] [[${amiCourrant.nom}]]&nbsp; <span th:class="'statut ' + ${amiCourrant.statut}"></span></h4>
                                 <p>@[[${amiCourrant.pseudo}]]</p>
                             </div>
                             <div class="img-container">
@@ -156,6 +156,11 @@
             class="button-video"
             id="micro-toggle">
                 <i class="bi bi-mic"></i>
+            </button>
+            <button type="button"
+                    class="button-video"
+                    id="display-toggle">
+                <i class="bi bi-display"></i>
             </button>
         </div>
     </dialog>

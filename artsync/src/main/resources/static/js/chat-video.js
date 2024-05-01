@@ -6,18 +6,43 @@ document.addEventListener("DOMContentLoaded", function() {
     const hangUpButton = document.getElementById("hang-up-button");
     const camToggle = document.getElementById("cam-toggle");
     const microToggle = document.getElementById("micro-toggle");
+    const displayToggle = document.getElementById("display-toggle");
     let localStream;
     let localPeer;
     let stompClientVideo;
     let offer;
+    let cam = true;
+    let displayStream;
 
     // ==== Configuration des ICE servers (En cas de problème de parfeu pour la connection peer to peer )
     const config = {
         iceServers: [
             {
-                urls: "stun:stun.l.google.com:19302"
+                urls: "stun:stun1.l.google.com:19302"
+            },
+            {
+                urls:'turn:relay1.expressturn.com:3478',
+                username:'ef8EOWQXK1M7HXY1AI',
+                credential:'mor3P6U6DOFc1r3R'
             }
-        ]
+        ],
+        trickle: true,
+        rtcpMuxPolicy:"negotiate",
+        bundlePolicy:"max-compat"
+    };
+
+    const displayMediaOptions = {
+        video: {
+            displaySurface: "browser",
+        },
+        audio: {
+            suppressLocalAudioPlayback: false,
+        },
+        preferCurrentTab: false,
+        selfBrowserSurface: "exclude",
+        systemAudio: "include",
+        surfaceSwitching: "include",
+        monitorTypeSurfaces: "include",
     };
 
     localPeer = new RTCPeerConnection(config)
@@ -28,6 +53,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
     microToggle.addEventListener("click", function() {
         toggleMic();
+    });
+
+    displayToggle.addEventListener("click", function() {
+        toggleDisplay()
     });
 
     /*
@@ -232,6 +261,11 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
                 location.reload()
             })
+
+            window.addEventListener('beforeunload', function (e) {
+                delete e['returnValue'];
+                stompClientVideo.send("/app/chat/appel/remove/"+conversationId, {}, idUser + ":" + idAmi);
+            });
         })
 
         //=== ajout de notre vidéo en local sur la page
@@ -260,6 +294,53 @@ document.addEventListener("DOMContentLoaded", function() {
                 microToggle.innerHTML = '<i class="bi bi-mic-mute"></i>';
             }
         }
+    }
+
+    function toggleDisplay(){
+        if(cam){
+            navigator.mediaDevices.getDisplayMedia(displayMediaOptions)
+                .then(stream =>{
+                    switchStream(stream,'display');
+                    displayToggle.innerHTML = `<i class="bi bi-camera"></i>`;
+                })
+                .catch(error =>{
+                    console.log(error);
+                })
+        }else{
+            navigator.mediaDevices.getUserMedia({ video: true,audio: true })
+                .then(stream => {
+                    switchStream(stream,'cam');
+                    displayToggle.innerHTML = `<i class="bi bi-display"></i>`;
+                })
+                .catch(error =>{
+                    console.log(error);
+                })
+        }
+        cam = !cam;
+    }
+
+    function switchStream(stream, type){
+        if(type === 'display'){
+            if (localStream) {
+                localStream.getVideoTracks()[0].stop();
+            }
+            displayStream = stream;
+        }else{
+            if (displayStream) {
+                displayStream.getTracks().forEach(function(track) {
+                    track.stop();
+                });
+            }
+
+            localStream = stream;
+        }
+
+        const videoSender = localPeer.getSenders().find(sender => sender.track.kind === 'video');
+        if (videoSender) {
+            videoSender.replaceTrack(stream.getVideoTracks()[0]);
+        }
+
+        localVideo.srcObject = stream;
     }
 })
 

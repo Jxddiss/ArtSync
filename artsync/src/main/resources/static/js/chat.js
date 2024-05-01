@@ -6,9 +6,13 @@ document.addEventListener("DOMContentLoaded", function() {
   const paint = document.getElementById("button-fonction-paint");
   const music = document.getElementById("button-fonction-music");
   const btnOpenOptions = document.getElementById("open-options");
+  const listePersonnes = document.getElementById("liste-personne");
 
 
+  // place contact courrant en premier
+  const newFirstElement = document.querySelector(".carte-active"); //element which should be first in E
 
+  listePersonnes.insertBefore(newFirstElement, listePersonnes.firstChild);
 
   btnOpenOptions.addEventListener("click", function(e) {
     if (options.dataset.state === "inactive") {

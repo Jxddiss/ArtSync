@@ -248,9 +248,10 @@ document.addEventListener("DOMContentLoaded", function() {
             displayStream = stream;
         }else{
             if (displayStream) {
-                displayStream.getVideoTracks()[0].stop();
+                displayStream.getTracks().forEach(function(track) {
+                    track.stop();
+                });
             }
-
             streamerStream = stream;
         }
 

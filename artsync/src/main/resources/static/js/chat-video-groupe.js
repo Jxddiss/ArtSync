@@ -367,6 +367,7 @@ document.addEventListener("DOMContentLoaded", function() {
             navigator.mediaDevices.getDisplayMedia(displayMediaOptions)
                 .then(stream =>{
                     switchStream(stream,'display');
+                    displayToggle.innerHTML = `<i class="bi bi-camera"></i>`;
                 })
                 .catch(error =>{
                     console.log(error);
@@ -375,6 +376,7 @@ document.addEventListener("DOMContentLoaded", function() {
             navigator.mediaDevices.getUserMedia({ video: true,audio: true })
                 .then(stream => {
                     switchStream(stream,'cam');
+                    displayToggle.innerHTML = `<i class="bi bi-display"></i>`;
                 })
                 .catch(error =>{
                     console.log(error);
@@ -390,7 +392,9 @@ document.addEventListener("DOMContentLoaded", function() {
             displayStream = stream;
         }else{
             if (displayStream) {
-                displayStream.getVideoTracks()[0].stop();
+                displayStream.getTracks().forEach(function(track) {
+                    track.stop();
+                });
             }
 
             localStream = stream;

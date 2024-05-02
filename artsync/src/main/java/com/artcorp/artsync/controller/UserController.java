@@ -6,6 +6,7 @@ import com.artcorp.artsync.service.impl.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -40,9 +41,10 @@ public class UserController {
     private DemandeServiceImpl demandeService;
     private ForumServiceImpl forumService;
     private CommentaireServiceImpl commentaireService;
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserController(UtilisateurServiceImpl utilisateurService, ProjetRepos projetRepos, PostServiceImpl postService, PortfolioServiceImpl portfolioService, ConversationServiceImpl conversationService, ChatServiceImpl chatService, ProjetServiceImpl projetService, TacheServiceImpl tacheService, AnnonceServiceImpl annonceService, FichierServiceImpl fichierService, DemandeServiceImpl demandeService, ForumServiceImpl forumService, CommentaireServiceImpl commentaireService) {
+    public UserController(UtilisateurServiceImpl utilisateurService, ProjetRepos projetRepos, PostServiceImpl postService, PortfolioServiceImpl portfolioService, ConversationServiceImpl conversationService, ChatServiceImpl chatService, ProjetServiceImpl projetService, TacheServiceImpl tacheService, AnnonceServiceImpl annonceService, FichierServiceImpl fichierService, DemandeServiceImpl demandeService, ForumServiceImpl forumService, CommentaireServiceImpl commentaireService, BCryptPasswordEncoder passwordEncoder) {
         this.utilisateurService = utilisateurService;
         this.projetRepos = projetRepos;
         this.postService = postService;
@@ -56,6 +58,7 @@ public class UserController {
         this.demandeService = demandeService;
         this.forumService = forumService;
         this.commentaireService = commentaireService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("/feed")
@@ -230,8 +233,8 @@ public class UserController {
             user.setNom(utilisateur.getNom());
             user.setPrenom(utilisateur.getPrenom());
             if (!utilisateur.getPassword().equals("")){
-                System.out.println("password changé à : "+utilisateur.getPassword());
-                user.setPassword(utilisateur.getPassword());
+                System.out.println("password changé à : " + utilisateur.getPassword());
+                user.setPassword(passwordEncoder.encode(utilisateur.getPassword()));
             }
             utilisateurService.update(user);
             session.setAttribute("user",user);

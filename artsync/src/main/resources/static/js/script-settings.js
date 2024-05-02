@@ -90,3 +90,97 @@ function sendBackgroundData(){
         },
     })
 }
+
+let email = document.getElementById("emailInput");
+email.addEventListener("keyup",()=>{
+    validateEmail(email)
+});
+
+let pseudo = document.getElementById("pseudoInput");
+pseudo.addEventListener("keyup",()=>{
+    validatePseudo(pseudo)
+});
+
+function validateForm(form){
+
+    let password = document.getElementById("passwordInput");
+    let conf = document.getElementById("confirmInput");
+    let valid = true
+
+    if(conf){
+        if(password.value !== conf.value){
+            showNotification({
+                type: 'warn',
+                message: 'Les mots de passes ne sont pas pareil',
+                titre: 'Avertissement',
+            })
+            valid = false;
+        }
+
+        if(!validatePseudo(pseudo)){
+            showNotification({
+                type: 'warn',
+                message: 'Ce pseudo existe déjà ',
+                titre: 'Avertissement',
+            })
+            valid = false;
+        }
+
+        if(!validateEmail(email)){
+            showNotification({
+                type: 'warn',
+                message: 'Cet email est déja utilisé',
+                titre: 'Avertissement',
+            })
+            valid = false;
+        }
+    }
+    return valid;
+}
+
+function validateEmail(input){
+    let valid = false
+    $.ajax({
+        type:'POST',
+        async:false,
+        url:window.location.origin.toString() + "/api/utilisateur/check-email",
+        data: {email:input.value, userId:userId},
+        success: function (data){
+            if(data !== "true"){
+                input.style.boxShadow = `rgba(116, 9, 34, 0.44) 0px -10px 25px,
+                    rgba(136, 5, 5, 0.33) 0px 25px 25px,
+                    rgba(107, 3, 27, 0.17) 0px 10px 10px,
+                    rgba(220, 16, 48, 0.77) 0px -10px 10px`;
+            }else{
+                input.style.boxShadow = "";
+                valid = true;
+            }
+        }
+    })
+    console.log("email valid : "+ valid)
+    return valid;
+}
+
+
+function validatePseudo(input){
+    let valid = false
+    $.ajax({
+        type:'POST',
+        async:false,
+        url:window.location.origin.toString() + "/api/utilisateur/check-pseudo",
+        data: {pseudo:input.value, userId:userId},
+        success: function (data){
+            if(data !== "true"){
+                input.style.boxShadow = `rgba(116, 9, 34, 0.44) 0px -10px 25px,
+                    rgba(136, 5, 5, 0.33) 0px 25px 25px,
+                    rgba(107, 3, 27, 0.17) 0px 10px 10px,
+                    rgba(220, 16, 48, 0.77) 0px -10px 10px`;
+            }else{
+                input.style.boxShadow = "";
+                valid = true
+            }
+        }
+    })
+    console.log("pseudo valid : "+ valid)
+    return valid;
+}

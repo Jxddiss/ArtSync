@@ -13,8 +13,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-    <script th:src="@{/js/script-settings.js}" defer></script>
+    <script th:src="@{/js/notification.js?v=1}" defer></script>
+    <script th:src="@{/js/script-settings.js?v=1}" defer></script>
 </head>
 <body>
     <div class="overlay"></div>
@@ -56,7 +56,11 @@
                     </div>
                 </div>
             </div>
-            <form th:action="@{/utilisateur/profil/settings/update}" th:object="${utilisateur}" id="profilForm" method="post">
+            <form th:action="@{/utilisateur/profil/settings/update}"
+                  th:object="${utilisateur}"
+                  id="profilForm"
+                  method="post"
+                  onsubmit="return validateForm(this)">
             <div class="profilOptions">
                 <div class="accountInfo">
                     <div class="accountHeader" id="compte">
@@ -68,7 +72,7 @@
                     </div>
                     <div class="accountBody">
                             <div class="inputHeader">
-                                <input th:field="*{pseudo}" style="width: 100%" type="text" th:value="'@' +${utilisateur.getPseudo()}" placeholder="Pseudo" name="pseudo" readonly>
+                                <input th:field="*{pseudo}" id="pseudoInput" style="width: 100%" type="text" th:value="'@' +${utilisateur.getPseudo()}" placeholder="Pseudo" name="pseudo" readonly>
                             </div>
                             <div class="inputBody2">
                                 <button type="submit">SAUVEGARDER</button>
@@ -88,7 +92,7 @@
                     </div>
                     <div class="accountBody">
                             <div class="inputHeader2">
-                                <input type="email" th:field="*{email}" th:value="${utilisateur.getEmail()}" name="email" placeholder="E-mail" readonly>
+                                <input type="email" th:field="*{email}" id="emailInput" th:value="${utilisateur.getEmail()}" name="email" placeholder="E-mail" readonly>
                             </div>
                             <div class="inputHeader mt-1">
                                 <input  style="width: 100%" type="text" th:field="*{nom}" th:value="${utilisateur.getNom()}" placeholder="Nom" name="nom" readonly>
@@ -114,7 +118,10 @@
                     </div>
                     <div class="accountBody">
                             <div class="inputHeader2">
-                                <input type="password" th:field="*{password}" th:value="${utilisateur.getPassword()}" placeholder="Mot de passe" name="pseudo" readonly>
+                                <input type="password" id="passwordInput" placeholder="Mot de passe" name="password" readonly>
+                            </div>
+                            <div class="inputHeader2 mt-2">
+                                <input type="password" id="confirmInput"  placeholder="Confirmer" name="confirm" readonly>
                             </div>
                             <div class="inputBody2">
                                 <button type="submit">SAUVEGARDER</button>
@@ -380,10 +387,13 @@
         editUser.addEventListener("click",function(){
             if (inputs.item(4).readOnly){
                 inputs.item(4).readOnly = false;
+                inputs.item(5).readOnly = false;
             }else {
                 inputs.item(4).readOnly = true;
+                inputs.item(5).readOnly = true;
             }
         });
+        const userId = [[${session.user.getId()}]]
     </script>
     <script th:if="${utilisateur.getBackgroundColor()}">
         const bgColor = '[[${utilisateur.getBackgroundColor()}]]'
@@ -399,4 +409,5 @@
         overlay.style.display = "block"
         overlay.classList.add(bgTexture)
     </script>
+    <div id="notification-pop-liste" ></div>
 </body>

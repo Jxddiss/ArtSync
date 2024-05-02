@@ -18,13 +18,20 @@
     <!--    libs for stomp and sockjs-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <style th:if="${utilisateur.getBackgroundColor()==null}">
+        .bodyContainer{
+            background: radial-gradient(ellipse at top, #ededed 25%,#a7c9d5 100%) fixed;
+        }
+
+    </style>
 </head>
 <body class="bodyContainer">
+<div class="overlay"></div>
 <!--Header-->
 <nav th:replace=" ~{fragment/fragments :: headerUserFragment}"></nav>
 
 <!--Content-->
-<div class="contentHolder">
+<div class="contentHolder mt-5">
     <div class="bannerHolder" id="bannerButton">
         <dialog th:if="${utilisateur.getId() == session.user.getId()}" id="dialogBanner" >
             <div class="dialogHeader">
@@ -205,6 +212,21 @@
             },
         })
     }
+</script>
+<script th:if="${utilisateur.getBackgroundColor()}">
+    const bgColor = '[[${utilisateur.getBackgroundColor()}]]'
+    if (bgColor.split("-")[0]==="night"){
+        document.body.classList.add("whiteFont")
+    }else{
+        document.body.classList.remove("whiteFont")
+    }
+    document.body.classList.add(bgColor)
+</script>
+<script th:if="${utilisateur.getBackgroundTexture()}">
+    const bgTexture = '[[${utilisateur.getBackgroundTexture()}]]'
+    const overlay = document.querySelector(".overlay")
+    overlay.style.display = "block"
+    overlay.classList.add(bgTexture)
 </script>
 </body>
 </html>

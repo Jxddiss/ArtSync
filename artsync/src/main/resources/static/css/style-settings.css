@@ -30,21 +30,26 @@ body{
     flex-direction: column;
 
 }
-.navHolder a{
+.darkBody{
+    backdrop-filter:  blur(15px);
+    background-color: rgb(255,255,255,0.5) !important;
+}
+.navHolder div{
     text-decoration: none;
-    color: black;
     width: 100%;
     font-size: 20px;
     padding-block: 0.5rem;
+    padding-left: 1rem;
     height: fit-content;
     margin: 0;
 }
-.navHolder a:hover{
-    background-image: linear-gradient(to right, rgb(255,255,255), rgba(108, 177, 255, 0.5));
+.navHolder div:hover{
+    background-color: rgba(51, 51, 51, 0.24);
     border-right: 3px solid #4d87ff;
+    cursor: pointer;
 }
-#selected{
-    background-image: linear-gradient(to right, rgb(255,255,255), rgba(108, 177, 255, 0.5));
+.selected{
+    background-color: rgba(51, 51, 51, 0.24);
     border-right: 3px solid #4d87ff;
 }
 .profilContainer{
@@ -137,13 +142,8 @@ input:focus{
     width: 75%;
     height: 15rem;
     border-radius: 7px;
-    background: radial-gradient(ellipse at top left, #ffffff 50%, #a3cae5 100%) fixed;
 }
-.profilOptions:hover{
-    scale: 1.025;
-    transition: 0.25s;
-    box-shadow: 5px 5px 10px 7px rgb(0,0,0,0.1);
-}
+
 .accountInfo{
     display: flex;
     height: 92%;
@@ -341,3 +341,269 @@ input[readonly]
     height: 3rem;
     background-color: rgb(92,145,255);
 }
+
+/*------------SECTION PERSO-------------*/
+
+.persoHolder{
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    width: 55%;
+    gap:1.5rem;
+}
+.glowHolder{
+    margin-top: 10%;
+    width: 75%;
+    display: flex;
+    height: 5rem;
+    padding: 2em;
+    padding-bottom: 4.5em;
+    border-bottom: 2px solid black;
+}
+.glowPreviewHolder{
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+.glowPreviewHolder img{
+    border-radius: 50%;
+    height: 4rem;
+    width: 4rem;
+    box-shadow: 0px 0px 19px 1px rgba(57,219,81,1);
+}
+.colorPickerHolder{
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+.colorPickerHolder input{
+    width: 3rem;
+    height: 3rem;
+    border: none;
+    -webkit-appearance: none;
+    border: none;
+}
+.colorPickerHolder p{
+    margin: 0;
+}
+.color1 {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 100px;
+    height: 100px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+.backgroundPickerHolder{
+    width:75%;
+    height: 40rem;
+}
+.bgColorHolder{
+    display: flex;
+    justify-content: center;
+    gap: 1rem 1rem;
+    flex-wrap: wrap;
+    height: fit-content;
+    margin-bottom: 2rem;
+    align-items: flex-start;
+    padding: 2rem;
+}
+
+.backgroundOption{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 1px solid rgb(0,0,0,0.5);
+    height: 10em;
+    width: 8em;
+    border-radius: 7px;
+}
+.backgroundOption:hover{
+    scale: 1.05;
+    cursor: pointer;
+    transition: 0.25s;
+    box-shadow: 0px 0px 10px 10px rgba(85, 174, 239, 0.25);
+}
+
+.pfpFrame{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    margin-inline: 8%;
+    height: 80%;
+    background-color: rgb(255,255,255,0.15);
+}
+.frameBanner{
+    border-radius: 3px 3px 0px 0px  ;
+    height: 100%;
+    background-color: rgb(255,255,255,0.25);
+}
+.pfpFrame i{
+    position: relative;
+    z-index: 3;
+    top: -50%;
+    left: 5%;
+    color: rgb(255,255,255,0.25);
+}
+.frameInfo{
+    position: relative;
+    top: -95%;
+    z-index: 2;
+    height: 75%;
+    background-color: rgb(255,255,255,0.2);
+}
+.pfpButtons{
+    margin-top: 1.2rem;
+    height: 7%;
+    background-color: rgb(255,255,255,0.1);
+}
+.pfpBody{
+    margin-top: 8%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2rem;
+}
+.pfpBody div{
+    height: 1.7rem;
+    width: 1.7rem;
+    background: red;
+    background-color: rgb(255,255,255,0.1);
+}
+
+.pfpFrame1{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    margin-inline: 8%;
+    height: 80%;
+    background-color: rgb(0,0,0,0.15);
+}
+.frameBanner1{
+    border-radius: 3px 3px 0px 0px  ;
+    height: 100%;
+    background-color: rgb(0,0,0,0.25);
+}
+.pfpFrame1 i{
+    position: relative;
+    z-index: 3;
+    top: -50%;
+    left: 5%;
+    color: rgb(0,0,0,0.25);
+}
+.frameInfo1{
+    position: relative;
+    top: -95%;
+    z-index: 2;
+    height: 75%;
+    background-color: rgb(0,0,0,0.2);
+}
+.pfpButtons1{
+    margin-top: 1.2rem;
+    height: 7%;
+    background-color: rgb(0,0,0,0.1);
+}
+.pfpBody1{
+    margin-top: 8%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2rem;
+}
+.pfpBody1 div{
+    height: 1.7rem;
+    width: 1.7rem;
+    background: red;
+    background-color: rgb(0,0,0,0.1);
+}
+#option1{
+    background: rgb(77,53,131);
+    background: radial-gradient(ellipse at top left, rgba(77,53,131,0.8) 6%, rgba(9,9,121,0.8) 58%, rgba(2,0,36,0.8) 100%);
+}
+#option2{
+    background: rgb(98,0,15);
+    background: radial-gradient(ellipse at top right, rgba(98,0,15,1) 6%, rgba(64,16,6,1) 46%, rgba(2,0,36,1) 100%);
+}
+#option3{
+    background: rgb(97,97,97);
+    background: radial-gradient(ellipse at top left, rgba(97,97,97,1) 6%, rgba(55,55,55,1) 46%, rgba(2,0,36,1) 100%);
+}
+#option4{
+    background: rgb(37,87,59);
+    background: radial-gradient(ellipse at top right, rgba(37,87,59,1) 6%, rgba(12,52,42,1) 46%, rgba(2,0,36,1) 100%);
+}
+#option5{
+    background: rgb(113,107,48);
+    background: radial-gradient(ellipse at top left, rgba(113,107,48,1) 6%, rgba(92,85,21,1) 46%, rgba(2,0,36,1) 100%);
+}
+#option6{
+    background: rgb(245,252,255);
+    background: radial-gradient(ellipse at top right, rgba(245,252,255,1) 8%, rgba(216,240,255,1) 39%, rgba(216,251,255,1) 67%);
+
+}
+#option7{
+    background: rgb(234,249,255);
+    background: radial-gradient(ellipse at top left, rgba(234,249,255,1) 13%, rgba(255,252,225,1) 48%, rgba(254,235,255,1) 72%);
+}
+#option8{
+    background: rgb(254,255,254);
+    background: radial-gradient(ellipse at top right, rgba(254,255,254,1) 14%, rgba(249,255,216,0.896796218487395) 44%, rgba(216,255,229,1) 69%);
+}
+#option9{
+    background: rgb(254,255,254);
+    background: radial-gradient(ellipse at top left, rgba(254,255,254,1) 14%, rgba(224,224,224,1) 60%, rgba(198,198,198,0.896796218487395) 98%);
+}
+#option10{
+    background: rgb(254,255,254);
+    background: radial-gradient(ellipse at top right, rgba(254,255,254,1) 14%, rgba(236,210,225,1) 60%, rgba(224,168,171,0.896796218487395) 98%);
+}
+.textureHolder{
+    display: flex;
+    justify-content: center;
+    gap: 1rem 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+    align-items: center;
+    padding: 2rem;
+    height: 50%;
+    width: 100%;
+    background-size: cover;
+}
+
+#texture2{
+    background-image: url("/media/images/texture1.png");
+    background-size: cover;
+}
+#texture3{
+    background-image: url("/media/images/texture2.png");
+    background-size: cover;
+}
+#texture4{
+    background-image: url("/media/images/texture3.png");
+    background-size: cover;
+}
+#texture5{
+    background-image: url("/media/images/texture4.png");
+    background-size: cover;
+}
+.textureOption{
+    backdrop-filter: blur(12px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 1px solid rgb(0,0,0,0.5);
+    height: 10em;
+    width: 8em;
+    border-radius: 7px;
+    background-color: rgb(0,0,0,0.5);
+}
+.textureOption:hover{
+    cursor: pointer;
+    scale: 1.05;
+    transition: 0.25s;
+}
+

@@ -27,6 +27,8 @@ public class Utilisateur {
     private String specialisation;
     @Column(nullable = false, length = 64)
     private String statut;
+    private String backgroundColor;
+    private String backgroundTexture;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="utilisateurs_relation",
             joinColumns = @JoinColumn(name = "utilisateur_un_id"),
@@ -57,7 +59,7 @@ public class Utilisateur {
     public Utilisateur() {
     }
 
-    public Utilisateur(Long id, String pseudo, String prenom, String email, String password, String photoUrl, String specialisation, String statut, Portfolio portfolio, Set<Utilisateur> followers, Set<Utilisateur> following, Set<Utilisateur> amis, List<Projet> projetFavories) {
+    public Utilisateur(Long id, String pseudo, String prenom, String email, String password, String photoUrl, String specialisation, String statut, Portfolio portfolio, Set<Utilisateur> followers, Set<Utilisateur> following, Set<Utilisateur> amis, List<Projet> projetFavories, String backgroundColor, String backgroundTexture) {
         this.id = id;
         this.pseudo = pseudo;
         this.prenom = prenom;
@@ -69,6 +71,8 @@ public class Utilisateur {
         this.followers = followers;
         this.following = following;
         this.amis = amis;
+        this.backgroundColor = backgroundColor;
+        this.backgroundTexture = backgroundTexture;
     }
 
     public void setId(Long id) {
@@ -81,6 +85,22 @@ public class Utilisateur {
 
     public String getPseudo() {
         return pseudo;
+    }
+
+    public String getBackgroundColor() {
+        return backgroundColor;
+    }
+
+    public void setBackgroundColor(String backgroundColor) {
+        this.backgroundColor = backgroundColor;
+    }
+
+    public String getBackgroundTexture() {
+        return backgroundTexture;
+    }
+
+    public void setBackgroundTexture(String backgroundTexture) {
+        this.backgroundTexture = backgroundTexture;
     }
 
     public void setPseudo(String pseudo) {

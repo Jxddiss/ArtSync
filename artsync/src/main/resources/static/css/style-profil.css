@@ -1,7 +1,6 @@
 .bodyContainer{
     display: flex;
     flex-direction: column;
-    background: radial-gradient(ellipse at top, #ededed 25%,#a7c9d5 100%) fixed;
     min-height: 150vh;
 
 }
@@ -473,3 +472,6 @@
     font-size: 30px;
     outline: none;
 }
+
+
+

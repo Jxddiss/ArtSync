@@ -17,11 +17,12 @@
     <script th:src="@{/js/script-settings.js}" defer></script>
 </head>
 <body>
+    <div class="overlay"></div>
     <!--Header-->
     <nav th:replace=" ~{fragment/fragments :: headerUserFragment}"></nav>
 
     <!--Content-->
-    <div class="contentHolder">
+    <div class="contentHolder mt-5">
         <div class="verticalNavbar">
             <h4>PARAMÈTRES</h4>
             <div class="navHolder">
@@ -55,7 +56,7 @@
                     </div>
                 </div>
             </div>
-            <form th:action="@{/utilisateur/profil/settings/update}" th:object="${utilisateur}" method="post">
+            <form th:action="@{/utilisateur/profil/settings/update}" th:object="${utilisateur}" id="profilForm" method="post">
             <div class="profilOptions">
                 <div class="accountInfo">
                     <div class="accountHeader" id="compte">
@@ -137,7 +138,7 @@
             <div class="backgroundPickerHolder">
                 <h4>Arrière-plan</h4>
                 <div class="bgColorHolder mt-2">
-                    <div class="backgroundOption" data-colorValue="night-1" id="option1">
+                    <div class="backgroundOption night-1" data-colorValue="night-1">
                         <div class="pfpFrame">
                             <div class="pfpHeader">
                                 <div class="frameBanner">
@@ -157,7 +158,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="backgroundOption" data-colorValue="night-2"  id="option2">
+                    <div class="backgroundOption night-2" data-colorValue="night-2">
                         <div class="pfpFrame">
                             <div class="pfpHeader">
                                 <div class="frameBanner">
@@ -177,7 +178,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="backgroundOption" data-colorValue="night-3"  id="option3">
+                    <div class="backgroundOption night-3" data-colorValue="night-3">
                         <div class="pfpFrame">
                             <div class="pfpHeader">
                                 <div class="frameBanner">
@@ -197,7 +198,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="backgroundOption" data-colorValue="night-4"  id="option4">
+                    <div class="backgroundOption night-4" data-colorValue="night-4">
                         <div class="pfpFrame">
                             <div class="pfpHeader">
                                 <div class="frameBanner">
@@ -217,7 +218,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="backgroundOption" data-colorValue="night-5"  id="option5">
+                    <div class="backgroundOption night-5" data-colorValue="night-5">
                         <div class="pfpFrame">
                             <div class="pfpHeader">
                                 <div class="frameBanner"></div>
@@ -235,7 +236,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="backgroundOption" data-colorValue="light-1"  id="option6">
+                    <div class="backgroundOption light-1" data-colorValue="light-1"  >
                         <div class="pfpFrame1">
                             <div class="pfpHeader1">
                                 <div class="frameBanner1"></div>
@@ -253,7 +254,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="backgroundOption" data-colorValue="light-2"  id="option7">
+                    <div class="backgroundOption light-2" data-colorValue="light-2"  >
                         <div class="pfpFrame1">
                             <div class="pfpHeader1">
                                 <div class="frameBanner1"></div>
@@ -271,7 +272,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="backgroundOption" data-colorValue="light-3"  id="option8">
+                    <div class="backgroundOption light-3" data-colorValue="light-3" >
                         <div class="pfpFrame1">
                             <div class="pfpHeader1">
                                 <div class="frameBanner1"></div>
@@ -289,7 +290,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="backgroundOption" data-colorValue="light-4" id="option9">
+                    <div class="backgroundOption light-4" data-colorValue="light-4" >
                         <div class="pfpFrame1">
                             <div class="pfpHeader1">
                                 <div class="frameBanner1"></div>
@@ -307,7 +308,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="backgroundOption" data-colorValue="light-5" id="option10">
+                    <div class="backgroundOption light-5" data-colorValue="light-5">
                         <div class="pfpFrame1">
                             <div class="pfpHeader1">
                                 <div class="frameBanner1"></div>
@@ -327,10 +328,18 @@
                     </div>
                 </div>
                 <h4>Texture</h4>
+                <div class="textureHolder">
+                    <div class="textureOption texture1" data-textureValue="texture1" id="texture1"></div>
+                    <div class="textureOption texture2" data-textureValue="texture2" id="texture2"></div>
+                    <div class="textureOption texture3" data-textureValue="texture3" id="texture3"></div>
+                    <div class="textureOption texture4" data-textureValue="texture4" id="texture4"></div>
+                    <div class="textureOption texture5" data-textureValue="texture5" id="texture5"></div>
+                </div>
             </div>
         </div>
     </div>
     <script>
+        const overlay = document.querySelector(".overlay")
         const editCompte = document.getElementById("editCompte")
         const editPerso = document.getElementById("editPerso")
         const editUser = document.getElementById("editUser")
@@ -375,5 +384,19 @@
                 inputs.item(4).readOnly = true;
             }
         });
+    </script>
+    <script th:if="${utilisateur.getBackgroundColor()}">
+        const bgColor = '[[${utilisateur.getBackgroundColor()}]]'
+        if (bgColor.split("-")[0]==="night"){
+            document.body.classList.add("whiteFont")
+        }else{
+            document.body.classList.remove("whiteFont")
+        }
+        document.body.classList.add(bgColor)
+    </script>
+    <script th:if="${utilisateur.getBackgroundTexture()}">
+        const bgTexture = '[[${utilisateur.getBackgroundTexture()}]]'
+        overlay.style.display = "block"
+        overlay.classList.add(bgTexture)
     </script>
 </body>

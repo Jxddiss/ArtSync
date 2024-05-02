@@ -1,9 +1,7 @@
 body{
     background: radial-gradient(ellipse at top, #ffffff 50%, #a3cae5 100%) fixed;
 }
-.whiteFont, .whiteFont .navbar-brand, .whiteFont .nav-item > a{
-    color: white !important;
-}
+
 .contentHolder{
     display: flex;
     justify-content: center;
@@ -32,21 +30,26 @@ body{
     flex-direction: column;
 
 }
+.darkBody{
+    backdrop-filter:  blur(15px);
+    background-color: rgb(255,255,255,0.5) !important;
+}
 .navHolder div{
     text-decoration: none;
     width: 100%;
     font-size: 20px;
     padding-block: 0.5rem;
+    padding-left: 1rem;
     height: fit-content;
     margin: 0;
 }
 .navHolder div:hover{
-    background-image: linear-gradient(to right, rgb(255,255,255), rgba(108, 177, 255, 0.5));
+    background-color: rgba(51, 51, 51, 0.24);
     border-right: 3px solid #4d87ff;
     cursor: pointer;
 }
 .selected{
-    background-image: linear-gradient(to right, rgb(255,255,255), rgba(108, 177, 255, 0.5));
+    background-color: rgba(51, 51, 51, 0.24);
     border-right: 3px solid #4d87ff;
 }
 .profilContainer{
@@ -139,13 +142,8 @@ input:focus{
     width: 75%;
     height: 15rem;
     border-radius: 7px;
-    background: radial-gradient(ellipse at top left, #ffffff 50%, #a3cae5 100%) fixed;
 }
-.profilOptions:hover{
-    scale: 1.025;
-    transition: 0.25s;
-    box-shadow: 5px 5px 10px 7px rgb(0,0,0,0.1);
-}
+
 .accountInfo{
     display: flex;
     height: 92%;
@@ -404,12 +402,13 @@ input[readonly]
 }
 .bgColorHolder{
     display: flex;
-    align-items: center;
     justify-content: center;
     gap: 1rem 1rem;
     flex-wrap: wrap;
-    height: 60%;
+    height: fit-content;
     margin-bottom: 2rem;
+    align-items: flex-start;
+    padding: 2rem;
 }
 
 .backgroundOption{
@@ -523,7 +522,7 @@ input[readonly]
 }
 #option1{
     background: rgb(77,53,131);
-    background: radial-gradient(ellipse at top left, rgba(77,53,131,1) 6%, rgba(9,9,121,1) 58%, rgba(2,0,36,1) 100%);
+    background: radial-gradient(ellipse at top left, rgba(77,53,131,0.8) 6%, rgba(9,9,121,0.8) 58%, rgba(2,0,36,0.8) 100%);
 }
 #option2{
     background: rgb(98,0,15);
@@ -562,3 +561,49 @@ input[readonly]
     background: rgb(254,255,254);
     background: radial-gradient(ellipse at top right, rgba(254,255,254,1) 14%, rgba(236,210,225,1) 60%, rgba(224,168,171,0.896796218487395) 98%);
 }
+.textureHolder{
+    display: flex;
+    justify-content: center;
+    gap: 1rem 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+    align-items: center;
+    padding: 2rem;
+    height: 50%;
+    width: 100%;
+    background-size: cover;
+}
+
+#texture2{
+    background-image: url("/media/images/texture1.png");
+    background-size: cover;
+}
+#texture3{
+    background-image: url("/media/images/texture2.png");
+    background-size: cover;
+}
+#texture4{
+    background-image: url("/media/images/texture3.png");
+    background-size: cover;
+}
+#texture5{
+    background-image: url("/media/images/texture4.png");
+    background-size: cover;
+}
+.textureOption{
+    backdrop-filter: blur(12px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 1px solid rgb(0,0,0,0.5);
+    height: 10em;
+    width: 8em;
+    border-radius: 7px;
+    background-color: rgb(0,0,0,0.5);
+}
+.textureOption:hover{
+    cursor: pointer;
+    scale: 1.05;
+    transition: 0.25s;
+}
+

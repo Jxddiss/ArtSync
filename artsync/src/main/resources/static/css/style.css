@@ -99,7 +99,7 @@ border-radius: 25px;
 /*===== Container avec une notification =====*/
 .notification-pop-container{
     width: 100%;
-    height: 12vh;
+    min-height: 12vh;
     padding: 1em;
     font-size: 1rem;
     transform: translateX(-200%);

@@ -63,6 +63,16 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     public Utilisateur findById(Long idUtilisateur) { return repos.findById(idUtilisateur).get(); }
 
     @Override
+    public boolean emailIsValid(String email, Long userId) {
+        return !repos.existsByEmailAndIdNot(email, userId);
+    }
+
+    @Override
+    public boolean pseudoIsValid(String pseudo, Long userId) {
+        return !repos.existsByPseudoAndIdNot(pseudo,userId);
+    }
+
+    @Override
     public Utilisateur update(Utilisateur utilisateur) {
         return repos.save(utilisateur);
     }

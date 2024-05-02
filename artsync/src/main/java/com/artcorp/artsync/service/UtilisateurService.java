@@ -18,4 +18,7 @@ public interface UtilisateurService {
     void enable(Long id);
     void delete(Long id);
     Utilisateur findById(Long idUtilisateur);
+
+    boolean emailIsValid(String email, Long userId);
+    boolean pseudoIsValid(String pseudo, Long userId);
 }

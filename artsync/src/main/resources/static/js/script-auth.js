@@ -2,6 +2,7 @@ const container = document.body; // Or any other parent element
 const loginBox = document.querySelector('.auth-box');
 const imgBox = document.querySelector('.img-box');
 let form = document.getElementById("main");
+const pswdRegex = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\S+$).{8,}$/;
 
 //Fonction pour boutton connexion/inscription
 container.addEventListener('click', function(event) {
@@ -58,6 +59,15 @@ container.addEventListener('click', function(event) {
         var parentDiv = document.getElementById('holder-input');
         parentDiv.append(inputElement, confirmElement);
 
+        var confirmPassword = document.createElement('input');
+        confirmPassword.setAttribute("id","input-confirm")
+        confirmPassword.setAttribute('type', 'password');
+        confirmPassword.setAttribute('placeholder', 'Confirmer');
+        confirmPassword.setAttribute('name', 'conf');
+        confirmPassword.setAttribute('required', '');
+        confirmPassword.style.width = "100%";
+        var parentDiv = document.getElementById('holder-input');
+        parentDiv.append(confirmPassword, confirmElement);
 
         // Create a div element with class "row"
         var rowDiv = document.createElement("div");
@@ -88,9 +98,15 @@ container.addEventListener('click', function(event) {
         rowDiv.appendChild(prenomInput);
 
         parentDiv.insertBefore(rowDiv,input1);
+        parentDiv.style.marginTop = "5%";
+
+        document.addEventListener("keyup", checkInput);
     }
 
     else if (event.target.id === 'connect') {
+        document.removeEventListener("keyup", checkInput)
+
+        document.getElementById('holder-input').style.marginTop = "25%";
         document.getElementById('signUp').classList.remove('selected');
         form = document.getElementById("main");
         form.action = "/authentification";
@@ -98,6 +114,7 @@ container.addEventListener('click', function(event) {
         if (document.getElementById('input-3')) {
 
             document.getElementById('input-3').remove();
+            document.getElementById('input-confirm').remove();
             document.getElementById('row-temp').remove();
     
             var input1 = document.getElementById('input-1');
@@ -177,12 +194,6 @@ function switchContentAndClass() {
     confirmationButton.addEventListener('click', confirmationButtonHandler);
 }
 
-//Animation flash
-function flash(element) {
-    element.style.animation = 'flash-in 0.75s forwards';
-    element.removeEventListener('animationend',flash);
-}
-
 function confirmationButtonHandler() {
     console.log('Button clicked');
     const formulaire = document.getElementById('main');
@@ -221,28 +232,33 @@ function confirmationButtonHandler() {
         choiceContainerDiv.setAttribute("id", "choice-container-temp");
         choiceContainerDiv.classList.add("choice-container");
 
-        //Premier row des choix
-        var firstChoiceRow = document.createElement("div");
-        firstChoiceRow.classList.add("row");
-        var modelingChoice = createChoice("sphereIcon.png", "MODÉLISATION 3D");
-        var traditionalArtChoice = createChoice("paintBrushIcon.png", "ART TRADITIONNEL");
-        firstChoiceRow.appendChild(modelingChoice);
-        firstChoiceRow.appendChild(traditionalArtChoice);
+        var modelingChoice = createChoice("sphereIcon.png", "Modélisation 3D");
+        var traditionalArtChoice = createChoice("paintBrushIcon.png", "Traditionnel");
+        choiceContainerDiv.appendChild(modelingChoice);
+        choiceContainerDiv.appendChild(traditionalArtChoice);
 
-        //Deuxieme row pour les case choix
-        var secondChoiceRow = document.createElement("div");
-        secondChoiceRow.classList.add("row", "mt-4");
-        var digitalArtChoice = createChoice("digitalIcon.png", "ART NUMÉRIQUE");
-        var animationChoice = createChoice("animationIcon.png", "ANIMATION");
-        secondChoiceRow.appendChild(digitalArtChoice);
-        secondChoiceRow.appendChild(animationChoice);
-        choiceContainerDiv.appendChild(firstChoiceRow);
-        choiceContainerDiv.appendChild(secondChoiceRow);
+        var digitalArtChoice = createChoice("digitalIcon.png", "Numérique");
+        var animationChoice = createChoice("animationIcon.png", "Animation");
+        choiceContainerDiv.appendChild(digitalArtChoice);
+        choiceContainerDiv.appendChild(animationChoice);
+
+
+        var photoChoice = createChoice("photographIcon.png", "Photographe");
+        var cineChoice = createChoice("cineIcon.png", "Cinéaste");
+        choiceContainerDiv.appendChild(cineChoice);
+        choiceContainerDiv.appendChild(photoChoice);
+
+        var musicChoice = createChoice("musicIcon.png", "Musicien");
+        var ecrivainChoice = createChoice("ecrivainIcon.png", "Écrivain");
+        choiceContainerDiv.appendChild(musicChoice);
+        choiceContainerDiv.appendChild(ecrivainChoice);
+
+        var libreChoice = createChoice("libreIcon.png", "Libre");
+        choiceContainerDiv.appendChild(libreChoice);
         
         // Fonction créer boite à choix
         function createChoice(iconSrc, text) {
             var colDiv = document.createElement("div");
-            colDiv.classList.add("col-md-6");
             var containerChoix = document.createElement("div");
             containerChoix.style.background = "transparent";
             containerChoix.style.border = "none"
@@ -293,3 +309,131 @@ function confirmationButtonHandler() {
     }
 
 }
+
+function validateForm(form){
+    let password = document.getElementById("input-3");
+    let email = document.getElementById("input-1")
+    let pseudo = document.getElementById("input-2")
+    let conf = document.getElementById("input-confirm");
+    let valid = true
+
+    if(conf){
+        if(password.value !== conf.value){
+            showNotification({
+                type: 'warn',
+                message: 'Les mots de passes ne sont pas pareil',
+                titre: 'Avertissement',
+            })
+            valid = false;
+        }
+
+        if(!validatePassword(password)){
+            showNotification({
+                type: 'warn',
+                message: "Le mot de passe n'est pas assez fort : " +
+                    "il doit avoir 8 charactères, une majuscule, une minuscule, " +
+                    "un chiffre et un charactère spécial",
+                titre: 'Avertissement',
+            })
+            const notif = document.querySelector(".notification-pop-container");
+            notif.style.animationDuration = "7s"
+            valid = false;
+        }
+
+        if(!validatePseudo(pseudo)){
+            showNotification({
+                type: 'warn',
+                message: 'Ce pseudo existe déjà ',
+                titre: 'Avertissement',
+            })
+            valid = false;
+        }
+
+        if(!validateEmail(email)){
+            showNotification({
+                type: 'warn',
+                message: 'Cet email est déja utilisé',
+                titre: 'Avertissement',
+            })
+            valid = false;
+        }
+    }
+    return valid;
+}
+
+function validatePassword(input){
+    if(!input.value.match(pswdRegex)){
+        input.style.boxShadow = `rgba(116, 9, 34, 0.44) 0px -10px 25px,
+        rgba(136, 5, 5, 0.33) 0px 25px 25px,
+        rgba(107, 3, 27, 0.17) 0px 10px 10px,
+        rgba(220, 16, 48, 0.77) 0px -10px 10px`;
+        return false;
+    }
+    input.style.boxShadow = "";
+    return true;
+}
+
+
+function validateEmail(input){
+    let valid = false
+    $.ajax({
+        type:'POST',
+        async:false,
+        url:window.location.origin.toString() + "/api/utilisateur/check-email",
+        data: {email:input.value, userId:0},
+        success: function (data){
+            if(data !== "true"){
+                input.style.boxShadow = `rgba(116, 9, 34, 0.44) 0px -10px 25px,
+                    rgba(136, 5, 5, 0.33) 0px 25px 25px,
+                    rgba(107, 3, 27, 0.17) 0px 10px 10px,
+                    rgba(220, 16, 48, 0.77) 0px -10px 10px`;
+            }else{
+                input.style.boxShadow = "";
+                valid = true;
+            }
+        }
+    })
+    console.log("email valid : "+ valid)
+    return valid;
+}
+
+
+function validatePseudo(input){
+    let valid = false
+    $.ajax({
+        type:'POST',
+        async:false,
+        url:window.location.origin.toString() + "/api/utilisateur/check-pseudo",
+        data: {pseudo:input.value, userId:0},
+        success: function (data){
+            if(data !== "true"){
+                input.style.boxShadow = `rgba(116, 9, 34, 0.44) 0px -10px 25px,
+                    rgba(136, 5, 5, 0.33) 0px 25px 25px,
+                    rgba(107, 3, 27, 0.17) 0px 10px 10px,
+                    rgba(220, 16, 48, 0.77) 0px -10px 10px`;
+            }else{
+                input.style.boxShadow = "";
+                valid = true
+            }
+        }
+    })
+    console.log("pseudo valid : "+ valid)
+    return valid;
+}
+
+function checkInput(event) {
+    if (event.target && event.target.id === "input-3") {
+        validatePassword(event.target);
+    }
+
+    if (event.target && event.target.id === "input-1"){
+        validateEmail(event.target);
+    }
+
+    if (event.target && event.target.id === "input-2"){
+        validatePseudo(event.target);
+    }
+}
+
+
+

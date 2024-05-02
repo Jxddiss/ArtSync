@@ -25,9 +25,8 @@
         <div class="verticalNavbar">
             <h4>PARAMÈTRES</h4>
             <div class="navHolder">
-                <a href="" id="selected">COMPTE</a>
-                <a href="">NOTIFICATION</a>
-                <a href="">CONFIDENTIALITÉ</a>
+                <div class="sectionBtn selected" id="compteSection">COMPTE</div>
+                <div class="sectionBtn" id="persoSection">PERSONNALISATION</div>
             </div>
         </div>
         <div class="settingHolder">
@@ -123,6 +122,212 @@
                 </div>
             </div>
             </form>
+        </div>
+        <div class="persoHolder">
+            <div class="glowHolder">
+                <div class="glowPreviewHolder">
+                    <img id="pfpGlow" th:src="@{/media/images/{image}(image=${utilisateur.getPhotoUrl()})}" alt="test">
+                    <div class="colorPickerHolder">
+                        <input type="color" id="colorPicker">
+                        <p id="colorOutput">Fushia</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="backgroundPickerHolder">
+                <h4>Arrière-plan</h4>
+                <div class="bgColorHolder mt-2">
+                    <div class="backgroundOption" data-colorValue="night-1" id="option1">
+                        <div class="pfpFrame">
+                            <div class="pfpHeader">
+                                <div class="frameBanner">
+
+                                </div>
+                               <i class="bi bi-person-circle"></i>
+                                <div class="frameInfo"></div>
+                            </div>
+                            <div class="pfpButtons"></div>
+                            <div class="pfpBody">
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="backgroundOption" data-colorValue="night-2"  id="option2">
+                        <div class="pfpFrame">
+                            <div class="pfpHeader">
+                                <div class="frameBanner">
+
+                                </div>
+                                <i class="bi bi-person-circle"></i>
+                                <div class="frameInfo"></div>
+                            </div>
+                            <div class="pfpButtons"></div>
+                            <div class="pfpBody">
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="backgroundOption" data-colorValue="night-3"  id="option3">
+                        <div class="pfpFrame">
+                            <div class="pfpHeader">
+                                <div class="frameBanner">
+
+                                </div>
+                                <i class="bi bi-person-circle"></i>
+                                <div class="frameInfo"></div>
+                            </div>
+                            <div class="pfpButtons"></div>
+                            <div class="pfpBody">
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="backgroundOption" data-colorValue="night-4"  id="option4">
+                        <div class="pfpFrame">
+                            <div class="pfpHeader">
+                                <div class="frameBanner">
+
+                                </div>
+                                <i class="bi bi-person-circle"></i>
+                                <div class="frameInfo"></div>
+                            </div>
+                            <div class="pfpButtons"></div>
+                            <div class="pfpBody">
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="backgroundOption" data-colorValue="night-5"  id="option5">
+                        <div class="pfpFrame">
+                            <div class="pfpHeader">
+                                <div class="frameBanner"></div>
+                                <i class="bi bi-person-circle"></i>
+                                <div class="frameInfo"></div>
+                            </div>
+                            <div class="pfpButtons"></div>
+                            <div class="pfpBody">
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="backgroundOption" data-colorValue="light-1"  id="option6">
+                        <div class="pfpFrame1">
+                            <div class="pfpHeader1">
+                                <div class="frameBanner1"></div>
+                                <i class="bi bi-person-circle"></i>
+                                <div class="frameInfo1"></div>
+                            </div>
+                            <div class="pfpButtons1"></div>
+                            <div class="pfpBody1">
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="backgroundOption" data-colorValue="light-2"  id="option7">
+                        <div class="pfpFrame1">
+                            <div class="pfpHeader1">
+                                <div class="frameBanner1"></div>
+                                <i class="bi bi-person-circle"></i>
+                                <div class="frameInfo1"></div>
+                            </div>
+                            <div class="pfpButtons1"></div>
+                            <div class="pfpBody1">
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="backgroundOption" data-colorValue="light-3"  id="option8">
+                        <div class="pfpFrame1">
+                            <div class="pfpHeader1">
+                                <div class="frameBanner1"></div>
+                                <i class="bi bi-person-circle"></i>
+                                <div class="frameInfo1"></div>
+                            </div>
+                            <div class="pfpButtons1"></div>
+                            <div class="pfpBody1">
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="backgroundOption" data-colorValue="light-4" id="option9">
+                        <div class="pfpFrame1">
+                            <div class="pfpHeader1">
+                                <div class="frameBanner1"></div>
+                                <i class="bi bi-person-circle"></i>
+                                <div class="frameInfo1"></div>
+                            </div>
+                            <div class="pfpButtons1"></div>
+                            <div class="pfpBody1">
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="backgroundOption" data-colorValue="light-5" id="option10">
+                        <div class="pfpFrame1">
+                            <div class="pfpHeader1">
+                                <div class="frameBanner1"></div>
+                                <i class="bi bi-person-circle"></i>
+                                <div class="frameInfo1"></div>
+                            </div>
+                            <div class="pfpButtons1"></div>
+                            <div class="pfpBody1">
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h4>Texture</h4>
+            </div>
         </div>
     </div>
     <script>

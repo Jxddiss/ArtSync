@@ -11,18 +11,16 @@ body {
 */
 .nom-site{
     font-size: 45px;
-    color: #000000;
 
 }
 .nav-link {
-    color: #000;
 }
 .nav-link:hover {
     color: #d86e6e;
 }	
 .active {
     font-family: system-ui;
-    color: rgb(0, 0, 0);
+
 }
 .inscrire {
     background-color: #000000;

@@ -2,11 +2,13 @@ package com.artcorp.artsync.service.impl;
 
 import com.artcorp.artsync.entity.Conversation;
 import com.artcorp.artsync.entity.Utilisateur;
+import com.artcorp.artsync.exception.domain.MauvaisIdentifiantException;
 import com.artcorp.artsync.repos.ConversationRepos;
 import com.artcorp.artsync.repos.UtilisateurRepos;
 import com.artcorp.artsync.service.UtilisateurService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,16 +18,24 @@ import java.util.List;
 public class UtilisateurServiceImpl implements UtilisateurService {
     private UtilisateurRepos repos;
     private ConversationRepos conversationRepos;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public UtilisateurServiceImpl(UtilisateurRepos repos, ConversationRepos conversationRepos) {
+    public UtilisateurServiceImpl(UtilisateurRepos repos, ConversationRepos conversationRepos, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.repos = repos;
         this.conversationRepos = conversationRepos;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @Override
-    public Utilisateur connexion(String username, String password) {
-        return repos.findByPseudoAndPassword(username, password);
+    public Utilisateur connexion(String username, String password) throws MauvaisIdentifiantException {
+
+        Utilisateur user = repos.findByPseudoAndActive(username);
+        if(bCryptPasswordEncoder.matches(password, user.getPassword())){
+            return user;
+        }else{
+            throw new MauvaisIdentifiantException("Mauvais identifiants");
+        }
     }
 
     @Override
@@ -35,7 +45,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         utilisateur.setPrenom(prenom);
         utilisateur.setNom(nom);
         utilisateur.setEmail(email);
-        utilisateur.setPassword(password);
+        utilisateur.setPassword(encodePassword(password));
         utilisateur.setPhotoUrl(photoUrl);
         utilisateur.setSpecialisation(specialisation);
         utilisateur.setStatut(statut);
@@ -61,6 +71,16 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
     @Override
     public Utilisateur findById(Long idUtilisateur) { return repos.findById(idUtilisateur).get(); }
+
+    @Override
+    public boolean emailIsValid(String email, Long userId) {
+        return !repos.existsByEmailAndIdNot(email, userId);
+    }
+
+    @Override
+    public boolean pseudoIsValid(String pseudo, Long userId) {
+        return !repos.existsByPseudoAndIdNot(pseudo,userId);
+    }
 
     @Override
     public Utilisateur update(Utilisateur utilisateur) {
@@ -135,4 +155,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         repos.deleteById(id);
     }
 
+    private String encodePassword(String password) {
+        return this.bCryptPasswordEncoder.encode(password);
+    }
 }

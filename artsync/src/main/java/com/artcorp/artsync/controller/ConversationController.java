@@ -64,7 +64,7 @@ public class ConversationController {
             }else{
                 model.addAttribute("message", "Aucune conversation");
             }
-            return "utilisateur/conversation";
+            return "/utilisateur/conversation";
         }
         redirectAttributes.addFlashAttribute("error", "Veuillez vous connecter");
         return "redirect:/authentification";
@@ -97,21 +97,29 @@ public class ConversationController {
             }
 
             Conversation conversation = conversationService.findById(id);
-            Utilisateur amiCourrant = Objects.equals(conversation.getUtilisateurUn().getId(), utilisateur.getId())
-                    ? conversation.getUtilisateurDeux() : conversation.getUtilisateurUn();
+            if(conversation != null){
+                if(Objects.equals(conversation.getUtilisateurUn().getId(), utilisateur.getId())
+                        || (conversation.getUtilisateurDeux() != null && Objects.equals(conversation.getUtilisateurDeux().getId(), utilisateur.getId()))
+                        || (conversation.getProjet() != null && projets.contains(conversation.getProjet()))){
 
-            Post banniere = postService.findBanniereUtilisateur(amiCourrant);
-            model.addAttribute("banniere", banniere);
-            model.addAttribute("amiCourrant", amiCourrant);
-            model.addAttribute("conversations", conversationAmi);
-            model.addAttribute("conversationProjet",conversationProjet);
-            model.addAttribute("conversationCourrante", conversation);
-            if (conversation.getProjet()!=null){
-                return "redirect:projet/"+conversation.getId();
+                    Utilisateur amiCourrant = Objects.equals(conversation.getUtilisateurUn().getId(), utilisateur.getId())
+                            ? conversation.getUtilisateurDeux() : conversation.getUtilisateurUn();
+
+                    Post banniere = postService.findBanniereUtilisateur(amiCourrant);
+                    model.addAttribute("banniere", banniere);
+                    model.addAttribute("amiCourrant", amiCourrant);
+                    model.addAttribute("conversations", conversationAmi);
+                    model.addAttribute("conversationProjet",conversationProjet);
+                    model.addAttribute("conversationCourrante", conversation);
+                    if (conversation.getProjet()!=null){
+                        return "redirect:projet/"+conversation.getId();
+                    }
+                    return "utilisateur/chat-prive";
+                }
             }
-            return "utilisateur/chat-prive";
-        }
 
+            return "redirect:/feed";
+        }
         redirectAttributes.addFlashAttribute("error", "Veuillez vous connecter");
         return "redirect:/authentification";
     }

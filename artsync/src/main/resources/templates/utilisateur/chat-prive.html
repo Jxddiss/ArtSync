@@ -43,7 +43,8 @@
                 <a th:each="conversation : ${conversations}" th:href="@{/utilisateur/conversation/{id}(id=${conversation.getId()})}"
                    th:class="${conversation.getId() == conversationCourrante.getId()} ? 'carte carte-active' : 'carte'"
                    th:with="ami=${conversation.getUtilisateurUn().getId() == session.user.getId() ? conversation.getUtilisateurDeux() : conversation.getUtilisateurUn()}"
-                    style="text-underline: none; text-decoration: none; color: #000;">
+                    style="text-underline: none; text-decoration: none; color: #000;"
+                   data-type="personne" >
 
                     <img th:src="@{/media/images/{image}(image=${ami.getPhotoUrl()})}" alt="">
                     <div class="mini-container">
@@ -55,7 +56,9 @@
             </div>
             <h4 class="animation delais">GROUPES</h4>
             <div id="liste-groupe" class="liste-options-contact">
-                <a class="carte" id="groupAnchor" th:each="conversationP : ${conversationProjet}" th:href="@{/utilisateur/conversation/projet/{id}(id=${conversationP.getId()})}">
+                <a class="carte" id="groupAnchor" th:each="conversationP : ${conversationProjet}"
+                   th:href="@{/utilisateur/conversation/projet/{id}(id=${conversationP.getId()})}"
+                   data-type="groupe">
                     <img th:src="@{/media/images/{image}(image=${conversationP.projet.getProjetPhoto()})}" alt="">
                     <div class="mini-container">
                         <p>[[${conversationP.projet.getTitre()}]]</p>
@@ -164,7 +167,7 @@
             </button>
         </div>
     </dialog>
-    <script type="text/javascript" th:src="@{/js/chat.js}" ></script>
+    <script type="text/javascript" th:src="@{/js/chat.js?v=1}" ></script>
 <script th:inline="javascript" th:if="${amiCourrant != null}">
     const idAmi = '[[${amiCourrant.getId()}]]';
     const pseudoUser = [[${session.user.pseudo}]];

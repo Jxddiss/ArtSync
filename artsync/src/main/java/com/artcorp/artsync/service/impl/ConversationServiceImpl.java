@@ -33,7 +33,7 @@ public class ConversationServiceImpl implements ConversationService {
 
     @Override
     public Conversation findById(Long id) {
-        return conversationRepos.findById(id).get();
+        return conversationRepos.findById(id).isPresent() ? conversationRepos.findById(id).get() : null;
     }
 
     @Override

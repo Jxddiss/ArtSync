@@ -20,7 +20,7 @@
 
     </div>
     <div class="container">
-        <form method="post" class="division" id="main" th:action="@{/authentification}">
+        <form method="post" class="division" id="main" th:action="@{/authentification}" onsubmit="return validateForm(this);">
                 <div class="img-box">
                   <div id="carouselExample" class="carousel slide">
                     <div class="carousel-inner">
@@ -84,7 +84,7 @@
       </div>
     </footer>
     <div id="notification-pop-liste" ></div>
-    <script th:src="@{/js/script-auth.js}"></script>
+
     <script th:src="@{/js/notification.js}"></script>
     <script th:if="${warn != null}">
         showNotification({
@@ -100,5 +100,6 @@
             titre: 'Avertissement',
         })
     </script>
+    <script th:src="@{/js/script-auth.js}"></script>
   </body>
 </html>

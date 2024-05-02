@@ -6,7 +6,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.annotation.Rollback;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -16,6 +19,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 class UtilisateurReposTest {
     @Autowired
     private UtilisateurRepos repos;
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Test
     public void testCreateOneUtilisateur(){
@@ -92,6 +97,15 @@ class UtilisateurReposTest {
         Utilisateur utilisateur2 = repos.findById(2L).get();
         utilisateur1.getFollowing().add(utilisateur2);
         repos.save(utilisateur1);
+    }
+
+    @Test
+    public void encryptAll(){
+        List<Utilisateur> utilisateurs = repos.findAll();
+        utilisateurs.forEach(utilisateur -> {
+            utilisateur.setPassword(passwordEncoder.encode(utilisateur.getPassword()));
+            repos.save(utilisateur);
+        });
     }
 
 }

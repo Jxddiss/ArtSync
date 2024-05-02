@@ -54,15 +54,16 @@ html{
     animation-name: fishy;
     animation-duration: 5s;
 }
-.choice-box{
-    border: 1px solid rgb(255,255,255,0.5);
+
+.choice-box {
+    border: 1px solid rgb(255, 255, 255, 0.5);
     border-radius: 7px;
-    height: 200px;
-    width: 200px;
+    height: 9em;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    width: 9em;
 }
 .choice-box p{
     font-weight: 200;
@@ -107,6 +108,7 @@ label:has(input[type=radio]:checked){
     justify-content: center;
     align-items: center;
     margin-top: 5%;
+    gap: 1em;
 }
 .choice-a{
     text-decoration: none;

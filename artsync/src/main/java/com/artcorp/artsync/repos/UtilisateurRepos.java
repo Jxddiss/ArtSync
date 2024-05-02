@@ -23,4 +23,7 @@ public interface UtilisateurRepos extends JpaRepository<Utilisateur, Long> {
     void addFollower(Long followedId, Long followerId);
     @Query(value = "DELETE FROM utilisateurs_relation WHERE utilisateur_un_id = ?1 AND utilisateur_deux_id = ?2", nativeQuery = true)
     void removeFollower(Long followedId, Long followerId);
+
+    boolean existsByPseudoAndIdNot(String pseudo, Long id);
+    boolean existsByEmailAndIdNot(String pseudo, Long id);
 }

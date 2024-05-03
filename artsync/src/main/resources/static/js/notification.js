@@ -17,7 +17,7 @@ function showNotification(notification){
                             <hr/>
                             <div class="body-notification-pop">
                                 ${notification.appel ? `<i class="bi bi-telephone-fill"></i>` : ''}
-                                <p class="notification-pop-message"> ${notification.message} ${notification.pseudoSender ? `<strong>@${notification.pseudoSender}</strong>` : ''}</p>
+                                <p class="notification-pop-message"> ${notification.message}</p>
                             </div>`
     listeNotifPop.appendChild(notificationElement);
     notificationElement.classList = `notification-pop-container notification-${notification.type} ${notification.appel ? `shake` : 'slide-left'}`;
@@ -39,7 +39,12 @@ function addNotifContainer(notification){
     notificationElement.classList = "notification";
     notificationElement.innerHTML = `${notification.imgSender ?
         `<img src="media/images/${notification.imgSender}" alt="" class="profile-pic-banner-border-small" />` : ''}
-                                              <p class="notification-texte"> ${notification.message} <strong>@${notification.pseudoSender}</strong></p>`;
+                                              <p class="notification-texte"> ${notification.message}</p>`;
     notificationElement.href = notification.urlNotif;
     notifcationContainer.appendChild(notificationElement);
+    $.ajax({
+        type:'POST',
+        url: window.location.origin.toString() + "/notification/set-lu",
+        data: {id:notification.id}
+    })
 }

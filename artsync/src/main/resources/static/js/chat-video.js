@@ -112,7 +112,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     type: 'info',
                     appel: true,
                     pseudoSender: pseudoUser,
-                    message: 'Appel de ',
+                    message: `Appel de ${pseudoUser}`,
                     titre: 'Appel...',
                     urlNotif: window.location.pathname.toString(),
                     imgSender: profilImgUserLogin

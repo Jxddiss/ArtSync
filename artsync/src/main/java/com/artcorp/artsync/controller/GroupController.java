@@ -13,6 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -351,7 +353,7 @@ public class GroupController {
                                @RequestParam("titre") String titre,
                                @RequestParam("description") String description,
                                @RequestParam(value = "private", defaultValue = "false") boolean isPrivate,
-                               @RequestParam("upload") MultipartFile image,
+                               @RequestParam(name = "upload", required = false) MultipartFile image,
                                Model model,
                                HttpServletRequest request) throws IOException {
         HttpSession session = request.getSession(false);
@@ -363,13 +365,15 @@ public class GroupController {
         projet.setDescription(description);
         projet.setPublique(isPrivate);
 
-        String originalFilename = StringUtils.cleanPath(image.getOriginalFilename());
-        projet.setProjetPhoto(originalFilename);
+        if (image != null){
+            String originalFilename = StringUtils.cleanPath(image.getOriginalFilename());
+            projet.setProjetPhoto(originalFilename);
 
-        File parentDir = new File(USER_FOLDER);
-        File saveFile = new File(parentDir.getAbsolutePath() + File.separator + originalFilename);
-        image.transferTo(saveFile);
-        projetService.updateProjet(projet);
+            File parentDir = new File(USER_FOLDER);
+            File saveFile = new File(parentDir.getAbsolutePath() + File.separator + originalFilename);
+            Files.copy(image.getInputStream(),saveFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            projetService.updateProjet(projet);
+        }
 
         return "redirect:/groupe/group/"+projet.getId();
     }
@@ -378,7 +382,7 @@ public class GroupController {
     public String createProjet(@RequestParam("titre") String titre,
                                @RequestParam("description") String description,
                                @RequestParam(value = "private", defaultValue = "false") boolean isPrivate,
-                               @RequestParam("upload") MultipartFile image,
+                               @RequestParam(name = "upload", required = false) MultipartFile image,
                                Model model,
                                HttpServletRequest request) throws IOException {
         HttpSession session = request.getSession(false);
@@ -402,13 +406,17 @@ public class GroupController {
         projet.setAdmin(utilisateur);
         projet.setUtilisateurs(List.of(utilisateur));
 
-        String originalFilename = StringUtils.cleanPath(image.getOriginalFilename());
-        projet.setProjetPhoto(originalFilename);
+        if (image != null){
+            String originalFilename = StringUtils.cleanPath(image.getOriginalFilename());
+            projet.setProjetPhoto(originalFilename);
 
-        File parentDir = new File(USER_FOLDER);
-        File saveFile = new File(parentDir.getAbsolutePath() + File.separator + originalFilename);
-        image.transferTo(saveFile);
-        projetService.createProjet(projet);
+            File parentDir = new File(USER_FOLDER);
+            File saveFile = new File(parentDir.getAbsolutePath() + File.separator + originalFilename);
+            Files.copy(image.getInputStream(),saveFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            projetService.createProjet(projet);
+        }else{
+            projet.setProjetPhoto("aurora.jpg");
+        }
 
         Conversation conversation = new Conversation();
         conversation.setUtilisateurUn(projet.getAdmin());

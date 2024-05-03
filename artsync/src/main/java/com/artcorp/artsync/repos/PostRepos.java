@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -50,4 +52,6 @@ public interface PostRepos extends JpaRepository<Post, Long> {
 
     @Query("SELECT p FROM Post p WHERE p.type = 'Banniere' AND p.utilisateur = :utilisateur")
     Post findBanniereUtilisateur(@Param("utilisateur") Utilisateur utilisateur);
+    @Query("SELECT p FROM Post p ORDER BY p.nbLikes DESC LIMIT 10")
+    List<Post> findTop10Posts();
 }

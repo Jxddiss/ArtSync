@@ -3,6 +3,7 @@ package com.artcorp.artsync.service;
 import com.artcorp.artsync.entity.Post;
 import com.artcorp.artsync.entity.Utilisateur;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
@@ -31,4 +32,5 @@ public interface PostService {
 
     void likePost(Long postId);
     void unLikePost(Long postId);
+    List<Post> findTop10Posts();
 }

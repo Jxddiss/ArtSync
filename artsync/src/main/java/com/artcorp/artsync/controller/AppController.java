@@ -1,9 +1,11 @@
 package com.artcorp.artsync.controller;
 
 import com.artcorp.artsync.entity.LiveStream;
+import com.artcorp.artsync.entity.Post;
 import com.artcorp.artsync.entity.Projet;
 import com.artcorp.artsync.entity.Utilisateur;
 import com.artcorp.artsync.service.LiveStreamService;
+import com.artcorp.artsync.service.PostService;
 import com.artcorp.artsync.service.UtilisateurService;
 import com.artcorp.artsync.service.ProjetService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -32,6 +34,8 @@ public class AppController {
     ProjetService projetService;
     @Autowired
     LiveStreamService liveStreamService;
+    @Autowired
+    PostService postService;
 
     @GetMapping("/index")
     public String redirigerVersIndex() {
@@ -43,8 +47,10 @@ public class AppController {
         return "boite-idee";
     }
     @GetMapping("/classement")
-    public String redirigerVersClassement(Model model) { 
-        //Code ici vanetta
+    public String redirigerVersClassement(Model model) {
+        List<Post> posts = postService.findTop10Posts();
+        System.out.println("---------------------------"+posts.size());
+        model.addAttribute("posts",posts);
         return "classement";
     }
     @GetMapping("/recherche")

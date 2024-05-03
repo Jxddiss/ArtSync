@@ -74,7 +74,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                     <input type="checkbox"  name="tag" value="ANNONCE"><label for="" class="tag" id="annonce">ANNONCE</label>
                                 </div>
                                 <div>
-                                    <input type="checkbox"  name="tag" value="INSPIRAION"><label for="" class="tag" id="inspiration">INSPIRAION</label>
+                                    <input type="checkbox"  name="tag" value="INSPIRATION"><label for="" class="tag" id="inspiration">INSPIRATION</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" name="tag" value="FEEDBACK"><label for="" class="tag" id="feedback">FEEDBACK</label>
@@ -111,7 +111,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         <input class="form-check-input filterTag" type="checkbox" value="annonce"><label for="" class="tag" id="annonce">ANNONCE</label>
                     </div>
                     <div>
-                        <input class="form-check-input filterTag" type="checkbox" value="inspiration"><label for="" class="tag" id="inspiration">INSPIRAION</label>
+                        <input class="form-check-input filterTag" type="checkbox" value="inspiration"><label for="" class="tag" id="inspiration">INSPIRATION</label>
                     </div>
                     <div>
                         <input class="form-check-input filterTag" type="checkbox" value="feedback"><label for="" class="tag" id="feedback">FEEDBACK</label>
@@ -141,7 +141,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     </div>
                     <div class="threadInfo">
                         <div class="threadUserPfp">
-                            <img th:src="@{/media/images/{image}(image=${thread.utilisateur.getPhotoUrl()})}" alt="">
+                            <a th:href="@{/utilisateur/profil/{username}(username=${thread.utilisateur.getPseudo()})}">
+                                <img th:src="@{/media/images/{image}(image=${thread.utilisateur.getPhotoUrl()})}" alt="">
+                            </a>
                         </div>
                         <div class="threadUserInfo">
                             <p><b>@[[${thread.utilisateur.pseudo}]]</b></p>
@@ -174,8 +176,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             <button type="submit">ENVOYER</button>
                         </form>
                         <div class="comment" th:each="comment:${thread.getListeCommentaires()}">
-                            <img th:src="@{/media/images/{image}(image=${comment.utilisateur.getPhotoUrl()})}" alt="">
+                            <a th:src="@{/utilisateur/profil/{username}(username=${comment.utilisateur.getPseudo()})}"><img th:src="@{/media/images/{image}(image=${comment.utilisateur.getPhotoUrl()})}" alt=""></a>
                             <div class="commentContent">
+                                <b>@[[${comment.utilisateur.pseudo}]]</b>
                                 <p th:text="${comment.getMessage()}"></p>
                             </div>
                         </div>
@@ -195,7 +198,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         </div>
     </div>
     <!--IGNORE c'est pour le js-->
-    <img style="display: none" th:if="${session.user!=null}" th:src="@{/media/images/{image}(image=${session.user.getPhotoUrl()})}" id="permission">
+    <img style="display: none" th:if="${session.user!=null}" th:src="@{/media/images/{image}(image=${session.user.getPhotoUrl()})}" th:value="${session.user.getPseudo()}" id="permission">
     </body>
 
 
@@ -234,13 +237,15 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     event.preventDefault();
 
                     const comment = commentForm.querySelector("input").value
+                    const userPseudo = permission.getAttribute("value")
 
                     const newComment = document.createElement("div");
                     newComment.classList.add("comment")
                     newComment.innerHTML=`
                         <img src=${permission.src} alt="">
                            <div class="commentContent">
-                                 ${comment}
+                                 <b>@${userPseudo}</b>
+                                 <p>${comment}</p>
                            </div>
                     `
                     newComment.style.opacity=1;

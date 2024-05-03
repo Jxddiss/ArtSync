@@ -1,6 +1,7 @@
 package com.artcorp.artsync.service.impl;
 
 import com.artcorp.artsync.entity.Conversation;
+import com.artcorp.artsync.entity.Notification;
 import com.artcorp.artsync.entity.Utilisateur;
 import com.artcorp.artsync.exception.domain.MauvaisIdentifiantException;
 import com.artcorp.artsync.repos.ConversationRepos;
@@ -92,9 +93,10 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     }
 
     @Override
-    public void updateRelations(Long followedId, Long followerId) {
+    public Notification updateRelations(Long followedId, Long followerId) {
         Utilisateur followed = repos.findById(followedId).get();
         Utilisateur follower = repos.findById(followerId).get();
+        Notification notif = null;
 
         if (followed != null && follower != null) {
             if (followed.getFollowers().contains(follower)) {
@@ -109,6 +111,8 @@ public class UtilisateurServiceImpl implements UtilisateurService {
             } else {
                 followed.getFollowers().add(follower);
                 follower.getFollowing().add(followed);
+                notif = prepareNotif(followed,follower);
+
                 if (followed.getFollowing().contains(follower)) {
                     followed.getAmis().add(follower);
                     follower.getAmis().add(followed);
@@ -124,6 +128,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
             repos.save(followed);
             repos.save(follower);
         }
+        return notif;
     }
 
     @Override
@@ -161,5 +166,18 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
     private String encodePassword(String password) {
         return this.bCryptPasswordEncoder.encode(password);
+    }
+
+    private Notification prepareNotif(Utilisateur followed, Utilisateur follower){
+        Notification notification = new Notification();
+        notification.setLu(false);
+        notification.setPseudoSender(follower.getPseudo());
+        notification.setIdDest(followed.getId());
+        notification.setImgSender(follower.getPhotoUrl());
+        notification.setType("relation");
+        notification.setTitre("Nouvelle abonné");
+        notification.setMessage(follower.getPseudo() + " s'est abonné à votre compte");
+        notification.setUrlNotif("/utilisateur/profil/"+follower.getPseudo());
+        return notification;
     }
 }

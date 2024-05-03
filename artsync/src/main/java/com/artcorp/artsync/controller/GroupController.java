@@ -365,15 +365,17 @@ public class GroupController {
         projet.setDescription(description);
         projet.setPublique(isPrivate);
 
-        if (image != null){
-            String originalFilename = StringUtils.cleanPath(image.getOriginalFilename());
-            projet.setProjetPhoto(originalFilename);
+        String originalFilename = StringUtils.cleanPath(image.getOriginalFilename());
+        projet.setProjetPhoto(originalFilename);
+
+        if (!originalFilename.isEmpty()){
 
             File parentDir = new File(USER_FOLDER);
             File saveFile = new File(parentDir.getAbsolutePath() + File.separator + originalFilename);
             Files.copy(image.getInputStream(),saveFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            projetService.updateProjet(projet);
         }
+
+        projetService.updateProjet(projet);
 
         return "redirect:/groupe/group/"+projet.getId();
     }
@@ -406,17 +408,19 @@ public class GroupController {
         projet.setAdmin(utilisateur);
         projet.setUtilisateurs(List.of(utilisateur));
 
-        if (image != null){
-            String originalFilename = StringUtils.cleanPath(image.getOriginalFilename());
-            projet.setProjetPhoto(originalFilename);
+        String originalFilename = StringUtils.cleanPath(image.getOriginalFilename());
+        projet.setProjetPhoto(originalFilename);
 
+        if (!originalFilename.isEmpty()){
             File parentDir = new File(USER_FOLDER);
             File saveFile = new File(parentDir.getAbsolutePath() + File.separator + originalFilename);
             Files.copy(image.getInputStream(),saveFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            projetService.createProjet(projet);
+
         }else{
             projet.setProjetPhoto("aurora.jpg");
         }
+
+        projetService.createProjet(projet);
 
         Conversation conversation = new Conversation();
         conversation.setUtilisateurUn(projet.getAdmin());

@@ -10,7 +10,7 @@ public class Conversation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToMany(mappedBy = "conversation")
+    @OneToMany(mappedBy = "conversation",orphanRemoval = true)
     @OrderBy("dateTimeEnvoie ASC")
     private Set<Chat> listeChat;
     @ManyToOne

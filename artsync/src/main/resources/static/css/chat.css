@@ -139,6 +139,7 @@ ul {
 .container-page{
     padding: 1.5em;
     height: 95vh;
+    max-height: 95vh;
     display: grid;
     grid-template-columns: 18% 82%;
     grid-template-rows: 1fr;
@@ -197,6 +198,7 @@ ul {
     overflow-x: hidden;
     flex-direction: column;
     width: 100%;
+    max-height: 35%;
     height: 35%;
 }
 

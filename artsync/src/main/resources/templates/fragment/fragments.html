@@ -4,7 +4,7 @@
         <a th:href="@{/index}" class="nav-link">
             <h3>ArtSync</h3>
         </a>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto align-items-center">
                 <li class="nav-item ">
                     <a class="nav-link mx-2" th:href="@{/}">Accueil</a>
@@ -24,9 +24,77 @@
                 <li class="nav-item ms-3 inscrire">
                     <a class="inscrire" th:href="@{/authentification}">CONNEXION</a>
                 </li>
+                <li class="iconButton">
+                    <i class="bi bi-list"></i>
+                    <div class="headerPopup">
+                        <ul>
+                            <li>
+                                <a th:href="@{/}">Accueil</a>
+                            </li>
+                            <li>
+                                <a th:href="@{/explorer}">Explorer</a>
+                            </li>
+                            <li>
+                                <a th:href="@{/classement}" > Classement</a>
+                            </li>
+                            <li>
+                                <a th:href="@{/forum}">Forum</a>
+                            </li>
+                            <li>
+                                <a th:href="@{/recherche(filtre='UTILISATEUR')}">Rechercher</a>
+                            </li>
+                            <li>
+                                <a th:href="@{/authentification}">Connexion</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
             </ul>
         </div>
     </div>
+    <script>
+        const menuicon = document.querySelector(".iconButton")
+        const pop = document.querySelector(".headerPopup")
+        let open = false
+        menuicon.addEventListener("click",function(){
+            console.log("HIII")
+            if (!open){
+                open =true
+                pop.style.display = "flex"
+
+                gsap.to(pop,{
+                    height:"17rem",
+                    duration:0.5,
+                    delay:0.1,
+                    opacity: 1,
+                    ease:"back"
+                })
+                pop.querySelector("ul").style.display = "flex"
+                pop.querySelector("ul").querySelectorAll("li").forEach(listItem =>{
+                    listItem.style.display = "list-item"
+                    gsap.to(listItem,{
+                        height:"fit-content",
+                        duration:0.1,
+                        delay:0.4,
+                    })
+                })
+            }else{
+                open = false
+
+                gsap.to(pop,{
+                    height:"1rem",
+                    duration:0.1,
+                    ease:"sine",
+                    opacity: 0
+                })
+                gsap.to(pop,{
+                    display:"none"
+                })
+                pop.querySelector("ul").style.display = "none"
+            }
+
+        })
+    </script>
 </nav>
 
 <nav class="navbar navbar-expand-lg " th:fragment="headerUserFragment">
@@ -94,7 +162,7 @@
     </style>
     <div class="container">
         <a class="navbar-brand nom-site" th:href="@{/index}"> <h3>ArtSync</h3></a>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto align-items-center">
                 <li class="nav-item">
                     <a class="nav-link mx-2" th:href="@{/}"><i class=" pe-2"></i>Accueil</a>
@@ -124,9 +192,115 @@
                         <a th:href="@{/deconnexion}">Deconnexion</a>
                     </div>
                 </li>
+                <li class="iconButton">
+                    <img id="pfpIconMobile" style="height: 3rem; width: 3rem" th:src="@{/media/images/{image}(image=${session.user.getPhotoUrl()})}" alt="photo de profil" class="profile-pic-banner-border-small">
+                    <div class="headerPopup">
+                        <ul>
+                            <li>
+                                <a th:href="@{/}">Accueil</a>
+                            </li>
+                            <li>
+                                <a th:href="@{/explorer}">Explorer</a>
+                            </li>
+                            <li>
+                                <a th:href="@{/forum}">Forum</a>
+                            </li>
+                            <li>
+                                <a th:href="@{/recherche(filtre='UTILISATEUR')}">Rechercher</a>
+                            </li>
+                            <hr>
+                            <li>
+                                <a th:href="@{/utilisateur/profil/{username}(username=${session.user.getPseudo()})}">Profil</a>
+                            </li>
+                            <li>
+                                <a th:href="@{/feed}">Feed</a>
+                            </li>
+                            <li>
+                                <a th:href="@{/utilisateur/relation}">Relations</a>
+                            </li>
+                            <li>
+                                <a th:href="@{/utilisateur/conversation}">Conversations</a>
+                            </li>
+                            <li>
+                                <a th:href="@{/utilisateur/relation/groupes}">Groupes</a>
+                            </li>
+                            <li>
+                                <a th:href="@{/utilisateur/profil/settings}">Paramètres</a>
+                            </li>
+                            <li>
+                                <a th:href="@{/deconnexion}">Deconnexion</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
             </ul>
         </div>
     </div>
+    <script>
+        const menuicon = document.querySelector(".iconButton")
+        const pop = document.querySelector(".headerPopup")
+        const pfp = document.getElementById("pfpIconMobile")
+        let open = false
+        menuicon.addEventListener("click",function(){
+            if (!open){
+                open =true
+                pop.style.display = "flex"
+                gsap.to(pop,{
+                    height:"30rem",
+                    duration:0.5,
+                    delay:0.4,
+                    opacity: 1,
+                    ease:"back"
+                })
+                if (localStorage.getItem("glowColor")){
+                    gsap.to(pfp,{
+                        boxShadow:"0px 0px 19px 1px "+localStorage.getItem("glowColor")
+                    })
+                }else{
+                    gsap.to(pfp,{
+                        boxShadow:"0px 0px 19px 1px rgba(57,219,81,1)"
+                    })
+                }
+
+                pop.querySelector("ul").style.display = "flex"
+                pop.querySelector("ul").querySelectorAll("li").forEach(listItem =>{
+                    listItem.style.display = "list-item"
+                    gsap.to(listItem,{
+                        height:"fit-content",
+                        duration:0.1,
+                        delay:0.4,
+                    })
+                })
+            }else{
+                open = false
+
+                gsap.to(pop,{
+                    height:"1rem",
+                    duration:0.1,
+                    ease:"sine",
+                    opacity: 0
+                })
+                gsap.to(pop,{
+                    display:"none"
+                })
+                gsap.to(pfp,{
+                    boxShadow:"0px 0px 0px 0px",
+                    duration:0.5
+                })
+                pop.querySelector("ul").style.display = "none"
+                pop.querySelector("ul").querySelectorAll("li").forEach(listItem =>{
+
+                    gsap.to(listItem,{
+                        height:"0rem",
+                        duration:0.1,
+                        delay:0.2,
+                    })
+                    listItem.style.display = "none"
+                })
+            }
+
+        })
+    </script>
     <script>
         let openOptionUser = document.getElementById("open-option-user");
         openOptionUser.addEventListener("click", () => {

@@ -9,6 +9,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -120,4 +122,11 @@ public class PostServiceImpl implements PostService {
         post.setNbLikes(post.getNbLikes() - 1);
         postRepos.save(post);
     }
+
+    @Override
+    public List<Post> findTop10Posts() {
+        return postRepos.findTop10Posts();
+    }
+
+
 }

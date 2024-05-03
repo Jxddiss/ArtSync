@@ -112,6 +112,16 @@ if (bannerInput && bannerImgPreview) {
 function checkFile(form){
     const input = form.querySelector("input[type='file']");
     if (input.files && input.files[0]) {
+        stompClientNotif.send("/app/notification/post/"+pseudoUser,{},JSON.stringify(
+            {
+                type: 'info',
+                pseudoSender: pseudoUser,
+                message: `Nouvelle post de ${pseudoUser}` ,
+                titre: 'Nouveau post',
+                imgSender: userImage,
+                urlNotif: window.location.origin.toString() + '/feed'
+            }
+        ));
         return true;
     }
     return false;

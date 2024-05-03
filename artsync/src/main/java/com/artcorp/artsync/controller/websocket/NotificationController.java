@@ -5,8 +5,10 @@ import com.artcorp.artsync.entity.Projet;
 import com.artcorp.artsync.entity.Utilisateur;
 import com.artcorp.artsync.service.NotificationService;
 import com.artcorp.artsync.service.ProjetService;
+import com.artcorp.artsync.service.UtilisateurService;
 import com.artcorp.artsync.service.impl.NotificationServiceImpl;
 import com.artcorp.artsync.service.impl.ProjetServiceImpl;
+import com.artcorp.artsync.service.impl.UtilisateurServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +27,17 @@ public class NotificationController {
     private SimpMessagingTemplate simpMessagingTemplate;
     private ProjetService projetService;
     private NotificationService notificationService;
+    private UtilisateurService utilisateurService;
 
     @Autowired
-    public NotificationController(SimpMessagingTemplate simpMessagingTemplate, ProjetServiceImpl projetService, NotificationServiceImpl notificationService) {
+    public NotificationController(SimpMessagingTemplate simpMessagingTemplate,
+                                  ProjetServiceImpl projetService,
+                                  NotificationServiceImpl notificationService,
+                                  UtilisateurServiceImpl utilisateurService) {
         this.simpMessagingTemplate = simpMessagingTemplate;
         this.projetService = projetService;
         this.notificationService = notificationService;
+        this.utilisateurService = utilisateurService;
     }
 
     @PostMapping("/notification/set-lu")
@@ -62,10 +69,9 @@ public class NotificationController {
         return notif;
     }
 
-    @MessageMapping("/notification/post/{userId}")
-    public void notificationPost(Notification notification, HttpServletRequest httpServletRequest){
-        HttpSession session = httpServletRequest.getSession(false);
-        Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+    @MessageMapping("/notification/post/{userPseudo}")
+    public void notificationPost(Notification notification, @DestinationVariable("userPseudo") String userPseudo){
+        Utilisateur utilisateur = utilisateurService.findByPseudo(userPseudo);
 
         if (utilisateur != null){
             utilisateur.getFollowers().forEach(user ->{

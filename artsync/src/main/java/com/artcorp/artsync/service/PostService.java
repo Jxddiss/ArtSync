@@ -33,4 +33,6 @@ public interface PostService {
     void likePost(Long postId);
     void unLikePost(Long postId);
     List<Post> findTop10Posts();
+
+    List<Post>findAllByUtilisateurAndPublique(Utilisateur utilisateur);
 }

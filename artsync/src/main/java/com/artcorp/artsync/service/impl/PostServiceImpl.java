@@ -128,5 +128,10 @@ public class PostServiceImpl implements PostService {
         return postRepos.findTop10Posts();
     }
 
+    @Override
+    public List<Post> findAllByUtilisateurAndPublique(Utilisateur utilisateur) {
+        return postRepos.findAllByUtilisateurAndPublique(utilisateur,true);
+    }
+
 
 }

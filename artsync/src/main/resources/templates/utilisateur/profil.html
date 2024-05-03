@@ -28,12 +28,12 @@
 <body class="bodyContainer">
 <div class="overlay"></div>
 <!--Header-->
-<nav th:replace=" ~{fragment/fragments :: headerUserFragment}"></nav>
+<nav th:replace="${session.user == null} ? ~{fragment/fragments :: headerFragment} : ~{fragment/fragments :: headerUserFragment}"></nav>
 
 <!--Content-->
 <div class="contentHolder mt-5">
     <div class="bannerHolder" id="bannerButton">
-        <dialog th:if="${utilisateur.getId() == session.user.getId()}" id="dialogBanner" >
+        <dialog th:if="${session.user!=null && utilisateur.getId() == session.user.getId()}" id="dialogBanner" >
             <div class="dialogHeader">
                 <h3>Changement de bannière</h3>
                 <form method="modal">
@@ -60,7 +60,7 @@
         <img th:if="${banniere == null}" th:src="@{/media/images/image18.png}" class="profile-banner" alt="Bannière du profile">
     </div>
     <div class="pfpHolder">
-        <dialog th:if="${utilisateur.getId() == session.user.getId()}" class="pfpPane" id="pfpPane" >
+        <dialog th:if="${session.user!=null && utilisateur.getId() == session.user.getId()}" class="pfpPane" id="pfpPane" >
             <div class="dialogHeader">
                 <h3>Changement de photo de profil</h3>
                 <i class="bi bi-x-lg" id="fermerPfp"></i>
@@ -104,7 +104,7 @@
             </div>
             <div>
                 <!--add post dialog-->
-                <dialog th:if="${utilisateur.getId() == session.user.getId()}" class="postPane" id="postPane">
+                <dialog th:if="${session.user!=null && utilisateur.getId() == session.user.getId()}" class="postPane" id="postPane">
                     <div class="dialogHeader">
                         <h3>Créer une publication</h3>
                         <i class="bi bi-x-lg" id="fermer"></i>
@@ -144,7 +144,7 @@
                         </form>
                     </div>
                 </dialog>
-                <button th:if="${utilisateur.getId() == session.user.getId()}" class="publier" id="ouvrir">PUBLIER</button>
+                <button th:if="${session.user!=null && utilisateur.getId() == session.user.getId()}" class="publier" id="ouvrir">PUBLIER</button>
             </div>
         </div>
     </div>
@@ -163,7 +163,7 @@
             <div class="templatePreview1">
 
             </div>
-            <a th:if="${utilisateur.getId() == session.user.getId()}" th:href="@{../portfolio}" class="createPortfolio" id="createholder">
+            <a th:if="${session.user!=null && utilisateur.getId() == session.user.getId()}" th:href="@{../portfolio}" class="createPortfolio" id="createholder">
                 <p id="anchorPortfolio">CRÉER UN NOUVEAU PORTFOLIO</p><i class="bi bi-stars"></i>
             </a>
         </div>

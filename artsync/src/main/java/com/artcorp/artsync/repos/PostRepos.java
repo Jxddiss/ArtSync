@@ -29,6 +29,8 @@ public interface PostRepos extends JpaRepository<Post, Long> {
     @Query("SELECT p FROM Post p ORDER BY p.nbLikes DESC LIMIT 19")
     List<Post> findPostsEnVedette();
 
+    List<Post> findAllByUtilisateurAndPublique(Utilisateur utilisateur,boolean publique);
+
     @Query("SELECT p FROM Post p WHERE p.publique = :publique ORDER BY p.nbLikes DESC LIMIT 19")
     List<Post> findByPubliqueEnVedette(@Param("publique") boolean publique);
 

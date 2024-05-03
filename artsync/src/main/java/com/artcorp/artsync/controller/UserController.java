@@ -71,23 +71,33 @@ public class UserController {
                                       HttpServletRequest request,
                                       RedirectAttributes redirectAttributes) {
         HttpSession session = request.getSession(false);
-        if (session != null && pseudo != null && (Utilisateur) session.getAttribute("user") != null) {
+        if (pseudo != null) {
             Utilisateur utilisateur = utilisateurService.findByPseudo(pseudo);
             if (utilisateur != null) {
-                Utilisateur userSess = (Utilisateur) session.getAttribute("user");
-                for (Utilisateur follower: utilisateur.getFollowers()){
-                    if (follower.getPseudo().equals(userSess.getPseudo())){
-                        utilisateur.setIn(true);
-                        break;
+                if (session!=null){
+                    Utilisateur userSess = (Utilisateur) session.getAttribute("user");
+                    List<Post> listPosts = postService.findPostByUser(utilisateur);
+                    model.addAttribute("listPosts", listPosts);
+                    if (userSess!=null){
+                        for (Utilisateur follower: utilisateur.getFollowers()){
+                            if (follower.getPseudo().equals(userSess.getPseudo())){
+                                utilisateur.setIn(true);
+                                break;
+                            }
+                        }
                     }
+                } else{
+                    List<Post> listPosts = postService.findAllByUtilisateurAndPublique(utilisateur);
+                    model.addAttribute("listPosts", listPosts);
                 }
-                List<Post> listPosts = postService.findPostByUser(utilisateur);
+
+
+
                 Post banniere = postService.findBanniereUtilisateur(utilisateur);
                 int nbAbonnes = utilisateur.getFollowers().size();
                 int nbAbonnements = utilisateur.getFollowing().size();
                 Portfolio portfolio = portfolioService.findByUtilisateur(utilisateur);
                 model.addAttribute("utilisateur", utilisateur);
-                model.addAttribute("listPosts", listPosts);
                 model.addAttribute("banniere", banniere);
                 model.addAttribute("nbAbonnes", nbAbonnes);
                 model.addAttribute("nbAbonnements", nbAbonnements);

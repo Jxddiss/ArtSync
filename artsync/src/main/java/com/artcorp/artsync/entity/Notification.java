@@ -11,7 +11,6 @@ public class Notification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String pseudoSender;
     private String imgSender;
     private String message;
@@ -19,11 +18,13 @@ public class Notification {
     private boolean appel;
     private String type;
     private String urlNotif;
+    private boolean lu;
+    private Long idDest;
 
     public Notification() {
     }
 
-    public Notification(Long id, String pseudoSender, String imgSender, String message, String titre, boolean appel, String type, String urlNotif) {
+    public Notification(Long id, String pseudoSender, String imgSender, String message, String titre, boolean appel, String type, String urlNotif, boolean lu, Long idDest) {
         this.id = id;
         this.pseudoSender = pseudoSender;
         this.imgSender = imgSender;
@@ -32,6 +33,8 @@ public class Notification {
         this.appel = appel;
         this.type = type;
         this.urlNotif = urlNotif;
+        this.lu = lu;
+        this.idDest = idDest;
     }
 
     public String getPseudoSender() {
@@ -96,5 +99,21 @@ public class Notification {
 
     public Long getId() {
         return id;
+    }
+
+    public boolean isLu() {
+        return lu;
+    }
+
+    public void setLu(boolean lu) {
+        this.lu = lu;
+    }
+
+    public Long getIdDest() {
+        return idDest;
+    }
+
+    public void setIdDest(Long idDest) {
+        this.idDest = idDest;
     }
 }

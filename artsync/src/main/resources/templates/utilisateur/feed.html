@@ -42,7 +42,7 @@
     <title>Feed</title>
   </head>
 
-  <body>
+  <body th:user-id="${session.user.id}">
     <nav th:replace="${session.user == null} ? ~{fragment/fragments :: headerFragment} : ~{fragment/fragments :: headerUserFragment}"></nav>
     <main>
       <div class="dashboard dashboard-left">
@@ -150,7 +150,7 @@
           <div class="env-commentaire">
             <div class="interactions">
               <div class="icones-interactions">
-                <div class="icon-img like" data-clicked="false" th:post-id="${post.id}">
+                <div class="icon-img like" data-clicked="false" th:post-id="${post.id}" th:owner-id="${post.utilisateur.id}">
                   <i class="bi bi-balloon-heart"></i>
                   <p>[[${post.nbLikes}]] J'aimes</p>
                 </div>
@@ -160,9 +160,10 @@
                 </div>
               </div>
             </div>
-            <form class="input-box-commentaire" th:post-id="${post.id}" onsubmit="return ajouterCommentaire(this)">
+            <form class="input-box-commentaire" th:post-id="${post.id}"  onsubmit="return ajouterCommentaire(this)">
               <input type="text" name="comment" placeholder="  Écrire un commentaire..." />
               <input type="hidden" name="postId" th:value="${post.id}">
+              <input type="hidden" name="ownerId" th:value="${post.utilisateur.id}">
               <button class="btn-commentaire">
                 <i class="bi bi-send"></i>
               </button>
@@ -225,7 +226,17 @@
           <h4>NOTIFICATIONS</h4>
           <hr />
           <div class="notifcationContainer" id="notifcationContainer">
-            <h5 id="no-notif-title">VOUS N'AVEZ AUCUNE NOTIFICATION</h5>
+            <h5 id="no-notif-title" th:if="${listNotifications == null || listNotifications.isEmpty()}">VOUS N'AVEZ AUCUNE NOTIFICATION</h5>
+            <a class="notification" th:if="${listNotifications != null && !listNotifications.isEmpty()}"
+               th:each="notif : ${listNotifications}"
+               th:href="${notif.getUrlNotif()}">
+              <img th:if="${notif.getImgSender() != null || !notif.getImgSender().equals('')}"
+                      th:src="@{/media/images/{image}(image=${notif.getImgSender()})}"
+                      alt=""
+                      class="profile-pic-banner-border-small"
+              />
+              <p class="notification-texte" th:text="${notif.message}"></p>
+            </a>
           </div>
         </div>
       </div>
@@ -268,7 +279,8 @@
     <script th:src="@{/js/notification.js?v=1}"></script>
     <script>
       const userImage = '[[${session.user.photoUrl}]]';
+      const pseudoUser = '[[${session.user.pseudo}]]';
     </script>
-    <script th:src="@{/js/script-feed.js?v=1}" defer></script>
+    <script th:src="@{/js/script-feed.js?v=2}" defer></script>
   </body>
 </html>

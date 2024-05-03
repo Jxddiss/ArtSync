@@ -3,8 +3,10 @@ package com.artcorp.artsync.controller.rest;
 
 import com.artcorp.artsync.entity.*;
 import com.artcorp.artsync.service.DemandeService;
+import com.artcorp.artsync.service.NotificationService;
 import com.artcorp.artsync.service.ProjetService;
 import com.artcorp.artsync.service.UtilisateurService;
+import com.artcorp.artsync.service.impl.NotificationServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,16 +21,19 @@ public class RelationRestController {
     private ProjetService projetService;
     private DemandeService demandeService;
     private SimpMessagingTemplate simpMessagingTemplate;
+    private NotificationService notificationService;
 
     @Autowired
     public RelationRestController(UtilisateurService utilisateurService,
                                   ProjetService projetService,
                                   DemandeService demandeService,
-                                  SimpMessagingTemplate simpMessagingTemplate) {
+                                  SimpMessagingTemplate simpMessagingTemplate,
+                                  NotificationServiceImpl notificationService) {
         this.utilisateurService = utilisateurService;
         this.projetService = projetService;
         this.demandeService = demandeService;
         this.simpMessagingTemplate = simpMessagingTemplate;
+        this.notificationService = notificationService;
     }
 
     @PostMapping("/recherche/updateRelationUsr")
@@ -43,7 +48,8 @@ public class RelationRestController {
         session.setAttribute("user",utilisateur);
 
         if(notif != null){
-            this.simpMessagingTemplate.convertAndSend("/topic/notification/"+userId, notif);
+            this.simpMessagingTemplate.convertAndSend("/topic/notification/"+userId,
+                    notificationService.saveNotification(notif));
         }
 
         return "true";

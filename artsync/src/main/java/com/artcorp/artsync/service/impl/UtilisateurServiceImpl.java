@@ -31,8 +31,12 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     public Utilisateur connexion(String username, String password) throws MauvaisIdentifiantException {
 
         Utilisateur user = repos.findByPseudoAndActive(username);
-        if(bCryptPasswordEncoder.matches(password, user.getPassword())){
-            return user;
+        if(user != null){
+            if(bCryptPasswordEncoder.matches(password, user.getPassword())){
+                return user;
+            }else{
+                throw new MauvaisIdentifiantException("Mauvais identifiants");
+            }
         }else{
             throw new MauvaisIdentifiantException("Mauvais identifiants");
         }

@@ -24,6 +24,10 @@ expandBtn.addEventListener("click",function (){
             opacity:0,
             duration:0.25,
         })
+        gsap.to(forumContent,{
+            display:"none",
+            delay:0,
+        })
         gsap.to(expandBtn,{
             rotate:180,
             ease:"back"
@@ -44,6 +48,10 @@ expandBtn.addEventListener("click",function (){
         gsap.to(expandBtn,{
             rotate:0,
             ease:"back"
+        })
+        gsap.to(forumContent,{
+            display:"flex",
+            delay:0,
         })
     }
 })

@@ -1,4 +1,5 @@
 <div th:fragment="annoncesFragment" class="projectContainer2">
+
     <div class="annonceHeader">
         <p>ANNONCES <i th:if="${projet.getAdmin() != null and session.user != null and projet.getAdmin().getId()==session.user.getId()}" class="bi bi-plus-square" id="add"></i></p>
         <form th:action="@{/groupe/group/{projetId}(projetId=${projet.id})}" method="post" class="annonceForm">

@@ -44,6 +44,7 @@
 
   <body th:user-id="${session.user.id}">
     <nav th:replace="${session.user == null} ? ~{fragment/fragments :: headerFragment} : ~{fragment/fragments :: headerUserFragment}"></nav>
+    <button id="expandButton"><i class="bi bi-caret-right"></i></button>
     <main>
       <div class="dashboard dashboard-left">
         <h4>OPTIONS</h4>

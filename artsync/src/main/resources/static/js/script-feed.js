@@ -73,7 +73,7 @@ document.querySelectorAll(".like").forEach((likeSymbol) => {
       likePost("like",postId,ownerId);
       nbLike++
       likeSymbol.querySelector("p").innerText = `${nbLike} J'aimes`;
-      localStorage.setItem(`like-post-${postId}`,`true`);
+      localStorage.setItem(`like-post-${postId}-${userId}`,`true`);
     } else {
       likePost("unlike", postId,ownerId);
       let newIconClass = icon.classList[1].replace("-fill", "");

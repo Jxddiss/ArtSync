@@ -29,7 +29,7 @@
             <div class="row">
                 <div class="col-md-8">
                     <!--Option Buttons-->
-                    <div class="row p-5">
+                    <div class="row p-5 rowOption">
                         <div class="col-md-4">
                             <a th:href="@{/utilisateur/relation/abonnes}">
                                 <div class="relation-button">
@@ -118,7 +118,7 @@
                         </div>
                         <div th:if="${following != null}" class="data-holder">
                             <!--Row #1-->
-                            <div th:if="${!following.isEmpty()}" th:each="user : ${following}" style="width: 23em">
+                            <div class="carteHolder" th:if="${!following.isEmpty()}" th:each="user : ${following}" style="width: 23em">
                                 <div class="carte" style="color: black;">
                                     <a th:href="@{/utilisateur/profil/{pseudo}(pseudo=${user.pseudo})}"><img th:src="@{/media/images/{image}(image=${user.photoUrl})}"  alt=""></a>
                                     <div class="mini-container" style="padding: 0;">
@@ -135,7 +135,7 @@
                         </div>
                         <div th:if="${followers != null}" class=" data-holder">
                             <!--Row #1-->
-                            <div th:if="${!followers.isEmpty()}" th:each="user : ${followers}" style="width: 23em">
+                            <div class="carteHolder" th:if="${!followers.isEmpty()}" th:each="user : ${followers}" style="width: 23em">
                                 <a class="carte" style="color: black;" th:href="@{/utilisateur/profil/{pseudo}(pseudo=${user.pseudo})}">
                                     <img th:src="@{/media/images/{image}(image=${user.photoUrl})}" alt="">
                                     <div class="mini-container" style="padding: 0;">
@@ -160,193 +160,31 @@
                             <hr>
                         </div>
                         <div class="activity-content">
-                            <div class="date-container row">
-                                <p>Aujourd'hui</p>
-                            </div>
-                            <div class="activity-card">
-                                <div class="row px-4 pt-2">
-                                    <div class="col-md-2 d-flex justify-content-center align-items-center">
-                                        <img class="pfp-activity" src="/media/images/profil10.jpg" alt="profil-pic">
+                                <div class="activity-card" th:each="post : ${posts}">
+                                    <div class="row px-4 pt-2">
+                                        <div class="col-md-2 d-flex justify-content-center align-items-center">
+                                            <img class="pfp-activity" th:src="@{/media/images/{image}(image=${post.utilisateur.getPhotoUrl()})}" alt="profil-pic">
+                                        </div>
+                                        <div class="col-md-10 d-flex justify-content-start align-items-end">
+                                            <p><span th:text="${'@'+post.getUtilisateur().getPseudo()}"></span> a publié une oeuvre <img class="post-activity" th:src="@{/media/images/{image}(image=${post.listeFichiers[0].urlMedia})}" alt="post"></p>
+                                        </div>
                                     </div>
-                                    <div class="col-md-10 d-flex justify-content-start align-items-end">
-                                        <p><span>@emilie49</span> a rejoin le projet <span>"Mystic Quest"</span></p>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <p class="date" th:text="${post.getDate().toLocalDate()}"></p>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <p class="date">Il y a 1 jour</p>
-                                    </div>
-                                </div>
-                                <hr>
-                                <div class="row">
-                                    <div class="col-md-10">
-                                        <span class="jaime"><i class="bi bi-heart icon-activity"></i> 25</span>
-                                    </div>
-                                    <div class="col-md-2 d-flex justify-content-end align-items-start">
-                                        <i class="bi bi-star favoris"></i>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-10">
+                                            <span class="jaime"><i class="bi bi-heart icon-activity"></i> [[${post.nbLikes}]]</span>
+                                        </div>
+                                        <div class="col-md-2 d-flex justify-content-end align-items-start">
+                                            <i class="bi bi-star favoris"></i>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="date-container row">
-                                <p>3 jours</p>
-                            </div>
-                            <div class="activity-card">
-                                <div class="row px-4 pt-2">
-                                    <div class="col-md-2 d-flex justify-content-center align-items-center">
-                                        <img class="pfp-activity" src="/media/images/profil10.jpg" alt="profil-pic">
-                                    </div>
-                                    <div class="col-md-10 d-flex justify-content-start align-items-end">
-                                        <p><span>@emilie49</span> a publié une oeuvre <img class="post-activity" src="/media/images/digitalArt-0.jpg" alt="post"></span></p>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <p class="date">Il y a 3 jours</p>
-                                    </div>
-                                </div>
-                                <hr>
-                                <div class="row">
-                                    <div class="col-md-10">
-                                        <span class="jaime"><i class="bi bi-heart icon-activity"></i> 14</span>
-                                    </div>
-                                    <div class="col-md-2 d-flex justify-content-end align-items-start">
-                                        <i class="bi bi-star favoris"></i>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="activity-card">
-                                <div class="row px-4 pt-2">
-                                    <div class="col-md-2 d-flex justify-content-center align-items-center">
-                                        <img class="pfp-activity" src="/media/images/profil4.jpg" alt="profil-pic">
-                                    </div>
-                                    <div class="col-md-10 d-flex justify-content-start align-items-end">
-                                        <p><span>@ray_50</span> a ajouté <span>@emilie49</span> en ami</span></p>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <p class="date">Il y a 3 jours</p>
-                                    </div>
-                                </div>
-                                <hr>
-                                <div class="row">
-                                    <div class="col-md-10">
-                                        <span class="jaime"><i class="bi bi-heart icon-activity"></i> 16</span>
-                                    </div>
-                                    <div class="col-md-2 d-flex justify-content-end align-items-start">
-                                        <i class="bi bi-star favoris"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="date-container row">
-                                <p>14 jours</p>
-                            </div>
-                            <div class="activity-card">
-                                <div class="row px-4 pt-2">
-                                    <div class="col-md-2 d-flex justify-content-center align-items-center">
-                                        <img class="pfp-activity" src="/media/images/profil7.png" alt="profil-pic">
-                                    </div>
-                                    <div class="col-md-10 d-flex justify-content-start align-items-end">
-                                        <p><span>@rane</span> a ajoutÃ© <span>@johnDoe</span> en ami</span></p>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <p class="date">Il y a 14 jours</p>
-                                    </div>
-                                </div>
-                                <hr>
-                                <div class="row">
-                                    <div class="col-md-10">
-                                        <span class="jaime"><i class="bi bi-heart icon-activity"></i> 7</span>
-                                    </div>
-                                    <div class="col-md-2 d-flex justify-content-end align-items-start">
-                                        <i class="bi bi-star favoris"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="date-container row">
-                                <p>1 mois</p>
-                            </div>
-                            <div class="activity-card">
-                                <div class="row px-4 pt-2">
-                                    <div class="col-md-2 d-flex justify-content-center align-items-center">
-                                        <img class="pfp-activity" src="/media/images/profil3.jpg" alt="profil-pic">
-                                    </div>
-                                    <div class="col-md-10 d-flex justify-content-start align-items-end">
-                                        <p><span>@swifty_2</span> a publié un gif <img class="post-activity" src="/media/images/pikachu.gif" alt="post"></span></p>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <p class="date">Il y a 1 mois</p>
-                                    </div>
-                                </div>
-                                <hr>
-                                <div class="row">
-                                    <div class="col-md-10">
-                                        <span class="jaime"><i class="bi bi-heart icon-activity"></i> 3</span>
-                                    </div>
-                                    <div class="col-md-2 d-flex justify-content-end align-items-start">
-                                        <i class="bi bi-star favoris"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="activity-card">
-                                <div class="row px-4 pt-2">
-                                    <div class="col-md-2 d-flex justify-content-center align-items-center">
-                                        <img class="pfp-activity" src="/media/images/profil4.jpg" alt="profil-pic">
-                                    </div>
-                                    <div class="col-md-10 d-flex justify-content-start align-items-end">
-                                        <p><span>@ray_50</span> a publié une oeuvre <img class="post-activity" src="/media/images/painting0.jpg" alt="post"></span></p>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <p class="date">Il y a 1 mois</p>
-                                    </div>
-                                </div>
-                                <hr>
-                                <div class="row">
-                                    <div class="col-md-10">
-                                        <span class="jaime"><i class="bi bi-heart icon-activity"></i> 44</span>
-                                    </div>
-                                    <div class="col-md-2 d-flex justify-content-end align-items-start">
-                                        <i class="bi bi-star favoris"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="activity-card">
-                                <div class="row px-4 pt-2">
-                                    <div class="col-md-2 d-flex justify-content-center align-items-center">
-                                        <img class="pfp-activity" src="/media/images/profil6.jpg" alt="profil-pic">
-                                    </div>
-                                    <div class="col-md-10 d-flex justify-content-start align-items-end">
-                                        <p><span>@palettePals</span> a publié une oeuvre <img class="post-activity" src="/media/images/3D-2.png" alt="post"></span></p>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <p class="date">Il y a 1 mois</p>
-                                    </div>
-                                </div>
-                                <hr>
-                                <div class="row">
-                                    <div class="col-md-10">
-                                        <span class="jaime"><i class="bi bi-heart icon-activity"></i> 12</span>
-                                    </div>
-                                    <div class="col-md-2 d-flex justify-content-end align-items-start">
-                                        <i class="bi bi-star favoris"></i>
-                                    </div>
-                                </div>
-                            </div>
-
-
-
-                            <hr>
                         </div>
-
                     </div>
                 </div>
         </div>

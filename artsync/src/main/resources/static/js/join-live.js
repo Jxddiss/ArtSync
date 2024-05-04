@@ -126,6 +126,7 @@ document.addEventListener("DOMContentLoaded", function() {
             window.addEventListener('beforeunload', function (e) {
                 delete e['returnValue'];
                 stompClientViewer.send('/app/live/leave/'+pseudoStreamer,{},userPseudo);
+                stompClientViewer.disconnect();
             });
 
         });

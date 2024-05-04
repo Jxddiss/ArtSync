@@ -304,6 +304,11 @@
         document.getElementById('input-chat').value = '';
     });
 
+    window.addEventListener('beforeunload', function (e) {
+        delete e['returnValue'];
+        stompClient.disconnect();
+    });
+
     //=== Variables appel video ======
     const conversationId = '[[${conversationCourrante.getId()}]]';
     const idUser = '[[${session.user.id}]]';

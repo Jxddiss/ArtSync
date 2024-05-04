@@ -59,7 +59,18 @@ public class Utilisateur {
     public Utilisateur() {
     }
 
-    public Utilisateur(Long id, String pseudo, String prenom, String email, String password, String photoUrl, String specialisation, String statut, Portfolio portfolio, Set<Utilisateur> followers, Set<Utilisateur> following, Set<Utilisateur> amis, List<Projet> projetFavories, String backgroundColor, String backgroundTexture) {
+    public Utilisateur(Long id, String pseudo,
+                       String prenom, String email,
+                       String password, String photoUrl,
+                       String specialisation,
+                       String statut,
+                       Portfolio portfolio,
+                       Set<Utilisateur> followers,
+                       Set<Utilisateur> following,
+                       Set<Utilisateur> amis,
+                       List<Projet> projetFavories,
+                       String backgroundColor,
+                       String backgroundTexture) {
         this.id = id;
         this.pseudo = pseudo;
         this.prenom = prenom;
@@ -73,6 +84,30 @@ public class Utilisateur {
         this.amis = amis;
         this.backgroundColor = backgroundColor;
         this.backgroundTexture = backgroundTexture;
+    }
+
+    public Utilisateur(Long id,
+                       String pseudo,
+                       String prenom,
+                       String nom,
+                       String email,
+                       String photoUrl,
+                       String specialisation,
+                       String statut,
+                       String backgroundColor,
+                       String backgroundTexture,
+                       boolean isActive) {
+        this.id = id;
+        this.pseudo = pseudo;
+        this.prenom = prenom;
+        this.nom = nom;
+        this.email = email;
+        this.photoUrl = photoUrl;
+        this.specialisation = specialisation;
+        this.statut = statut;
+        this.backgroundColor = backgroundColor;
+        this.backgroundTexture = backgroundTexture;
+        this.isActive = isActive;
     }
 
     public void setId(Long id) {

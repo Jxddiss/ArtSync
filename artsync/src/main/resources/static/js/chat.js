@@ -89,3 +89,62 @@ function isImage(filename) {
   }
   return false;
 }
+
+
+const vNavBar = document.getElementById("liste-contacts")
+const expandBtn = document.getElementById("expandButton")
+const chatContent = document.querySelector(".main-content")
+let openNavbar   = false
+
+expandBtn.addEventListener("click",function (){
+  if (!openNavbar){
+    openNavbar = true
+    gsap.to(vNavBar,{
+      display:"flex",
+    })
+    gsap.to(vNavBar,{
+      width:"100%",
+      opacity:1,
+      duration:0.65,
+      ease:"back"
+    })
+
+    gsap.to(chatContent,{
+      width:"0%",
+      opacity:0,
+      duration:0.25,
+    })
+    gsap.to(chatContent,{
+      display:"none",
+      delay:0,
+    })
+    gsap.to(expandBtn,{
+      rotate:180,
+      ease:"back"
+    })
+  }else{
+    openNavbar = false
+    gsap.to(vNavBar,{
+      width:"0%",
+      opacity:0,
+      duration:0.25,
+    })
+    gsap.to(vNavBar,{
+      display:"none",
+    })
+    gsap.to(chatContent,{
+      width:"100%",
+      opacity:1,
+      duration:0.65,
+      ease:"back"
+    })
+    gsap.to(chatContent,{
+      rotate:0,
+      ease:"back"
+    })
+    gsap.to(chatContent,{
+      display:"flex",
+      delay:0,
+    })
+  }
+})

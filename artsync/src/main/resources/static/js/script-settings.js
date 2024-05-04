@@ -41,9 +41,9 @@ function removeAllSelected(){
         btn.classList.remove("selected")
     })
 }
-if (document.body.classList.item(1).split("-")[0]==="night"){
-    form.style.color = "black"
-}
+
+form.style.color = "black"
+
 let backgroundColor = ""
 let backgroundTexture = ""
 backgroundOptions.forEach(background=>{
@@ -83,14 +83,6 @@ function sendBackgroundData(){
         type: "POST",
         url: window.location.origin.toString()+"/api/update/user-background",
         data: {backgroundColor: backgroundColor,backgroundTexture:backgroundTexture},
-        success : function (data) {
-            if(data!=="false"){
-                console.log(data)
-
-            }else{
-                console.log("Failed")
-            }
-        },
     })
 }
 
@@ -217,7 +209,6 @@ expandBtn.addEventListener("click",function (){
         })
     }else{
         openNavbar = false
-        console.log(getSelectedSection())
         gsap.to(vNavBar,{
             width:"0%",
             opacity:0,
@@ -240,7 +231,6 @@ function getSelectedSection() {
     for (const btn of sectionBtns) {
         if (btn.classList.contains("selected")) {
             if (btn.id === "compteSection") {
-                console.log(document.querySelector(".settingHolder"));
                 return "settingHolder";
             } else {
                 return "persoHolder";

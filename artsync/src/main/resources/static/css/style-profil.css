@@ -525,6 +525,23 @@
         height: 25rem;
         width: 20rem;
     }
+    .pfpPane, #dialogBanner{
+        width: 95%;
+
+    }
+    #dialogBanner{
+        height: 70% !important;
+        overflow-x: hidden;
+    }
+    .bannerPreview{
+        height: 50%;
+        width: 95%;
+    }
+    #file-input2, #file-input3{
+        margin-inline: 25%;
+    }
+
+
 }
 
 

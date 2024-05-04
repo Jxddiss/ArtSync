@@ -65,6 +65,7 @@ document.addEventListener("DOMContentLoaded", function() {
     * */
     video.addEventListener("click", function() {
         videoDialog.showModal();
+        videoDialog.style.display="flex"
         if (navigator.mediaDevices.getUserMedia) {
             navigator.mediaDevices.getUserMedia({ video: true,audio: true })
                 .then(stream => {

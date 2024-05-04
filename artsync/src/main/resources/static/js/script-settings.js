@@ -41,7 +41,9 @@ function removeAllSelected(){
         btn.classList.remove("selected")
     })
 }
-
+if (document.body.classList.item(1).split("-")[0]==="night"){
+    form.style.color = "black"
+}
 let backgroundColor = ""
 let backgroundTexture = ""
 backgroundOptions.forEach(background=>{
@@ -64,12 +66,12 @@ backgroundOptions.forEach(background=>{
         sendBackgroundData()
     })
 })
-
+const overlay1 = document.querySelector(".overlay")
 textureOptions.forEach(texture=>{
     texture.addEventListener("click",function (){
-        overlay.style.backgroundImage = window.getComputedStyle(texture).getPropertyValue("background-image").toString()
-        overlay.style.display = "block"
-        overlay.style.height = window.getComputedStyle(document.body).getPropertyValue("height")
+        overlay1.style.backgroundImage = window.getComputedStyle(texture).getPropertyValue("background-image").toString()
+        overlay1.style.display = "block"
+        overlay1.style.height = window.getComputedStyle(document.body).getPropertyValue("height")
         backgroundTexture = texture.getAttribute("data-textureValue")
         sendBackgroundData()
     })

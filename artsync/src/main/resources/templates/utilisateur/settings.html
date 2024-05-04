@@ -134,11 +134,12 @@
         </div>
         <div class="persoHolder">
             <div class="glowHolder">
+                <h4>Lumière de profil</h4>
                 <div class="glowPreviewHolder">
                     <img id="pfpGlow" th:src="@{/media/images/{image}(image=${utilisateur.getPhotoUrl()})}" alt="test">
                     <div class="colorPickerHolder">
                         <input type="color" id="colorPicker">
-                        <p id="colorOutput">Fushia</p>
+                        <p id="colorOutput"></p>
                     </div>
                 </div>
             </div>
@@ -337,11 +338,22 @@
                 </div>
                 <h4>Texture</h4>
                 <div class="textureHolder">
-                    <div class="textureOption texture1" data-textureValue="texture1" id="texture1"></div>
-                    <div class="textureOption texture2" data-textureValue="texture2" id="texture2"></div>
-                    <div class="textureOption texture3" data-textureValue="texture3" id="texture3"></div>
-                    <div class="textureOption texture4" data-textureValue="texture4" id="texture4"></div>
-                    <div class="textureOption texture5" data-textureValue="texture5" id="texture5"></div>
+                    <div class="textureOption texture1" data-textureValue="texture1"></div>
+                    <div class="textureOption texture2" data-textureValue="texture2"></div>
+                    <div class="textureOption texture3" data-textureValue="texture3"></div>
+                    <div class="textureOption texture4" data-textureValue="texture4"></div>
+                    <div class="textureOption texture5" data-textureValue="texture5"></div>
+                    <div class="textureOption texture6" data-textureValue="texture6"></div>
+                    <div class="textureOption texture7" data-textureValue="texture7"></div>
+                    <div class="textureOption texture8" data-textureValue="texture8"></div>
+                    <div class="textureOption texture9" data-textureValue="texture9"></div>
+                    <div class="textureOption texture10" data-textureValue="texture10"></div>
+                    <div class="textureOption texture11" data-textureValue="texture11"></div>
+                    <div class="textureOption texture12" data-textureValue="texture12"></div>
+                    <div class="textureOption texture13" data-textureValue="texture13"></div>
+                    <div class="textureOption texture14" data-textureValue="texture14"></div>
+                    <div class="textureOption texture15" data-textureValue="texture15"></div>
+                    <div class="textureOption texture16" data-textureValue="texture16"></div>
                 </div>
             </div>
         </div>
@@ -356,14 +368,14 @@
         const openDialog = document.getElementById("openDialog")
         const closeDialog = document.getElementById("closeDialog")
         const dialog = document.getElementById("supprimerDialog")
-        let open= false
+        let openDialogDebounce= false
 
         openDialog.addEventListener("click",function (){
-            open=true
+            openDialogDebounce=true
             dialog.showModal();
         })
         closeDialog.addEventListener("click", function (){
-            open = false
+            openDialogDebounce = false
             dialog.close();
         })
 
@@ -406,10 +418,10 @@
         document.body.classList.add(bgColor)
     </script>
     <script th:if="${utilisateur.getBackgroundTexture()}">
-        const overlay = document.querySelector(".overlay")
+        const overlay2 = document.querySelector(".overlay")
         const bgTexture = '[[${utilisateur.getBackgroundTexture()}]]'
-        overlay.style.display = "block"
-        overlay.classList.add(bgTexture)
+        overlay2.style.display = "block"
+        overlay2.classList.add(bgTexture)
     </script>
     <div id="notification-pop-liste" ></div>
 </body>

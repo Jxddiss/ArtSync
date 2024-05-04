@@ -197,8 +197,8 @@
     margin-left: 0.5rem;
 }
 .groupPic img{
-    height: 75%;
-    width: auto;
+    height: 5rem;
+    width: 5rem;
     border-radius: 5px;
 }
 .groupInfoHolder{

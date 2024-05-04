@@ -41,6 +41,7 @@ function removeAllSelected(){
         btn.classList.remove("selected")
     })
 }
+
 let backgroundColor = ""
 let backgroundTexture = ""
 backgroundOptions.forEach(background=>{
@@ -183,4 +184,66 @@ function validatePseudo(input){
     })
     console.log("pseudo valid : "+ valid)
     return valid;
+}
+
+const vNavBar = document.querySelector(".verticalNavbar")
+const expandBtn = document.getElementById("expandButton")
+let openNavbar   = false
+expandBtn.addEventListener("click",function (){
+    if (!openNavbar){
+        openNavbar = true
+
+        gsap.to(vNavBar,{
+            width:"100%",
+            opacity:1,
+            duration:0.65,
+            ease:"back"
+        })
+        gsap.to(settingHolder,{
+            width:"0%",
+            opacity:0,
+            duration:0.25,
+        })
+        gsap.to(persoHolder,{
+            width:"0%",
+            opacity:0,
+            duration:0.25,
+        })
+        gsap.to(expandBtn,{
+            rotate:180,
+            ease:"back"
+        })
+    }else{
+        openNavbar = false
+        console.log(getSelectedSection())
+        gsap.to(vNavBar,{
+            width:"0%",
+            opacity:0,
+            duration:0.25,
+        })
+        gsap.to(document.querySelector("."+getSelectedSection()),{
+            width:"100%",
+            opacity:1,
+            duration:0.65,
+            ease:"back"
+        })
+        gsap.to(expandBtn,{
+            rotate:0,
+            ease:"back"
+        })
+    }
+})
+
+function getSelectedSection() {
+    for (const btn of sectionBtns) {
+        if (btn.classList.contains("selected")) {
+            if (btn.id === "compteSection") {
+                console.log(document.querySelector(".settingHolder"));
+                return "settingHolder";
+            } else {
+                return "persoHolder";
+            }
+        }
+    }
+    return "";
 }

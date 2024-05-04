@@ -18,10 +18,10 @@
     <script th:src="@{/js/script-settings.js?v=1}" defer></script>
 </head>
 <body>
-    <div class="overlay"></div>
+    <div class="overlay" id="overlayerElement"></div>
     <!--Header-->
     <nav th:replace=" ~{fragment/fragments :: headerUserFragment}"></nav>
-
+    <button id="expandButton"><i class="bi bi-caret-right"></i></button>
     <!--Content-->
     <div class="contentHolder mt-5">
         <div class="verticalNavbar">
@@ -347,7 +347,7 @@
         </div>
     </div>
     <script>
-        const overlay = document.querySelector(".overlay")
+        const overlay = document.getElementById(".overlayerElement")
         const editCompte = document.getElementById("editCompte")
         const editPerso = document.getElementById("editPerso")
         const editUser = document.getElementById("editUser")
@@ -406,6 +406,7 @@
         document.body.classList.add(bgColor)
     </script>
     <script th:if="${utilisateur.getBackgroundTexture()}">
+        const overlay = document.querySelector(".overlay")
         const bgTexture = '[[${utilisateur.getBackgroundTexture()}]]'
         overlay.style.display = "block"
         overlay.classList.add(bgTexture)

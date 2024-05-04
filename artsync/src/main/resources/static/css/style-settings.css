@@ -611,3 +611,70 @@ input[readonly]
     transition: 0.25s;
 }
 
+#expandButton{
+    display: none;
+    height: 3rem;
+    width: 3rem;
+    border-radius: 50%;
+    position: sticky;
+    border: 1px solid black;
+    background-color: transparent;
+    top: 5%;
+    margin-left: -4%;
+}
+@media only screen and (max-width: 700px) {
+    .verticalNavbar{
+        width: 0%;
+        opacity: 0;
+    }
+    .bgColorHolder, .textureHolder{
+        gap: 0.25rem;
+        padding: 0.5rem;
+    }
+    #expandButton{
+        display: block;
+    }
+    .profilPicHolder{
+        height: 6rem;
+        width: 6rem;
+    }
+    .settingHolder{
+        width: 100%;
+    }
+    .info h4{
+        font-size: 13px;
+    }
+    .profilPicHolder img {
+        height: 6rem;
+        width: 6rem;
+    }
+    #openDialog{
+        scale: 0.5;
+        width: 100%;
+    }
+    {
+        font-size: 15px;
+    }
+    .inputHeader2 input,.inputHeader input{
+        font-size: 15px;
+    }
+    .inputBody2 button{
+        height: 2rem;
+        font-size: 15px;
+        width: 100%;
+    }
+    .profilOptions{
+        width: 95%;
+        border-radius: 12px;
+    }
+    .accountHeader{
+        font-size: 10px;
+    }
+    .accountHeader h4{
+        font-size: 12px;
+    }
+    .accountHeader i{
+        font-size: 15px !important;
+    }
+
+}

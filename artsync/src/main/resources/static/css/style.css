@@ -345,6 +345,40 @@ border-radius: 25px;
 .texture5{
     background-image: url("/media/images/texture4.png");
 }
+.texture6{
+    background-image: url("/media/images/texture5.png");
+}
+.texture7{
+    background-image: url("/media/images/texture6.png");
+}
+.texture8{
+    background-image: url("/media/images/texture7.png");
+}
+.texture9{
+    background-image: url("/media/images/texture8.png");
+}
+.texture10{
+    background-image: url("/media/images/texture9.png");
+}
+.texture11{
+    background-image: url("/media/images/texture10.png");
+}
+.texture12{
+    background-image: url("/media/images/texture11.png");
+}
+.texture13{
+    background-image: url("/media/images/texture12.png");
+}
+.texture14{
+    background-image: url("/media/images/texture13.png");
+}
+.texture15{
+    background-image: url("/media/images/texture14.png");
+}
+.texture16{
+    background-image: url("/media/images/texture15.png");
+}
+
 .overlay{
     display: none;
     position: absolute;

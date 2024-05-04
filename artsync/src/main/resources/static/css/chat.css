@@ -835,4 +835,7 @@ border-radius: 25px;
     body{
         overflow-y: auto !important;
     }
+    #video-chat,#video-chat2{
+        display: none;
+    }
 }

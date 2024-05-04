@@ -94,6 +94,7 @@ public class AppController {
                     } else {
                         projet.setIn(false);
                     }
+                    projet.setNbMembre(projetService.getMembersCount(projet.getId()));
                 }
                 model.addAttribute("listProjets", listProjets);
                 if (listProjets.size()<1){
@@ -134,6 +135,7 @@ public class AppController {
                     } else {
                         projet.setIn(false);
                     }
+                    projet.setNbMembre(projetService.getMembersCount(projet.getId()));
                 }
                 model.addAttribute("listProjets", listProjets);
                 if (listProjets.size()<1){

@@ -3,6 +3,7 @@ const btnPublier = document .getElementById("btn-publier")
 const postPane = document.getElementById('postPane');
 const closeButton = document.getElementById('fermer');
 const postInput = document.getElementById('file-input');
+const userId = document.body.getAttribute("user-id");
 
 //=========== change aspect-ratio media ========
 document.querySelectorAll(".media-holder").forEach((mediaHolder) => {
@@ -28,10 +29,12 @@ document.querySelectorAll(".media-holder").forEach((mediaHolder) => {
 /*========= change icon like and mouseover click ============*/
 
 document.querySelectorAll(".like").forEach((likeSymbol) => {
-  const postId = likeSymbol.getAttribute("post-id")
+  const postId = likeSymbol.getAttribute("post-id");
+  const ownerId = likeSymbol.getAttribute("owner-id")
   const icon = likeSymbol.querySelector("i");
-  if(localStorage.getItem(`like-post-${postId}`)){
-    if(localStorage.getItem(`like-post-${postId}`) === "true"){
+
+  if(localStorage.getItem(`like-post-${postId}-${userId}`)){
+    if(localStorage.getItem(`like-post-${postId}-${userId}`) === "true"){
       likeSymbol.dataset.clicked = "true";
       icon.style.color = "red";
       let fill = icon.classList[1] + "-fill";
@@ -41,7 +44,7 @@ document.querySelectorAll(".like").forEach((likeSymbol) => {
       likeSymbol.dataset.clicked = "false";
     }
   }else{
-    localStorage.setItem(`like-post-${postId}`,`false`);
+    localStorage.setItem(`like-post-${postId}-${userId}`,`false`);
   }
 
   likeSymbol.firstElementChild.addEventListener("mouseout", (e) => {
@@ -67,12 +70,12 @@ document.querySelectorAll(".like").forEach((likeSymbol) => {
     if (likeSymbol.dataset.clicked === "false") {
       likeSymbol.dataset.clicked = "true";
       icon.style.color = "red";
-      likePost("like",likeSymbol.getAttribute("post-id"));
+      likePost("like",postId,ownerId);
       nbLike++
       likeSymbol.querySelector("p").innerText = `${nbLike} J'aimes`;
-      localStorage.setItem(`like-post-${postId}`,`true`);
+      localStorage.setItem(`like-post-${postId}-${userId}`,`true`);
     } else {
-      likePost("unlike", likeSymbol.getAttribute("post-id"));
+      likePost("unlike", postId,ownerId);
       let newIconClass = icon.classList[1].replace("-fill", "");
       icon.classList.remove(icon.classList[1]);
       icon.classList.add(newIconClass);
@@ -152,6 +155,16 @@ postInput.addEventListener('change', function() {
 function checkFile(form){
   const input = form.querySelector("input[type='file']");
   if (input.files && input.files[0]) {
+    stompClientNotif.send("/app/notification/post/"+pseudoUser,{},JSON.stringify(
+        {
+          type: 'info',
+          pseudoSender: pseudoUser,
+          message: `Nouvelle post de ${pseudoUser}` ,
+          titre: 'Nouveau post',
+          imgSender: userImage,
+          urlNotif: window.location.origin.toString() + '/feed'
+        }
+    ));
     return true;
   }
   return false;
@@ -207,11 +220,22 @@ function ajouterCommentaire(form){
       }
     },
   })
+
+  stompClientNotif.send("/app/notification/"+form.ownerId.value,{},JSON.stringify(
+      {
+        type: 'info',
+        pseudoSender: pseudoUser,
+        message: `Nouveau commentaire de ${pseudoUser}`,
+        titre: 'Nouveau commentaire',
+        imgSender: userImage,
+        urlNotif: window.location.origin.toString() + '/feed'
+      }
+  ));
 }
 
 
 
-function likePost(type, postId){
+function likePost(type, postId,idPostOwner){
   $.ajax({
     type: "POST",
     url: window.location.origin.toString()+"/post/like",
@@ -224,4 +248,17 @@ function likePost(type, postId){
       }
     },
   })
+
+  if(type === "like"){
+    stompClientNotif.send("/app/notification/"+idPostOwner,{},JSON.stringify(
+        {
+          type: 'info',
+          pseudoSender: pseudoUser,
+          message: `Nouvelle mention jaime de ${pseudoUser}` ,
+          titre: 'Nouveau like',
+          imgSender: userImage,
+          urlNotif: window.location.origin.toString() + '/feed'
+        }
+    ));
+  }
 }

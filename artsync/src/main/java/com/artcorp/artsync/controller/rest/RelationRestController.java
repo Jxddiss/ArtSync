@@ -3,23 +3,38 @@ package com.artcorp.artsync.controller.rest;
 
 import com.artcorp.artsync.entity.*;
 import com.artcorp.artsync.service.DemandeService;
+import com.artcorp.artsync.service.NotificationService;
 import com.artcorp.artsync.service.ProjetService;
 import com.artcorp.artsync.service.UtilisateurService;
+import com.artcorp.artsync.service.impl.NotificationServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class RelationRestController {
+    private UtilisateurService utilisateurService;
+    private ProjetService projetService;
+    private DemandeService demandeService;
+    private SimpMessagingTemplate simpMessagingTemplate;
+    private NotificationService notificationService;
+
     @Autowired
-    UtilisateurService utilisateurService;
-    @Autowired
-    ProjetService projetService;
-    @Autowired
-    DemandeService demandeService;
+    public RelationRestController(UtilisateurService utilisateurService,
+                                  ProjetService projetService,
+                                  DemandeService demandeService,
+                                  SimpMessagingTemplate simpMessagingTemplate,
+                                  NotificationServiceImpl notificationService) {
+        this.utilisateurService = utilisateurService;
+        this.projetService = projetService;
+        this.demandeService = demandeService;
+        this.simpMessagingTemplate = simpMessagingTemplate;
+        this.notificationService = notificationService;
+    }
 
     @PostMapping("/recherche/updateRelationUsr")
     public String updateRelationUser(@Param("userId") Long userId, HttpServletRequest request){
@@ -28,9 +43,15 @@ public class RelationRestController {
             return "false";
         }
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
-        utilisateurService.updateRelations(userId,utilisateur.getId());
+        Notification notif = utilisateurService.updateRelations(userId,utilisateur.getId());
         utilisateur = utilisateurService.findById(utilisateur.getId());
         session.setAttribute("user",utilisateur);
+
+        if(notif != null){
+            this.simpMessagingTemplate.convertAndSend("/topic/notification/"+userId,
+                    notificationService.saveNotification(notif));
+        }
+
         return "true";
     }
     @PostMapping("/recherche/updateRelationGrp")

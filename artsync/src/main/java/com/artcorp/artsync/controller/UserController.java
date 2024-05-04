@@ -320,6 +320,7 @@ public class UserController {
             System.out.println("COMMENTAIRES SUPPRIMÉS");
             utilisateurService.delete(user.getId());
             System.out.println("UTILISATEUR SUPPRIMÉ");
+            session.invalidate();
         }
         return "redirect:/authentification";
     }

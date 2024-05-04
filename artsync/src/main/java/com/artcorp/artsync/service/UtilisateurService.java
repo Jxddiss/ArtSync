@@ -1,5 +1,6 @@
 package com.artcorp.artsync.service;
 
+import com.artcorp.artsync.entity.Notification;
 import com.artcorp.artsync.entity.Utilisateur;
 import com.artcorp.artsync.exception.domain.MauvaisIdentifiantException;
 
@@ -12,7 +13,7 @@ public interface UtilisateurService {
     Utilisateur findByPseudo(String pseudo);
     Utilisateur findByEmail(String email);
     Utilisateur update(Utilisateur utilisateur);
-    void updateRelations(Long followedId, Long followerId);
+    Notification updateRelations(Long followedId, Long followerId);
     List<Utilisateur> findBySpecialisation(String specialisation);
     List<Utilisateur> findByKeyword(String keyword);
     void disable(Long id);

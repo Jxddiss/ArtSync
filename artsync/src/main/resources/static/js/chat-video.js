@@ -82,6 +82,7 @@ document.addEventListener("DOMContentLoaded", function() {
     * */
     phone.addEventListener("click", function() {
         videoDialog.showModal();
+        videoDialog.style.opacity = 1;
         if (navigator.mediaDevices.getUserMedia) {
             navigator.mediaDevices.getUserMedia({ video: true,audio: true })
                 .then(stream => {

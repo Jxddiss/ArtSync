@@ -832,4 +832,7 @@ border-radius: 25px;
         width: 0.6rem;
         transform: translateY(0%);
     }
+    body{
+        overflow-y: auto !important;
+    }
 }

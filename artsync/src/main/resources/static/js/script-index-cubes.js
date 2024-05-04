@@ -174,12 +174,6 @@ const path5 = new THREE.CatmullRomCurve3(points5,false);
 function easeInOutQuad(t) {
     return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
 }
-//This is primordial always, any threejs project needs this
-/*
-setTimeout(() => {
-    document.getElementById('slogan2').style.zIndex = 3;
-}, 1000);
-*/
 let t = 0;
 let t2 = -0.1;
 let t3 = -0.09;
@@ -242,7 +236,7 @@ function animate() {
             gsap.to(littleCube4.position, { z: "+=0.01", y:"+=0.002", x:"+=0.025", ease: "rough", duration: 8 })
             gsap.to(littleCube5.position, { z: "+=0.015", y:"-=0.0025", x:"+=0.0025", ease: "rough", duration: 8 })
         }
-        if (model.position.distanceTo(points[6]) < 0.01) {
+        if (model.position.distanceTo(points[6]) < 0.01 && window.innerWidth>700) {
             document.getElementById('slogan').style.zIndex = 3;
             let tl = gsap.timeline({ yoyo: true, repeat: 1, repeatDelay: 0.4});
             tl.to("#slogan > *:nth-child(1)", { duration: 0.2, delay: 0.0025, x: 250, ease:'back' });

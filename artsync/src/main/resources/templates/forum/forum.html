@@ -27,6 +27,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     <nav th:replace="${session.user == null} ? ~{fragment/fragments :: headerFragment} : ~{fragment/fragments :: headerUserFragment}"></nav>
 
     <!--Content-->
+    <button id="expandButton"><i class="bi bi-caret-right"></i></button>
     <div class="content">
         <div class="verticalHeader">
             <h4 th:if="${session.user != null}">OPTIONS</h4>

@@ -5,6 +5,49 @@ const filterTags = document.querySelectorAll(".filterTag")
 const checkedFilters = [];
 const filteredResult = [];
 
+const vNavBar = document.querySelector(".verticalHeader")
+const expandBtn = document.getElementById("expandButton")
+const forumContent = document.querySelector(".forumContent")
+let openNavbar   = false
+
+expandBtn.addEventListener("click",function (){
+    if (!openNavbar){
+        openNavbar = true
+        gsap.to(vNavBar,{
+            width:"100%",
+            opacity:1,
+            duration:0.65,
+            ease:"back"
+        })
+        gsap.to(forumContent,{
+            width:"0%",
+            opacity:0,
+            duration:0.25,
+        })
+        gsap.to(expandBtn,{
+            rotate:180,
+            ease:"back"
+        })
+    }else{
+        openNavbar = false
+        gsap.to(vNavBar,{
+            width:"0%",
+            opacity:0,
+            duration:0.25,
+        })
+        gsap.to(forumContent,{
+            width:"100%",
+            opacity:1,
+            duration:0.65,
+            ease:"back"
+        })
+        gsap.to(expandBtn,{
+            rotate:0,
+            ease:"back"
+        })
+    }
+})
+
 gsap.to(children,{
     scale: 1,
     opacity: 1,

@@ -548,3 +548,61 @@
     opacity:1;
     transition: 0.25s;
 }
+
+#expandButton{
+    display: none;
+    height: 3rem;
+    width: 3rem;
+    border-radius: 50%;
+    position: sticky;
+    border: 1px solid black;
+    background-color: transparent;
+    top: 10%;
+    margin-left: -4%;
+}
+
+@media only screen and (max-width: 700px) {
+    body{
+        height: fit-content;
+    }
+    .filterContent{
+        display: none;
+    }
+    .verticalHeader{
+
+        width: 0%;
+        opacity: 0;
+    }
+    .forumContent, .resultHolder{
+        width: 100%;
+    }
+    .threadInfo{
+        width: 100%;
+        align-items: center;
+    }
+    .threadUserPfp{
+        width: 50%;
+    }
+    .threadTags{
+        justify-content: end;
+    }
+    .tag{
+        scale: 0.75;
+    }
+    .commentForm button{
+        font-size: 15px;
+        width: 25%;
+    }
+    .comment{
+        padding-inline: 7% !important;
+    }
+    .section,.sectionFilter,.sectionsHolder{
+        width: 85%;
+    }
+    .form{
+        width: 95%;
+    }
+    #expandButton{
+        display: block;
+    }
+}

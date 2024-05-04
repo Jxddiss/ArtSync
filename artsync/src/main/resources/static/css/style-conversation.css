@@ -170,7 +170,6 @@ ul {
     font-weight: 300;
     color: rgb(0, 0, 0);
     margin-top: 3px;
-    margin-left: -5px;
 }
 .mini-container img{
     height: 1em;
@@ -457,4 +456,36 @@ border-radius: 25px;
 #projetA {
     text-decoration: none;
 
+}
+
+@media only screen and (max-width: 700px) {
+    #liste-contacts{
+        width: 95%;
+    }
+    .liste-options-contact{
+        gap:0.5rem
+    }
+    .carte img{
+        height: 3rem;
+        width: 3rem;
+
+    }
+    .mini-container{
+        margin-left: 0 !important;
+    }
+    h4{
+        width: 85% !important;
+        margin-left: 0 !important;
+    }
+    .mini-container p:first-child{
+        font-size: 20px;
+    }
+    .mini-container p:nth-child(2){
+        font-size: 15px;
+    }
+    .statut{
+        height: 1.5rem;
+        width: 1.5rem;
+
+    }
 }

@@ -22,7 +22,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     </head>
 
     <body class="body-content">
-
+    <button class="verticalButton"><i class="bi bi-caret-right"></i></button>
+    <button class="annonceBtn"><i class="bi bi-caret-left"></i></button>
     <!--Header-->
     <nav th:replace="${session.user == null} ? ~{fragment/fragments :: headerFragment} : ~{fragment/fragments :: headerUserFragment}"></nav>
 
@@ -53,11 +54,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         <button type="submit" th:text="${tache != null ? 'Mettre à jour' : 'CRÉER'}">CRÉER</button>
                     </div>
                 </form>
-            </div>
-            <div class="fichierHolder">
-                <div class="apercu">
-                    <img src="" alt="">
-                </div>
             </div>
 
         </div>

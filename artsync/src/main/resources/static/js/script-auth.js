@@ -22,15 +22,15 @@ container.addEventListener('click', function(event) {
     }
 
     if (event.target.id === 'signUp') {
-        showNotification({
-            type: 'info',
-            message: "Le mot de passe " +
-                "doit avoir 8 charactères minimums, une majuscule, une minuscule, " +
-                "un chiffre et un charactère spécial",
-            titre: 'Info',
-        })
-        const notif = document.querySelector(".notification-pop-container");
-        notif.style.animationDuration = "7s"
+        // showNotification({
+        //     type: 'info',
+        //     message: "Le mot de passe " +
+        //         "doit avoir 8 charactères minimums, une majuscule, une minuscule, " +
+        //         "un chiffre et un charactère spécial",
+        //     titre: 'Info',
+        // })
+        // const notif = document.querySelector(".notification-pop-container");
+        // notif.style.animationDuration = "7s"
 
         document.getElementById('connect').classList.remove('selected');
         form = document.getElementById("main");
@@ -228,6 +228,30 @@ function confirmationButtonHandler() {
         imgBox.style.border = "none";
         document.getElementById('carouselExample').style.display = "none";
 
+        if (window.innerWidth < 700) {
+            const authBox = document.querySelector(".auth-box");
+            Array.from(authBox.children).forEach(child => {
+                if (child.id !== 'formulaire') {
+                    child.style.opacity = 0;
+                } else {
+                    Array.from(child.querySelector(".input-holder").children).forEach(innerChild => {
+                        if (innerChild.id !== 'confirmation') {
+                            innerChild.style.opacity = 0;
+                        } else{
+                            innerChild.style.width = "125%"
+                            gsap.to(innerChild,{
+                                y: "-500%",
+                                x:"5%",
+                                duration:0.25,
+                                ease:"back"
+                            })
+                        }
+                    });
+                }
+            });
+        }
+
+
         //Ajout des nouveaux éléments
         var rowDiv = document.createElement("div");
         rowDiv.setAttribute("id", "row-temporaire");
@@ -306,7 +330,7 @@ function confirmationButtonHandler() {
         loginBox.insertBefore(choiceContainerDiv, rowDiv.nextSibling);
         loginBox.style.display = "block";
 
-        
+
 
 
     } else {

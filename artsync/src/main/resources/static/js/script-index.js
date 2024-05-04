@@ -156,13 +156,18 @@ gsap.to(milestoneHeaders[2], {
 });
 const timeline = gsap.timeline();
 
-
+let output = '395%'
+let output0 = '-100'
+if (window.innerWidth < 700) {
+    output='85%'
+    output0='-10'
+}
 timeline
     .to(finalPreview, {
         scrollTrigger: {
             trigger: finalPreview,
             start: 'top 5%',
-            end: '400%',
+            end: output,
             scrub: 1,
             pin: true,
             pinSpacing: false,
@@ -177,14 +182,14 @@ timeline
             scrub: 1,
         },
         delay: 4,
-        x: -100,
-        scale: 1.2,
+        x: output0,
+        scale: 1,
     }, "<")
     .to(socialHolder, {
         scrollTrigger: {
             trigger: socialHolder,
             start: 'top 15%',
-            end: '200%',
+            end: '20%',
             scrub: 1,
         },
         x: 0,
@@ -229,8 +234,8 @@ timeline
     }, "<")
     .to(pod1, {
         scrollTrigger: {
-            trigger: finalPreview,
-            start: 'top 1%',
+            trigger: podiumTrigger,
+            start: 'bottom 50%',
             end: 'bottom 85%',
             scrub: 1,
         },
@@ -238,8 +243,8 @@ timeline
     }, "<")
     .to(pod2, {
         scrollTrigger: {
-            trigger: finalPreview,
-            start: 'top 1%',
+            trigger: podiumTrigger,
+            start: 'bottom 50%',
             end: 'bottom 90%',
             scrub: 1,
         },
@@ -247,8 +252,8 @@ timeline
     }, "<")
     .to(pod3, {
         scrollTrigger: {
-            trigger: finalPreview,
-            start: 'top 1%',
+            trigger: podiumTrigger,
+            start: 'bottom 50%',
             end: 'bottom 95%',
             scrub: 1,
         },
@@ -256,8 +261,8 @@ timeline
     }, "<")
     .to(podiumHeader, {
         scrollTrigger: {
-            trigger: finalPreview,
-            start: 'top 2%',
+            trigger: podiumTrigger,
+            start: 'top 50%',
             end: 'bottom 70%',
             scrub: 1,
         },
@@ -266,20 +271,20 @@ timeline
 
 ScrollTrigger.create({
     trigger: podiumTrigger,
-    start: 'top',
+    start: 'bottom 50%',
     end: 'bottom 70%',
     onEnter: () => {
         gsap.to(sprintImages[sprintImages.length - 1], {
             duration: 1,
-            scale: 0.8,
-            x: 150,
+            scale: 0.9,
+            x:"45%",
             ease: "sine",
             boxShadow: '0 0 75px 25px rgba(255, 191, 108, 0.25)',
+            overwrite: true
         });
         gsap.to(socialHolder, {
             duration: 0.5,
             opacity: 0,
-            x: 450,
             ease: "sine",
         });
         gsap.to(winningPic, {
@@ -295,16 +300,19 @@ ScrollTrigger.create({
 });
 
 let i = 0;
-setInterval(() => {
-    gsap.to(textChange, {
-        duration: 0.5,
-        text: podiumHeaderString[i],
-        ease: "sine",
-    });
-    i = (i + 1) % podiumHeaderString.length;
-}, 1500);
+if (window.innerWidth > 700){
+    setInterval(() => {
+        gsap.to(textChange, {
+            duration: 0.5,
+            text: podiumHeaderString[i],
+            ease: "sine",
+        });
+        i = (i + 1) % podiumHeaderString.length;
+    }, 1500);
 
-gsap.set('.siteHeader, .buttonStartHolder', { opacity: 0 });
+    gsap.set('.siteHeader, .buttonStartHolder', { opacity: 0 });
+}
+
 
 //SECTION FIN DE PAGE
 const tl = gsap.timeline();

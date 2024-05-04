@@ -133,5 +133,10 @@ public class PostServiceImpl implements PostService {
         return postRepos.findAllByUtilisateurAndPublique(utilisateur,true);
     }
 
+    @Override
+    public List<Post> findAllPostOfFriends(Utilisateur utilisateur) {
+        return postRepos.findPostFollowingAndFollower(utilisateur.getFollowing(),utilisateur.getFollowing());
+    }
+
 
 }

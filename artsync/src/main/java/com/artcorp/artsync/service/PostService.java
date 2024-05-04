@@ -35,4 +35,5 @@ public interface PostService {
     List<Post> findTop10Posts();
 
     List<Post>findAllByUtilisateurAndPublique(Utilisateur utilisateur);
+    List<Post> findAllPostOfFriends(Utilisateur utilisateur);
 }

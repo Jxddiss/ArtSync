@@ -808,7 +808,7 @@
     height: fit-content;
 }
 .formHolder{
-    width: 65%;
+    width: 100%;
     height: 30rem;
 }
 .formHolder form{
@@ -1150,4 +1150,111 @@
 }
 #fileUploadInput{
     font-size: 1rem;
+}
+.verticalButton{
+    display: none;
+    height: 2rem;
+    width: 2rem;
+    border-radius: 50%;
+    position: sticky;
+    border: 1px solid black;
+    background-color: transparent;
+    top: 8%;
+    margin-left: -2%;
+    z-index: 4;
+}
+.annonceBtn{
+    display: none;
+    height: 2rem;
+    z-index: 4;
+    width: 2rem;
+    border-radius: 50%;
+    position: sticky;
+    border: 1px solid black;
+    top: 8%;
+    float: right;
+}
+
+@media only screen and (max-width: 700px) {
+    .verticalNavbar{
+        display: none;
+    }
+    .projectContainer2{
+        display: none;
+    }
+
+    .projectContainer1,.projectContent{
+        width: 100%;
+        padding: 0.5rem;
+    }
+    .options{
+        flex-wrap: wrap;
+        align-content: flex-start;
+    }
+    .taskAdd{
+        font-size: 17px;
+    }
+    .verticalButton,.annonceBtn{
+        display: block !important;
+    }
+    .annonceHeader{
+        border-bottom: none;
+    }
+    .headerInfo h3  {
+        font-size: 20px;
+    }
+    .projectInfo{
+        font-size: 15px;
+    }
+    .taskHolder{
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .taskContainer{
+        width: 90%;
+    }
+    .taskShowScroller{
+        justify-content: center;
+    }
+    .addTache{
+        width: 50%;
+    }
+    .radioHolder{
+        flex-wrap: wrap;
+    }
+    .radioHolder input{
+        width: 100%;
+    }
+    .formHolder{
+        height: auto;
+    }
+    .userImgHolder{
+        width: 25%;
+    }
+    .userImgHolder img{
+        height: 3rem;
+        width: 3rem;
+    }
+    .optionBtn{
+        scale: 0.8;
+    }
+    .imageGroupHolder{
+        gap: 0.5rem;
+    }
+    .formContainerGestion{
+        width: 100%;
+    }
+    .formContainerGestion button{
+        width: 50%;
+    }
+    .fichiersHolder{
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .optionBtnDemande{
+        flex-direction: column;
+        scale: 0.8;
+        padding-inline: 0;
+    }
 }

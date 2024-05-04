@@ -41,36 +41,44 @@ function createBoxWithRoundedEdges( width, height, depth, radius0, smoothness ) 
     geometry.center();
     return geometry;
 }
-const cubeGeometry = createBoxWithRoundedEdges(0.05, 0.05, 0.05,0.0025, 5);
-const cubeMaterial = new THREE.MeshStandardMaterial({ color: 'rgb(50,50,50)', metalness: 1.05, roughness: 0.5});
-const cube1 = new THREE.Mesh(cubeGeometry, cubeMaterial);
-scene.add(cube1);
-
-const cubeGeometry2 = createBoxWithRoundedEdges(0.06, 0.06, 0.06,0.0025, 5);
-const cubeMaterial2 = new THREE.MeshStandardMaterial({ color: 'rgb(50,50,50)', metalness: 1.05, roughness: 0.5});
-const cube2 = new THREE.Mesh(cubeGeometry2, cubeMaterial2);
-scene.add(cube2);
 
 
-const points = [
-    new THREE.Vector3( 0.15, 0.09, 24.8 ),
-    new THREE.Vector3( 0.2, 0.06, 24.75 ),
-    new THREE.Vector3( 0.7, 0.05, 24 ),
-    new THREE.Vector3( 0.65, -0.09, 23.5 ),
+let mobile = true
+if (window.innerWidth>700){
+    mobile = false
+}
 
-    new THREE.Vector3( 0.4, -0.09, 23.8 ),
-    new THREE.Vector3( 0.3, -0.05, 24.5 ),
-    new THREE.Vector3( 0.1, -0.05, 24.6 ),
-]
-const points2 = [
-    new THREE.Vector3( -0.7, 0.09, 24.8 ),
-    new THREE.Vector3( -0.35, 0.06, 24.9 ),
+    const cubeGeometry = createBoxWithRoundedEdges(0.05, 0.05, 0.05,0.0025, 5);
+    const cubeMaterial = new THREE.MeshStandardMaterial({ color: 'rgb(50,50,50)', metalness: 1.05, roughness: 0.5});
+    const cube1 = new THREE.Mesh(cubeGeometry, cubeMaterial);
+    scene.add(cube1);
 
-    new THREE.Vector3( -0.0525, 0, 24.7 ),
-]
+    const cubeGeometry2 = createBoxWithRoundedEdges(0.06, 0.06, 0.06,0.0025, 5);
+    const cubeMaterial2 = new THREE.MeshStandardMaterial({ color: 'rgb(50,50,50)', metalness: 1.05, roughness: 0.5});
+    const cube2 = new THREE.Mesh(cubeGeometry2, cubeMaterial2);
+    scene.add(cube2);
+    const points = [
+        new THREE.Vector3( 0.15, 0.09, 24.8 ),
+        new THREE.Vector3( 0.2, 0.06, 24.75 ),
+        new THREE.Vector3( 0.7, 0.05, 24 ),
+        new THREE.Vector3( 0.65, -0.09, 23.5 ),
+
+        new THREE.Vector3( 0.4, -0.09, 23.8 ),
+        new THREE.Vector3( 0.3, -0.05, 24.5 ),
+        new THREE.Vector3( 0.1, -0.05, 24.6 ),
+    ]
+    const points2 = [
+        new THREE.Vector3( -0.7, 0.09, 24.8 ),
+        new THREE.Vector3( -0.35, 0.06, 24.9 ),
+
+        new THREE.Vector3( -0.0525, 0, 24.7 ),
+    ]
 
 const path = new THREE.CatmullRomCurve3(points,false)
 const path2 = new THREE.CatmullRomCurve3(points2,false)
+
+
+
 
 
 let galaxy = null
@@ -108,43 +116,51 @@ function easeInOutQuad(t) {
     return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
 }
 let rotationSpeed = 0.05;
-let t=2; 
-ScrollTrigger.create({
-    trigger: document.getElementById('containerGalaxy'),
-    start: "top 20%",
-    end: "600%",
-    scrub: 1,
-    onEnter: () => {
-        t = 0;
-        rotationSpeed = 0.05;
-    }
-});
-function animate() {
-    if (t<1) {
-        const time = Date.now();
-        t = (time/400 % 6)/6;
-        t = easeInOutQuad(t);
-        let position = path.getPointAt(t);
-        cube1.position.copy(position);
-        cube1.rotation.x -= 0.015;
-        cube1.rotation.y -= 0.035;
-        rotationSpeed-=0.00001;
+let t=2;
 
-        const position2 = path2.getPointAt(t);
-        cube2.position.copy(position2);
-        cube2.rotation.x += 0.0045;
-        cube2.rotation.y += 0.0065;
-        cube2.rotation.y += 0.01;
-        rotationSpeed-=0.00001;
-        if (position.distanceTo(points[points.length - 1]) < 0.01) {
-            t = 2; 
-            gsap.to(cube1.position, { x:"-=0.065" ,z: "+=0.015", y:"+=0.025", ease: "sine", duration: 3 })
-            gsap.to(cube2.position, { x:"+=0.005" ,z: "-=0.025", y:"+=0.015", ease: "sine", duration: 3 })
-            gsap.to(cube1.rotation, { x:"-=1" , y:"-=1", ease: "sine", duration: 3 })
-            gsap.to(cube2.rotation, { x:"+=1" ,z: "-=1", y:"-=0.015", ease: "sine", duration: 4 })
+if (!mobile){
+    ScrollTrigger.create({
+        trigger: document.getElementById('containerGalaxy'),
+        start: "top 20%",
+        end: "600%",
+        scrub: 1,
+        onEnter: () => {
+            t = 0;
+            rotationSpeed = 0.05;
         }
+    });
+}
 
+function animate() {
+    if (!mobile){
+        console.log(window.innerWidth)
+        if (t<1 ) {
+            const time = Date.now();
+            t = (time/400 % 6)/6;
+            t = easeInOutQuad(t);
+            let position = path.getPointAt(t);
+            cube1.position.copy(position);
+            cube1.rotation.x -= 0.015;
+            cube1.rotation.y -= 0.035;
+            rotationSpeed-=0.00001;
+
+            const position2 = path2.getPointAt(t);
+            cube2.position.copy(position2);
+            cube2.rotation.x += 0.0045;
+            cube2.rotation.y += 0.0065;
+            cube2.rotation.y += 0.01;
+            rotationSpeed-=0.00001;
+            if (position.distanceTo(points[points.length - 1]) < 0.01) {
+                t = 2;
+                gsap.to(cube1.position, { x:"-=0.065" ,z: "+=0.015", y:"+=0.025", ease: "sine", duration: 3 })
+                gsap.to(cube2.position, { x:"+=0.005" ,z: "-=0.025", y:"+=0.015", ease: "sine", duration: 3 })
+                gsap.to(cube1.rotation, { x:"-=1" , y:"-=1", ease: "sine", duration: 3 })
+                gsap.to(cube2.rotation, { x:"+=1" ,z: "-=1", y:"-=0.015", ease: "sine", duration: 4 })
+            }
+
+        }
     }
+
     if (galaxy){
         galaxy.rotation.y -= 0.005;
     }
@@ -237,11 +253,15 @@ gsap.to(camera.position, {
     },
     
 });
+let startOutput = "30rem"
+if (window.innerWidth<700){
+    startOutput = "0rem"
+}
 gsap.to(document.body, {
     backgroundColor: "black",
     scrollTrigger: {
         trigger: document.getElementById('containerGalaxy'),
-        start: "top 30rem",
+        start: startOutput,
         end: "100%",
         scrub: 1,
     },
@@ -292,3 +312,14 @@ postsRight.forEach((post, index) => {
         },
     });
 });
+
+const siteTrigger = document.querySelector('.siteHeader');
+ScrollTrigger.create({
+    trigger: siteHeader,
+    start: 'top 25%',
+    end: 'bottom 80%',
+    onEnter: () => {
+        rightPostHolder.style.display = "none"
+        leftPostHolder.style.display = "none"
+    }
+})

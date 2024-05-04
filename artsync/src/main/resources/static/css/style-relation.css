@@ -469,3 +469,63 @@ a{
     font-weight: 500;
     margin-bottom: 2rem;
 }
+.carte{
+    height: fit-content;
+    padding-block: 1rem;
+}
+
+@media only screen and (max-width: 700px) {
+    .social-holder{
+        height: fit-content;
+        padding-block: 2rem;
+    }
+    .activity-holder{
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+    }
+    .activity-content{
+        align-items: center;
+    }
+    .special-row, .anti-row-param{
+        width: 100% !important;
+        padding-inline: 5%;
+        text-align: center;
+    }
+    .data-holder{
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-inline: 5%;
+        padding-inline: 0;
+    }
+    .carteHolder{
+        width: 90% !important;
+
+    }
+    .carte{
+        height: fit-content !important;
+        padding-block: 1rem;
+    }
+    .carte img  {
+        height: 4rem;
+        width: 4rem;
+    }
+    .rowOption{
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    .rowOption a{
+        padding-block: 5rem;
+        height: fit-content !important;
+
+    }
+    .relation-button{
+        height: 4rem;
+    }
+    .dialogCreateProject{
+        width: 98%;
+    }
+}

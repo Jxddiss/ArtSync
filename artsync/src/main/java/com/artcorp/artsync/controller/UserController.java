@@ -120,6 +120,7 @@ public class UserController {
                 model.addAttribute("projetCount",projetService.findProjectsOfUser(utilisateur.getId()).size());
                 model.addAttribute("type", "Abonnements");
                 model.addAttribute("following", following);
+                model.addAttribute("posts",postService.findAllPostOfFriends(utilisateur));
                 return "utilisateur/relation";
             }
             redirectAttributes.addFlashAttribute("error", "Vous devez vous connecter pour avoir accès à cette page");
@@ -139,6 +140,7 @@ public class UserController {
                 model.addAttribute("projetCount",projetService.findProjectsOfUser(utilisateur.getId()).size());
                 model.addAttribute("type", "Groupes");
                 model.addAttribute("projets", groupes);
+                model.addAttribute("posts",postService.findAllPostOfFriends(utilisateur));
                 return "utilisateur/relation";
             }
             redirectAttributes.addFlashAttribute("error", "Vous devez vous connecter pour avoir accès à cette page");
@@ -158,6 +160,7 @@ public class UserController {
                 model.addAttribute("projetCount",projetService.findProjectsOfUser(utilisateur.getId()).size());
                 model.addAttribute("type", "Abonnées");
                 model.addAttribute("followers", follower);
+                model.addAttribute("posts",postService.findAllPostOfFriends(utilisateur));
                 return "utilisateur/relation";
             }
             redirectAttributes.addFlashAttribute("error", "Vous devez vous connecter pour avoir accès à cette page");

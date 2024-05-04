@@ -35,9 +35,9 @@
 
 }
 .pfpHolder{
-    position: absolute;
+    position: relative;
     z-index: 1;
-    top: 37%;
+    top: -15%;
     left: 10%;
     width: 15rem;
     height: 15rem;
@@ -59,7 +59,9 @@
 }
 .infoContainer{
     display: flex;
+    position: relative;
     height: 21%;
+    top: -30%;
     backdrop-filter: brightness(0.96) blur(12px);
 }
 .infoHolder{
@@ -140,6 +142,8 @@
 }
 
 .sectionBtnContainer{
+    position: relative;
+    top: -30%;
     backdrop-filter: brightness(0.96) blur(12px);
     display: flex;
     width: 100%;
@@ -165,6 +169,8 @@
 }
 
 .sectionHolder{
+    position: relative;
+    top: -30%;
     padding-block: 2rem;
     padding-inline: 2rem;
     height: fit-content;
@@ -472,6 +478,70 @@
     cursor: pointer;
     font-size: 30px;
     outline: none;
+}
+
+@media only screen and (max-width: 700px) {
+    .pfpHolder{
+        height: 6rem;
+        width: 6rem;
+        top: -24%;
+        left: 2%;
+    }
+    .bannerHolder{
+        height: 25%;
+        margin-bottom: 41%;
+    }
+    .infoContainer{
+        height: fit-content;
+        padding-bottom: 1rem;
+    }
+    .infoHolder{
+        padding-left: 30%;
+    }
+    .infoHolder h4{
+        font-size: 25px;
+    }
+    .infoHolder p{
+        font-size: 12px;
+    }
+    .supInfo {
+        gap: 0.5rem;
+        transform: translateX(-100%);
+    }
+    .supInfo p {
+        width: 100%;
+        font-size: 10px;
+    }
+
+    .optionHolder{
+        flex-direction: column;
+        justify-content: start;
+    }
+    .publier{
+        transform: translateX(-30%);
+        scale: 0.8;
+    }
+    .templatePlaceHolder{
+        height: 25rem;
+        width: 20rem;
+    }
+    .pfpPane, #dialogBanner{
+        width: 95%;
+
+    }
+    #dialogBanner{
+        height: 70% !important;
+        overflow-x: hidden;
+    }
+    .bannerPreview{
+        height: 50%;
+        width: 95%;
+    }
+    #file-input2, #file-input3{
+        margin-inline: 25%;
+    }
+
+
 }
 
 

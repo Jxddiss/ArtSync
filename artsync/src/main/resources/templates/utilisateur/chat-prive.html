@@ -19,6 +19,7 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
     />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <!--    libs for stomp and sockjs-->
@@ -34,7 +35,7 @@
     <header>
         <nav th:replace="${session.user == null} ? ~{fragment/fragments :: headerFragment} : ~{fragment/fragments :: headerUserFragment}"></nav>
     </header>
-
+    <button id="expandButton"><i class="bi bi-caret-right"></i></button>
     <div class="container-page">
         <div id="liste-contacts" class="animation">
             <h4 class="animation delais">CONTACTS</h4>
@@ -48,7 +49,7 @@
 
                     <img th:src="@{/media/images/{image}(image=${ami.getPhotoUrl()})}" alt="">
                     <div class="mini-container">
-                        <p>[[${ami.prenom}]] [[${ami.nom}]] <span th:class="'statut ' + ${ami.statut}"></span></p>
+                        <p>[[${ami.prenom}]] [[${ami.nom}]] <span id="friendStatut" th:class="'statut ' + ${ami.statut}"></span></p>
                         <p>@[[${ami.pseudo}]]</p>
                         <p> <img src="/media/logo/digitalIcon.png" alt="logo-role">[[${ami.specialisation}]]</p>
                     </div>

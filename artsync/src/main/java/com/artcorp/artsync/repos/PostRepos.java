@@ -56,4 +56,7 @@ public interface PostRepos extends JpaRepository<Post, Long> {
     Post findBanniereUtilisateur(@Param("utilisateur") Utilisateur utilisateur);
     @Query("SELECT p FROM Post p ORDER BY p.nbLikes DESC LIMIT 10")
     List<Post> findTop10Posts();
+
+    @Query("SELECT p FROM Post p WHERE p.utilisateur IN :followingList AND p.utilisateur IN :followerList ORDER BY p.date DESC LIMIT 15")
+    List<Post> findPostFollowingAndFollower(@Param("followingList") Set<Utilisateur> followingList, @Param("followerList") Set<Utilisateur> followerList);
 }

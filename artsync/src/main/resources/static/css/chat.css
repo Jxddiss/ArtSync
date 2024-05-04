@@ -763,3 +763,73 @@ border-radius: 25px;
 #groupAnchor{
     text-decoration: none;
 }
+#expandButton{
+    display: none;
+    height: 3rem;
+    width: 3rem;
+    border-radius: 50%;
+    position: sticky;
+    border: 1px solid black;
+    background-color: transparent;
+    top: 5%;
+    margin-left: -4%;
+}
+@media only screen and (max-width: 700px) {
+    #liste-contacts{
+        display: none;
+        width: 0;
+        opacity: 0;
+    }
+    .container-page{
+        display: flex;
+    }
+    .container-chat{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+
+    }
+    .chat-box{
+        height: 85%;
+        width: 100%;
+    }
+    .content-header{
+        width: 0;
+    }
+    #photo-profile{
+        height: 5.5rem;
+        width: 5.5rem;
+    }
+    .img-container{
+        top: 3.5rem;
+        right: 1rem;
+    }
+    #input-chat{
+        width: 25%;
+    }
+    .info-profil{
+        text-align: start;
+        display: flex;
+        height: fit-content;
+        margin-top: 4rem;
+        flex-direction: column;
+        transform: translateX(-40%);
+    }
+    .info-profil h4{
+        display: flex;
+        width: 100%;
+    }
+    .statut{
+       height: 0.6rem;
+        width: 1rem;
+        transform: translateY(100%);
+    }
+    #expandButton{
+        display: block;
+    }
+    #friendStatut{
+        height: 0.6rem;
+        width: 0.6rem;
+        transform: translateY(0%);
+    }
+}

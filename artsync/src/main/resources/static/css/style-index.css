@@ -82,7 +82,12 @@
     height: 100%;
     z-index: 2;
 }
-
+.serivceContainer{
+    margin-top: 5%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4rem;
+}
 /* 
 ------------------------------
     Section Info styles
@@ -589,7 +594,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-
 }
 
 .leftPostHolder{
@@ -620,7 +624,6 @@
 .post{
     position: absolute;
     height: fit-content;
-    width: auto;
     color: white;
     margin: 1rem;
     padding: 0.5rem;
@@ -635,7 +638,7 @@
     position: relative;
     top: 45%;
     left: 0;
-    width: 100%;
+    width: 90%;
     height: 5rem;
     border-radius: 10px;
     color: white;
@@ -695,4 +698,176 @@
     scale: 1.1;
     color: white;
     
+}
+
+@media only screen and (max-width: 700px) {
+    .titreGroup{
+        align-self: center;
+        width: 100%;
+        padding-inline: 5%;
+    }
+    .titreGroup h2{
+        font-size: 30px;
+    }
+    .titreGroup p{
+        font-size: 15px;
+    }
+    #container3D{
+        display: none;
+    }
+    .slogan{
+        position: static;
+        margin-top: 5%;
+        margin-left: 5%;
+        display: flex;
+        flex-direction: column;
+    }
+    .slogan2{
+        position: static;
+        margin-top: 5%;
+        margin-left: 5%;
+        margin-bottom: 40rem;
+
+    }
+    .slogan h3{
+        font-size: 2rem;
+    }
+    .slogan2 h5{
+        font-size: 1rem;
+    }
+    .card-info{
+        height: fit-content;
+    }
+    .card-info > div> div{
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 25%;
+        height: fit-content;
+    }
+    .serivceContainer{
+        align-content: flex-start;
+        height: 100%;
+        gap: 2rem;
+        flex: 1;
+        justify-content: center;
+    }
+    .serviceHolder{
+        text-align: center;
+        height: fit-content;
+    }
+    .imageContainer{
+        opacity: 0;
+        align-self: center;
+        margin: 0;
+    }
+    .dashLevel1, .dashLevel2, .dashLevel3{
+        margin-top: 8rem;
+        margin-inline: 0!important;
+        display: flex;
+        flex-direction: column;
+        align-content: center;
+        justify-content: center;
+        gap: 1rem;
+        align-self: center;
+        flex-shrink: 0;
+
+    }
+    .dashLevel1 i, .dashLevel2 i, .dashLevel3 i{
+        margin-inline:0 !important;
+        transform: rotate(90deg) !important;
+        height: fit-content;
+        margin-top: 0 !important;
+    }
+    .animationContainer{
+        height: fit-content;
+    }
+    #milestone2{
+        transform: translateX(100%);
+        writing-mode:vertical-lr;
+    }
+    #milestone1,#milestone3{
+        transform: translateX(350%);
+        writing-mode:vertical-rl;
+    }
+    .milestoneHeader{
+        text-orientation: sideways;
+        height: 25rem;
+    }
+    .imageContainer3{
+        margin-top: 0;
+        height: 15rem;
+        width: 12rem;
+        transform:translateX(2%) translateY(-270%) ;
+    }
+    .finalPreview{
+        height: 75%;
+    }
+    .explore-container{
+        margin-top: 20rem;
+        height: 50rem;
+        width: 100%;
+    }
+    .socialHolder{
+        width: 50%;
+        transform: translateY(15%);
+    }
+    .podiumHolder{
+        margin-top: 60%;
+    }
+    .comment{
+        width: 10rem;
+    }
+    .comment i{
+        display: none;
+    }
+    .commentContent{
+        width: 100%;
+        line-height: 15px;
+        padding-inline: 5%;
+    }
+    .commentHolder{
+        height: 10%;
+    }
+    .descHolder{
+        width: 10rem;
+    }
+    .pod{
+        width: 6.5rem;
+    }
+    .pod i{
+        font-size: 25px !important;
+    }
+    .imgWinnerHolder{
+        height: 7rem;
+        width: 5rem;
+        margin-left: 0.7rem;
+    }
+    .sectionHeader{
+        padding-top: 25%;
+        font-size: 25px;
+        text-align: center;
+    }
+    .post{
+        width: 100%;
+    }
+    .leftPostHolder{
+        transform: translateX(-30%);
+    }
+    .rightPostHolder{
+        transform: translateX(30%);
+    }
+    .rightPostHolder,.leftPostHolder{
+        width: 7rem;
+        height: 8rem;
+    }
+    .post img{
+        height: 6.5rem;
+        width: auto;
+    }
+    .postContent{
+        top: 40%;
+        left: 47%;
+        width: 12%;
+        height: 5%;
+    }
 }

@@ -262,3 +262,64 @@ function likePost(type, postId,idPostOwner){
     ));
   }
 }
+
+//========== button mobile =========
+const vNavBar = document.querySelector(".dashboard-left")
+const expandBtn = document.getElementById("expandButton")
+const feedContent = document.getElementById("container-post")
+let openNavbar   = false
+
+expandBtn.addEventListener("click",function (){
+  if (!openNavbar){
+    openNavbar = true
+    gsap.to(vNavBar,{
+      width:"100%",
+      opacity:1,
+      duration:0.65,
+      ease:"back",
+
+    })
+    gsap.to(vNavBar,{
+      display:"flex"
+    })
+    gsap.to(feedContent,{
+      width:"0%",
+      opacity:0,
+      duration:0.25,
+    })
+    gsap.to(feedContent,{
+      display:"none",
+      delay:0,
+    })
+    gsap.to(expandBtn,{
+      rotate:180,
+      ease:"back"
+    })
+  }else{
+    openNavbar = false
+    gsap.to(vNavBar,{
+      width:"0%",
+      opacity:0,
+      duration:0.25
+    })
+    gsap.to(vNavBar,{
+      display:"none"
+    })
+    gsap.to(feedContent,{
+      width:"95%",
+      opacity:1,
+      delay:0.5,
+      duration:0.65,
+      ease:"back"
+    })
+    gsap.to(expandBtn,{
+      rotate:0,
+      ease:"back"
+    })
+    gsap.to(feedContent,{
+      display:"flex",
+      delay:0,
+    })
+  }
+})
+

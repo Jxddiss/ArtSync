@@ -8,11 +8,19 @@ import com.artcorp.artsync.service.PostService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDate;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import static com.artcorp.artsync.constant.FileConstant.USER_FOLDER;
 
 @Service
 @Transactional
@@ -138,5 +146,21 @@ public class PostServiceImpl implements PostService {
         return postRepos.findPostFollowingAndFollower(utilisateur.getFollowing(),utilisateur.getFollowing());
     }
 
+    @Override
+    public void savePost(@RequestParam("file") MultipartFile image, Utilisateur utilisateur, String originalFilename, FichierGeneral fichierGeneral, Post post) throws IOException {
+        post.setDate(LocalDateTime.now());
+        post.setPseudoUtilisateur(utilisateur.getPseudo());
 
+        fichierGeneral.setPost(post);
+
+        HashSet<FichierGeneral> listFichiers = new HashSet<>();
+        listFichiers.add(fichierGeneral);
+        post.setListeFichiers(listFichiers);
+
+        File parentDir = new File(USER_FOLDER);
+        File saveFile = new File(parentDir.getAbsolutePath() + File.separator + originalFilename);
+        Files.copy(image.getInputStream(),saveFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        image.getInputStream().close();
+        this.addPost(post);
+    }
 }

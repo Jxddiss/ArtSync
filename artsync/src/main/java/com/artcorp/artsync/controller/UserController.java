@@ -18,8 +18,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -28,20 +26,20 @@ import static com.artcorp.artsync.constant.FileConstant.USER_FOLDER;
 @Controller
 @RequestMapping("/utilisateur")
 public class UserController {
-    private UtilisateurServiceImpl utilisateurService;
-    private ProjetRepos projetRepos;
-    private PostServiceImpl postService;
-    private PortfolioServiceImpl portfolioService;
-    private ConversationServiceImpl conversationService;
-    private ChatServiceImpl chatService;
-    private  ProjetServiceImpl projetService;
-    private TacheServiceImpl tacheService;
-    private AnnonceServiceImpl annonceService;
-    private FichierServiceImpl fichierService;
-    private DemandeServiceImpl demandeService;
-    private ForumServiceImpl forumService;
-    private CommentaireServiceImpl commentaireService;
-    private BCryptPasswordEncoder passwordEncoder;
+    private final UtilisateurServiceImpl utilisateurService;
+    private final ProjetRepos projetRepos;
+    private final PostServiceImpl postService;
+    private final PortfolioServiceImpl portfolioService;
+    private final ConversationServiceImpl conversationService;
+    private final ChatServiceImpl chatService;
+    private final ProjetServiceImpl projetService;
+    private final TacheServiceImpl tacheService;
+    private final AnnonceServiceImpl annonceService;
+    private final FichierServiceImpl fichierService;
+    private final DemandeServiceImpl demandeService;
+    private final ForumServiceImpl forumService;
+    private final CommentaireServiceImpl commentaireService;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
     public UserController(UtilisateurServiceImpl utilisateurService, ProjetRepos projetRepos, PostServiceImpl postService, PortfolioServiceImpl portfolioService, ConversationServiceImpl conversationService, ChatServiceImpl chatService, ProjetServiceImpl projetService, TacheServiceImpl tacheService, AnnonceServiceImpl annonceService, FichierServiceImpl fichierService, DemandeServiceImpl demandeService, ForumServiceImpl forumService, CommentaireServiceImpl commentaireService, BCryptPasswordEncoder passwordEncoder) {
@@ -179,6 +177,7 @@ public class UserController {
             File parentDir = new File(USER_FOLDER);
             File saveFile = new File(parentDir.getAbsolutePath() + File.separator + originalFilename);
             Files.copy(file.getInputStream(),saveFile.toPath(),StandardCopyOption.REPLACE_EXISTING);
+            file.getInputStream().close();
             utilisateurService.update(utilisateur);
             return "redirect:/utilisateur/profil/"+utilisateur.getPseudo();
         }
@@ -205,19 +204,7 @@ public class UserController {
                     post.setType("Banniere");
                     post.setTexte("banniere");
                     post.setPublique(false);
-                    post.setDate(LocalDateTime.now());
-                    post.setPseudoUtilisateur(utilisateur.getPseudo());
-
-                    fichierGeneral.setPost(post);
-
-                    HashSet<FichierGeneral> listFichiers = new HashSet<>();
-                    listFichiers.add(fichierGeneral);
-                    post.setListeFichiers(listFichiers);
-
-                    File parentDir = new File(USER_FOLDER);
-                    File saveFile = new File(parentDir.getAbsolutePath() + File.separator + originalFilename);
-                    Files.copy(file.getInputStream(),saveFile.toPath(),StandardCopyOption.REPLACE_EXISTING);
-                    postService.addPost(post);
+                    postService.savePost(file, utilisateur, originalFilename, fichierGeneral, post);
                 }
             }
 

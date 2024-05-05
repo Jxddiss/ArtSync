@@ -373,6 +373,7 @@ public class GroupController {
             File parentDir = new File(USER_FOLDER);
             File saveFile = new File(parentDir.getAbsolutePath() + File.separator + originalFilename);
             Files.copy(image.getInputStream(),saveFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            image.getInputStream().close();
         }
 
         projetService.updateProjet(projet);
@@ -415,7 +416,7 @@ public class GroupController {
             File parentDir = new File(USER_FOLDER);
             File saveFile = new File(parentDir.getAbsolutePath() + File.separator + originalFilename);
             Files.copy(image.getInputStream(),saveFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-
+            image.getInputStream().close();
         }else{
             projet.setProjetPhoto("aurora.jpg");
         }

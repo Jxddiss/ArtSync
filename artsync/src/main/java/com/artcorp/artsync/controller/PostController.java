@@ -107,29 +107,21 @@ public class PostController {
                     throw new FileFormatException("/utilisateur/profil/" + utilisateur.getPseudo());
                 }
 
+                if(image.getOriginalFilename() == null || image.getOriginalFilename().isEmpty()){
+                    throw new FileFormatException("/utilisateur/profil/" + utilisateur.getPseudo());
+                }
+
                 String originalFilename = StringUtils.cleanPath(image.getOriginalFilename());
                 FichierGeneral fichierGeneral = new FichierGeneral();
                 fichierGeneral.setUrlMedia(originalFilename);
 
                 Post post = new Post();
                 post.setUtilisateur(utilisateur);
-                post.setTitre("titre");
-                post.setType("texte");
+                post.setTitre(titre);
+                post.setType(type);
                 post.setTexte(texte);
                 post.setPublique(publique);
-                post.setDate(LocalDateTime.now());
-                post.setPseudoUtilisateur(utilisateur.getPseudo());
-
-                fichierGeneral.setPost(post);
-
-                HashSet<FichierGeneral> listFichiers = new HashSet<>();
-                listFichiers.add(fichierGeneral);
-                post.setListeFichiers(listFichiers);
-
-                File parentDir = new File(USER_FOLDER);
-                File saveFile = new File(parentDir.getAbsolutePath() + File.separator + originalFilename);
-                Files.copy(image.getInputStream(),saveFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                postService.addPost(post);
+                postService.savePost(image, utilisateur, originalFilename, fichierGeneral, post);
                 redirectAttributes.addFlashAttribute("succes","Post ajouté avec succès");
 
             }
@@ -138,5 +130,6 @@ public class PostController {
         redirectAttributes.addFlashAttribute("error", "Veuillez vous connecter pour ajouter un post");
         return "redirect:/authentification";
     }
+
 
 }

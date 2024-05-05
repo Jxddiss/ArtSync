@@ -58,14 +58,12 @@ public class ConversationController {
                     conversationAmi.add(conversation);
                 }
             }
-            if (conversations != null){
-                model.addAttribute("conversations", conversationAmi);
-                model.addAttribute("conversationProjet",conversationProjet);
-                session.setAttribute("conversationAmi", conversationAmi);
-                session.setAttribute("conversationProjet",conversationProjet);
-            }else{
-                model.addAttribute("message", "Aucune conversation");
-            }
+
+            model.addAttribute("conversations", conversationAmi);
+            model.addAttribute("conversationProjet",conversationProjet);
+            session.setAttribute("conversationAmi", conversationAmi);
+            session.setAttribute("conversationProjet",conversationProjet);
+
             return "/utilisateur/conversation";
         }
         redirectAttributes.addFlashAttribute("error", "Veuillez vous connecter");

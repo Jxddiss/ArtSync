@@ -99,6 +99,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         window.addEventListener('beforeunload', function (e) {
                             delete e['returnValue'];
                             stompClientStream.send('/app/live/end/'+userPseudo,{},userPseudo);
+                            stompClientStream.disconnect();
                         });
                     });
                     streamVideo.srcObject = stream;

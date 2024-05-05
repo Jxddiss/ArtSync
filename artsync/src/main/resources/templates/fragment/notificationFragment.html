@@ -9,5 +9,10 @@
                 showNotification(JSON.parse(notification.body));
             });
         });
+
+        window.addEventListener('beforeunload', function (e) {
+            delete e['returnValue'];
+            stompClientNotif.disconnect();
+        });
     </script>
 </div>

@@ -19,7 +19,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @Controller
 @RequestMapping("/utilisateur/conversation")
@@ -42,28 +41,7 @@ public class ConversationController {
         HttpSession session = request.getSession(false);
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
         if (utilisateur != null) {
-            List<Conversation> conversations = conversationService.findByAllByUtilisateur(utilisateur);
-            ArrayList<Conversation> conversationAmi = new ArrayList<>();
-            ArrayList<Conversation> conversationProjet = new ArrayList<>();
-
-            List<Projet> projets = projetService.findProjectsOfUser(utilisateur.getId());
-
-            for (Projet projet: projets){
-                if (conversationService.findByProjet(projet) != null){
-                    conversationProjet.add(conversationService.findByProjet(projet));
-                }
-            }
-            for (Conversation conversation:conversations){
-                if (conversation.getProjet()==null){
-                    conversationAmi.add(conversation);
-                }
-            }
-
-            model.addAttribute("conversations", conversationAmi);
-            model.addAttribute("conversationProjet",conversationProjet);
-            session.setAttribute("conversationAmi", conversationAmi);
-            session.setAttribute("conversationProjet",conversationProjet);
-
+            GetConversationsAndAddToModel(model, session, utilisateur);
             return "/utilisateur/conversation";
         }
         redirectAttributes.addFlashAttribute("error", "Veuillez vous connecter");
@@ -79,8 +57,10 @@ public class ConversationController {
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
 
         if (utilisateur != null) {
+            checkConversationInSession(model, session, utilisateur);
 
             Conversation conversation = conversationService.findById(id);
+
             if(conversation != null){
                 if(Objects.equals(conversation.getUtilisateurUn().getId(), utilisateur.getId())
                         || (conversation.getUtilisateurDeux() != null
@@ -112,9 +92,11 @@ public class ConversationController {
                                     RedirectAttributes redirectAttributes) {
         HttpSession session = request.getSession(false);
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
-        System.out.println(id);
+
         if (utilisateur != null) {
             List<Conversation> conversations = conversationService.findByAllByUtilisateur(utilisateur);
+
+            checkConversationInSession(model, session, utilisateur);
 
             Conversation conversation = conversationService.findById(id);
             model.addAttribute("conversationCourrante", conversation);
@@ -123,5 +105,37 @@ public class ConversationController {
 
         redirectAttributes.addFlashAttribute("error", "Veuillez vous connecter");
         return "redirect:/authentification";
+    }
+
+    private void checkConversationInSession(Model model, HttpSession session, Utilisateur utilisateur) {
+        if(session.getAttribute("conversationsAmi") == null){
+            GetConversationsAndAddToModel(model, session, utilisateur);
+        }else{
+            model.addAttribute("conversationsAmi", session.getAttribute("conversationsAmi"));
+            model.addAttribute("conversationsProjet",session.getAttribute("conversationsProjet"));
+        }
+    }
+
+    private void GetConversationsAndAddToModel(Model model, HttpSession session, Utilisateur utilisateur) {
+        List<Conversation> conversations = conversationService.findByAllByUtilisateur(utilisateur);
+        ArrayList<Conversation> conversationAmi = new ArrayList<>();
+        ArrayList<Conversation> conversationProjet = new ArrayList<>();
+
+        List<Projet> projets = projetService.findProjectsOfUser(utilisateur.getId());
+
+        for (Projet projet: projets){
+            if (conversationService.findByProjet(projet) != null){
+                conversationProjet.add(conversationService.findByProjet(projet));
+            }
+        }
+        for (Conversation conversation:conversations){
+            if (conversation.getProjet()==null){
+                conversationAmi.add(conversation);
+            }
+        }
+        model.addAttribute("conversationsAmi", conversationAmi);
+        model.addAttribute("conversationsProjet",conversationProjet);
+        session.setAttribute("conversationsAmi", conversationAmi);
+        session.setAttribute("conversationsProjet",conversationProjet);
     }
 }

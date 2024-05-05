@@ -33,7 +33,7 @@
                 <h4 class="animation delais">CONTACTS</h4>
                 <div id="liste-personne" class="liste-options-contact">
                             <!--/*@thymesVar id="ami" type="com.artcorp.artsync.entity.Utilisateur"*/-->
-                            <a th:each="conversation : ${conversations}" class="carte" style="text-decoration: none; color: black" th:href="@{/utilisateur/conversation/{id}(id=${conversation.getId()})}"
+                            <a th:each="conversation : ${conversationsAmi}" class="carte" style="text-decoration: none; color: black" th:href="@{/utilisateur/conversation/{id}(id=${conversation.getId()})}"
                                th:with="ami=${conversation.getUtilisateurUn().getId() == session.user.getId() ? conversation.getUtilisateurDeux() : conversation.getUtilisateurUn()}" >
 
                                 <img th:src="@{/media/images/{image}(image=${ami.getPhotoUrl()})}" alt="">
@@ -46,7 +46,7 @@
                 </div>
                 <h4 class="animation delais">GROUPES</h4>
                 <div id="liste-groupe" class="liste-options-contact">
-                    <a id="projetA" th:href="@{/utilisateur/conversation/{id}(id=${conversationP.getId()})}" th:each="conversationP : ${conversationProjet}" class="carte" style="text-decoration: none; color: black" href="">
+                    <a id="projetA" th:href="@{/utilisateur/conversation/{id}(id=${conversationP.getId()})}" th:each="conversationP : ${conversationsProjet}" class="carte" style="text-decoration: none; color: black" href="">
                         <img th:src="@{/media/images/{image}(image=${conversationP.projet.getProjetPhoto()})}" alt="">
                         <div class="mini-container">
                             <p>[[${conversationP.projet.getTitre()}]]</p>

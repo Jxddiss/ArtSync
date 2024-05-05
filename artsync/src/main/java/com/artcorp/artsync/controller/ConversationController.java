@@ -43,8 +43,8 @@ public class ConversationController {
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
         if (utilisateur != null) {
             List<Conversation> conversations = conversationService.findByAllByUtilisateur(utilisateur);
-            ArrayList<Conversation> conversationAmi = new ArrayList<Conversation>();
-            ArrayList<Conversation> conversationProjet = new ArrayList<Conversation>();
+            ArrayList<Conversation> conversationAmi = new ArrayList<>();
+            ArrayList<Conversation> conversationProjet = new ArrayList<>();
 
             List<Projet> projets = projetService.findProjectsOfUser(utilisateur.getId());
 
@@ -61,6 +61,8 @@ public class ConversationController {
             if (conversations != null){
                 model.addAttribute("conversations", conversationAmi);
                 model.addAttribute("conversationProjet",conversationProjet);
+                session.setAttribute("conversationAmi", conversationAmi);
+                session.setAttribute("conversationProjet",conversationProjet);
             }else{
                 model.addAttribute("message", "Aucune conversation");
             }
@@ -79,28 +81,12 @@ public class ConversationController {
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
 
         if (utilisateur != null) {
-            List<Conversation> conversations = conversationService.findByAllByUtilisateur(utilisateur);
-            ArrayList<Conversation> conversationAmi = new ArrayList<Conversation>();
-            ArrayList<Conversation> conversationProjet = new ArrayList<Conversation>();
-
-            List<Projet> projets = projetService.findProjectsOfUser(utilisateur.getId());
-
-            for (Projet projet: projets){
-                if (conversationService.findByProjet(projet) != null){
-                    conversationProjet.add(conversationService.findByProjet(projet));
-                }
-            }
-            for (Conversation conversation:conversations){
-                if (conversation.getProjet()==null){
-                    conversationAmi.add(conversation);
-                }
-            }
 
             Conversation conversation = conversationService.findById(id);
             if(conversation != null){
                 if(Objects.equals(conversation.getUtilisateurUn().getId(), utilisateur.getId())
-                        || (conversation.getUtilisateurDeux() != null && Objects.equals(conversation.getUtilisateurDeux().getId(), utilisateur.getId()))
-                        || (conversation.getProjet() != null && projets.contains(conversation.getProjet()))){
+                        || (conversation.getUtilisateurDeux() != null
+                        && Objects.equals(conversation.getUtilisateurDeux().getId(), utilisateur.getId()))){
 
                     Utilisateur amiCourrant = Objects.equals(conversation.getUtilisateurUn().getId(), utilisateur.getId())
                             ? conversation.getUtilisateurDeux() : conversation.getUtilisateurUn();
@@ -108,8 +94,6 @@ public class ConversationController {
                     Post banniere = postService.findBanniereUtilisateur(amiCourrant);
                     model.addAttribute("banniere", banniere);
                     model.addAttribute("amiCourrant", amiCourrant);
-                    model.addAttribute("conversations", conversationAmi);
-                    model.addAttribute("conversationProjet",conversationProjet);
                     model.addAttribute("conversationCourrante", conversation);
                     if (conversation.getProjet()!=null){
                         return "redirect:projet/"+conversation.getId();
@@ -133,25 +117,8 @@ public class ConversationController {
         System.out.println(id);
         if (utilisateur != null) {
             List<Conversation> conversations = conversationService.findByAllByUtilisateur(utilisateur);
-            ArrayList<Conversation> conversationAmi = new ArrayList<Conversation>();
-            ArrayList<Conversation> conversationProjet = new ArrayList<Conversation>();
-
-            List<Projet> projets = projetService.findProjectsOfUser(utilisateur.getId());
-
-            for (Projet projet: projets){
-                if (conversationService.findByProjet(projet) != null){
-                    conversationProjet.add(conversationService.findByProjet(projet));
-                }
-            }
-            for (Conversation conversation:conversations){
-                if (conversation.getProjet()==null){
-                    conversationAmi.add(conversation);
-                }
-            }
 
             Conversation conversation = conversationService.findById(id);
-            model.addAttribute("conversations", conversationAmi);
-            model.addAttribute("conversationProjet",conversationProjet);
             model.addAttribute("conversationCourrante", conversation);
             return "utilisateur/chat-groupe";
         }

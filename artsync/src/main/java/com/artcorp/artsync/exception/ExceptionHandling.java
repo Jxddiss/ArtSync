@@ -36,10 +36,10 @@ public class ExceptionHandling {
         return "redirect:"+fileFormatException.getMessage();
     }
 
-    @ExceptionHandler(Exception.class)
+    /*@ExceptionHandler(Exception.class)
     public String exception(RedirectAttributes redirectAttributes, Exception ex){
         LOGGER.error(ex.getMessage());
         redirectAttributes.addFlashAttribute(ERROR, UNE_ERREUR_EST_SURVENUE);
         return "redirect:/";
-    }
+    }*/
 }

@@ -441,6 +441,7 @@ document.addEventListener("DOMContentLoaded", function() {
         let infoHolder = videoHolderElement.querySelector(".userInfoHolder");
         infoHolder.style.opacity = "0";
         let videoBox = videoHolderElement.querySelector("video")
+        videoBox.setAttribute("playsinline",'true');
         videoHolderElement.querySelector("video").srcObject = stream;
         unfocusedVideoHolder.append(videoHolderElement)
         videoBox.addEventListener('click', () => {

@@ -29,13 +29,4 @@ public interface UtilisateurRepos extends JpaRepository<Utilisateur, Long> {
     List<Utilisateur> findByKeyword(String keyword);
     boolean existsByPseudoAndIdNot(String pseudo, Long id);
     boolean existsByEmailAndIdNot(String pseudo, Long id);
-
-    @Query("select u.following from Utilisateur u where u.id = ?1")
-    Set<Utilisateur> findFollowing(Long id);
-
-    @Query("select u.following from Utilisateur u where u.id = ?1")
-    Set<Utilisateur> findFollowers(Long id);
-
-    @Query("select u.amis from Utilisateur u where u.id = ?1")
-    Set<Utilisateur> findAmis(Long id);
 }

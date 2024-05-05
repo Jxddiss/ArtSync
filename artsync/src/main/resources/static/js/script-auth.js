@@ -22,15 +22,15 @@ container.addEventListener('click', function(event) {
     }
 
     if (event.target.id === 'signUp') {
-        // showNotification({
-        //     type: 'info',
-        //     message: "Le mot de passe " +
-        //         "doit avoir 8 charactères minimums, une majuscule, une minuscule, " +
-        //         "un chiffre et un charactère spécial",
-        //     titre: 'Info',
-        // })
-        // const notif = document.querySelector(".notification-pop-container");
-        // notif.style.animationDuration = "7s"
+        showNotification({
+            type: 'info',
+            message: "Le mot de passe " +
+                "doit avoir 8 charactères minimums, une majuscule, une minuscule, " +
+               "un chiffre et un charactère spécial",
+            titre: 'Info',
+        })
+        const notif = document.querySelector(".notification-pop-container");
+        notif.style.animationDuration = "7s"
 
         document.getElementById('connect').classList.remove('selected');
         form = document.getElementById("main");

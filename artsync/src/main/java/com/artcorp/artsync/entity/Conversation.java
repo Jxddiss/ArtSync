@@ -11,7 +11,7 @@ public class Conversation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToMany(mappedBy = "conversation",orphanRemoval = true)
-    @OrderBy("dateTimeEnvoie ASC")
+    @OrderBy("id ASC")
     private Set<Chat> listeChat;
     @ManyToOne
     @JoinColumn(name = "utilisateur_un_id")

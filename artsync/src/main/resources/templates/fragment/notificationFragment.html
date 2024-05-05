@@ -10,11 +10,6 @@
             });
         });
 
-        window.addEventListener('beforeunload', function (e) {
-            delete e['returnValue'];
-            stompClientNotif.disconnect();
-        });
-
         let isOnIos = navigator.userAgent.match(/iPad/i)|| navigator.userAgent.match(/iPhone/i);
         if(isOnIos){
             let unloaded = false;
@@ -32,6 +27,11 @@
                     });
                     unloaded = false;
                 }
+            });
+        }else{
+            window.addEventListener('beforeunload', function (e) {
+                delete e['returnValue'];
+                stompClientNotif.disconnect();
             });
         }
     </script>

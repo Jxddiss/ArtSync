@@ -123,11 +123,24 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
             });
 
-            window.addEventListener('beforeunload', function (e) {
-                delete e['returnValue'];
-                stompClientViewer.send('/app/live/leave/'+pseudoStreamer,{},userPseudo);
-                stompClientViewer.disconnect();
-            });
+            let isOnIos = navigator.userAgent.match(/iPad/i)|| navigator.userAgent.match(/iPhone/i);
+            if(isOnIos){
+                let unloaded = false;
+                window.addEventListener('visibilitychange', function () {
+                    if (document.hidden) {
+                        stompClientViewer.send('/app/live/leave/'+pseudoStreamer,{},userPseudo);
+                        setTimeout(stompClientViewer.disconnect(),1000);
+                    }else{
+                        location.reload();
+                    }
+                });
+            } else {
+                window.addEventListener('beforeunload', function (e) {
+                    delete e['returnValue'];
+                    stompClientViewer.send('/app/live/leave/'+pseudoStreamer,{},userPseudo);
+                    setTimeout(stompClientViewer.disconnect(),1000);
+                });
+            }
 
         });
     });

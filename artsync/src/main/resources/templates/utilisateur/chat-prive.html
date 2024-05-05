@@ -129,6 +129,7 @@
         <div id="remote-holder">
             <video
             autoplay
+            playsinline
             class="video-box"
             id="remoteVideo"
             >
@@ -140,6 +141,7 @@
             <video 
             autoplay
             muted
+            playsinline
             class="video-box"
             id="localVideo">
 
@@ -168,7 +170,6 @@
             </button>
         </div>
     </dialog>
-    <script type="text/javascript" th:src="@{/js/chat.js?v=5}" ></script>
 <script th:inline="javascript" th:if="${amiCourrant != null}">
     const idAmi = '[[${amiCourrant.getId()}]]';
     const pseudoUser = [[${session.user.pseudo}]];
@@ -179,8 +180,8 @@
 
     //== Préparation de la connexion websocket ==
     const backEndUrl = window.location.origin;
-    const socket = new SockJS('/ws');
-    const stompClient = Stomp.over(socket);
+    let socket = new SockJS('/ws');
+    let stompClient = Stomp.over(socket);
 
     stompClient.connect({}, function(frame) {
         stompClient.subscribe('/topic/conversation/[[${conversationCourrante.getId()}]]', function(message) {
@@ -313,5 +314,6 @@
 
 </script>
     <script type="text/javascript" th:src="@{/js/chat-video.js?v=5}" ></script>
+    <script type="text/javascript" th:src="@{/js/chat.js?v=6}" ></script>
 </body>
 </html>

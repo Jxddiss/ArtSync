@@ -263,11 +263,23 @@ document.addEventListener("DOMContentLoaded", function() {
                 location.reload()
             })
 
-            window.addEventListener('beforeunload', function (e) {
-                delete e['returnValue'];
-                stompClientVideo.send("/app/chat/appel/remove/"+conversationId, {}, idUser + ":" + idAmi);
-            });
+            let isOnIos = navigator.userAgent.match(/iPad/i)|| navigator.userAgent.match(/iPhone/i);
+            if(isOnIos){
+                let unloaded = false;
+                window.addEventListener('visibilitychange', function () {
+                    if (document.hidden) {
+                        stompClientVideo.send("/app/chat/appel/remove/"+conversationId, {}, idUser + ":" + idAmi);
+                    }
+                });
+            } else {
+                window.addEventListener('beforeunload', function (e) {
+                    delete e['returnValue'];
+                    stompClientVideo.send("/app/chat/appel/remove/"+conversationId, {}, idUser + ":" + idAmi);
+                });
+            }
         })
+
+
 
         //=== ajout de notre vidéo en local sur la page
         localVideo.srcObject = stream;

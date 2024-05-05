@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function() {
-  
+
   // Prend tout les boutons pour ensuite les animer
   const options = document.getElementById("option-chat");
 
@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   },200);
 
-  
+
 });
 
 /**
@@ -148,3 +148,30 @@ expandBtn.addEventListener("click",function (){
     })
   }
 })
+
+/* clear la connection au websocket*/
+
+let isOnIos = navigator.userAgent.match(/iPad/i)|| navigator.userAgent.match(/iPhone/i);
+if(isOnIos){
+  let unloaded = false;
+  window.addEventListener('visibilitychange', function () {
+    if (document.hidden) {
+      stompClient.disconnect();
+    }else{
+      socket = new SockJS('/ws');
+      stompClient = Stomp.over(socket);
+
+      stompClient.connect({}, function(frame) {
+        stompClient.subscribe('/topic/conversation/[[${conversationCourrante.getId()}]]', function(message) {
+          addMessage(JSON.parse(message.body));
+        });
+      });
+      unloaded = false;
+    }
+  });
+}else{
+  window.addEventListener('beforeunload', function (e) {
+    delete e['returnValue'];
+    stompClient.disconnect();
+  });
+}

@@ -96,11 +96,25 @@ document.addEventListener("DOMContentLoaded", function() {
                             }));
                             handleUserLeave(viewerLeftPseudo);
                         });
-                        window.addEventListener('beforeunload', function (e) {
-                            delete e['returnValue'];
-                            stompClientStream.send('/app/live/end/'+userPseudo,{},userPseudo);
-                            stompClientStream.disconnect();
-                        });
+
+                        let isOnIos = navigator.userAgent.match(/iPad/i)|| navigator.userAgent.match(/iPhone/i);
+                        if(isOnIos){
+                            let unloaded = false;
+                            window.addEventListener('visibilitychange', function () {
+                                if (document.hidden) {
+                                    stompClientStream.send('/app/live/end/'+userPseudo,{},userPseudo);
+                                    setTimeout(stompClientStream.disconnect(),1000);
+                                }else{
+                                    location.reload();
+                                }
+                            });
+                        } else {
+                            window.addEventListener('beforeunload', function (e) {
+                                delete e['returnValue'];
+                                stompClientStream.send('/app/live/end/'+userPseudo,{},userPseudo);
+                                setTimeout(stompClientStream.disconnect(),1000);
+                            });
+                        }
                     });
                     streamVideo.srcObject = stream;
                 })

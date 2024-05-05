@@ -25,7 +25,6 @@ import static com.artcorp.artsync.constant.FileConstant.RELATIVE_PATH;
 @Controller
 public class ChatController {
     private ChatService chatService;
-    private Set<String> utilisateursConnecte = new HashSet<>();
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
     @Autowired
@@ -46,10 +45,6 @@ public class ChatController {
     @MessageMapping("/chat/appel/add/{conversationId}")
     public void appel(String userId, @DestinationVariable String conversationId) {
         LOGGER.info("Appel : " + userId);
-        utilisateursConnecte.add(userId);
-        for (String user : utilisateursConnecte) {
-            LOGGER.info("user : " + user);
-        }
         LOGGER.info("Conversation : " + conversationId);
     }
 
@@ -88,9 +83,6 @@ public class ChatController {
     @MessageMapping("/chat/appel/remove/{conversationId}")
     @SendTo("/topic/appel/remove/{conversationId}")
     public String remove(String idUserEtIdAmi) {
-        List<String> list = Arrays.asList(idUserEtIdAmi.split(":"));
-        this.utilisateursConnecte.remove(list.get(0));
-        this.utilisateursConnecte.remove(list.get(1));
         LOGGER.info("idUserEtIdAmi : " + idUserEtIdAmi);
         return "{message : 'disconnected'}";
     }

@@ -14,6 +14,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -38,9 +39,8 @@ public class ChatController {
         if (!StringUtils.isEmpty(chat.getUrlMedia())) {
             chat.setUrlMedia(RELATIVE_PATH  + chat.getUrlMedia());
         }
-        chatService.save(chat);
-        System.out.println(chat);
-        return chat;
+        chat.setDateTimeEnvoie(LocalDateTime.now());
+        return chatService.save(chat);
     }
 
     @MessageMapping("/chat/appel/add/{conversationId}")

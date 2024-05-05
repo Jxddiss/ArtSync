@@ -41,7 +41,8 @@ public class ConversationController {
         HttpSession session = request.getSession(false);
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
         if (utilisateur != null) {
-            GetConversationsAndAddToModel(model, session, utilisateur);
+            List<Projet> projets = projetService.findProjectsOfUser(utilisateur.getId());
+            GetConversationsAndAddToModel(model, session, utilisateur,projets);
             return "/utilisateur/conversation";
         }
         redirectAttributes.addFlashAttribute("error", "Veuillez vous connecter");
@@ -57,14 +58,16 @@ public class ConversationController {
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
 
         if (utilisateur != null) {
-            checkConversationInSession(model, session, utilisateur);
+            List<Projet> projets = projetService.findProjectsOfUser(utilisateur.getId());
+            checkConversationInSession(model, session, utilisateur, projets);
 
             Conversation conversation = conversationService.findById(id);
 
             if(conversation != null){
                 if(Objects.equals(conversation.getUtilisateurUn().getId(), utilisateur.getId())
-                        || (conversation.getUtilisateurDeux() != null
-                        && Objects.equals(conversation.getUtilisateurDeux().getId(), utilisateur.getId()))){
+                        || (conversation.getUtilisateurDeux() != null && Objects.equals(conversation.getUtilisateurDeux().getId(), utilisateur.getId()))
+                        || (conversation.getProjet() != null && projets.contains(conversation.getProjet())))
+                {
 
                     Utilisateur amiCourrant = Objects.equals(conversation.getUtilisateurUn().getId(), utilisateur.getId())
                             ? conversation.getUtilisateurDeux() : conversation.getUtilisateurUn();
@@ -96,7 +99,8 @@ public class ConversationController {
         if (utilisateur != null) {
             List<Conversation> conversations = conversationService.findByAllByUtilisateur(utilisateur);
 
-            checkConversationInSession(model, session, utilisateur);
+            List<Projet> projets = projetService.findProjectsOfUser(utilisateur.getId());
+            checkConversationInSession(model, session, utilisateur,projets);
 
             Conversation conversation = conversationService.findById(id);
             model.addAttribute("conversationCourrante", conversation);
@@ -107,21 +111,21 @@ public class ConversationController {
         return "redirect:/authentification";
     }
 
-    private void checkConversationInSession(Model model, HttpSession session, Utilisateur utilisateur) {
+    private void checkConversationInSession(Model model, HttpSession session, Utilisateur utilisateur, List<Projet> projets) {
         if(session.getAttribute("conversationsAmi") == null){
-            GetConversationsAndAddToModel(model, session, utilisateur);
+            GetConversationsAndAddToModel(model, session, utilisateur, projets);
         }else{
             model.addAttribute("conversationsAmi", session.getAttribute("conversationsAmi"));
             model.addAttribute("conversationsProjet",session.getAttribute("conversationsProjet"));
         }
     }
 
-    private void GetConversationsAndAddToModel(Model model, HttpSession session, Utilisateur utilisateur) {
+    private void GetConversationsAndAddToModel(Model model, HttpSession session, Utilisateur utilisateur, List<Projet> projets) {
         List<Conversation> conversations = conversationService.findByAllByUtilisateur(utilisateur);
         ArrayList<Conversation> conversationAmi = new ArrayList<>();
         ArrayList<Conversation> conversationProjet = new ArrayList<>();
 
-        List<Projet> projets = projetService.findProjectsOfUser(utilisateur.getId());
+
 
         for (Projet projet: projets){
             if (conversationService.findByProjet(projet) != null){

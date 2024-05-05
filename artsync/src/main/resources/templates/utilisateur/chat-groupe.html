@@ -167,7 +167,6 @@
             </button>
         </div>
     </dialog>
-    <script type="text/javascript" th:src="@{/js/chat.js?v=5}" ></script>
 <script th:inline="javascript" th:if="${conversationCourrante != null}">
     const idProjet = '[[${conversationCourrante.projet.getId()}]]';
     const pseudoUser = [[${session.user.pseudo}]];
@@ -320,6 +319,7 @@
     const secondaryVideoHolder = document.getElementById('secondary-video-holder');
 
 </script>
-    <script type="text/javascript" th:src="@{/js/chat-video-groupe.js?v=5}" ></script>
+    <script type="text/javascript" th:src="@{/js/chat-video-groupe.js?v=6}" ></script>
+    <script type="text/javascript" th:src="@{/js/chat.js?v=6}" ></script>
 </body>
 </html>

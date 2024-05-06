@@ -1,8 +1,7 @@
 <div id="notification-pop-liste" th:fragment="notificationFragment">
     <script>
-
-        const socketNotif = new SockJS('/ws');
-        const stompClientNotif = Stomp.over(socketNotif);
+        let socketNotif = new SockJS('/ws');
+        let stompClientNotif = Stomp.over(socketNotif);
 
         stompClientNotif.connect({}, function(frame) {
             stompClientNotif.subscribe('/topic/notification/[[${session.user.getId()}]]', function(notification) {
@@ -10,9 +9,29 @@
             });
         });
 
-        window.addEventListener('beforeunload', function (e) {
-            delete e['returnValue'];
-            stompClientNotif.disconnect();
-        });
+        let isOnIos = navigator.userAgent.match(/iPad/i)|| navigator.userAgent.match(/iPhone/i);
+        if(isOnIos){
+            let unloaded = false;
+            window.addEventListener('visibilitychange', function () {
+                if (document.hidden) {
+                    stompClientNotif.disconnect();
+                }else{
+                    socketNotif = new SockJS('/ws');
+                    stompClientNotif = Stomp.over(socketNotif);
+
+                    stompClientNotif.connect({}, function(frame) {
+                        stompClientNotif.subscribe('/topic/notification/[[${session.user.getId()}]]', function(notification) {
+                            showNotification(JSON.parse(notification.body));
+                        });
+                    });
+                    unloaded = false;
+                }
+            });
+        }else{
+            window.addEventListener('beforeunload', function (e) {
+                delete e['returnValue'];
+                stompClientNotif.disconnect();
+            });
+        }
     </script>
 </div>

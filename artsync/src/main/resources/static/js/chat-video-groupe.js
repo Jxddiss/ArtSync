@@ -133,10 +133,25 @@ document.addEventListener("DOMContentLoaded", function() {
                             handleUserLeave(leaveUserId);
                          });
 
-                        window.addEventListener('beforeunload', function (e) {
-                            delete e['returnValue'];
-                            stompClientVideo.send('/app/chat/appel/groupe/leave/'+conversationId,{},idUser);
-                        });
+                        let isOnIos = navigator.userAgent.match(/iPad/i)|| navigator.userAgent.match(/iPhone/i);
+                        if(isOnIos){
+                            let unloaded = false;
+                            window.addEventListener('visibilitychange', function () {
+                                if (document.hidden) {
+                                    stompClientVideo.send('/app/chat/appel/groupe/leave/'+conversationId,{},idUser);
+                                    setTimeout(stompClientVideo.disconnect(),1000);
+                                }else{
+                                    location.reload();
+                                }
+                            });
+                        } else {
+                            window.addEventListener('beforeunload', function (e) {
+                                delete e['returnValue'];
+                                stompClientVideo.send('/app/chat/appel/groupe/leave/'+conversationId,{},idUser);
+                                setTimeout(stompClientVideo.disconnect(),1000);
+                            });
+                        }
+
                     });
                     localVideo.srcObject = stream;
 
@@ -426,6 +441,7 @@ document.addEventListener("DOMContentLoaded", function() {
         let infoHolder = videoHolderElement.querySelector(".userInfoHolder");
         infoHolder.style.opacity = "0";
         let videoBox = videoHolderElement.querySelector("video")
+        videoBox.setAttribute("playsinline",'true');
         videoHolderElement.querySelector("video").srcObject = stream;
         unfocusedVideoHolder.append(videoHolderElement)
         videoBox.addEventListener('click', () => {

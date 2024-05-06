@@ -1,6 +1,5 @@
 <div id="notification-pop-liste" th:fragment="notificationFragment">
     <script>
-
         let socketNotif = new SockJS('/ws');
         let stompClientNotif = Stomp.over(socketNotif);
 

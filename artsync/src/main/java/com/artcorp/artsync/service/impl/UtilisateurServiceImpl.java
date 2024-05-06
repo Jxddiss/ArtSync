@@ -174,7 +174,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         notification.setPseudoSender(follower.getPseudo());
         notification.setIdDest(followed.getId());
         notification.setImgSender(follower.getPhotoUrl());
-        notification.setType("relation");
+        notification.setType("info");
         notification.setTitre("Nouvelle abonné");
         notification.setMessage(follower.getPseudo() + " s'est abonné à votre compte");
         notification.setUrlNotif("/utilisateur/profil/"+follower.getPseudo());

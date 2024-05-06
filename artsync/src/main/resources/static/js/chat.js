@@ -1,3 +1,7 @@
+let contactsPrivesArray = [];
+const notifAppelDialog = document.getElementById("appel-notif");
+const audio = new Audio("/media/audio/notification/ringtone.mp3");
+
 document.addEventListener("DOMContentLoaded", function() {
 
   // Prend tout les boutons pour ensuite les animer
@@ -7,8 +11,14 @@ document.addEventListener("DOMContentLoaded", function() {
   const music = document.getElementById("button-fonction-music");
   const btnOpenOptions = document.getElementById("open-options");
   const listePersonnes = document.getElementById("liste-personne");
+  const conversationRename = document.querySelectorAll(".carte");
   const listeGroupes = document.getElementById("liste-groupe");
 
+  conversationRename.forEach(convElem => {
+    if(convElem.dataset.type === "personne" && !convElem.classList.contains("carte-active")){
+      contactsPrivesArray.push(convElem);
+    }
+  });
 
   // place contact courrant en premier
   const newFirstElement = document.querySelector(".carte-active"); //element which should be first in E
@@ -150,7 +160,6 @@ expandBtn.addEventListener("click",function (){
 })
 
 /* clear la connection au websocket*/
-
 let isOnIos = navigator.userAgent.match(/iPad/i)|| navigator.userAgent.match(/iPhone/i);
 if(isOnIos){
   let unloaded = false;
@@ -175,3 +184,61 @@ if(isOnIos){
     stompClient.disconnect();
   });
 }
+
+function showNotificationChat(notification) {
+  if(notification.appel){
+    showAppel(notification);
+  }else {
+    contactsPrivesArray.forEach(contact => {
+      if(contact.getAttribute("pseudo") === notification.pseudoSender){
+        if(contact.lastElementChild.tagName !== 'span'){
+          let notifIndicator = document.createElement("span")
+          notifIndicator.classList.add("notification-indicator")
+          contact.appendChild(notifIndicator);
+        }
+      }
+    })
+  }
+
+  $.ajax({
+    type:'POST',
+    url: window.location.origin.toString() + "/notification/set-lu",
+    data: {id:notification.id}
+  })
+}
+
+function showAppel(notification){
+  if(videoDialog.open){
+    return
+  }
+
+  audio.play();
+  setTimeout(()=>{audio.pause()},4500);
+
+  notifAppelDialog.innerHTML = `
+        <img src="/media/images/${notification.imgSender}" alt="">
+        <span>@${notification.pseudoSender}</span>
+        <div class="control-holder">
+            <button type="button"
+                    class="button-video"
+                    id="btn-answer"
+                    data-url="${notification.urlNotif}?appel=true">
+                <i class="bi bi-telephone-inbound"></i>
+            </button>
+            <button type="button"
+                    class="button-video"
+                    id="btn-decline">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>`
+
+  notifAppelDialog.showModal();
+  setTimeout(()=>{notifAppelDialog.close()},5000)
+}
+
+document.addEventListener("click",(ev)=>{
+  if(ev.target.id === 'btn-decline' || ev.target.parentElement.id === 'btn-decline'){
+    audio.pause();
+    notifAppelDialog.close();
+  }
+})

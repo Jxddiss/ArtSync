@@ -2,6 +2,11 @@ const listeNotifPop = document.getElementById("notification-pop-liste");
 const notifcationContainer = document.getElementById("notifcationContainer");
 
 function showNotification(notification){
+    $.ajax({
+        type:'POST',
+        url: window.location.origin.toString() + "/notification/set-lu",
+        data: {id:notification.id}
+    })
     var audio;
     if(notification.appel){
         audio = new Audio("/media/audio/notification/ringtone.mp3");
@@ -29,6 +34,13 @@ function showNotification(notification){
 }
 
 function addNotifContainer(notification){
+    if(!listeNotifPop){
+        $.ajax({
+            type:'POST',
+            url: window.location.origin.toString() + "/notification/set-lu",
+            data: {id:notification.id}
+        })
+    }
     var noNotifTitle = document.getElementById("no-notif-title");
 
     if (noNotifTitle){
@@ -42,9 +54,4 @@ function addNotifContainer(notification){
                                               <p class="notification-texte"> ${notification.message}</p>`;
     notificationElement.href = notification.urlNotif;
     notifcationContainer.appendChild(notificationElement);
-    $.ajax({
-        type:'POST',
-        url: window.location.origin.toString() + "/notification/set-lu",
-        data: {id:notification.id}
-    })
 }

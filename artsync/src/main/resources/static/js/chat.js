@@ -222,7 +222,7 @@ function showAppel(notification){
             <button type="button"
                     class="button-video"
                     id="btn-answer"
-                    data-url="${notification.urlNotif}?appel=true">
+                    data-url="${notification.urlNotif}">
                 <i class="bi bi-telephone-inbound"></i>
             </button>
             <button type="button"
@@ -240,5 +240,11 @@ document.addEventListener("click",(ev)=>{
   if(ev.target.id === 'btn-decline' || ev.target.parentElement.id === 'btn-decline'){
     audio.pause();
     notifAppelDialog.close();
+  }
+
+  if(ev.target.id === 'btn-answer'){
+    window.location.href = ev.target.dataset.url;
+  }else if(ev.target.parentElement.id === 'btn-answer'){
+    window.location.href = ev.target.parentElement.dataset.url;
   }
 })

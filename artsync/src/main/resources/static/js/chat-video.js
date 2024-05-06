@@ -115,7 +115,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     pseudoSender: pseudoUser,
                     message: `Appel de ${pseudoUser}`,
                     titre: 'Appel...',
-                    urlNotif: window.location.pathname.toString(),
+                    urlNotif: window.location.pathname.toString() + '?appel=true',
                     imgSender: profilImgUserLogin
                 }
             ));
@@ -247,7 +247,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 if (stompClientVideo) {
                     stompClientVideo.disconnect();
                 }
-                location.reload()
+                location.href = '/utilisateur/conversation/'+conversationId;
             })
 
             //=== Fonction pour se déconnecter et rénitialiser toutes le connection
@@ -260,7 +260,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     stompClientVideo.send("/app/chat/appel/remove/"+conversationId, {}, idUser + ":" + idAmi);
                     stompClientVideo.disconnect();
                 }
-                location.reload()
+                location.href = '/utilisateur/conversation/'+conversationId;
             })
 
             let isOnIos = navigator.userAgent.match(/iPad/i)|| navigator.userAgent.match(/iPhone/i);

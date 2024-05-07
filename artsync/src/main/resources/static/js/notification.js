@@ -26,7 +26,7 @@ function showNotification(notification){
     if (notifcationContainer){
         addNotifContainer(notification);
     }
-    if(notification.id !== null){
+    if(notification.id !== undefined){
         $.ajax({
             type:'POST',
             url: window.location.origin.toString() + "/notification/set-lu",

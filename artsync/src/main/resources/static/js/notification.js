@@ -29,14 +29,7 @@ function showNotification(notification){
 }
 
 function addNotifContainer(notification){
-    if(!listeNotifPop){
-        $.ajax({
-            type:'POST',
-            url: window.location.origin.toString() + "/notification/set-lu",
-            data: {id:notification.id}
-        })
-    }
-    var noNotifTitle = document.getElementById("no-notif-title");
+    let noNotifTitle = document.getElementById("no-notif-title");
 
     if (noNotifTitle){
         notifcationContainer.removeChild(noNotifTitle);

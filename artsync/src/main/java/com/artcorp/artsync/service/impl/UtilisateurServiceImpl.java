@@ -56,6 +56,9 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         utilisateur.setSpecialisation(specialisation);
         utilisateur.setStatut(statut);
         utilisateur.setActive(true);
+        utilisateur.setFollowers(new HashSet<>());
+        utilisateur.setAmis(new HashSet<>());
+        utilisateur.setFollowing(new HashSet<>());
         return repos.save(utilisateur);
     }
 

@@ -5,7 +5,12 @@
 
         stompClientNotif.connect({}, function(frame) {
             stompClientNotif.subscribe('/topic/notification/[[${session.user.getId()}]]', function(notification) {
-                showNotification(JSON.parse(notification.body));
+                const notif = JSON.parse(notification.body)
+                if (notif.titre.includes("Appel")){
+                    showAppel(notif)
+                }else{
+                    showNotification(notif);
+                }
             });
         });
 
@@ -21,7 +26,12 @@
 
                     stompClientNotif.connect({}, function(frame) {
                         stompClientNotif.subscribe('/topic/notification/[[${session.user.getId()}]]', function(notification) {
-                            showNotification(JSON.parse(notification.body));
+                            const notif = JSON.parse(notification.body)
+                            if (notif.titre.includes("Appel")){
+                                showAppel(notif)
+                            }else{
+                                showNotification(notif);
+                            }
                         });
                     });
                     unloaded = false;
@@ -34,4 +44,9 @@
             });
         }
     </script>
+
+    <dialog id="appel-notif" class="appel-notif-chat-animation">
+
+    </dialog>
 </div>
+

@@ -30,7 +30,7 @@ function showNotification(notification){
         $.ajax({
             type:'POST',
             url: window.location.origin.toString() + "/notification/set-lu",
-            data: {id:notification.body.id}
+            data: {id:notification.id}
         })
     }
 }

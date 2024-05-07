@@ -6,11 +6,6 @@
         stompClientNotif.connect({}, function(frame) {
             stompClientNotif.subscribe('/topic/notification/[[${session.user.getId()}]]', function(notification) {
                 showNotification(JSON.parse(notification.body));
-                $.ajax({
-                    type:'POST',
-                    url: window.location.origin.toString() + "/notification/set-lu",
-                    data: {id:notification.body.id}
-                })
             });
         });
 

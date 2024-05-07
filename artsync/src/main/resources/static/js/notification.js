@@ -26,6 +26,13 @@ function showNotification(notification){
     if (notifcationContainer){
         addNotifContainer(notification);
     }
+    if(notification.id !== null){
+        $.ajax({
+            type:'POST',
+            url: window.location.origin.toString() + "/notification/set-lu",
+            data: {id:notification.body.id}
+        })
+    }
 }
 
 function addNotifContainer(notification){

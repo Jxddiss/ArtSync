@@ -9,7 +9,7 @@
                 $.ajax({
                     type:'POST',
                     url: window.location.origin.toString() + "/notification/set-lu",
-                    data: {id:notification.id}
+                    data: {id:notification.body.id}
                 })
             });
         });

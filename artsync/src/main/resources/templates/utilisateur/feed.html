@@ -277,7 +277,7 @@
     </dialog>
 
     <div th:replace="${session.user != null} ? ~{fragment/notificationFragment :: notificationFragment} : ~{}"></div>
-    <script th:src="@{/js/notification.js?v=7}"></script>
+    <script th:src="@{/js/notification.js?v=8}"></script>
     <script>
       const userImage = '[[${session.user.photoUrl}]]';
       const pseudoUser = '[[${session.user.pseudo}]]';

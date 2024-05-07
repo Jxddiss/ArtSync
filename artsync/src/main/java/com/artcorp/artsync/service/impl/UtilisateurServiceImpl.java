@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -55,8 +56,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         utilisateur.setSpecialisation(specialisation);
         utilisateur.setStatut(statut);
         utilisateur.setActive(true);
-        repos.save(utilisateur);
-        return utilisateur;
+        return repos.save(utilisateur);
     }
 
     @Override

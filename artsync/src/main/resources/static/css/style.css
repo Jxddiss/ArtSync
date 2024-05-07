@@ -82,25 +82,6 @@ body {
     transform: translateX(5%);
     background-color: rgb(0,0,0,0.25);
 }
-@media only screen and (max-width: 700px) {
-    .nav-item{
-        display: none;
-
-
-    }
-    .iconButton{
-        display: block;
-        align-self: end;
-        font-size: 25px;
-
-    }
-    .navbar>.container{
-        flex-wrap: nowrap !important;
-        padding-inline: 1.5rem;
-        width: 100%;
-
-    }
-}
 
 /* 
 ------------------------------
@@ -491,3 +472,105 @@ border-radius: 25px;
     z-index: -1;
 }
 
+@media only screen and (max-width: 700px) {
+    .nav-item{
+        display: none;
+    }
+    .iconButton{
+        display: block;
+        align-self: end;
+        font-size: 25px;
+
+    }
+    .navbar>.container{
+        flex-wrap: nowrap !important;
+        padding-inline: 1.5rem;
+        width: 100%;
+
+    }
+
+    #notification-pop-liste{
+        width: 100vw;
+        height: fit-content;
+        flex-direction: column-reverse;
+        justify-content: start;
+        align-items: center;
+        left: 0;
+        top: 0;
+        z-index: 200000000000;
+        opacity: 1;
+    }
+
+    .notification-pop-container{
+        transform: translateY(-100%);
+        max-width: 95%;
+    }
+
+    .notification-info{
+        background: rgb(212, 211, 211);
+    }
+
+    @keyframes slide-left {
+        0%{
+            transform: translateY(-100%);
+            opacity: 0;
+        }
+        10%{
+            transform: translateY(0);
+            opacity: 0.5;
+        }
+        15%{
+            opacity: 1;
+        }
+        90%{
+            transform: translateY(0);
+            opacity: 1;
+        }
+        100%{
+            transform: translateX(-100%);
+            display: none;
+        }
+    }
+
+    @keyframes slide {
+        from{
+            opacity: 0;
+        }
+        to{
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes shake {
+        0%{
+            transform: translateX(0);
+        }
+        50%{
+            transform: translateX(5%);
+        }
+        100%{
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes disapear {
+        from{
+            transform: translateY(0);
+        }
+        to{
+            transform: translateX(-200%);
+            display: none;
+        }
+    }
+
+    #appel-notif{
+        height: 100dvh !important;
+        width: 100dvw !important;
+        margin-left: .5em;
+    }
+
+    #appel-notif img{
+        height: 15em !important;
+        width: 15em !important;
+    }
+}

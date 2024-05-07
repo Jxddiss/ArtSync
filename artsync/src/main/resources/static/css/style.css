@@ -82,25 +82,6 @@ body {
     transform: translateX(5%);
     background-color: rgb(0,0,0,0.25);
 }
-@media only screen and (max-width: 700px) {
-    .nav-item{
-        display: none;
-
-
-    }
-    .iconButton{
-        display: block;
-        align-self: end;
-        font-size: 25px;
-
-    }
-    .navbar>.container{
-        flex-wrap: nowrap !important;
-        padding-inline: 1.5rem;
-        width: 100%;
-
-    }
-}
 
 /* 
 ------------------------------
@@ -283,6 +264,103 @@ border-radius: 25px;
     }
 }
 
+/*========== notification appel ==========*/
+#appel-notif[open]{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    box-sizing: content-box;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    height: 50vh;
+    width: 50vh;
+    z-index: 100000;
+    backdrop-filter: blur(5px) contrast(77%) saturate(221%);
+    border-radius: 5%;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    background-color: transparent;
+}
+
+#appel-notif img{
+    height: 30%;
+    width: 30%;
+    border-radius: 100000px;
+    object-fit: cover;
+}
+
+#appel-notif span{
+    opacity: 0;
+    height: 0;
+    margin-top: 0.5em;
+    transition: all 500ms ease-in-out;
+}
+
+#appel-notif img:hover + span{
+    opacity: 1;
+    font-size: 1.2rem;
+}
+
+.appel-notif-chat-animation{
+    animation-name: appelNotifChat;
+    animation-duration: 400ms;
+    animation-iteration-count: infinite;
+    animation-fill-mode: both;
+    animation-timing-function: ease-in-out;
+}
+
+@keyframes appelNotifChat {
+    0%{
+        border: 3px solid rgba(0, 0, 0, 0.3);
+    }
+    55%{
+        border: 1px solid rgba(0, 0, 0, 0.3);
+    }
+    100%{
+        border: 3px solid rgba(0, 0, 0, 0.3);
+    }
+}
+
+.control-holder {
+    position: absolute;
+    bottom: 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    z-index: 2;
+    background-color: #3d3c3c3f;
+    border: 1px solid rgba(0, 0, 0, 0.308);
+    backdrop-filter: blur(10px);
+    padding-left: 2em;
+    padding-right: 2em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    border-radius: 1000000000px;
+}
+
+.button-video {
+    border: none;
+    cursor: pointer;
+    height: 75px;
+    width: 75px;
+    border-radius: 50%;
+    background-color: #2b2a2a;
+    color: #c9d7dc;
+    font-size: 2rem;
+    transition: all 0.2s ease-in-out;
+}
+
+.button-video:hover {
+    background-color: #faf3f3;
+    transform: scale(1.13);
+}
+
+.button-video:hover i{
+    color: #1b1b1b !important;
+}
 /*-------THEME--------*/
 
 .whiteFont, .whiteFont .navbar-brand, .whiteFont .nav-item > a, .whiteFont .btnSection, .whiteFont .publier{
@@ -394,3 +472,105 @@ border-radius: 25px;
     z-index: -1;
 }
 
+@media only screen and (max-width: 700px) {
+    .nav-item{
+        display: none;
+    }
+    .iconButton{
+        display: block;
+        align-self: end;
+        font-size: 25px;
+
+    }
+    .navbar>.container{
+        flex-wrap: nowrap !important;
+        padding-inline: 1.5rem;
+        width: 100%;
+
+    }
+
+    #notification-pop-liste{
+        width: 100vw;
+        height: fit-content;
+        flex-direction: column-reverse;
+        justify-content: start;
+        align-items: center;
+        left: 0;
+        top: 0;
+        z-index: 200000000000;
+        opacity: 1;
+    }
+
+    .notification-pop-container{
+        transform: translateY(-100%);
+        max-width: 95%;
+    }
+
+    .notification-info{
+        background: rgb(212, 211, 211);
+    }
+
+    @keyframes slide-left {
+        0%{
+            transform: translateY(-100%);
+            opacity: 0;
+        }
+        10%{
+            transform: translateY(0);
+            opacity: 0.5;
+        }
+        15%{
+            opacity: 1;
+        }
+        90%{
+            transform: translateY(0);
+            opacity: 1;
+        }
+        100%{
+            transform: translateX(-100%);
+            display: none;
+        }
+    }
+
+    @keyframes slide {
+        from{
+            opacity: 0;
+        }
+        to{
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes shake {
+        0%{
+            transform: translateX(0);
+        }
+        50%{
+            transform: translateX(5%);
+        }
+        100%{
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes disapear {
+        from{
+            transform: translateY(0);
+        }
+        to{
+            transform: translateX(-200%);
+            display: none;
+        }
+    }
+
+    #appel-notif{
+        height: 100dvh !important;
+        width: 100dvw !important;
+        margin-left: .5em;
+    }
+
+    #appel-notif img{
+        height: 15em !important;
+        width: 15em !important;
+    }
+}

@@ -183,8 +183,8 @@ border-radius: 25px;
 }
 
 .notification-warn{
-    background: rgba(209, 157, 44, 0.856);
-    color: rgb(241, 226, 213);
+    background: rgba(215, 163, 31, 0.71);
+    color: rgb(241, 226, 213) !important;
 }
 
 .notification-success{

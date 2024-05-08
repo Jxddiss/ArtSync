@@ -283,5 +283,12 @@
       const pseudoUser = '[[${session.user.pseudo}]]';
     </script>
     <script th:src="@{/js/script-feed.js?v=5}" defer></script>
+    <script th:if="${warn != null}">
+      showNotification({
+        type: 'warn',
+        message: '[[${warn}]]',
+        titre: 'Avertissement',
+      })
+    </script>
   </body>
 </html>

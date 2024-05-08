@@ -94,8 +94,8 @@ document.addEventListener("DOMContentLoaded", function() {
     * un appel est lancé grace a WebRTC
     * */
     video.addEventListener("click", function() {
-        videoDialog.showModal();
-        videoDialog.style.display="flex"
+        videoDialogGroupe.showModal();
+        videoDialogGroupe.style.display="flex"
         if (navigator.mediaDevices.getUserMedia) {
             navigator.mediaDevices.getUserMedia({ video: true,audio: true })
                 .then(stream => {
@@ -167,7 +167,7 @@ document.addEventListener("DOMContentLoaded", function() {
     * et désactive la vidéo pendant l'appel
     *
     phone.addEventListener("click", function() {
-        videoDialog.showModal();
+        videoDialogGroupe.showModal();
         if (navigator.mediaDevices.getUserMedia) {
             navigator.mediaDevices.getUserMedia({ video: true,audio: true })
                 .then(stream => {

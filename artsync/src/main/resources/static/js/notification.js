@@ -55,7 +55,7 @@ function showAppel(notification){
 
     audio = new Audio("/media/audio/notification/ringtone.mp3");
     audio.play();
-    setTimeout(()=>{audio.pause()},4500);
+    setTimeout(()=>{audio.pause()},6500);
 
     notifAppelDialog.innerHTML = `
         <img src="/media/images/${notification.imgSender}" alt="">
@@ -75,7 +75,22 @@ function showAppel(notification){
         </div>`
 
     notifAppelDialog.showModal();
-    setTimeout(()=>{notifAppelDialog.close()},5000)
+    gsap.from(notifAppelDialog,{
+        width:"0%",
+        height:"0%",
+        opacity:0,
+        duration:0.65,
+        ease:"back"
+    })
+    gsap.to(notifAppelDialog,{
+        height: "50vh",
+        width: "50vh",
+        opacity:1,
+        duration:0.65,
+        ease:"back"
+    })
+    setTimeout(()=>{notifAppelDialog.classList.toggle("fadeIn");},2000)
+    //setTimeout(()=>{notifAppelDialog.close()},7000)
 
     $.ajax({
         type:'POST',

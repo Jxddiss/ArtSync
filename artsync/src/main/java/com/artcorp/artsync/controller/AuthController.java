@@ -72,11 +72,16 @@ public class AuthController {
             utilisateurService.update(utilisateur);
         }
         session.invalidate();
-        return "redirect:/";
+        return "redirect:/authentification";
     }
 
     @GetMapping("/authentification")
-    public String authentification() {
+    public String authentification(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+        if (utilisateur != null){
+            return "redirect:/feed";
+        }
         return "auth";
     }
 

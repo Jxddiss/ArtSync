@@ -1,13 +1,16 @@
-.body-relation{
-    background: radial-gradient(ellipse at top, #ededed 25%,#dfeef4 100%) fixed;
-
+.bodyContainer{
+    height: auto;
 }
+
 .social-holder{
-    background-color: rgba(199, 199, 199, 0.2);
-    box-shadow: rgb(211, 210, 210) 0px 0px 15px 15px;
-    background-color: white;
-    border-radius: 5px;
+    box-shadow: 12px 21px 35px 4px rgba(0,0,0,0.1);
     height: 700px;
+    /* From https://css.glass */
+    background: rgba(123, 245, 255, 0.03);
+    border-radius: 16px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(123, 245, 255, 0.3);
 }
 
 a{
@@ -18,7 +21,7 @@ a{
     display: flex;
     flex-direction: column;
     border: 1px solid rgb(225,225,225);
-    background-color: rgb(249, 249, 249);
+    background: radial-gradient(ellipse at top, #ededed 25%,#dfeef4 100%) fixed;
     color: rgb(0, 0, 0);
     border-radius: 5px;
     justify-content: center;
@@ -49,8 +52,15 @@ a{
 
 }
 .relation-button:hover{
-    background-color: rgb(233, 233, 233);
-    cursor: pointer;
+    scale: 1.05;
+    transition: 0.15s;
+    box-shadow: 0px 0px 10px 10px rgb(0, 0, 0, 0.1);
+}
+
+.relation-button-active{
+    scale: 1.05;
+    transition: 0.15s;
+    box-shadow: 0px 0px 10px 10px rgb(0, 0, 0, 0.1);
 }
 
 .data-container{
@@ -108,10 +118,10 @@ a{
 }
 
 .carte:hover{
-    background-color: rgb(246, 246, 246);
     cursor: pointer;
-    scale: 1.025;
-    transition: 0.25s;
+    scale: 1.03;
+    transition: 0.15s;
+    box-shadow: 12px 21px 35px 4px rgba(0,0,0,0.1);
 }
 .carte img{
     height: 5rem;
@@ -253,9 +263,10 @@ a{
     padding-top: 10px;
 }
 .activity-card:hover{
-    background-color: rgb(246, 246, 246);
+    scale: 1.015;
     cursor: pointer;
     transition: 0.25s;
+    box-shadow: 12px 21px 38px -20px rgba(0,0,0,0.1);
 }
 .activity-card span{
     font-weight: 550;
@@ -291,6 +302,8 @@ a{
 .pfp-activity{
     border-radius: 50%;
     height: 50px;
+    width: 50px;
+    object-fit: cover;
 }
 .post-activity{
     border-radius: 0px;

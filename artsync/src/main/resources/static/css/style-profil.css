@@ -332,6 +332,92 @@
     object-fit: cover;
 }
 
+.poste{
+    display: flex;
+    width: 60%;
+    height: 30em;
+    padding: 1em;
+    gap: 1rem;
+    border-radius: 10px;
+    /* margin-left: 10em; */
+    margin-right: auto;
+    margin-bottom: 2em;
+    background: radial-gradient(ellipse at top, #ededed 40%, #98cce8 100%) fixed;
+}
+
+.poste > img{
+    height: 100%;
+    width: 50%;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+.card-post{
+    height: 100%;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 50%;
+}
+
+.liste-commentaires{
+    height: 50%;
+}
+
+.env-commentaire{
+    width: 100%;
+}
+
+.env-commentaire .input-box-commentaire{
+    width: 100%;
+    height: 2.5rem;
+    padding: .5rem;
+    display: flex;
+    gap: .5rem;
+
+}
+
+.input-box-commentaire input[type=text]{
+    width: 80%;
+    height: 2rem;
+    padding: .5rem;
+    border-radius: 10px;
+    background: transparent;
+    border: 1px solid rgba(0, 0, 0, 0.69);
+}
+
+.input-box-commentaire button{
+    height: 2rem;
+    width: 20%;
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+    background-color: #dbdbdb;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+}
+
+.icones-interactions{
+    display: flex;
+    gap: 1rem;
+}
+
+.icon-img{
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+}
+
+.icon-img p{
+    margin-bottom: 0;
+}
+
+
+
 /*-------------------PORTFOLIO SECTION-------------------*/
 
 .portfolioHolder{
@@ -480,6 +566,55 @@
     outline: none;
 }
 
+#dialog-card-focus{
+    border: none;
+    box-sizing: content-box;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    z-index: 1000;
+    padding: 0;
+    height: 40em;
+    width: 70vw;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: opacity 5s ease-in-out;
+    box-shadow: rgba(172, 171, 192, 0.5) 0px 0px 15px 15px;
+}
+
+#dialog-card-focus > .poste{
+    transform: rotate(0deg) !important;
+    height: 100%;
+    width: 100%;
+}
+
+#dialog-card-focus > button{
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 2em;
+    width: 2em;
+    z-index: 2;
+    border: none;
+    background: transparent;
+    padding: 0;
+    font-size: 1.5rem;
+}
+
+#dialog-card-focus .poste > img{
+    min-width: 65%;
+}
+
+#dialog-card-focus > button:hover{
+    cursor: pointer;
+    transform: scale(1.05);
+}
+
+#dialog-card-focus::backdrop{
+    backdrop-filter: blur(10px);
+}
+
 @media only screen and (max-width: 700px) {
     .pfpHolder{
         height: 6rem;
@@ -541,6 +676,23 @@
         margin-inline: 25%;
     }
 
+    #dialog-card-focus{
+        width: 100vw;
+        height: 100dvh;
+        top: 95%;
+    }
+    .poste{
+        flex-direction:column;
+    }
+
+    .poste img{
+        width: 100%;
+    }
+
+    .card-post{
+        font-size: 0.7rem;
+        width: 100%;
+    }
 
 }
 

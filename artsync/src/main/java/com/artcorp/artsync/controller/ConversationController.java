@@ -41,10 +41,16 @@ public class ConversationController {
                                             RedirectAttributes redirectAttributes) {
         HttpSession session = request.getSession(false);
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+        List<Conversation> conversations;
         if (utilisateur != null) {
             List<Projet> projets = projetService.findProjectsOfUser(utilisateur.getId());
-            GetConversationsAndAddToModel(model, session, utilisateur,projets);
-            return "/utilisateur/conversation";
+            conversations = GetConversationsAndAddToModel(model, session, utilisateur,projets);
+            if(!conversations.isEmpty()){
+                return "redirect:/utilisateur/conversation/" + conversations.getFirst().getId();
+            }else{
+                redirectAttributes.addFlashAttribute("warn", "Vous n'avez aucunes conversations");
+                return "redirect:/feed";
+            }
         }
         redirectAttributes.addFlashAttribute("error", "Veuillez vous connecter");
         return "redirect:/authentification";
@@ -87,7 +93,7 @@ public class ConversationController {
                     return "utilisateur/chat-prive";
                 }
             }
-
+            redirectAttributes.addFlashAttribute("warn", "Conversation inexistante");
             return "redirect:/feed";
         }
         redirectAttributes.addFlashAttribute("error", "Veuillez vous connecter");
@@ -125,7 +131,7 @@ public class ConversationController {
         }
     }
 
-    private void GetConversationsAndAddToModel(Model model, HttpSession session, Utilisateur utilisateur, List<Projet> projets) {
+    private List<Conversation> GetConversationsAndAddToModel(Model model, HttpSession session, Utilisateur utilisateur, List<Projet> projets) {
         List<Conversation> conversations = conversationService.findByAllByUtilisateur(utilisateur);
         ArrayList<Conversation> conversationAmi = new ArrayList<>();
         ArrayList<Conversation> conversationProjet = new ArrayList<>();
@@ -146,5 +152,7 @@ public class ConversationController {
         model.addAttribute("conversationsProjet",conversationProjet);
         session.setAttribute("conversationsAmi", conversationAmi);
         session.setAttribute("conversationsProjet",conversationProjet);
+
+        return conversations;
     }
 }

@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css?v=6}"/>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/style-feed.css?v=5}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css?v=7}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style-feed.css?v=7}"/>
 
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
@@ -58,7 +58,7 @@
               />[[${session.user.getPrenom()}]] [[${session.user.getNom()}]]
             </a>
           </li>
-          <li><a th:href="@{/utilisateur/conversation}"><img src="../media/logo/friend.svg" alt="" />Amis</a></li>
+          <li><a th:href="@{/utilisateur/conversation}"><img src="../media/logo/friend.svg" alt="" />Conversations</a></li>
           <li><a th:href="@{/utilisateur/relation/groupes}"><img src="../media/logo/group.svg" alt="" />Groupes</a></li>
           <li><a th:href="@{/utilisateur/souvenirs}"><img src="../media/logo/clock.svg" alt="" />Souvenirs</a></li>
           <li><a th:href="@{/classement}"><i style="font-size: 38px; margin-right: 1rem; vertical-align: middle; " class="bi bi-award"></i>Classement</a></li>
@@ -277,11 +277,18 @@
     </dialog>
 
     <div th:replace="${session.user != null} ? ~{fragment/notificationFragment :: notificationFragment} : ~{}"></div>
-    <script th:src="@{/js/notification.js?v=12}"></script>
+    <script th:src="@{/js/notification.js?v=13}"></script>
     <script>
       const userImage = '[[${session.user.photoUrl}]]';
       const pseudoUser = '[[${session.user.pseudo}]]';
     </script>
     <script th:src="@{/js/script-feed.js?v=5}" defer></script>
+    <script th:if="${warn != null}">
+      showNotification({
+        type: 'warn',
+        message: '[[${warn}]]',
+        titre: 'Avertissement',
+      })
+    </script>
   </body>
 </html>

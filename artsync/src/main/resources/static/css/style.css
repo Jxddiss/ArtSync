@@ -1,8 +1,11 @@
 /* Balises anchored*/ 
 body {
     font-family: system-ui;
-    height: 300vh;
     overflow-x: hidden;
+}
+
+.bodyContainer{
+    height: 300vh;
 }
 /*
 ------------------------------
@@ -81,6 +84,26 @@ body {
 .headerPopup ul li a:hover{
     transform: translateX(5%);
     background-color: rgb(0,0,0,0.25);
+}
+
+/*
+-----------------------------------
+    Dialog animation
+-----------------------------------
+ */
+dialog[open]:not(#appel-notif) {
+    animation: fadeIn 0.5s ease normal;
+}
+
+@keyframes fadeIn{
+    from {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 /* 
@@ -183,8 +206,8 @@ border-radius: 25px;
 }
 
 .notification-warn{
-    background: rgba(209, 157, 44, 0.856);
-    color: rgb(241, 226, 213);
+    background: rgba(215, 163, 31, 0.71);
+    color: rgb(241, 226, 213) !important;
 }
 
 .notification-success{
@@ -270,7 +293,7 @@ border-radius: 25px;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    position: absolute;
+    position: fixed;
     box-sizing: content-box;
     top: 50%;
     left: 50%;
@@ -282,6 +305,7 @@ border-radius: 25px;
     border-radius: 5%;
     border: 1px solid rgba(0, 0, 0, 0.3);
     background-color: transparent;
+    margin: 0;
 }
 
 #appel-notif img{

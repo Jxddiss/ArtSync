@@ -3,6 +3,10 @@ body {
     font-family: system-ui;
     overflow-x: hidden;
 }
+
+.bodyContainer{
+    height: 300vh;
+}
 /*
 ------------------------------
     Header styles

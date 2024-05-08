@@ -272,7 +272,7 @@ body {
 /*
 ================= Dialogue focus card ================================
 */
-dialog{
+#dialog-card-focus{
     border: none;
     box-sizing: content-box;
     position: fixed;
@@ -288,15 +288,13 @@ dialog{
     transition: opacity 5s ease-in-out;
 }
 
-dialog > .poste{
+#dialog-card-focus > .poste{
     transform: rotate(0deg) !important;
     height: 100%;
     width: 100%;
-    margin: 0 !important;
-    flex-direction: row !important;
 }
 
-dialog > button{
+#dialog-card-focus > button{
     position: absolute;
     top: 0;
     right: 0;
@@ -309,16 +307,16 @@ dialog > button{
     font-size: 1.5rem;
 }
 
-dialog .poste > img{
+#dialog-card-focus .poste > img{
     min-width: 65%;
 }
 
-dialog > button:hover{
+#dialog-card-focus > button:hover{
     cursor: pointer;
     transform: scale(1.05);
 }
 
-dialog::backdrop{
+#dialog-card-focus::backdrop{
     backdrop-filter: blur(10px);
 }
 
@@ -558,4 +556,23 @@ label:has(>input[type=radio]:checked){
     position: relative;
     margin: 0 !important;
     overflow: hidden;
+}
+
+@media only screen and (max-width: 700px) {
+    #dialog-card-focus{
+        width: 100vw;
+        height: 100dvh;
+    }
+    .poste{
+        flex-direction:column;
+    }
+
+    .poste img{
+        width: 100%;
+    }
+
+    .card-post{
+        font-size: 0.7rem;
+        width: 100%;
+    }
 }

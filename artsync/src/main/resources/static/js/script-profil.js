@@ -239,3 +239,42 @@ function applyRainbowEffect(elementId) {
 }
 applyRainbowEffect('anchorPortfolio');
 
+
+//========= carte des poste ================
+
+let dialog = document.getElementById("dialog-card-focus");
+let imgDialog = dialog.querySelector("img");
+
+let publications = document.querySelectorAll(".publication");
+
+publications.forEach(function (publication,index) {
+
+    publication.addEventListener("click", function () {
+        let imageUrl = publication.querySelector("img").src;
+        let cardPost = publication.querySelector(".card-post");
+
+        imgDialog.src = imageUrl;
+        let cardPostDialog = cardPost.cloneNode(true);
+        cardPostDialog.style.display = "flex";
+        dialog.querySelector(".poste").appendChild(cardPostDialog)
+        dialog.showModal();
+    })
+});
+
+imgDialog.addEventListener("click", function(){
+    if (imgDialog.dataset.maximiser == "true") {
+        imgDialog.style.objectFit = "contain";
+        imgDialog.dataset.maximiser = "false";
+    }else{
+        imgDialog.style.objectFit = "cover";
+        imgDialog.dataset.maximiser = "true";
+    }
+})
+
+dialog.querySelector("#close-dialog").addEventListener("click",function (){
+    let cardPoste = dialog.querySelector(".card-post");
+    let poste = dialog.querySelector(".poste")
+    poste.removeChild(cardPoste);
+    dialog.close();
+})
+

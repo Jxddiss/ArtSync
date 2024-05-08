@@ -46,7 +46,7 @@ public class ConversationController {
             List<Projet> projets = projetService.findProjectsOfUser(utilisateur.getId());
             conversations = GetConversationsAndAddToModel(model, session, utilisateur,projets);
             if(!conversations.isEmpty()){
-                return "redirect:/utilisateur/conversation/" + conversations.getFirst().getId();
+                return "redirect:/utilisateur/conversation/" + conversations.get(0).getId();
             }else{
                 redirectAttributes.addFlashAttribute("warn", "Vous n'avez aucunes conversations");
                 return "redirect:/feed";

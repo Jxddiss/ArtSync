@@ -18,7 +18,7 @@ function showNotification(notification){
     notificationElement.classList = `notification-pop-container notification-${notification.type} slide-left`;
     notificationElement.href = notification.urlNotif === undefined ? '' : notification.urlNotif;
     setTimeout(()=>{listeNotifPop.removeChild(notificationElement)},8000);
-    if (notifcationContainer){
+    if (notifcationContainer && notification.id !== undefined){
         addNotifContainer(notification);
     }
     if(notification.id !== undefined){

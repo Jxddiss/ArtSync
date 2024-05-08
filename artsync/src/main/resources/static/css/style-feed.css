@@ -501,7 +501,7 @@ hr {
 }
 
 #stories-open-dialog[open] {
-  animation: fadeIn .7s ease normal;
+  animation: fadeInStories .7s ease normal;
   animation-fill-mode: forwards;
 }
 
@@ -528,7 +528,7 @@ dialog  button:hover{
   transform: scale(1.05);
 }
 
-@keyframes fadeIn{
+@keyframes fadeInStories{
   from {
       transform:translate(-50%, -50%) scale(0.1);
       opacity: 0;

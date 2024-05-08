@@ -221,6 +221,7 @@ main button {
 
 .description {
   margin-left: 1em;
+  margin-top: 1em;
 }
 
 .description::after {
@@ -316,21 +317,26 @@ main button {
   gap: 0.5em;
   height: 2.25rem;
   font-size: 1.2rem;
+  margin-top: 0.5em;
 }
 
 .input-box-commentaire input {
   flex-grow: 1;
-  /* border-radius: 20px;
-  height: 100%;
-  padding: 0.8em;
-  padding-left: 1em;
-  border: none; */
-  box-shadow: inset -7px 9px 25px -3px rgba(0, 0, 0, 0.1);
   height: 2.25rem;
-  border-radius: 5px;
-  border: 1px solid rgba(0, 0, 0, 0.4);
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
   padding-inline: 1rem;
-  background: rgba(255, 255, 255, 0.521);
+  background: transparent;
+}
+
+.input-box-commentaire input:hover, .input-box-commentaire input:focus {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.6);
+  outline: none;
+  height: 2.5rem;
+}
+
+.input-box-commentaire:hover, .input-box-commentaire:has(input:focus){
+  height: 2.5rem;
 }
 
 .btn-commentaire {

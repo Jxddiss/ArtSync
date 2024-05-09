@@ -100,10 +100,10 @@ class UtilisateurReposTest {
     }
 
     @Test
-    public void encryptAll(){
+    public void setRoles(){
         List<Utilisateur> utilisateurs = repos.findAll();
         utilisateurs.forEach(utilisateur -> {
-            utilisateur.setPassword(passwordEncoder.encode(utilisateur.getPassword()));
+            utilisateur.setRole("ROLE_USER");
             repos.save(utilisateur);
         });
     }

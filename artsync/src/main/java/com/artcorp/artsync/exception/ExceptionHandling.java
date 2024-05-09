@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-@ControllerAdvice
+//@ControllerAdvice
 public class ExceptionHandling {
-    public static final String UNE_ERREUR_EST_SURVENUE = "Une erreur est survenue";
+    /*public static final String UNE_ERREUR_EST_SURVENUE = "Une erreur est survenue";
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
     public static final String MAUVAIS_IDENTIFIANTS = "Mauvais identifiants";
     public static final String VEUILLER_VOUS_CONNECTER = "Veuiller vous connecter";
@@ -41,5 +41,5 @@ public class ExceptionHandling {
         LOGGER.error(ex.getMessage());
         redirectAttributes.addFlashAttribute(ERROR, UNE_ERREUR_EST_SURVENUE);
         return "redirect:/";
-    }
+    }*/
 }

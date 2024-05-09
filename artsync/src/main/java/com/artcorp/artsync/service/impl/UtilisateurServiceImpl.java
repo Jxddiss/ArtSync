@@ -2,13 +2,21 @@ package com.artcorp.artsync.service.impl;
 
 import com.artcorp.artsync.entity.Conversation;
 import com.artcorp.artsync.entity.Notification;
+import com.artcorp.artsync.entity.UserPrincipal;
 import com.artcorp.artsync.entity.Utilisateur;
 import com.artcorp.artsync.exception.domain.MauvaisIdentifiantException;
+import com.artcorp.artsync.exception.domain.NotConnectedException;
 import com.artcorp.artsync.repos.ConversationRepos;
 import com.artcorp.artsync.repos.UtilisateurRepos;
 import com.artcorp.artsync.service.UtilisateurService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,16 +25,30 @@ import java.util.List;
 
 @Service
 @Transactional
-public class UtilisateurServiceImpl implements UtilisateurService {
+public class UtilisateurServiceImpl implements UtilisateurService, UserDetailsService {
     private UtilisateurRepos repos;
     private ConversationRepos conversationRepos;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private Logger LOGGER = LoggerFactory.getLogger(getClass());
 
     @Autowired
     public UtilisateurServiceImpl(UtilisateurRepos repos, ConversationRepos conversationRepos, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.repos = repos;
         this.conversationRepos = conversationRepos;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Utilisateur user = repos.findByPseudoAndActive(username);
+        if (user == null){
+            LOGGER.error("Utilisateur non trouvé avec le pseudo : "+username);
+            throw new UsernameNotFoundException("Utilisateur non trouvé avec le pseudo : "+username);
+        }else{
+            UserPrincipal userPrincipal = new UserPrincipal(user);
+            LOGGER.info("FOUND USER BY USERNAME" + username);
+            return userPrincipal;
+        }
     }
 
     @Override
@@ -88,6 +110,19 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     @Override
     public boolean pseudoIsValid(String pseudo, Long userId) {
         return !repos.existsByPseudoAndIdNot(pseudo,userId);
+    }
+
+    @Override
+    public Utilisateur addUserSessionIfNot(HttpSession session,String username) throws NotConnectedException {
+        Utilisateur user = (Utilisateur) session.getAttribute("user");
+        if(user == null){
+            user = repos.findByPseudoAndActive(username);
+            if (user == null){
+                throw new NotConnectedException("Veuiller vous connecter");
+            }
+            session.setAttribute("user",user);
+        }
+        return user;
     }
 
     @Override

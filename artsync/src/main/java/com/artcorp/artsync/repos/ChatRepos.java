@@ -10,5 +10,6 @@ import java.util.List;
 public interface ChatRepos extends JpaRepository<Chat, Long> {
     List<Chat> findAllByConversationId(Long conversationId);
     void deleteAllByConversationId(Long id);
+    void deleteAllByUtilisateurUnId(Long id);
 
 }

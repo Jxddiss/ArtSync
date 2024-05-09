@@ -260,6 +260,7 @@ public class UserController {
                     conversationService.deleteById(conversation.getId());
                 }
             }
+            chatService.deleteAllByUtilisateurUnId(user.getId());
             System.out.println("CONVERSATION ET CHATS SUPPRIMÉES");
             List<Projet> projets = projetService.findProjectsOfUser(user.getId());
             for (Projet projet:projets){

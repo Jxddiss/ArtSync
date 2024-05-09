@@ -33,4 +33,9 @@ public class ChatServiceImpl implements ChatService {
     public void deleteAllByConversationId(Long id) {
         chatRepos.deleteAllByConversationId(id);
     }
+
+    @Override
+    public void deleteAllByUtilisateurUnId(Long id) {
+        chatRepos.deleteAllByUtilisateurUnId(id);
+    }
 }

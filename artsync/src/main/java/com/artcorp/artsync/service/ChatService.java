@@ -10,4 +10,5 @@ public interface ChatService {
     List<Chat> findAllByConversationId(Long conversationId);
     Chat save(Chat chat);
     void deleteAllByConversationId(Long id);
+    void deleteAllByUtilisateurUnId(Long id);
 }

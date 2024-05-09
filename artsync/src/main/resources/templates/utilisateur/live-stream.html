@@ -34,7 +34,7 @@
     <div id="video-chat">
         <div id="stream-holder">
             <div id="stream-title">
-                <img class="profil-pic-stream" th:src="@{/media/images/{image}(image=${streamerPic})}" alt="photo-streamer">
+                <img class="profil-pic-stream" th:src="@{/media/images/utilisateur/{image}(image=${streamerPic})}" alt="photo-streamer">
                 <h4 id="live-stream-titre" th:if="${titre == null}">...</h4>
                 <h4 id="live-stream-titre" th:if="${titre != null}">[[${titre}]]</h4>
                 <input id="titre-live-input" type="text" name="liveTitre" placeholder="titre" th:if="${isStreamer}">

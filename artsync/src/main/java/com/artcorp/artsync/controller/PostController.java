@@ -103,11 +103,9 @@ public class PostController {
             Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
             if (image != null){
 
-                if (!Arrays.asList(IMAGE_JPEG_VALUE, IMAGE_PNG_VALUE, IMAGE_GIF_VALUE).contains(image.getContentType())){
-                    throw new FileFormatException("/utilisateur/profil/" + utilisateur.getPseudo());
-                }
-
-                if(image.getOriginalFilename() == null || image.getOriginalFilename().isEmpty()){
+                if(image.getOriginalFilename() == null
+                        || image.getOriginalFilename().isEmpty()
+                        || !Arrays.asList(IMAGE_JPEG_VALUE, IMAGE_PNG_VALUE, IMAGE_GIF_VALUE).contains(image.getContentType())){
                     throw new FileFormatException("/utilisateur/profil/" + utilisateur.getPseudo());
                 }
 

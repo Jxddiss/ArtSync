@@ -28,7 +28,7 @@
 </head>
 <style th:if="${banniere != null}">
     .header-profile{
-        background-image: url("/media/images/[[${banniere.getListeFichiers()[0].getUrlMedia()}]]");
+        background-image: url("/media/images/post/[[${banniere.getListeFichiers()[0].getUrlMedia()}]]");
     }
 </style>
 <body>
@@ -48,7 +48,7 @@
                    data-type="personne"
                     th:pseudo="${ami.pseudo}">
 
-                    <img th:src="@{/media/images/{image}(image=${ami.photoUrl})}" alt="">
+                    <img th:src="@{/media/images/utilisateur/{image}(image=${ami.photoUrl})}" alt="">
                     <div class="mini-container">
                         <p>[[${ami.prenom}]] [[${ami.nom}]] <span id="friendStatut" th:class="'statut ' + ${ami.statut}"></span></p>
                         <p>@[[${ami.pseudo}]]</p>
@@ -61,7 +61,7 @@
                 <a class="carte" id="groupAnchor" th:each="conversationP : ${conversationsProjet}"
                    th:href="@{/utilisateur/conversation/projet/{id}(id=${conversationP.getId()})}"
                    data-type="groupe">
-                    <img th:src="@{/media/images/{image}(image=${conversationP.projet.getProjetPhoto()})}" alt="">
+                    <img th:src="@{/media/images/utilisateur/{image}(image=${conversationP.projet.getProjetPhoto()})}" alt="">
                     <div class="mini-container">
                         <p>[[${conversationP.projet.getTitre()}]]</p>
                         <p style="margin-left: 0">[[${conversationP.projet.getDescription()}]]</p>
@@ -96,7 +96,7 @@
                                 <p>@[[${amiCourrant.pseudo}]]</p>
                             </div>
                             <div class="img-container">
-                                <img th:src="@{/media/images/{image}(image=${amiCourrant.getPhotoUrl()})}" alt="" id="photo-profile">
+                                <img th:src="@{/media/utilisateur/images/{image}(image=${amiCourrant.getPhotoUrl()})}" alt="" id="photo-profile">
                             </div>
                         </div>
                     </div>
@@ -112,13 +112,13 @@
                                 + ' ' + message.getDateTimeEnvoie().getHour() + 'h ' + message.getDateTimeEnvoie().getMinute()}"> </span>
                             </div>
                             <img
-                            th:src="@{/media/images/{image}(image=${message.utilisateurUn.getPhotoUrl()})}"
+                            th:src="@{/media/images/utilisateur/{image}(image=${message.utilisateurUn.getPhotoUrl()})}"
                             alt="profil"
                             class="profile-pic-banner-border-small">
                         </div>
                     </div>
                     <form id="input-box" enctype="multipart/form-data">
-                        <img th:src="@{/media/images/{image}(image=${session.user.getPhotoUrl()})}" alt="" id="img-profil-input">
+                        <img th:src="@{/media/images/utilisateur/{image}(image=${session.user.getPhotoUrl()})}" alt="" id="img-profil-input">
                         <input type="text" id="input-chat" name="message">
                         <label class="option-send-chat" for="file">
                             <i class="fa-solid fa-file"></i>
@@ -225,7 +225,7 @@
             chatItem.classList.add('chat-item-right');
             imgUserUrl = [[${session.user.getPhotoUrl()}]]
         }
-        imgProfil.src = '/media/images/'+imgUserUrl;
+        imgProfil.src = '/media/images/utilisateur/'+imgUserUrl;
         imgProfil.classList.add("profile-pic-banner-border-small");
 
         let chatContent = document.createElement("div");

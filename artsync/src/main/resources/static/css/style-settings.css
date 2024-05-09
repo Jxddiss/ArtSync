@@ -1,5 +1,6 @@
 body{
     background: radial-gradient(ellipse at top, #ffffff 50%, #a3cae5 100%) fixed;
+    height: 300vh;
 }
 
 .contentHolder{

@@ -40,7 +40,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 </div>
                 <div th:each="demande : ${demandes}" class="userCard">
                     <a th:href="@{/utilisateur/profil/{pseudo}(pseudo=${demande.utilisateur.pseudo})}" class="userImgHolder">
-                        <img th:src="@{/media/images/{image}(image=${demande.utilisateur.getPhotoUrl()})}" alt="test">
+                        <img th:src="@{/media/images/utilisateur/{image}(image=${demande.utilisateur.getPhotoUrl()})}" alt="test">
                     </a>
                     <div class="demandeCardInfo">
                         <p>[[${demande.utilisateur.prenom}]] [[${demande.utilisateur.nom}]]</p>

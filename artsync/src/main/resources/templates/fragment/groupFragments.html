@@ -9,7 +9,7 @@
             <a th:href="@{/groupe/group/{projetId}(projetId=${userProjet.getId()})}"
                th:class="${userProjet.getId() == projet.getId()} ? 'project projectSelected' : 'project'"
                th:each="userProjet, projetId : ${projets}">
-                <img th:src="@{/media/images/{image}(image=${userProjet.getProjetPhoto()})}" alt="">
+                <img th:src="@{/media/images/utilisateur/{image}(image=${userProjet.getProjetPhoto()})}" alt="">
                 <h3>[[${userProjet.getTitre()}]]</h3>
             </a>
             <a th:href="@{/recherche(filtre='GROUPE')}" class="add">
@@ -39,7 +39,7 @@
             <!--Titre et dernière mise à jour-->
             <div class="projectHeader">
                 <div class="headerInfo">
-                    <img class="imgHeaderGroup" th:src="@{/media/images/{image}(image=${projet.getProjetPhoto()})}" alt="">
+                    <img class="imgHeaderGroup" th:src="@{/media/images/utilisateur/{image}(image=${projet.getProjetPhoto()})}" alt="">
                     <h3>[[${projet.titre}]]</h3>
                 </div>
 

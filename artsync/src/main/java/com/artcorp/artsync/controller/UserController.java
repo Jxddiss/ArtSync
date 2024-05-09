@@ -173,9 +173,10 @@ public class UserController {
         if (session!=null){
             String originalFilename = StringUtils.cleanPath(file.getOriginalFilename());
             Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
-            utilisateur.setPhotoUrl(originalFilename);
+            String finalName = utilisateur.getPseudo() +"."+originalFilename.split("\\.")[1];
+            utilisateur.setPhotoUrl(finalName);
             File parentDir = new File(USER_FOLDER);
-            File saveFile = new File(parentDir.getAbsolutePath() + File.separator + originalFilename);
+            File saveFile = new File(parentDir.getAbsolutePath() + File.separator + finalName);
             Files.copy(file.getInputStream(),saveFile.toPath(),StandardCopyOption.REPLACE_EXISTING);
             file.getInputStream().close();
             utilisateurService.update(utilisateur);

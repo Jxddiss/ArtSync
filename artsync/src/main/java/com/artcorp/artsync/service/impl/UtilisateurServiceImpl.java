@@ -109,7 +109,9 @@ public class UtilisateurServiceImpl implements UtilisateurService {
                     followed.getAmis().remove(follower);
                     follower.getAmis().remove(followed);
                     Conversation conversation = conversationRepos.findByUtilisateurDeuxAndUtilisateurUn(followed, follower);
-                    conversationRepos.delete(conversation);
+                    if (conversation != null){
+                        conversationRepos.delete(conversation);
+                    }
                 }
             } else {
                 followed.getFollowers().add(follower);

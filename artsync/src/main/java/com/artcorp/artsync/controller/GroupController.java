@@ -366,7 +366,6 @@ public class GroupController {
         projet.setPublique(isPrivate);
 
         String originalFilename = StringUtils.cleanPath(image.getOriginalFilename());
-        projet.setProjetPhoto(originalFilename);
 
         if (!originalFilename.isEmpty()){
 
@@ -374,6 +373,7 @@ public class GroupController {
             File saveFile = new File(parentDir.getAbsolutePath() + File.separator + originalFilename);
             Files.copy(image.getInputStream(),saveFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
             image.getInputStream().close();
+            projet.setProjetPhoto(originalFilename);
         }
 
         projetService.updateProjet(projet);

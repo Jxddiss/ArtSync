@@ -19,7 +19,7 @@ public interface ProjetRepos extends JpaRepository<Projet, Long> {
      @Query("select count(p) from Projet p join p.utilisateurs u where p.id = ?1 and u.id = ?2")
      public int checkIfUserIsInProjet(Long idProjet, Long idUtilisateur);
 
-     @Query("select p from Projet p join p.utilisateurs u where u.id = ?1")
+     @Query("select p from Projet p join p.utilisateurs u where u.id = ?1 or p.admin.id = ?1")
      public List<Projet> findProjectsOfUser(Long idUtilisateur);
 
      @Query("select count(u) from Projet p join p.utilisateurs u where p.id = ?1")

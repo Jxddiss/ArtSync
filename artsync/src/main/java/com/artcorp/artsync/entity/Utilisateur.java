@@ -29,7 +29,7 @@ public class Utilisateur {
     private String statut;
     private String backgroundColor;
     private String backgroundTexture;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="utilisateurs_relation",
             joinColumns = @JoinColumn(name = "utilisateur_un_id"),
             inverseJoinColumns = @JoinColumn(name = "utilisateur_deux_id"),
@@ -37,7 +37,7 @@ public class Utilisateur {
     )
     private Set<Utilisateur> followers;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="utilisateurs_relation",
             joinColumns = @JoinColumn(name = "utilisateur_deux_id"),
             inverseJoinColumns = @JoinColumn(name = "utilisateur_un_id"),
@@ -45,7 +45,7 @@ public class Utilisateur {
     )
     private Set<Utilisateur> following;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="utilisateurs_amis",
             joinColumns = @JoinColumn(name = "utilisateur_un_id"),
             inverseJoinColumns = @JoinColumn(name = "utilisateur_deux_id"),

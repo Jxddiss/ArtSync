@@ -263,7 +263,7 @@ public class UserController {
             System.out.println("CONVERSATION ET CHATS SUPPRIMÉES");
             List<Projet> projets = projetService.findProjectsOfUser(user.getId());
             for (Projet projet:projets){
-                if (projet.getAdmin().equals(user)){
+                if (projet.getAdmin().getId().equals(user.getId())){
                     List<Utilisateur> users = projetService.getMembers(projet.getId());
                     for (Utilisateur utilisateur : users) {
                         projetService.removeUtilisateurFromProjet(projet.getId(), user.getId());

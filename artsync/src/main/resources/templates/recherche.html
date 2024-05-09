@@ -97,7 +97,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 <div class="groupResult">
                     <div class="groupRow1">
                         <div class="groupPic">
-                            <img th:src="@{/media/images/{image}(image=${projet.getProjetPhoto()})}" alt="">
+                            <img th:src="@{/media/images/utilisateur/{image}(image=${projet.getProjetPhoto()})}" alt="">
                         </div>
                         <div class="groupInfoHolder">
                             <div class="groupHeader">
@@ -149,7 +149,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     </div>
                     <div class="streamInfo">
                         <div class="streamerInfo">
-                            <img th:src="@{/media/images/{image}(image=${stream.getUtilisateur().getPhotoUrl()})}" alt="">
+                            <img th:src="@{/media/images/utilisateur/{image}(image=${stream.getUtilisateur().getPhotoUrl()})}" alt="">
                             <div class="streamerUser">
                                 <p>[[${stream.titre}]]</p>
                                 <p><b th:text="${'@'+stream.getUtilisateur().getPseudo()}"></b></p>

@@ -35,7 +35,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             <a th:each="membre : ${membres}" th:href="@{/groupe/group-fichier/{projetId}/{userId}(projetId=${projet.getId()}, userId=${membre.getId()})}" class="folder">
                 <i class="bi bi-folder"></i>
                 <div class="folderImgHolder">
-                    <img th:src="@{/media/images/{image}(image=${membre.getPhotoUrl()})}" alt="userIcon">
+                    <img th:src="@{/media/images/utilisateur/{image}(image=${membre.getPhotoUrl()})}" alt="userIcon">
                 </div>
 
             </a>

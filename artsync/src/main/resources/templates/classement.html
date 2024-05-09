@@ -40,15 +40,15 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         </div>
         <div class="topShowcaseContainer">
             <div class="podium">
-                <div class="imgHolder"><img  th:src="@{/media/images/{image}(image=${posts.get(1).getListeFichiers()[0].getUrlMedia()})}" alt=""></div>
+                <div class="imgHolder"><img  th:src="@{/media/images/post/{image}(image=${posts.get(1).getListeFichiers()[0].getUrlMedia()})}" alt=""></div>
                 <h4 id="first">#2</h4>
             </div>
             <div class="podium">
-                <div class="imgHolder"><img  th:src="@{/media/images/{image}(image=${posts.get(0).getListeFichiers()[0].getUrlMedia()})}" alt=""></div>
+                <div class="imgHolder"><img  th:src="@{/media/images/post/{image}(image=${posts.get(0).getListeFichiers()[0].getUrlMedia()})}" alt=""></div>
                 <h4 id="second">#1</h4>
             </div>
             <div class="podium">
-                <div class="imgHolder"><img th:src="@{/media/images/{image}(image=${posts.get(2).getListeFichiers()[0].getUrlMedia()})}"  alt=""></div>
+                <div class="imgHolder"><img th:src="@{/media/images/post/{image}(image=${posts.get(2).getListeFichiers()[0].getUrlMedia()})}"  alt=""></div>
                 <h4 id="third">#3</h4>
             </div>
         </div>
@@ -72,7 +72,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     <h4>1#</h4>
                 </div>
                 <div class="postImgHolder">
-                    <img th:src="@{/media/images/{image}(image=${posts.get(0).getListeFichiers()[0].getUrlMedia()})}" alt="">
+                    <img th:src="@{/media/images/post/{image}(image=${posts.get(0).getListeFichiers()[0].getUrlMedia()})}" alt="">
                 </div>
                 <div class="postInfo">
                     <h4 th:text="${posts[0].getTitre()}"></h4>
@@ -88,7 +88,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     <h4>2#</h4>
                 </div>
                 <div class="postImgHolder">
-                    <img th:src="@{/media/images/{image}(image=${posts.get(1).getListeFichiers()[0].getUrlMedia()})}" alt="">
+                    <img th:src="@{/media/images/post/{image}(image=${posts.get(1).getListeFichiers()[0].getUrlMedia()})}" alt="">
                 </div>
                 <div class="postInfo">
                     <h4 th:text="${posts[1].getTitre()}"></h4>
@@ -104,7 +104,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     <h4>3#</h4>
                 </div>
                 <div class="postImgHolder">
-                    <img th:src="@{/media/images/{image}(image=${posts.get(2).getListeFichiers()[0].getUrlMedia()})}" alt="">
+                    <img th:src="@{/media/images/post/{image}(image=${posts.get(2).getListeFichiers()[0].getUrlMedia()})}" alt="">
                 </div>
                 <div class="postInfo">
                     <h4 th:text="${posts[2].getTitre()}"></h4>
@@ -120,7 +120,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     <h4 th:text="${iterStat.index + 1} + '#'">[(${iterStat.index + 4})]#</h4>
                 </div>
                 <div class="postImgHolder">
-                    <img th:src="@{/media/images/{image}(image=${post.getListeFichiers()[0].getUrlMedia()})}" alt="">
+                    <img th:src="@{/media/images/post/{image}(image=${post.getListeFichiers()[0].getUrlMedia()})}" alt="">
                 </div>
                 <div class="postInfo">
                     <h4 th:text="${post.getTitre()}"></h4>

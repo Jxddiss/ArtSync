@@ -146,7 +146,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     <div class="threadInfo">
                         <div class="threadUserPfp">
                             <a th:href="@{/utilisateur/profil/{username}(username=${thread.utilisateur.getPseudo()})}">
-                                <img th:src="@{/media/images/{image}(image=${thread.utilisateur.getPhotoUrl()})}" alt="">
+                                <img th:src="@{/media/images/utilisateur/{image}(image=${thread.utilisateur.getPhotoUrl()})}" alt="">
                             </a>
                         </div>
                         <div class="threadUserInfo">
@@ -180,7 +180,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             <button type="submit">ENVOYER</button>
                         </form>
                         <div class="comment" th:each="comment:${thread.getListeCommentaires()}">
-                            <a th:src="@{/utilisateur/profil/{username}(username=${comment.utilisateur.getPseudo()})}"><img th:src="@{/media/images/{image}(image=${comment.utilisateur.getPhotoUrl()})}" alt=""></a>
+                            <a th:src="@{/utilisateur/profil/{username}(username=${comment.utilisateur.getPseudo()})}"><img th:src="@{/media/images/utilisateur/{image}(image=${comment.utilisateur.getPhotoUrl()})}" alt=""></a>
                             <div class="commentContent">
                                 <b>@[[${comment.utilisateur.pseudo}]]</b>
                                 <p th:text="${comment.getMessage()}"></p>
@@ -205,7 +205,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     <script th:if="${session.user!=null}" th:src="@{/js/notification.js?v=13}"></script>
 
     <!--IGNORE c'est pour le js-->
-    <img style="display: none" th:if="${session.user!=null}" th:src="@{/media/images/{image}(image=${session.user.getPhotoUrl()})}" th:value="${session.user.getPseudo()}" id="permission">
+    <img style="display: none" th:if="${session.user!=null}" th:src="@{/media/images/utilisateur/{image}(image=${session.user.getPhotoUrl()})}" th:value="${session.user.getPseudo()}" id="permission">
     </body>
     <script>
         const openDialog = document.getElementById("openDialog")

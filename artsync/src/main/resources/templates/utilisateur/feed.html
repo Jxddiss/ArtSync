@@ -52,7 +52,7 @@
         <ul>
           <li>
             <a th:href="@{/utilisateur/profil/{username}(username=${session.user.getPseudo()})}">
-              <img th:src="@{/media/images/{image}(image=${session.user.getPhotoUrl()})}"
+              <img th:src="@{/media/images/utilisateur/{image}(image=${session.user.getPhotoUrl()})}"
                 alt=""
                 class="profile-pic-banner-border-small"
               />[[${session.user.getPrenom()}]] [[${session.user.getNom()}]]
@@ -114,14 +114,14 @@
           <!-- <img src="image/image1.png" alt="test picture"> -->
           <!-- <video src="media/ArtSync - Google Chrome 2024-03-07 15-10-39.mp4" style="height: 150%; width: 140%; object-fit: cover;"></video> -->
           <div class="media-holder" data-maximiser="true">
-            <img th:src="@{/media/images/{image}(image=${post.listeFichiers[0].urlMedia})}" th:alt="${post.listeFichiers[0].urlMedia}" />
+            <img th:src="@{/media/images/post/{image}(image=${post.listeFichiers[0].urlMedia})}" th:alt="${post.listeFichiers[0].urlMedia}" />
             <span class="tooltiptext"
               ><i class="bi bi-arrows-angle-contract"></i
             ></span>
           </div>
           <div class="auteur-info">
             <a th:href="@{/utilisateur/profil/{pseudo}(pseudo=${post.utilisateur.pseudo})}" class="">
-              <img th:src="@{/media/images/{image}(image=${post.utilisateur.getPhotoUrl()})}"
+              <img th:src="@{/media/images/utilisateur/{image}(image=${post.utilisateur.getPhotoUrl()})}"
                 alt=""
                 class="profile-pic-banner-border-small"
               />
@@ -140,7 +140,7 @@
             <li class="commentaire" th:each="comm : ${post.listeCommentaires}">
               <a th:href="@{/utilisateur/profil/{pseudo}(pseudo=${comm.utilisateur.pseudo})}" class="info-comment">
                 <img
-                        th:src="@{/media/images/{image}(image=${comm.utilisateur.photoUrl})}"
+                        th:src="@{/media/images/utilisateur/{image}(image=${comm.utilisateur.photoUrl})}"
                         th:alt="${comm.utilisateur.pseudo}"
                         class="profile-pic-banner-border-small"
                 />
@@ -232,7 +232,7 @@
                th:each="notif : ${listNotifications}"
                th:href="${notif.getUrlNotif()}">
               <img th:if="${notif.getImgSender() != null || !notif.getImgSender().equals('')}"
-                      th:src="@{/media/images/{image}(image=${notif.getImgSender()})}"
+                      th:src="@{/media/images/utilisateur/{image}(image=${notif.getImgSender()})}"
                       alt=""
                       class="profile-pic-banner-border-small"
               />

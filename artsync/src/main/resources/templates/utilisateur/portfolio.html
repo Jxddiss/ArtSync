@@ -221,7 +221,7 @@
                 </div>
                 <div class="info">VOS PUBLICATION  <i class="bi bi-info-circle" id="infoIcon" title="Si vous ne voyez pas une publication, mettez la publique"></i></div>
                 <div class="menuImage">
-                    <img class="userPost" th:each="post : ${listPosts}" th:src="@{/media/image/{image}(image=${post.listeFichiers[0].urlMedia})}" th:alt="test" alt="">
+                    <img class="userPost" th:each="post : ${listPosts}" th:src="@{/media/images/post/{image}(image=${post.listeFichiers[0].urlMedia})}" th:alt="test" alt="">
                 </div>
                 <div class="menuText">
                     <div class="d-flex textFormat gap-2">

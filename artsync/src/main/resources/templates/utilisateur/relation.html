@@ -78,7 +78,7 @@
                                         <a th:href="@{/groupe/group/{projetId}(projetId=${projet.getId()})}">
                                             <div class="carte">
                                                 <div id="groupeContainer" class="mini-container">
-                                                    <img th:src="@{/media/images/{image}(image=${projet.getProjetPhoto()})}" alt="">
+                                                    <img th:src="@{/media/images/utilisateur/{image}(image=${projet.getProjetPhoto()})}" alt="">
                                                     <div class="d-flex flex-column groupRelationInfo">
                                                         <p>[[${projet.getTitre()}]] </p>
                                                         <p>[[${projet.getDescription()}]]</p>
@@ -125,7 +125,8 @@
                             <!--Row #1-->
                             <div class="carteHolder" th:if="${!following.isEmpty()}" th:each="user : ${following}" style="width: 23em">
                                 <div class="carte" style="color: black;">
-                                    <a th:href="@{/utilisateur/profil/{pseudo}(pseudo=${user.pseudo})}"><img th:src="@{/media/images/{image}(image=${user.photoUrl})}"  alt=""></a>
+                                    <a th:href="@{/utilisateur/profil/{pseudo}(pseudo=${user.pseudo})}">
+                                        <img th:src="@{/media/images/utilisateur/{image}(image=${user.photoUrl})}"  alt=""></a>
                                     <div class="mini-container" style="padding: 0;">
                                         <p>[[${user.prenom}]] [[${user.nom}]] </p>
                                         <b>@[[${user.pseudo}]]</b>
@@ -142,7 +143,7 @@
                             <!--Row #1-->
                             <div class="carteHolder" th:if="${!followers.isEmpty()}" th:each="user : ${followers}" style="width: 23em">
                                 <a class="carte" style="color: black;" th:href="@{/utilisateur/profil/{pseudo}(pseudo=${user.pseudo})}">
-                                    <img th:src="@{/media/images/{image}(image=${user.photoUrl})}" alt="">
+                                    <img th:src="@{/media/images/utilisateur/{image}(image=${user.photoUrl})}" alt="">
                                     <div class="mini-container" style="padding: 0;">
                                         <p>[[${user.prenom}]] [[${user.nom}]] <span th:class="'statut ' + ${user.statut}"></span></p>
                                         <b>@[[${user.pseudo}]]</b>
@@ -168,10 +169,10 @@
                                 <div class="activity-card" th:each="post : ${posts}">
                                     <div class="row px-4 pt-2">
                                         <div class="col-md-2 d-flex justify-content-center align-items-center">
-                                            <img class="pfp-activity" th:src="@{/media/images/{image}(image=${post.utilisateur.getPhotoUrl()})}" alt="profil-pic">
+                                            <img class="pfp-activity" th:src="@{/media/images/utilisateur/{image}(image=${post.utilisateur.getPhotoUrl()})}" alt="profil-pic">
                                         </div>
                                         <div class="col-md-10 d-flex justify-content-start align-items-end">
-                                            <p><span th:text="${'@'+post.getUtilisateur().getPseudo()}"></span> a publié une oeuvre <img class="post-activity" th:src="@{/media/images/{image}(image=${post.listeFichiers[0].urlMedia})}" alt="post"></p>
+                                            <p><span th:text="${'@'+post.getUtilisateur().getPseudo()}"></span> a publié une oeuvre <img class="post-activity" th:src="@{/media/images/post/{image}(image=${post.listeFichiers[0].urlMedia})}" alt="post"></p>
                                         </div>
                                     </div>
                                     <div class="row">

@@ -61,7 +61,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         <hr>
                     </a>
                     <div th:object="${tache.getUtilisateur()}" class="d-flex tacheInfoUser">
-                        <img th:src="@{/media/images/{image}(image=${tache.getUtilisateur().getPhotoUrl()})}" alt="">
+                        <img th:src="@{/media/images/utilisateur/{image}(image=${tache.getUtilisateur().getPhotoUrl()})}" alt="">
                         <div class="d-flex flex-column tacheInfoUserCredentials">
                             <p>[[${tache.utilisateur.getNom()}]] [[${tache.utilisateur.getPrenom()}]]</p>
                             <b>@[[${tache.utilisateur.getPseudo()}]]</b>

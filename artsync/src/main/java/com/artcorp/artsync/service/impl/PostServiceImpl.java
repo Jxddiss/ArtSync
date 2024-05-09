@@ -20,6 +20,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static com.artcorp.artsync.constant.FileConstant.POST_FOLDER;
 import static com.artcorp.artsync.constant.FileConstant.USER_FOLDER;
 
 @Service
@@ -157,7 +158,7 @@ public class PostServiceImpl implements PostService {
         listFichiers.add(fichierGeneral);
         post.setListeFichiers(listFichiers);
 
-        File parentDir = new File(USER_FOLDER);
+        File parentDir = new File(POST_FOLDER);
         File saveFile = new File(parentDir.getAbsolutePath() + File.separator + originalFilename);
         Files.copy(image.getInputStream(),saveFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
         image.getInputStream().close();

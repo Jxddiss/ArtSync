@@ -13,8 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 
-import static com.artcorp.artsync.constant.FileConstant.MEDIA_CHAT_BASE_FOLDER;
-import static com.artcorp.artsync.constant.FileConstant.USER_FOLDER;
+import static com.artcorp.artsync.constant.FileConstant.*;
 import static org.springframework.http.MediaType.*;
 
 @RestController
@@ -38,12 +37,22 @@ public class FileHandlingControllerRest {
     }
 
     @GetMapping("/media/images/{image}")
+    public void getGeneralImage(@PathVariable("image") String fileName, HttpServletResponse response) throws IOException {
+        readFile(fileName, response, GENERAL_FOLDER);
+    }
+
+    @GetMapping("/media/images/utilisateur/{image}")
     public void getImage(@PathVariable("image") String fileName, HttpServletResponse response) throws IOException {
         readFile(fileName, response, USER_FOLDER);
     }
 
-    private void readFile(@PathVariable("image") String fileName, HttpServletResponse response, String mediaChatBaseFolder) throws IOException {
-        File dir = new File(mediaChatBaseFolder);
+    @GetMapping("/media/images/post/{image}")
+    public void getImagePost(@PathVariable("image") String fileName, HttpServletResponse response) throws IOException {
+        readFile(fileName, response, POST_FOLDER);
+    }
+
+    private void readFile(@PathVariable("image") String fileName, HttpServletResponse response, String baseFolder) throws IOException {
+        File dir = new File(baseFolder);
         File file = new File(dir.getAbsolutePath() + File.separator + fileName);
 
         if (file.exists()) {

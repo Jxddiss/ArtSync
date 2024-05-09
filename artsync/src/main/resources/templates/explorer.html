@@ -35,7 +35,7 @@
             <div class="container-post">
                 <div class="container-cards">
                     <section th:if="${posts} != null" th:each="post : ${posts}" class="card-sample">
-                        <img class="img-card" th:src="@{/media/images/{image}(image=${post.getListeFichiers()[0].getUrlMedia()})}"
+                        <img class="img-card" th:src="@{/media/images/post/{image}(image=${post.getListeFichiers()[0].getUrlMedia()})}"
                              th:alt="${post.getListeFichiers()[0].getUrlMedia()}">
                         <div class="text no-animation">
                             <h2>[[${post.getTitre()}]]</h2>

@@ -35,10 +35,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <div class="fichiersHolder" id="fichiersHolder">
             <div th:each="fichier : ${fichiers}" class="fichier">
                 <div class="fichierImg">
-                    <img th:src="@{/media/images/{image}(image=${fichier.getUrlMedia()})}" alt="">
+                    <img th:src="@{/media/images/post/{image}(image=${fichier.getUrlMedia()})}" alt="">
                 </div>
                 <div class="fichierInfo">
-                    <img th:src="@{/media/images/{image}(image=${user.getPhotoUrl()})}" alt="">
+                    <img th:src="@{/media/images/utilisateur/{image}(image=${user.getPhotoUrl()})}" alt="">
                     <div class="descFichier">
                         <p>[[${user.getPrenom}]] [[${user.getNom}]]</p>
                         <p><b>[[${user.getPseudo}]]</b></p>

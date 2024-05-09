@@ -181,7 +181,7 @@
                 </li>
                 <li class="nav-item ms-3 option-user ">
                     <button type="button" class="btn" id="open-option-user">
-                        <img th:src="@{/media/images/{image}(image=${session.user.getPhotoUrl()})}" alt="photo de profil" class="profile-pic-banner-border-small">
+                        <img th:src="@{/media/images/utilisateur/{image}(image=${session.user.getPhotoUrl()})}" alt="photo de profil" class="profile-pic-banner-border-small">
                     </button>
                     <div class="link-account">
                         <a th:href="@{/utilisateur/profil/{username}(username=${session.user.getPseudo()})}">Profil</a>
@@ -193,7 +193,7 @@
                     </div>
                 </li>
                 <li class="iconButton">
-                    <img id="pfpIconMobile" style="height: 3rem; width: 3rem" th:src="@{/media/images/{image}(image=${session.user.getPhotoUrl()})}" alt="photo de profil" class="profile-pic-banner-border-small">
+                    <img id="pfpIconMobile" style="height: 3rem; width: 3rem" th:src="@{/media/images/utilisateur/{image}(image=${session.user.getPhotoUrl()})}" alt="photo de profil" class="profile-pic-banner-border-small">
                     <div class="headerPopup">
                         <ul>
                             <li>

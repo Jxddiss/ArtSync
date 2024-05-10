@@ -40,9 +40,9 @@ public class ExceptionHandling {
     }
 
     @ExceptionHandler(MaxUploadSizeExceededException.class)
-    public String maxUploadSizeExceededExceptionExceptionHandler(RedirectAttributes redirectAttributes, MaxUploadSizeExceededException maxUploadSizeExceededException){
+    public String maxUploadSizeExceededExceptionExceptionHandler(RedirectAttributes redirectAttributes){
         redirectAttributes.addFlashAttribute(ERROR, "Fichier trop lourd");
-        return "redirect:"+maxUploadSizeExceededException.getMessage();
+        return "redirect:/feed";
     }
 
     @ExceptionHandler(AccessDeniedException.class)

@@ -290,5 +290,12 @@
         titre: 'Avertissement',
       })
     </script>
+    <script th:if="${error != null}">
+      showNotification({
+        type: 'danger',
+        message: '[[${error}]]',
+        titre: 'Avertissement',
+      })
+    </script>
   </body>
 </html>

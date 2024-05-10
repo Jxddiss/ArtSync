@@ -1,18 +1,20 @@
 package com.artcorp.artsync.controller;
 
-import com.artcorp.artsync.entity.FichierGeneral;
-import com.artcorp.artsync.entity.Notification;
-import com.artcorp.artsync.entity.Post;
-import com.artcorp.artsync.entity.Utilisateur;
+import com.artcorp.artsync.entity.*;
 import com.artcorp.artsync.exception.domain.FileFormatException;
 import com.artcorp.artsync.exception.domain.NotConnectedException;
 import com.artcorp.artsync.service.NotificationService;
 import com.artcorp.artsync.service.PostService;
+import com.artcorp.artsync.service.UtilisateurService;
 import com.artcorp.artsync.service.impl.NotificationServiceImpl;
 import com.artcorp.artsync.service.impl.PostServiceImpl;
+import com.artcorp.artsync.service.impl.UtilisateurServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -38,20 +40,32 @@ import static org.springframework.http.MediaType.*;
 public class PostController {
     private final PostService postService;
     private NotificationService notificationService;
+    private UtilisateurService utilisateurService;
 
     @Autowired
-    public PostController(PostServiceImpl postService, NotificationServiceImpl notificationService) {
+    public PostController(PostServiceImpl postService,
+                          NotificationServiceImpl notificationService,
+                          UtilisateurServiceImpl utilisateurService) {
         this.postService = postService;
         this.notificationService = notificationService;
+        this.utilisateurService = utilisateurService;
     }
 
     @GetMapping("/explorer")
     public String explorer(HttpServletRequest request,
-                           Model model) {
-        HttpSession session = request.getSession(false);
-        List<Post> postsEnVedette = null;
+                           Model model,
+                           @AuthenticationPrincipal String username) throws NotConnectedException {
+
+
+        HttpSession session = request.getSession();
+
+        if(!username.equalsIgnoreCase("anonymousUser")){
+            System.out.println(username);
+            utilisateurService.addUserSessionIfNot(session,username);
+        }
+
         List<Post> posts = null;
-        if (session == null) {
+        if (session.getAttribute("user") == null) {
             posts = postService.findByPubliqueEnVedette(true);
         }else{
             posts = postService.findAllPosts();
@@ -61,26 +75,24 @@ public class PostController {
     }
 
     @GetMapping("/feed")
+    @PreAuthorize("isAuthenticated()")
     public String feed(HttpServletRequest request,
                        Model model,
+                       @AuthenticationPrincipal String username,
                        RedirectAttributes redirectAttributes) throws Exception {
         HttpSession session = request.getSession(false);
         if (session != null) {
-            Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
-            if (utilisateur != null) {
-                List<Post> listPostsAbonnement = postService.findPostFollowing(utilisateur.getFollowing());
-                List<Notification> listNotifications = notificationService.findAllUnreadNotificationByUserId(utilisateur.getId());
-                listNotifications.forEach(notification -> {
-                    notification.setLu(true);
-                    notificationService.saveNotification(notification);
-                });
-                model.addAttribute("listNotifications",listNotifications);
-                model.addAttribute("utilisateur", utilisateur);
-                model.addAttribute("listPosts", listPostsAbonnement);
-                return "utilisateur/feed";
-            }else{
-                throw new NotConnectedException("Veuiller vous connecter");
-            }
+            Utilisateur utilisateur = utilisateurService.addUserSessionIfNot(session,username);
+            List<Post> listPostsAbonnement = postService.findPostFollowing(utilisateur.getFollowing());
+            List<Notification> listNotifications = notificationService.findAllUnreadNotificationByUserId(utilisateur.getId());
+            listNotifications.forEach(notification -> {
+                notification.setLu(true);
+                notificationService.saveNotification(notification);
+            });
+            model.addAttribute("listNotifications",listNotifications);
+            model.addAttribute("utilisateur", utilisateur);
+            model.addAttribute("listPosts", listPostsAbonnement);
+            return "utilisateur/feed";
 
         }else{
             throw new Exception("Session nul");
@@ -91,16 +103,17 @@ public class PostController {
 
     @PostMapping("/ajouter-post")
     public String ajouterPost(HttpServletRequest request,
+                              @AuthenticationPrincipal String username,
                              @RequestParam("file") MultipartFile image,
                              @RequestParam("description") String texte,
                              @RequestParam("type") String type,
                              @RequestParam("titre") String titre,
                              @RequestParam(name = "publique", required = false) boolean publique,
-                             RedirectAttributes redirectAttributes) throws IOException, FileFormatException {
+                             RedirectAttributes redirectAttributes) throws IOException, FileFormatException, NotConnectedException {
         HttpSession session = request.getSession(false);
 
         if (session != null) {
-            Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+            Utilisateur utilisateur = utilisateurService.addUserSessionIfNot(session,username);
             if (image != null){
 
                 if(image.getOriginalFilename() == null
@@ -125,7 +138,6 @@ public class PostController {
             }
             return "redirect:/utilisateur/profil/" + utilisateur.getPseudo();
         }
-        redirectAttributes.addFlashAttribute("error", "Veuillez vous connecter pour ajouter un post");
         return "redirect:/authentification";
     }
 

@@ -4,6 +4,7 @@ import com.artcorp.artsync.entity.LiveStream;
 import com.artcorp.artsync.entity.Post;
 import com.artcorp.artsync.entity.Projet;
 import com.artcorp.artsync.entity.Utilisateur;
+import com.artcorp.artsync.exception.domain.NotConnectedException;
 import com.artcorp.artsync.service.LiveStreamService;
 import com.artcorp.artsync.service.PostService;
 import com.artcorp.artsync.service.UtilisateurService;
@@ -12,6 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,17 +39,48 @@ public class AppController {
     @Autowired
     PostService postService;
 
+    @GetMapping("/")
+    public String Index(@AuthenticationPrincipal String username,
+                                     HttpServletRequest request) throws NotConnectedException {
+        HttpSession session = request.getSession();
+        if (!username.equalsIgnoreCase("anonymousUser")){
+            userService.addUserSessionIfNot(session,username);
+        }
+
+        return "index";
+    }
+
     @GetMapping("/index")
-    public String redirigerVersIndex() {
+    public String redirigerVersIndex(@AuthenticationPrincipal String username,
+                                     HttpServletRequest request) throws NotConnectedException {
+        HttpSession session = request.getSession();
+        if (!username.equalsIgnoreCase("anonymousUser")){
+            userService.addUserSessionIfNot(session,username);
+        }
+
         return "index";
     }
 
     @GetMapping("/idee")
-    public String redirigerVersIdee() {
-        return "boite-idee";
+    public String redirigerVersIdee(@AuthenticationPrincipal String username,
+                                    HttpServletRequest request) throws NotConnectedException {
+        HttpSession session = request.getSession(false);
+        if (session != null){
+            userService.addUserSessionIfNot(session,username);
+
+            return "boite-idee";
+        }else{
+            throw new NotConnectedException("Veuillez vous connecter");
+        }
     }
     @GetMapping("/classement")
-    public String redirigerVersClassement(Model model) {
+    public String redirigerVersClassement(@AuthenticationPrincipal String username,
+                                          HttpServletRequest request,Model model) throws NotConnectedException {
+        HttpSession session = request.getSession();
+        if (!username.equalsIgnoreCase("anonymousUser")){
+            userService.addUserSessionIfNot(session,username);
+        }
+
         List<Post> posts = postService.findTop10Posts();
         System.out.println("---------------------------"+posts.size());
         model.addAttribute("posts",posts);
@@ -57,12 +90,17 @@ public class AppController {
     public String redirigerVersRecherche(@RequestParam(value = "filtre", required = false) String filtre,
                                          @RequestParam(value = "type", required = false) String type,
                                          @RequestParam(value = "search", required = false) String search,
-                                         Model model,
-                                         HttpServletRequest request) {
+                                         Model model,@AuthenticationPrincipal String username,
+                                         HttpServletRequest request) throws NotConnectedException {
 
-        HttpSession session = request.getSession(false);
+        HttpSession session = request.getSession();
         Utilisateur utilisateur = null;
         Long idUtilisateur = null;
+
+        if (!username.equalsIgnoreCase("anonymousUser")){
+            userService.addUserSessionIfNot(session, username);
+        }
+
         try {
             utilisateur = ((Utilisateur) session.getAttribute("user"));
             idUtilisateur = utilisateur.getId();
@@ -157,19 +195,24 @@ public class AppController {
         return "recherche";
     }
     @GetMapping("/recherche/follow")
-    public String manageFollow(@RequestParam("id") Long id, @RequestParam("type") String type, HttpServletRequest request) {
+    public String manageFollow(@RequestParam("id") Long id,
+                               @RequestParam("type") String type,
+                               @AuthenticationPrincipal String username,
+                               HttpServletRequest request) throws NotConnectedException {
         HttpSession session = request.getSession(false);
         Utilisateur utilisateur;
         Long idUtilisateur = null;
-        try {
-            utilisateur = ((Utilisateur) session.getAttribute("user"));
+
+        if (session != null){
+            utilisateur = userService.addUserSessionIfNot(session, username);
             idUtilisateur = utilisateur.getId();
-        } catch (Exception e) {
-            return "auth";
+
+            userService.updateRelations(id, idUtilisateur);
+            utilisateur = userService.findById(idUtilisateur);
+            session.setAttribute("user",utilisateur);
+            return "redirect:/recherche";
+        }else {
+            throw new NotConnectedException("Veuillez vous connecter");
         }
-        userService.updateRelations(id, idUtilisateur);
-        utilisateur = userService.findById(idUtilisateur);
-        session.setAttribute("user",utilisateur);
-        return "redirect:/recherche";
     }
 }

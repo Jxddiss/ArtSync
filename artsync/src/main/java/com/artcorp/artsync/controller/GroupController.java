@@ -1,10 +1,12 @@
 package com.artcorp.artsync.controller;
 
 import com.artcorp.artsync.entity.*;
+import com.artcorp.artsync.exception.domain.NotConnectedException;
 import com.artcorp.artsync.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -39,89 +41,101 @@ public class GroupController {
     @Autowired
     ChatService chatService;
     @GetMapping("/group/join")
-    public String rejoindreGroup(@RequestParam("id") Long id, @RequestParam("type") String type, HttpServletRequest request) {
+    public String rejoindreGroup(@RequestParam("id") Long id,
+                                 @RequestParam("type") String type,
+                                 @AuthenticationPrincipal String username,
+                                 HttpServletRequest request) throws NotConnectedException {
 
         HttpSession session = request.getSession(false);
         Long idUtilisateur = null;
-        try {
-            Utilisateur utilisateur = ((Utilisateur) session.getAttribute("user"));
+
+        if (session != null){
+            Utilisateur utilisateur = userService.addUserSessionIfNot(session,username);
             idUtilisateur = utilisateur.getId();
-        } catch (Exception e) {
-            return "auth";
-        }
-        if ("rejoindre".equals(type)) {
-            if (!projetService.findById(id).isPublique()) {
-                demandeService.createDemande(idUtilisateur, id);
-                return "recherche";
+            if ("rejoindre".equals(type)) {
+                if (!projetService.findById(id).isPublique()) {
+                    demandeService.createDemande(idUtilisateur, id);
+                    return "recherche";
+                }
+                projetService.addUtilisateurToProjet(id, idUtilisateur);
+            } else if ("quitter".equals(type)) {
+                projetService.removeUtilisateurFromProjet(id, idUtilisateur);
             }
-            projetService.addUtilisateurToProjet(id, idUtilisateur);
-        } else if ("quitter".equals(type)) {
-            projetService.removeUtilisateurFromProjet(id, idUtilisateur);
+            return "recherche";
+        }else{
+            throw new NotConnectedException("Veuillez vous connecter");
         }
-        return "recherche";
     }
 
     @GetMapping("/groupe/group/{projetId}")
-    public String redirigerVersProjet(@PathVariable("projetId") Long projectId, Model model, HttpServletRequest request) {
+    public String redirigerVersProjet(@PathVariable("projetId") Long projectId,
+                                      @AuthenticationPrincipal String username,
+                                      Model model,
+                                      HttpServletRequest request) throws NotConnectedException {
         HttpSession session = request.getSession(false);
-        if (session == null) {
-            return "auth";
+        if (session != null) {
+            Utilisateur utilisateur = userService.addUserSessionIfNot(session,username);
+            model.addAttribute("selected", "dashboard");
+            model.addAttribute("utilisateur", utilisateur);
+            model.addAttribute("nbFichiers", fichierService.countByProjet(projetService.findById(projectId)));
+            model.addAttribute("projet", projetService.findById(projectId));
+            model.addAttribute("conversation", conversationService.findByProjet(projetService.findById(projectId)));
+            model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
+            model.addAttribute("nbMembres", projetService.getMembersCount(projectId));
+            model.addAttribute("annonces", annonceService.findByProjetId(projectId));
+            model.addAttribute("taches", tacheService.findByEtatAndProjetId("En cours", projectId));
+            model.addAttribute("tachesAFaire", tacheService.findByEtatAndProjetId("À faire", projectId));
+            model.addAttribute("tachesTerminees", tacheService.findByEtatAndProjetId("Terminé", projectId));
+            return "groupe/group";
+        }else {
+            throw new NotConnectedException("Veuillez vous connecter");
         }
-        Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
-        model.addAttribute("selected", "dashboard");
-        model.addAttribute("utilisateur", utilisateur);
-        model.addAttribute("nbFichiers", fichierService.countByProjet(projetService.findById(projectId)));
-        model.addAttribute("projet", projetService.findById(projectId));
-        model.addAttribute("conversation",conversationService.findByProjet(projetService.findById(projectId)));
-        model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
-        model.addAttribute("nbMembres", projetService.getMembersCount(projectId));
-        model.addAttribute("annonces", annonceService.findByProjetId(projectId));
-        model.addAttribute("taches", tacheService.findByEtatAndProjetId("En cours", projectId));
-        model.addAttribute("tachesAFaire", tacheService.findByEtatAndProjetId("À faire", projectId));
-        model.addAttribute("tachesTerminees", tacheService.findByEtatAndProjetId("Terminé", projectId));
-
-        return "groupe/group";
     }
 
     @GetMapping("/groupe/group-users/{projetId}")
-    public String getMembresProjet(@PathVariable("projetId") Long projectId, Model model, HttpServletRequest request) {
+    public String getMembresProjet(@PathVariable("projetId") Long projectId,
+                                   Model model,
+                                   @AuthenticationPrincipal String username,
+                                   HttpServletRequest request) throws NotConnectedException {
         HttpSession session = request.getSession(false);
-        if (session == null) {
-            return "auth";
+        if (session != null) {
+            Utilisateur utilisateur = userService.addUserSessionIfNot(session,username);
+            model.addAttribute("selected", "users");
+            model.addAttribute("utilisateur", utilisateur);
+            model.addAttribute("projet", projetService.findById(projectId));
+            model.addAttribute("conversation", conversationService.findByProjet(projetService.findById(projectId)));
+            model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
+            model.addAttribute("membres", projetService.getMembers(projectId));
+            model.addAttribute("nbMembres", projetService.getMembersCount(projectId));
+            model.addAttribute("nbFichiers", fichierService.countByProjet(projetService.findById(projectId)));
+            model.addAttribute("annonces", annonceService.findByProjetId(projectId));
+            return "groupe/group-users";
+        }else{
+            throw new NotConnectedException("Veuillez vous connecter");
         }
-        Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
-        model.addAttribute("selected", "users");
-        model.addAttribute("utilisateur", utilisateur);
-        model.addAttribute("projet", projetService.findById(projectId));
-        model.addAttribute("conversation",conversationService.findByProjet(projetService.findById(projectId)));
-        model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
-        model.addAttribute("membres", projetService.getMembers(projectId));
-        model.addAttribute("nbMembres", projetService.getMembersCount(projectId));
-        model.addAttribute("nbFichiers", fichierService.countByProjet(projetService.findById(projectId)));
-        model.addAttribute("annonces", annonceService.findByProjetId(projectId));
-
-
-        return "groupe/group-users";
     }
     @PostMapping("/groupe/group-users/recherche")
-    public String getMembresProjet(@RequestParam("projetId") Long projectId,@RequestParam("keyword") String keyword, Model model, HttpServletRequest request) {
+    public String getMembresProjet(@RequestParam("projetId") Long projectId,
+                                   @RequestParam("keyword") String keyword,
+                                   Model model,
+                                   HttpServletRequest request,
+                                   @AuthenticationPrincipal String username) throws NotConnectedException {
         HttpSession session = request.getSession(false);
-        if (session == null) {
-            return "auth";
+        if (session != null) {
+            Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+            model.addAttribute("selected", "users");
+            model.addAttribute("utilisateur", utilisateur);
+            model.addAttribute("projet", projetService.findById(projectId));
+            model.addAttribute("conversation", conversationService.findByProjet(projetService.findById(projectId)));
+            model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
+            model.addAttribute("membres", projetService.findByKeyWordAndProjet(projectId, keyword));
+            model.addAttribute("nbMembres", projetService.getMembersCount(projectId));
+            model.addAttribute("nbFichiers", fichierService.countByProjet(projetService.findById(projectId)));
+            model.addAttribute("annonces", annonceService.findByProjetId(projectId));
+            return "groupe/group-users";
+        }else{
+            throw new NotConnectedException("Veuillez vous connecter");
         }
-        Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
-        model.addAttribute("selected", "users");
-        model.addAttribute("utilisateur", utilisateur);
-        model.addAttribute("projet", projetService.findById(projectId));
-        model.addAttribute("conversation",conversationService.findByProjet(projetService.findById(projectId)));
-        model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
-        model.addAttribute("membres", projetService.findByKeyWordAndProjet(projectId,keyword));
-        model.addAttribute("nbMembres", projetService.getMembersCount(projectId));
-        model.addAttribute("nbFichiers", fichierService.countByProjet(projetService.findById(projectId)));
-        model.addAttribute("annonces", annonceService.findByProjetId(projectId));
-
-
-        return "groupe/group-users";
     }
     @GetMapping("/groupe/group-tache/{projetId}")
     public String getTacheProjet(@PathVariable("projetId") Long projectId, Model model, HttpServletRequest request) {
@@ -142,24 +156,29 @@ public class GroupController {
 
         return "groupe/group-tache";
     }
-    @PostMapping("/groupe/group-tache/recherche")
-    public String rechercheTache(@RequestParam("projetId") Long projectId,@RequestParam("keyword") String keyword, Model model, HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-        if (session == null) {
-            return "auth";
-        }
-        Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
-        model.addAttribute("selected", "taches");
-        model.addAttribute("utilisateur", utilisateur);
-        model.addAttribute("projet", projetService.findById(projectId));
-        model.addAttribute("conversation",conversationService.findByProjet(projetService.findById(projectId)));
-        model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
-        model.addAttribute("nbMembres", projetService.getMembersCount(projectId));
-        model.addAttribute("nbFichiers", fichierService.countByProjet(projetService.findById(projectId)));
-        model.addAttribute("annonces", annonceService.findByProjetId(projectId));
-        model.addAttribute("taches", tacheService.findByKeyword(keyword,projectId));
 
-        return "groupe/group-tache";
+    @PostMapping("/groupe/group-tache/recherche")
+    public String rechercheTache(@RequestParam("projetId") Long projectId,
+                                 @RequestParam("keyword") String keyword,
+                                 @AuthenticationPrincipal String username,
+                                 Model model, HttpServletRequest request) throws NotConnectedException {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            Utilisateur utilisateur = userService.addUserSessionIfNot(session,username);
+            model.addAttribute("selected", "taches");
+            model.addAttribute("utilisateur", utilisateur);
+            model.addAttribute("projet", projetService.findById(projectId));
+            model.addAttribute("conversation",conversationService.findByProjet(projetService.findById(projectId)));
+            model.addAttribute("projets", projetService.findProjectsOfUser(utilisateur.getId()));
+            model.addAttribute("nbMembres", projetService.getMembersCount(projectId));
+            model.addAttribute("nbFichiers", fichierService.countByProjet(projetService.findById(projectId)));
+            model.addAttribute("annonces", annonceService.findByProjetId(projectId));
+            model.addAttribute("taches", tacheService.findByKeyword(keyword,projectId));
+
+            return "groupe/group-tache";
+        }else{
+            throw new NotConnectedException("Veuillez vous connecter");
+        }
     }
     @GetMapping("/groupe/group-demande/{projetId}")
     public String getDemandeProjet(@PathVariable("projetId") Long projectId, Model model, HttpServletRequest request) {

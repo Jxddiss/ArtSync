@@ -101,6 +101,13 @@
             titre: 'Avertissement',
         })
     </script>
+    <script th:if="${success != null}">
+        showNotification({
+            type: 'success',
+            message: '[[${success}]]',
+            titre: 'Avertissement',
+        })
+    </script>
     <script th:src="@{/js/script-auth.js?v=6}"></script>
   </body>
 </html>

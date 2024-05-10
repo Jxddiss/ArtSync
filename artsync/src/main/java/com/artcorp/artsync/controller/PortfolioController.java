@@ -3,10 +3,12 @@ package com.artcorp.artsync.controller;
 import com.artcorp.artsync.entity.Portfolio;
 import com.artcorp.artsync.entity.Post;
 import com.artcorp.artsync.entity.Utilisateur;
+import com.artcorp.artsync.exception.domain.NotConnectedException;
 import com.artcorp.artsync.repos.PortfolioRepos;
 import com.artcorp.artsync.repos.ProjetRepos;
 import com.artcorp.artsync.service.PostService;
 import com.artcorp.artsync.service.ProjetService;
+import com.artcorp.artsync.service.UtilisateurService;
 import com.artcorp.artsync.service.impl.PortfolioServiceImpl;
 import com.artcorp.artsync.service.impl.PostServiceImpl;
 import com.artcorp.artsync.service.impl.ProjetServiceImpl;
@@ -14,6 +16,7 @@ import com.artcorp.artsync.service.impl.UtilisateurServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,21 +31,26 @@ import java.util.List;
 @Controller
 @RequestMapping("/utilisateur")
 public class PortfolioController {
-    @Autowired
     PortfolioServiceImpl portfolioService;
-    @Autowired
     PostService postService;
+    UtilisateurService utilisateurService;
     @Autowired
-    public PortfolioController(PortfolioServiceImpl portfolioService, PostService postService) {
+    public PortfolioController(PortfolioServiceImpl portfolioService,
+                               PostService postService,
+                               UtilisateurServiceImpl utilisateurService) {
         this.portfolioService = portfolioService;
         this.postService = postService;
+        this.utilisateurService = utilisateurService;
     }
 
     @GetMapping("/portfolio")
-    public String redirigerVersPortfolio(Model model, HttpServletRequest request, RedirectAttributes redirectAttributes) {
+    public String redirigerVersPortfolio(Model model,
+                                         HttpServletRequest request,
+                                         @AuthenticationPrincipal String username,
+                                         RedirectAttributes redirectAttributes) throws NotConnectedException {
         HttpSession session = request.getSession(false);
         if (session != null) {
-            Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+            Utilisateur utilisateur = utilisateurService.addUserSessionIfNot(session,username);
             if (utilisateur != null) {
                 List<Post> listPosts = postService.findPostByUser(utilisateur);
                 model.addAttribute("utilisateur", utilisateur);
@@ -51,16 +59,18 @@ public class PortfolioController {
             }
             redirectAttributes.addFlashAttribute("error", "Vous devez vous connecter pour avoir accès à cette page");
             return "redirect:/authentification";
+        }else{
+            throw new NotConnectedException("Veuillez vous connecter");
         }
-        return "redirect:authentification";
     }
     @GetMapping("/ajouter-portfolio")
     public String ajoutPortfolio(HttpServletRequest request,
+                                 @AuthenticationPrincipal String username,
                                  @RequestParam("code") String code,
-                                 RedirectAttributes redirectAttributes) throws IOException {
+                                 RedirectAttributes redirectAttributes) throws IOException, NotConnectedException {
         HttpSession session = request.getSession(false);
         if (session != null) {
-            Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+            Utilisateur utilisateur = utilisateurService.addUserSessionIfNot(session,username);
             if (utilisateur != null){
                 Portfolio portfolio = new Portfolio();
                 portfolio.setCode(code);
@@ -68,8 +78,8 @@ public class PortfolioController {
                 portfolioService.createPortfolio(portfolio);
             }
             return "redirect:/utilisateur/profil/" + utilisateur.getPseudo();
+        }else{
+            throw new NotConnectedException("Veuillez vous connecter");
         }
-        redirectAttributes.addFlashAttribute("error", "Veuillez vous connecter pour ajouter un post");
-        return "redirect:/authentification";
     }
 }

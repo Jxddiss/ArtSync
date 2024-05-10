@@ -148,7 +148,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void savePost(@RequestParam("file") MultipartFile image, Utilisateur utilisateur, String originalFilename, FichierGeneral fichierGeneral, Post post) throws IOException {
+    public void savePost(MultipartFile image, Utilisateur utilisateur, String originalFilename, FichierGeneral fichierGeneral, Post post) throws IOException {
         post.setDate(LocalDateTime.now());
         post.setPseudoUtilisateur(utilisateur.getPseudo());
 

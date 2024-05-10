@@ -3,6 +3,8 @@ package com.artcorp.artsync.service;
 import com.artcorp.artsync.entity.Notification;
 import com.artcorp.artsync.entity.Utilisateur;
 import com.artcorp.artsync.exception.domain.MauvaisIdentifiantException;
+import com.artcorp.artsync.exception.domain.NotConnectedException;
+import jakarta.servlet.http.HttpSession;
 
 import java.util.List;
 
@@ -23,4 +25,5 @@ public interface UtilisateurService {
 
     boolean emailIsValid(String email, Long userId);
     boolean pseudoIsValid(String pseudo, Long userId);
+    Utilisateur addUserSessionIfNot(HttpSession session, String username) throws NotConnectedException;
 }

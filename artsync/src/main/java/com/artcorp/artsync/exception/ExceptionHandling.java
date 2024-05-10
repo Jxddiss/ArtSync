@@ -7,7 +7,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.nio.file.AccessDeniedException;
 
 @ControllerAdvice
 public class ExceptionHandling {
@@ -32,8 +35,20 @@ public class ExceptionHandling {
 
     @ExceptionHandler(FileFormatException.class)
     public String fileFormatExceptionHandler(RedirectAttributes redirectAttributes, FileFormatException fileFormatException){
-        redirectAttributes.addFlashAttribute("error", "Fichier non pris en charge");
+        redirectAttributes.addFlashAttribute(ERROR, "Fichier non pris en charge");
         return "redirect:"+fileFormatException.getMessage();
+    }
+
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public String maxUploadSizeExceededExceptionExceptionHandler(RedirectAttributes redirectAttributes){
+        redirectAttributes.addFlashAttribute(ERROR, "Fichier trop lourd");
+        return "redirect:/feed";
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public String accessDeniedHandler(RedirectAttributes redirectAttributes, FileFormatException fileFormatException){
+        redirectAttributes.addFlashAttribute(ERROR, VEUILLER_VOUS_CONNECTER);
+        return "redirect:/authentification";
     }
 
     @ExceptionHandler(Exception.class)

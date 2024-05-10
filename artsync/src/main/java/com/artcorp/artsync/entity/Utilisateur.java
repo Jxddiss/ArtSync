@@ -29,6 +29,7 @@ public class Utilisateur {
     private String statut;
     private String backgroundColor;
     private String backgroundTexture;
+    private String roleName;
     @ManyToMany
     @JoinTable(name="utilisateurs_relation",
             joinColumns = @JoinColumn(name = "utilisateur_un_id"),
@@ -45,7 +46,7 @@ public class Utilisateur {
     )
     private Set<Utilisateur> following;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     @JoinTable(name="utilisateurs_amis",
             joinColumns = @JoinColumn(name = "utilisateur_un_id"),
             inverseJoinColumns = @JoinColumn(name = "utilisateur_deux_id"),
@@ -283,5 +284,13 @@ public class Utilisateur {
                 ", statut='" + statut + '\'' +
 
                 '}';
+    }
+
+    public String getRole() {
+        return roleName;
+    }
+
+    public void setRole(String roleName) {
+        this.roleName = roleName;
     }
 }

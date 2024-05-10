@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.nio.file.AccessDeniedException;
+
 //@ControllerAdvice
 public class ExceptionHandling {
-    /*public static final String UNE_ERREUR_EST_SURVENUE = "Une erreur est survenue";
+    public static final String UNE_ERREUR_EST_SURVENUE = "Une erreur est survenue";
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
     public static final String MAUVAIS_IDENTIFIANTS = "Mauvais identifiants";
     public static final String VEUILLER_VOUS_CONNECTER = "Veuiller vous connecter";
@@ -32,11 +34,17 @@ public class ExceptionHandling {
 
     @ExceptionHandler(FileFormatException.class)
     public String fileFormatExceptionHandler(RedirectAttributes redirectAttributes, FileFormatException fileFormatException){
-        redirectAttributes.addFlashAttribute("error", "Fichier non pris en charge");
+        redirectAttributes.addFlashAttribute(ERROR, "Fichier non pris en charge");
         return "redirect:"+fileFormatException.getMessage();
     }
 
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler(AccessDeniedException.class)
+    public String accessDeniedHandler(RedirectAttributes redirectAttributes, FileFormatException fileFormatException){
+        redirectAttributes.addFlashAttribute(ERROR, VEUILLER_VOUS_CONNECTER);
+        return "redirect:/authentification";
+    }
+
+    /*@ExceptionHandler(Exception.class)
     public String exception(RedirectAttributes redirectAttributes, Exception ex){
         LOGGER.error(ex.getMessage());
         redirectAttributes.addFlashAttribute(ERROR, UNE_ERREUR_EST_SURVENUE);

@@ -1,14 +1,18 @@
 package com.artcorp.artsync.controller;
 
 import com.artcorp.artsync.entity.*;
+import com.artcorp.artsync.exception.domain.NotConnectedException;
 import com.artcorp.artsync.service.ConversationService;
 import com.artcorp.artsync.service.PostService;
 import com.artcorp.artsync.service.ProjetService;
+import com.artcorp.artsync.service.UtilisateurService;
 import com.artcorp.artsync.service.impl.ConversationServiceImpl;
 import com.artcorp.artsync.service.impl.PostServiceImpl;
 import com.artcorp.artsync.service.impl.ProjetServiceImpl;
+import com.artcorp.artsync.service.impl.UtilisateurServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,22 +31,27 @@ public class ConversationController {
     private ConversationService conversationService;
     private PostService postService;
     private ProjetService projetService;
+    private UtilisateurService utilisateurService;
 
     public ConversationController(ConversationServiceImpl conversationService,
                                   ProjetServiceImpl projetService,
-                                  PostServiceImpl postService) {
+                                  PostServiceImpl postService,
+                                  UtilisateurServiceImpl utilisateurService) {
         this.conversationService = conversationService;
         this.projetService = projetService;
         this.postService = postService;
+        this.utilisateurService = utilisateurService;
     }
+
     @GetMapping("")
     public String redirigerVersConversation(HttpServletRequest request,
                                             Model model,
-                                            RedirectAttributes redirectAttributes) {
+                                            @AuthenticationPrincipal String username,
+                                            RedirectAttributes redirectAttributes) throws NotConnectedException {
         HttpSession session = request.getSession(false);
-        Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
         List<Conversation> conversations;
-        if (utilisateur != null) {
+        if (session != null) {
+            Utilisateur utilisateur = utilisateurService.addUserSessionIfNot(session,username);
             List<Projet> projets = projetService.findProjectsOfUser(utilisateur.getId());
             conversations = GetConversationsAndAddToModel(model, session, utilisateur,projets);
             if(!conversations.isEmpty()){
@@ -59,13 +68,14 @@ public class ConversationController {
     @GetMapping("/{id}")
     public String redirigerVersChat(@PathVariable("id") Long id,
                                     @RequestParam(name = "appel",required = false) boolean appel,
+                                    @AuthenticationPrincipal String username,
                                     HttpServletRequest request,
                                     Model model,
-                                    RedirectAttributes redirectAttributes) {
+                                    RedirectAttributes redirectAttributes) throws NotConnectedException {
         HttpSession session = request.getSession(false);
-        Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
 
-        if (utilisateur != null) {
+        if (session != null) {
+            Utilisateur utilisateur = utilisateurService.addUserSessionIfNot(session,username);
             List<Projet> projets = projetService.findProjectsOfUser(utilisateur.getId());
             checkConversationInSession(model, session, utilisateur, projets);
 
@@ -103,11 +113,12 @@ public class ConversationController {
     public String redirigerVersChatGroupe(@PathVariable("id") Long id,
                                     HttpServletRequest request,
                                     Model model,
-                                    RedirectAttributes redirectAttributes) {
+                                    @AuthenticationPrincipal String username,
+                                    RedirectAttributes redirectAttributes) throws NotConnectedException {
         HttpSession session = request.getSession(false);
-        Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
 
-        if (utilisateur != null) {
+        if (session != null) {
+            Utilisateur utilisateur = utilisateurService.addUserSessionIfNot(session,username);
             List<Conversation> conversations = conversationService.findByAllByUtilisateur(utilisateur);
 
             List<Projet> projets = projetService.findProjectsOfUser(utilisateur.getId());

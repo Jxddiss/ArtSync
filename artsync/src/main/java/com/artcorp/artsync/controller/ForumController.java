@@ -1,11 +1,14 @@
 package com.artcorp.artsync.controller;
 
 import com.artcorp.artsync.entity.*;
+import com.artcorp.artsync.exception.domain.NotConnectedException;
 import com.artcorp.artsync.service.CommentaireService;
 import com.artcorp.artsync.service.ForumService;
+import com.artcorp.artsync.service.impl.UtilisateurServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -31,9 +34,16 @@ public class ForumController {
     private ForumService forumService;
     @Autowired
     private CommentaireService commentaireService;
+    @Autowired
+    private UtilisateurServiceImpl utilisateurService;
 
     @GetMapping("/forum")
-    public String redirigerVersForum(Model model) {
+    public String redirigerVersForum(Model model, @AuthenticationPrincipal String username,HttpServletRequest request) throws NotConnectedException {
+        if(!username.equalsIgnoreCase("anonymousUser")){
+            HttpSession session = request.getSession(false);
+            Utilisateur utilisateur = utilisateurService.addUserSessionIfNot(session,username);
+        }
+
         List<Forum> forums = forumService.findAllByPubliqueTrue();
         if (forums.size()<1){
             model.addAttribute("message","Il n'y a aucun thread.");
@@ -49,75 +59,81 @@ public class ForumController {
         return "forum/forum";
     }
     @GetMapping("/forum/user")
-    public String getYourThreads(Model model ,HttpServletRequest request){
+    public String getYourThreads(Model model ,HttpServletRequest request, @AuthenticationPrincipal String username) throws NotConnectedException {
         HttpSession session = request.getSession(false);
-        if (session == null) {
-            return "auth";
-        }
-        Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
-        List<Forum> forums = forumService.findAllByUtilisateur(utilisateur);
-        if (forums.size()<1){
-            model.addAttribute("message","Vous n'avez aucun thread.");
-        }
-        for (Forum forum: forums){
-            if (forum.getFiltres()!=null){
-                forum.setTags(getTags(forum.getFiltres()));
+        if (session != null) {
+            Utilisateur utilisateur = utilisateurService.addUserSessionIfNot(session,username);
+            List<Forum> forums = forumService.findAllByUtilisateur(utilisateur);
+            if (forums.size()<1){
+                model.addAttribute("message","Vous n'avez aucun thread.");
             }
+            for (Forum forum: forums){
+                if (forum.getFiltres()!=null){
+                    forum.setTags(getTags(forum.getFiltres()));
+                }
+            }
+            model.addAttribute("forum",new Forum());
+            model.addAttribute("threads",forums);
+            return "forum/forum";
+        }else {
+            throw new NotConnectedException("Veuilliez vous connecter");
         }
-        model.addAttribute("forum",new Forum());
-        model.addAttribute("threads",forums);
-        return "forum/forum";
     }
 
     @GetMapping("/forum/following")
-    public String getFollowingThreads(Model model ,HttpServletRequest request){
+    public String getFollowingThreads(Model model,
+                                      @AuthenticationPrincipal String username,
+                                      HttpServletRequest request) throws NotConnectedException {
         HttpSession session = request.getSession(false);
-        if (session == null) {
-            return "auth";
-        }
-        Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
-        List<Forum> forums = new ArrayList<Forum>();
-        for (Utilisateur following: utilisateur.getFollowing()){
-            List<Forum> forumFollowing = forumService.findAllByUtilisateurAndPublique(following);
-            forums.addAll(forumFollowing);
-        }
-        if (forums.size()<1){
-            model.addAttribute("message","Vous n'avez aucun thread de vos abonnements.");
-        }
-        for (Forum forum: forums){
-            forum.setListeCommentaires(commentaireService.findAllByForum(forum));
-            if (forum.getFiltres()!=null){
-                forum.setTags(getTags(forum.getFiltres()));
+        if (session != null) {
+            Utilisateur utilisateur = utilisateurService.addUserSessionIfNot(session, username);
+            List<Forum> forums = new ArrayList<Forum>();
+            for (Utilisateur following: utilisateur.getFollowing()){
+                List<Forum> forumFollowing = forumService.findAllByUtilisateurAndPublique(following);
+                forums.addAll(forumFollowing);
             }
+            if (forums.size()<1){
+                model.addAttribute("message","Vous n'avez aucun thread de vos abonnements.");
+            }
+            for (Forum forum: forums){
+                forum.setListeCommentaires(commentaireService.findAllByForum(forum));
+                if (forum.getFiltres()!=null){
+                    forum.setTags(getTags(forum.getFiltres()));
+                }
+            }
+            model.addAttribute("forum",new Forum());
+            model.addAttribute("threads",forums);
+            return "forum/forum";
+        }else {
+            throw new NotConnectedException("Veuilliez vous connecter");
         }
-        model.addAttribute("forum",new Forum());
-        model.addAttribute("threads",forums);
-        return "forum/forum";
     }
     @PostMapping("/forum/create")
     public String createForum(Forum forum,
                              HttpServletRequest request,
+                             @AuthenticationPrincipal String username,
                              @RequestParam("contenu") String contenu,
                              @RequestParam(value = "tag", required = false) String[] selectedTags,
-                             @RequestParam(value="fichier", required = false) MultipartFile fichier) throws IOException {
+                             @RequestParam(value="fichier", required = false) MultipartFile fichier) throws IOException, NotConnectedException {
 
         HttpSession session = request.getSession(false);
-        if (session == null) {
-            return "auth";
-        }
-        Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
-        forum.setContenu(contenu);
-        forum.setDateCreation(LocalDateTime.now());
-        forum.setUtilisateur(utilisateur);
-        if (selectedTags != null && selectedTags.length > 0) {
-            String tags = "";
-            for (String tag : selectedTags) {
-                tags+=tag+",";
+        if (session != null) {
+            Utilisateur utilisateur = utilisateurService.addUserSessionIfNot(session,username);
+            forum.setContenu(contenu);
+            forum.setDateCreation(LocalDateTime.now());
+            forum.setUtilisateur(utilisateur);
+            if (selectedTags != null && selectedTags.length > 0) {
+                String tags = "";
+                for (String tag : selectedTags) {
+                    tags+=tag+",";
+                }
+               forum.setFiltres(tags);
             }
-           forum.setFiltres(tags);
+            forumService.createForum(forum);
+            return "redirect:/forum";
+        }else{
+            throw new NotConnectedException("Veuillez vous connecter");
         }
-        forumService.createForum(forum);
-        return "redirect:/forum";
     }
     @PostMapping("/forum/search")
     public String searchForums(@RequestParam(value = "keyword") String keyword, Model model) {

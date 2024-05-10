@@ -78,6 +78,7 @@ public class UtilisateurServiceImpl implements UtilisateurService, UserDetailsSe
         utilisateur.setSpecialisation(specialisation);
         utilisateur.setStatut(statut);
         utilisateur.setActive(true);
+        utilisateur.setRole("ROLE_USER");
         utilisateur.setFollowers(new HashSet<>());
         utilisateur.setAmis(new HashSet<>());
         utilisateur.setFollowing(new HashSet<>());
@@ -115,6 +116,10 @@ public class UtilisateurServiceImpl implements UtilisateurService, UserDetailsSe
     @Override
     public Utilisateur addUserSessionIfNot(HttpSession session,String username) throws NotConnectedException {
         Utilisateur user = (Utilisateur) session.getAttribute("user");
+        System.out.println(username);
+        if(username.equalsIgnoreCase("anonymousUser")){
+            throw new NotConnectedException("Veuiller vous connecter");
+        }
         if(user == null){
             user = repos.findByPseudoAndActive(username);
             if (user == null){

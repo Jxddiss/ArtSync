@@ -1,11 +1,16 @@
 package com.artcorp.artsync.controller;
 
 import com.artcorp.artsync.entity.*;
+import com.artcorp.artsync.exception.domain.NotConnectedException;
 import com.artcorp.artsync.repos.ProjetRepos;
 import com.artcorp.artsync.service.impl.*;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,7 +29,6 @@ import java.util.Set;
 import static com.artcorp.artsync.constant.FileConstant.USER_FOLDER;
 
 @Controller
-@RequestMapping("/utilisateur")
 public class UserController {
     private final UtilisateurServiceImpl utilisateurService;
     private final ProjetRepos projetRepos;
@@ -59,21 +63,25 @@ public class UserController {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @GetMapping("/feed")
-    public String redirigerVersFeed() {
-        return "utilisateur/feed";
-    }
-    @GetMapping("/profil/{pseudo}")
+    @GetMapping("/utilisateur/profil/{pseudo}")
     public String redirigerVersProfil(@PathVariable("pseudo") String pseudo,
                                       Model model,
+                                      @AuthenticationPrincipal String username,
                                       HttpServletRequest request,
-                                      RedirectAttributes redirectAttributes) {
+                                      RedirectAttributes redirectAttributes) throws NotConnectedException {
         HttpSession session = request.getSession(false);
+
+
         if (pseudo != null) {
             Utilisateur utilisateur = utilisateurService.findByPseudo(pseudo);
             if (utilisateur != null) {
                 if (session!=null){
-                    Utilisateur userSess = (Utilisateur) session.getAttribute("user");
+                    Utilisateur userSess;
+                    if(!username.equalsIgnoreCase("anonymousUser")){
+                        userSess = utilisateurService.addUserSessionIfNot(session, username);
+                    }
+
+                    userSess = (Utilisateur) session.getAttribute("user");
                     List<Post> listPosts = postService.findPostByUser(utilisateur);
                     model.addAttribute("listPosts", listPosts);
                     if (userSess!=null){
@@ -89,8 +97,6 @@ public class UserController {
                     model.addAttribute("listPosts", listPosts);
                 }
 
-
-
                 Post banniere = postService.findBanniereUtilisateur(utilisateur);
                 int nbAbonnes = utilisateur.getFollowers().size();
                 int nbAbonnements = utilisateur.getFollowing().size();
@@ -105,14 +111,17 @@ public class UserController {
             redirectAttributes.addFlashAttribute("error", "Cet utilisateur n'existe pas");
             return "redirect:/utilisateur/feed";
         }
-        redirectAttributes.addFlashAttribute("error", "Vous devez vous connecter pour avoir accès à cette page");
-        return "redirect:/authentification";
+        redirectAttributes.addFlashAttribute("error", "Aucun utilisateur trouvé");
+        return "redirect:/index";
     }
-    @GetMapping("/relation")
-    public String redirigerVersRelation(HttpServletRequest request, Model model, RedirectAttributes redirectAttributes) {
+    @GetMapping("/utilisateur/relation")
+    public String redirigerVersRelation(HttpServletRequest request,
+                                        @AuthenticationPrincipal String username,
+                                        Model model,
+                                        RedirectAttributes redirectAttributes) throws NotConnectedException {
         HttpSession session = request.getSession(false);
         if (session != null) {
-            Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+            Utilisateur utilisateur = utilisateurService.addUserSessionIfNot(session,username);
             if (utilisateur != null) {
                 Set<Utilisateur> following = utilisateur.getFollowing();
                 model.addAttribute("projetCount",projetService.findProjectsOfUser(utilisateur.getId()).size());
@@ -123,51 +132,49 @@ public class UserController {
             }
             redirectAttributes.addFlashAttribute("error", "Vous devez vous connecter pour avoir accès à cette page");
             return "redirect:/authentification";
+        }else{
+            throw new NotConnectedException("Veuillez vous connecter");
         }
-        redirectAttributes.addFlashAttribute("error", "Vous devez vous connecter pour avoir accès à cette page");
-        return "redirect:/authentification";
     }
 
-    @GetMapping("/relation/groupes")
-    public String redirigerVersRelationGroupes(HttpServletRequest request, Model model, RedirectAttributes redirectAttributes) {
+    @GetMapping("/utilisateur/relation/groupes")
+    public String redirigerVersRelationGroupes(HttpServletRequest request,
+                                               @AuthenticationPrincipal String username,
+                                               Model model,
+                                               RedirectAttributes redirectAttributes) throws NotConnectedException {
         HttpSession session = request.getSession(false);
         if (session != null) {
-            Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
-            if (utilisateur != null) {
-                List<Projet> groupes = projetRepos.findByUtilisateursId(utilisateur.getId());
-                model.addAttribute("projetCount",projetService.findProjectsOfUser(utilisateur.getId()).size());
-                model.addAttribute("type", "Groupes");
-                model.addAttribute("projets", groupes);
-                model.addAttribute("posts",postService.findAllPostOfFriends(utilisateur));
-                return "utilisateur/relation";
-            }
-            redirectAttributes.addFlashAttribute("error", "Vous devez vous connecter pour avoir accès à cette page");
-            return "redirect:/authentification";
+            Utilisateur utilisateur = utilisateurService.addUserSessionIfNot(session,username);
+            List<Projet> groupes = projetRepos.findByUtilisateursId(utilisateur.getId());
+            model.addAttribute("projetCount",projetService.findProjectsOfUser(utilisateur.getId()).size());
+            model.addAttribute("type", "Groupes");
+            model.addAttribute("projets", groupes);
+            model.addAttribute("posts",postService.findAllPostOfFriends(utilisateur));
+            return "utilisateur/relation";
+        }else{
+            throw new NotConnectedException("Veuillez vous connecter");
         }
-        redirectAttributes.addFlashAttribute("error", "Vous devez vous connecter pour avoir accès à cette page");
-        return "redirect:/authentification";
     }
 
-    @GetMapping("/relation/abonnes")
-    public String redirigerVersRelationAbonnes(HttpServletRequest request, Model model, RedirectAttributes redirectAttributes) {
+    @GetMapping("/utilisateur/relation/abonnes")
+    public String redirigerVersRelationAbonnes(HttpServletRequest request,
+                                               Model model,
+                                               @AuthenticationPrincipal String username,
+                                               RedirectAttributes redirectAttributes) throws NotConnectedException {
         HttpSession session = request.getSession(false);
         if (session != null) {
-            Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
-            if (utilisateur != null) {
-                Set<Utilisateur> follower = utilisateur.getFollowers();
-                model.addAttribute("projetCount",projetService.findProjectsOfUser(utilisateur.getId()).size());
-                model.addAttribute("type", "Abonnées");
-                model.addAttribute("followers", follower);
-                model.addAttribute("posts",postService.findAllPostOfFriends(utilisateur));
-                return "utilisateur/relation";
-            }
-            redirectAttributes.addFlashAttribute("error", "Vous devez vous connecter pour avoir accès à cette page");
-            return "redirect:/authentification";
+            Utilisateur utilisateur = utilisateurService.addUserSessionIfNot(session,username);
+            Set<Utilisateur> follower = utilisateur.getFollowers();
+            model.addAttribute("projetCount",projetService.findProjectsOfUser(utilisateur.getId()).size());
+            model.addAttribute("type", "Abonnées");
+            model.addAttribute("followers", follower);
+            model.addAttribute("posts",postService.findAllPostOfFriends(utilisateur));
+            return "utilisateur/relation";
+        }else{
+            throw new NotConnectedException("Veuillez vous connecter");
         }
-        redirectAttributes.addFlashAttribute("error", "Vous devez vous connecter pour avoir accès à cette page");
-        return "redirect:/authentification";
     }
-    @PostMapping("/profil/changePfp")
+    @PostMapping("/utilisateur/profil/changePfp")
     public String changeProfilPicture(HttpServletRequest request, @RequestParam("file") MultipartFile file) throws IOException {
         HttpSession session = request.getSession(false);
         if (session!=null){
@@ -184,7 +191,7 @@ public class UserController {
         }
         return "auth";
     }
-    @PostMapping("/profil/changeBanner")
+    @PostMapping("/utilisateur/profil/changeBanner")
     public String changerBanner(HttpServletRequest request, @RequestParam("file") MultipartFile file) throws IOException {
         HttpSession session = request.getSession(false);
         if (session!=null){
@@ -213,19 +220,22 @@ public class UserController {
         }
         return "auth";
     }
-    @GetMapping("/profil/settings")
-    public String redirigerSettings(Model model, HttpServletRequest request){
+    @GetMapping("/utilisateur/profil/settings")
+    public String redirigerSettings(Model model,
+                                    @AuthenticationPrincipal String username,
+                                    HttpServletRequest request) throws NotConnectedException {
         HttpSession session = request.getSession(false);
-        if (session!=null){
-            Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
-            model.addAttribute("utilisateur",utilisateur);
+        if(session != null){
+            Utilisateur utilisateur = utilisateurService.addUserSessionIfNot(session, username);
+            model.addAttribute("utilisateur", utilisateur);
             return "utilisateur/settings";
+        }else{
+            throw new NotConnectedException("Veuillez vous connecter");
         }
-        return "auth";
     }
 
-    @PostMapping("/profil/settings/update")
-    public String updateUser(Utilisateur utilisateur, HttpServletRequest request){
+    @PostMapping("/utilisateur/profil/settings/update")
+    public String updateUser(Utilisateur utilisateur, HttpServletRequest request) throws NotConnectedException {
         HttpSession session = request.getSession(false);
         if (session!=null){
             System.out.println(utilisateur.toString());
@@ -233,18 +243,19 @@ public class UserController {
             user.setPseudo(utilisateur.getPseudo());
             user.setNom(utilisateur.getNom());
             user.setPrenom(utilisateur.getPrenom());
-            if (!utilisateur.getPassword().equals("")){
+            if (!utilisateur.getPassword().isEmpty()){
                 System.out.println("password changé à : " + utilisateur.getPassword());
                 user.setPassword(passwordEncoder.encode(utilisateur.getPassword()));
             }
             utilisateurService.update(user);
             session.setAttribute("user",user);
             return "redirect:/utilisateur/profil/settings";
+        }else{
+            throw new NotConnectedException("Veuillez vous connecter");
         }
-        return "auth";
     }
-    @GetMapping("/profil/settings/delete")
-    public String deleteUser(HttpServletRequest request){
+    @GetMapping("/utilisateur/profil/settings/delete")
+    public String deleteUser(HttpServletRequest request, HttpServletResponse response){
         HttpSession session = request.getSession(false);
         if (session!=null){
             Utilisateur user = (Utilisateur) session.getAttribute("user");
@@ -312,6 +323,10 @@ public class UserController {
             System.out.println("COMMENTAIRES SUPPRIMÉS");
             utilisateurService.delete(user.getId());
             System.out.println("UTILISATEUR SUPPRIMÉ");
+            Cookie cookie = new Cookie("jwt",null);
+            cookie.setHttpOnly(true);
+            cookie.setPath("/");
+            response.addCookie(cookie);
             session.invalidate();
         }
         return "redirect:/authentification";

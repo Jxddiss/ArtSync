@@ -1,6 +1,10 @@
 package com.artcorp.artsync.configuration;
 
+import com.artcorp.artsync.exception.domain.CustomAccessDeniedHandler;
+import com.artcorp.artsync.filter.CustomAuthenticationEntryPoint;
 import com.artcorp.artsync.filter.JwtAuthorizationFilter;
+import com.artcorp.artsync.handlers.CustomLogoutHandler;
+import com.artcorp.artsync.service.impl.UtilisateurServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,7 +14,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -21,12 +24,13 @@ import static com.artcorp.artsync.constant.SecurityConstant.PUBLIC_URLS;
 @EnableMethodSecurity
 public class SecurityConfiguration {
     private JwtAuthorizationFilter jwtAuthorizationFilter;
-    //private UserDetailsService userDetailsService;
+    private CustomLogoutHandler customLogoutHandler;
 
     @Autowired
-    public SecurityConfiguration(JwtAuthorizationFilter jwtAuthorizationFilter
-                                 ) {
+    public SecurityConfiguration(JwtAuthorizationFilter jwtAuthorizationFilter,
+                                 UtilisateurServiceImpl utilisateurService, CustomLogoutHandler customLogoutHandler) {
         this.jwtAuthorizationFilter = jwtAuthorizationFilter;
+        this.customLogoutHandler = customLogoutHandler;
     }
 
 
@@ -47,7 +51,19 @@ public class SecurityConfiguration {
                                 .requestMatchers(PUBLIC_URLS).permitAll()
                                 .anyRequest().authenticated()
                 )
-                .logout(LogoutConfigurer::permitAll)
+                .logout(logout -> logout
+                        .logoutUrl("/deconnexion")
+                        .logoutSuccessUrl("/authentification")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
+                        .deleteCookies("jwt")
+                        .addLogoutHandler(customLogoutHandler)
+                )
+                .exceptionHandling(exceptionHandling ->
+                        exceptionHandling
+                                .accessDeniedHandler(new CustomAccessDeniedHandler())
+                                .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+                )
                 .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

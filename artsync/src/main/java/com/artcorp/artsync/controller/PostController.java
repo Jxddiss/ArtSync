@@ -12,6 +12,7 @@ import com.artcorp.artsync.service.impl.UtilisateurServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -52,11 +53,19 @@ public class PostController {
 
     @GetMapping("/explorer")
     public String explorer(HttpServletRequest request,
-                           Model model) {
-        HttpSession session = request.getSession(false);
-        List<Post> postsEnVedette = null;
+                           Model model,
+                           @AuthenticationPrincipal String username) throws NotConnectedException {
+
+
+        HttpSession session = request.getSession();
+
+        if(!username.equalsIgnoreCase("anonymousUser")){
+            System.out.println(username);
+            utilisateurService.addUserSessionIfNot(session,username);
+        }
+
         List<Post> posts = null;
-        if (session == null || (Utilisateur) session.getAttribute("user") == null) {
+        if (session.getAttribute("user") == null) {
             posts = postService.findByPubliqueEnVedette(true);
         }else{
             posts = postService.findAllPosts();
@@ -66,6 +75,7 @@ public class PostController {
     }
 
     @GetMapping("/feed")
+    @PreAuthorize("isAuthenticated()")
     public String feed(HttpServletRequest request,
                        Model model,
                        @AuthenticationPrincipal String username,

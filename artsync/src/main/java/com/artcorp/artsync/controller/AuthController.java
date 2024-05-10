@@ -13,13 +13,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.Date;
+
 import static com.artcorp.artsync.constant.FileConstant.DEFAULT_USER_IMAGE;
+import static com.artcorp.artsync.constant.SecurityConstant.EXPIRATION_TIME;
 import static com.artcorp.artsync.constant.SecurityConstant.JWT_TOKEN_HEADER;
 
 @Controller
@@ -45,6 +49,7 @@ public class AuthController {
         UserPrincipal userPrincipal = new UserPrincipal(utilisateur);
         Cookie jwtCookie = new Cookie("jwt",getJwtCookie(userPrincipal));
         jwtCookie.setHttpOnly(true);
+        jwtCookie.setMaxAge((int)(new Date(System.currentTimeMillis() + EXPIRATION_TIME).getTime()/1000));
         response.addCookie(jwtCookie);
         if (utilisateur != null) {
             utilisateur.setStatut("online");
@@ -72,34 +77,19 @@ public class AuthController {
                 .inscription(username,prenom,nom,email,mdp,DEFAULT_USER_IMAGE,specialite,"actif");
         if (utilisateur != null) {
             HttpSession session = request.getSession();
-            session.setAttribute("user", utilisateur);
             redirectAttributes.addFlashAttribute("success", "Inscription reussie");
-            return "redirect:/utilisateur/profil/" + utilisateur.getPseudo();
+            return "redirect:/authentification";
         }
         redirectAttributes.addFlashAttribute("error", "Inscription echoue");
         return "redirect:/authentification";
     }
 
-    @GetMapping("/deconnexion")
-    public String deconnexion(HttpServletRequest request,HttpServletResponse response) {
-        HttpSession session = request.getSession();
-        Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
-        Cookie cookie = new Cookie("jwt",null);
-        cookie.setHttpOnly(true);
-        response.addCookie(cookie);
-        if (utilisateur != null){
-            utilisateur.setStatut("offline");
-            utilisateurService.update(utilisateur);
-        }
-        session.invalidate();
-        return "redirect:/authentification";
-    }
-
     @GetMapping("/authentification")
-    public String authentification(HttpServletRequest request) {
+    public String authentification(HttpServletRequest request, @AuthenticationPrincipal String username) {
         HttpSession session = request.getSession();
+
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
-        if (utilisateur != null){
+        if (utilisateur != null || !username.equalsIgnoreCase("anonymousUser")){
             return "redirect:/feed";
         }
         return "auth";

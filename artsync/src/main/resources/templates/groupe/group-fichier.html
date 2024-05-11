@@ -37,7 +37,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 <div th:switch="${fichier.type}" class="fichierImg">
                     <img th:case="'image'"
                          th:src="@{/media/fichier/groupe/{ficher}(ficher=${fichier.getUrlMedia()})}" alt="">
-                    <a th:href="@{/media/fichier/groupe/{fichier}(fichier=${fichier.getUrlMedia()})}">
+                    <a th:href="@{/media/fichier/groupe/{fichier}(fichier=${fichier.getUrlMedia()})}"
+                    th:download="${fichier.urlMedia}">
                         <i th:case="'pdf'"
                            class="bi bi-file-earmark-pdf icon-fichier"
                            style="color: red"

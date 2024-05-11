@@ -1060,12 +1060,26 @@
     border-radius: 7px;
     height: 14rem;
     width: 13rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
 }
+
+.icon-fichier{
+    font-size: 8rem;
+}
+
 .fichierImg img{
     height: 100%;
     width: 100%;
     border-radius: 7px;
 }
+
+.fichierImg span{
+    margin-top: 0.5em;
+    font-size: 0.8rem;
+}
+
 .fichierInfo{
     margin-top: 0.75rem;
     display: flex;
@@ -1078,6 +1092,7 @@
     width: 3rem;
     border-radius: 50%;
 }
+
 .descFichier p{
     margin: 0;
 }

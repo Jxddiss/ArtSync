@@ -7,4 +7,6 @@ public class FileConstant {
     public static final String DEFAULT_USER_IMAGE = "default.png";
     public static final String MEDIA_CHAT_BASE_FOLDER = "src\\main\\resources\\static\\media\\chat\\";
     public static final String RELATIVE_PATH = "/media/chat/";
+    public static final String[] ACCEPTED_FILE_EXTENSIONS = {"doc","docx","zip","mp3","mp4","mov","mkv","avi","flv","zip","gltf","ogg"};
+    public static final String[] VIDEO_EXTENSIONS = {"mp4","mov","mkv","avi","flv","mp3","ogg"};
 }

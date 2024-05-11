@@ -2,6 +2,10 @@ package com.artcorp.artsync.entity;
 
 import jakarta.persistence.*;
 
+import java.util.Arrays;
+
+import static com.artcorp.artsync.constant.FileConstant.VIDEO_EXTENSIONS;
+
 @Entity
 public class FichierGeneral {
     @Id
@@ -20,13 +24,15 @@ public class FichierGeneral {
     @ManyToOne
     @JoinColumn(name = "utilisateur_id")
     private Utilisateur utilisateur;
+    private String type;
 
     public FichierGeneral() {
     }
 
-    public FichierGeneral(Long id, String urlMedia) {
+    public FichierGeneral(Long id, String urlMedia, String type) {
         this.id = id;
         this.urlMedia = urlMedia;
+        this.type = type;
     }
 
     public Post getPost() {
@@ -75,5 +81,17 @@ public class FichierGeneral {
 
     public void setPost(Post post) {
         this.post = post;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        if (Arrays.asList(VIDEO_EXTENSIONS).contains(type)){
+            this.type = "video";
+        }else{
+            this.type = type;
+        }
     }
 }

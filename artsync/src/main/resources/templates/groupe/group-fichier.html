@@ -31,7 +31,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     <div th:replace="~{fragment/groupFragments :: groupHeaderFragment}">
 
     </div>
-    <h4 class="d-flex justify-content-center">Fichiers de [[${utilisateur.getPseudo()}]]</h4>
+    <h4 class="d-flex justify-content-center">Fichiers de [[${user.getPseudo()}]]</h4>
         <div class="fichiersHolder" id="fichiersHolder">
             <div th:each="fichier : ${fichiers}" class="fichier">
                 <div th:switch="${fichier.type}" class="fichierImg">

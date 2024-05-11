@@ -12,10 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.List;
 
 import static com.artcorp.artsync.constant.FileConstant.ACCEPTED_FILE_EXTENSIONS;
+import static com.artcorp.artsync.constant.FileConstant.FICHIER_GROUPE;
 import static org.springframework.http.MediaType.*;
 
 @Service
@@ -36,7 +40,7 @@ public class FichierServiceImpl implements FichierService {
     }
 
     @Override
-    public FichierGeneral createFichierProjet(FichierGeneral fichierGeneral, MultipartFile file) throws FileFormatException {
+    public FichierGeneral createFichierProjet(FichierGeneral fichierGeneral, MultipartFile file) throws FileFormatException, IOException {
         if(file.getContentType() != null){
             switch (file.getContentType()){
                 case IMAGE_JPEG_VALUE, IMAGE_PNG_VALUE, IMAGE_GIF_VALUE:
@@ -53,6 +57,7 @@ public class FichierServiceImpl implements FichierService {
                     }
                     break;
             }
+            saveFileInServer(file);
         }
 
         return fichierGeneralRepository.save(fichierGeneral);
@@ -77,5 +82,17 @@ public class FichierServiceImpl implements FichierService {
                     .contains(Files.getFileExtension(file.getOriginalFilename()));
         }
         return false;
+    }
+
+    private void saveFileInServer(MultipartFile file) throws IOException {
+        File parentDir = new File(FICHIER_GROUPE);
+        File saveFile = new File(parentDir.getAbsolutePath() + File.separator + file.getOriginalFilename());
+
+        if (!parentDir.exists()){
+            parentDir.mkdirs();
+        }
+
+        java.nio.file.Files.copy(file.getInputStream(),saveFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        file.getInputStream().close();
     }
 }

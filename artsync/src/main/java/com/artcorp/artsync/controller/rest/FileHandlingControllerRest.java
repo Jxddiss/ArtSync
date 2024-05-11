@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
@@ -51,6 +52,11 @@ public class FileHandlingControllerRest {
         readFile(fileName, response, POST_FOLDER);
     }
 
+    @GetMapping("/media/fichier/groupe/{fichier}")
+    public void getFichierGroupe(@PathVariable("fichier") String fileName, HttpServletResponse response) throws IOException {
+        readFileGroupe(fileName, response, FICHIER_GROUPE);
+    }
+
     private void readFile(@PathVariable("image") String fileName, HttpServletResponse response, String baseFolder) throws IOException {
         File dir = new File(baseFolder);
         File file = new File(dir.getAbsolutePath() + File.separator + fileName);
@@ -59,6 +65,39 @@ public class FileHandlingControllerRest {
             response.setContentType("image/jpeg");
 
             response.setHeader("Content-Disposition", "inline; filename=\"" + file.getName() + "\"");
+            FileInputStream in = new FileInputStream(file);
+            OutputStream out = response.getOutputStream();
+
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = in.read(buffer)) != -1) {
+                out.write(buffer, 0, bytesRead);
+            }
+            in.close();
+            out.flush();
+            out.close();
+        }
+
+    }
+
+    private void readFileGroupe(String fileName, HttpServletResponse response, String baseFolder) throws IOException {
+        File dir = new File(baseFolder);
+        File file = new File(dir.getAbsolutePath() + File.separator + fileName);
+
+        if (file.exists()) {
+            String fileExtension = com.google.common.io.Files.getFileExtension(file.getName());
+            String mimeType = URLConnection.guessContentTypeFromName(file.getName());
+            if (mimeType == null) {
+                mimeType = "application/octet-stream";
+            }
+
+            if(Arrays.asList(DOWNLOADABLE_FILES).contains(fileExtension)){
+                response.setHeader("Content-Disposition", "attachement; filename=\"" + file.getName() + "\"");
+            }else{
+                response.setHeader("Content-Disposition", "inline; filename=\"" + file.getName() + "\"");
+            }
+            response.setContentType(mimeType);
+
             FileInputStream in = new FileInputStream(file);
             OutputStream out = response.getOutputStream();
 

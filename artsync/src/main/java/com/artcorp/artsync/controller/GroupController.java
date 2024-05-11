@@ -498,7 +498,7 @@ public class GroupController {
     @PostMapping("/groupe/addFile/{projetId}")
     public String addFile(@PathVariable Long projetId,
                           @RequestParam("userID") Long userId,
-                          @RequestParam("fileUpload") MultipartFile image) throws FileFormatException {
+                          @RequestParam("fileUpload") MultipartFile image) throws FileFormatException, IOException {
         FichierGeneral fichier = new FichierGeneral();
         fichier.setUrlMedia(image.getOriginalFilename());
         fichier.setProjet(projetService.findById(projetId));

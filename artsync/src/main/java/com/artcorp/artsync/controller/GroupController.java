@@ -1,6 +1,7 @@
 package com.artcorp.artsync.controller;
 
 import com.artcorp.artsync.entity.*;
+import com.artcorp.artsync.exception.domain.FileFormatException;
 import com.artcorp.artsync.exception.domain.NotConnectedException;
 import com.artcorp.artsync.service.*;
 import jakarta.servlet.http.HttpServletRequest;
@@ -497,12 +498,12 @@ public class GroupController {
     @PostMapping("/groupe/addFile/{projetId}")
     public String addFile(@PathVariable Long projetId,
                           @RequestParam("userID") Long userId,
-                          @RequestParam("fileUpload") MultipartFile image) {
+                          @RequestParam("fileUpload") MultipartFile image) throws FileFormatException, IOException {
         FichierGeneral fichier = new FichierGeneral();
         fichier.setUrlMedia(image.getOriginalFilename());
         fichier.setProjet(projetService.findById(projetId));
         fichier.setUtilisateur(userService.findById(userId));
-        fichierService.createFichier(fichier);
+        fichierService.createFichierProjet(fichier, image);
         return "redirect:/groupe/group-fichier/" + projetId + "/" + userId;
     }
 

@@ -44,7 +44,16 @@
             </div>
             <div class="bannerPreview">
                 <img th:if="${banniere != null}" th:src="@{/media/images/post/{image}(image=${banniere.listeFichiers[0].urlMedia})}" class="profile-banner" alt="Bannière du profile" id="bannerImgPreview">
-                <img th:if="${banniere == null}" th:src="@{/media/images/post/{image}(image=${utilisateur.specialisation + '.jpg'})}" class="profile-banner" alt="Bannière du profile" id="bannerImgPreview">
+                <img th:if="${banniere == null
+                && (utilisateur.specialisation.contains('Mod')
+                || utilisateur.specialisation.contains('Cin'))}"
+                     th:src="@{/media/images/post/{image}(image=${'blossom.jpg'})}"
+                     class="profile-banner" alt="Bannière du profile" id="bannerImgPreview">
+                <img th:if="${banniere == null
+                && (!utilisateur.specialisation.contains('Mod')
+                && !utilisateur.specialisation.contains('Cin'))}"
+                     th:src="@{/media/images/post/{image}(image=${utilisateur.specialisation+'.jpg'})}"
+                     class="profile-banner" alt="Bannière du profile" id="bannerImgPreview">
             </div>
             <div class="bannerForm">
                 <form th:action="@{changeBanner}" method="post" enctype="multipart/form-data" onsubmit="return checkFile(this)">
@@ -57,7 +66,16 @@
 
         </dialog>
         <img th:if="${banniere != null}" th:src="@{/media/images/post/{image}(image=${banniere.listeFichiers[0].urlMedia})}" class="profile-banner" alt="Bannière du profile">
-        <img th:if="${banniere == null}" th:src="@{/media/images/post/{image}(image=${utilisateur.specialisation + '.jpg'})}" class="profile-banner" alt="Bannière du profile">
+        <img th:if="${banniere == null
+                && (utilisateur.specialisation.contains('Mod')
+                || utilisateur.specialisation.contains('Cin'))}"
+             th:src="@{/media/images/post/{image}(image=${'blossom.jpg'})}"
+             class="profile-banner" alt="Bannière du profile" id="bannerImgPreview">
+        <img th:if="${banniere == null
+                && (!utilisateur.specialisation.contains('Mod')
+                && !utilisateur.specialisation.contains('Cin'))}"
+             th:src="@{/media/images/post/{image}(image=${utilisateur.specialisation+'.jpg'})}"
+             class="profile-banner" alt="Bannière du profile" id="bannerImgPreview">
     </div>
     <div class="pfpHolder">
         <dialog th:if="${session.user!=null && utilisateur.getId() == session.user.getId()}" class="pfpPane" id="pfpPane" >

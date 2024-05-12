@@ -252,22 +252,28 @@ public class UserController {
         if (session!=null){
             System.out.println(utilisateur.toString());
             Utilisateur user = (Utilisateur) session.getAttribute("user");
-            user.setPseudo(utilisateur.getPseudo());
+            if (!user.getPseudo().equals(utilisateur.getPseudo())){
+                user.setPseudo(utilisateur.getPseudo());
+                SecurityContextHolder.clearContext();
+                UserPrincipal userPrincipal = new UserPrincipal(user);
+                Cookie jwtCookie = new Cookie("jwt",getJwtCookie(userPrincipal));
+                jwtCookie.setHttpOnly(true);
+                jwtCookie.setMaxAge((int)(new Date(System.currentTimeMillis() + EXPIRATION_TIME).getTime()/1000));
+                jwtCookie.setPath("/");
+                response.addCookie(jwtCookie);
+            }
             user.setNom(utilisateur.getNom());
             user.setPrenom(utilisateur.getPrenom());
             if (!utilisateur.getPassword().isEmpty()){
                 System.out.println("password changé à : " + utilisateur.getPassword());
                 user.setPassword(passwordEncoder.encode(utilisateur.getPassword()));
             }
-            user.setRole("ROLE_USER");
+            if (!user.getEmail().equals(utilisateur.getEmail())){
+                if(utilisateurService.emailIsValid(utilisateur.getEmail(),user.getId())){
+                    user.setEmail(utilisateur.getEmail());
+                }
+            }
             utilisateurService.update(user);
-            SecurityContextHolder.clearContext();
-            UserPrincipal userPrincipal = new UserPrincipal(user);
-            Cookie jwtCookie = new Cookie("jwt",getJwtCookie(userPrincipal));
-            jwtCookie.setHttpOnly(true);
-            jwtCookie.setMaxAge((int)(new Date(System.currentTimeMillis() + EXPIRATION_TIME).getTime()/1000));
-            jwtCookie.setPath("/");
-            response.addCookie(jwtCookie);
             session.setAttribute("user",user);
             return "redirect:/utilisateur/profil/settings";
         }else{

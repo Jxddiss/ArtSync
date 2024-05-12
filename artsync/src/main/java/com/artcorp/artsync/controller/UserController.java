@@ -4,13 +4,17 @@ import com.artcorp.artsync.entity.*;
 import com.artcorp.artsync.exception.domain.NotConnectedException;
 import com.artcorp.artsync.repos.ProjetRepos;
 import com.artcorp.artsync.service.impl.*;
+import com.artcorp.artsync.utils.JWTTokenProvider;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,10 +27,12 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
 import static com.artcorp.artsync.constant.FileConstant.USER_FOLDER;
+import static com.artcorp.artsync.constant.SecurityConstant.EXPIRATION_TIME;
 
 @Controller
 public class UserController {
@@ -44,9 +50,11 @@ public class UserController {
     private final ForumServiceImpl forumService;
     private final CommentaireServiceImpl commentaireService;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
+    private final JWTTokenProvider jwtTokenProvider;
 
     @Autowired
-    public UserController(UtilisateurServiceImpl utilisateurService, ProjetRepos projetRepos, PostServiceImpl postService, PortfolioServiceImpl portfolioService, ConversationServiceImpl conversationService, ChatServiceImpl chatService, ProjetServiceImpl projetService, TacheServiceImpl tacheService, AnnonceServiceImpl annonceService, FichierServiceImpl fichierService, DemandeServiceImpl demandeService, ForumServiceImpl forumService, CommentaireServiceImpl commentaireService, BCryptPasswordEncoder passwordEncoder) {
+    public UserController(UtilisateurServiceImpl utilisateurService, ProjetRepos projetRepos, PostServiceImpl postService, PortfolioServiceImpl portfolioService, ConversationServiceImpl conversationService, ChatServiceImpl chatService, ProjetServiceImpl projetService, TacheServiceImpl tacheService, AnnonceServiceImpl annonceService, FichierServiceImpl fichierService, DemandeServiceImpl demandeService, ForumServiceImpl forumService, CommentaireServiceImpl commentaireService, BCryptPasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JWTTokenProvider jwtTokenProvider) {
         this.utilisateurService = utilisateurService;
         this.projetRepos = projetRepos;
         this.postService = postService;
@@ -61,6 +69,8 @@ public class UserController {
         this.forumService = forumService;
         this.commentaireService = commentaireService;
         this.passwordEncoder = passwordEncoder;
+        this.authenticationManager = authenticationManager;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @GetMapping("/utilisateur/profil/{pseudo}")
@@ -235,7 +245,9 @@ public class UserController {
     }
 
     @PostMapping("/utilisateur/profil/settings/update")
-    public String updateUser(Utilisateur utilisateur, HttpServletRequest request) throws NotConnectedException {
+    public String updateUser(Utilisateur utilisateur,
+                             HttpServletRequest request,
+                             HttpServletResponse response) throws NotConnectedException {
         HttpSession session = request.getSession(false);
         if (session!=null){
             System.out.println(utilisateur.toString());
@@ -247,7 +259,15 @@ public class UserController {
                 System.out.println("password changé à : " + utilisateur.getPassword());
                 user.setPassword(passwordEncoder.encode(utilisateur.getPassword()));
             }
+            user.setRole("ROLE_USER");
             utilisateurService.update(user);
+            SecurityContextHolder.clearContext();
+            UserPrincipal userPrincipal = new UserPrincipal(user);
+            Cookie jwtCookie = new Cookie("jwt",getJwtCookie(userPrincipal));
+            jwtCookie.setHttpOnly(true);
+            jwtCookie.setMaxAge((int)(new Date(System.currentTimeMillis() + EXPIRATION_TIME).getTime()/1000));
+            jwtCookie.setPath("/");
+            response.addCookie(jwtCookie);
             session.setAttribute("user",user);
             return "redirect:/utilisateur/profil/settings";
         }else{
@@ -330,6 +350,14 @@ public class UserController {
             session.invalidate();
         }
         return "redirect:/authentification";
+    }
+
+    private String getJwtCookie(UserPrincipal userPrincipal) {
+        return jwtTokenProvider.generateJwtToken(userPrincipal);
+    }
+
+    private void authenticate(String username, String password) {
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
     }
 
 }

@@ -80,23 +80,18 @@ public class PostController {
                        Model model,
                        @AuthenticationPrincipal String username,
                        RedirectAttributes redirectAttributes) throws Exception {
-        HttpSession session = request.getSession(false);
-        if (session != null) {
-            Utilisateur utilisateur = utilisateurService.addUserSessionIfNot(session,username);
-            List<Post> listPostsAbonnement = postService.findPostFollowing(utilisateur.getFollowing());
-            List<Notification> listNotifications = notificationService.findAllUnreadNotificationByUserId(utilisateur.getId());
-            listNotifications.forEach(notification -> {
-                notification.setLu(true);
-                notificationService.saveNotification(notification);
-            });
-            model.addAttribute("listNotifications",listNotifications);
-            model.addAttribute("utilisateur", utilisateur);
-            model.addAttribute("listPosts", listPostsAbonnement);
-            return "utilisateur/feed";
-
-        }else{
-            throw new Exception("Session nul");
-        }
+        HttpSession session = request.getSession();
+        Utilisateur utilisateur = utilisateurService.addUserSessionIfNot(session,username);
+        List<Post> listPostsAbonnement = postService.findPostFollowing(utilisateur.getFollowing());
+        List<Notification> listNotifications = notificationService.findAllUnreadNotificationByUserId(utilisateur.getId());
+        listNotifications.forEach(notification -> {
+            notification.setLu(true);
+            notificationService.saveNotification(notification);
+        });
+        model.addAttribute("listNotifications",listNotifications);
+        model.addAttribute("utilisateur", utilisateur);
+        model.addAttribute("listPosts", listPostsAbonnement);
+        return "utilisateur/feed";
     }
 
 

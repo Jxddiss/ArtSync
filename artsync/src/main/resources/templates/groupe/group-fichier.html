@@ -19,6 +19,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/TextPlugin.min.js"></script>
+        <!--    libs for stomp and sockjs-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
     </head>
 
     <body class="body-content">
@@ -93,7 +96,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         <img id="imgApercuFile" src="https://www.w3schools.com/w3images/lights.jpg" alt="">
                     </div>
                     <form th:action="@{/groupe/addFile/{projetId}(projetId=${projetId})}" class="d-flex flex-column mt-5" method="POST" enctype="multipart/form-data">
-                        <input type="file" id="fileUploadInput" name="fileUpload" accept=".jpg,.png,.webp,.gif">
+                        <input type="file" id="fileUploadInput" name="fileUpload">
                         <input type="hidden" name="userID" th:value="${user.getId()}">
                         <button type="submit" id="ajouterFile">Ajouter</button>
                     </form>
@@ -105,8 +108,16 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     </div>
     <!--Annonces-->
     <div th:replace="~{fragment/annonceFragment :: annoncesFragment}">
-
     </div>
+    <div th:replace="${session.user != null} ? ~{fragment/notificationFragment :: notificationFragment} : ~{}"></div>
+    <script th:src="@{/js/notification.js?v=13}"></script>
+    <script th:if="${succes != null}">
+        showNotification({
+            type: 'success',
+            message: '[[${succes}]]',
+            titre: 'Succès',
+        })
+    </script>
     </body>
     <script th:src="@{/js/script-group.js?v=5}"></script>
 </html>

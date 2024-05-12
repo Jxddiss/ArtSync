@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
 import java.io.IOException;
@@ -498,12 +499,14 @@ public class GroupController {
     @PostMapping("/groupe/addFile/{projetId}")
     public String addFile(@PathVariable Long projetId,
                           @RequestParam("userID") Long userId,
-                          @RequestParam("fileUpload") MultipartFile image) throws FileFormatException, IOException {
+                          @RequestParam("fileUpload") MultipartFile image,
+                          RedirectAttributes redirectAttributes) throws FileFormatException, IOException {
         FichierGeneral fichier = new FichierGeneral();
         fichier.setUrlMedia(image.getOriginalFilename());
         fichier.setProjet(projetService.findById(projetId));
         fichier.setUtilisateur(userService.findById(userId));
         fichierService.createFichierProjet(fichier, image);
+        redirectAttributes.addFlashAttribute("succes","Fichier ajoutées avec succes");
         return "redirect:/groupe/group-fichier/" + projetId + "/" + userId;
     }
 

@@ -108,8 +108,7 @@
                                     <p th:if="${message.type == 'text'}" th:text="${message.message}"></p>
                                     <img th:if="${message.type == 'media'}" th:src="${message.getUrlMedia()}" alt="">
                                 </div>
-                                <span class="date-envoie" th:text="${message.getDateTimeEnvoie().toLocalDate()
-                                + ' ' + message.getDateTimeEnvoie().getHour() + 'h ' + message.getDateTimeEnvoie().getMinute()}"> </span>
+                                <span class="date-envoie" th:text="${#temporals.format(message.getDateTimeEnvoie(),'dd-MM-yyyy HH:mm')}"></span>
                             </div>
                             <img
                             th:src="@{/media/images/utilisateur/{image}(image=${message.utilisateurUn.getPhotoUrl()})}"

@@ -58,7 +58,7 @@ function showAppel(notification){
     setTimeout(()=>{audio.pause()},6500);
 
     notifAppelDialog.innerHTML = `
-        <img src="/media/images/${notification.imgSender}" alt="">
+        <img src="/media/images/utilisateur/${notification.imgSender}" alt="">
         <span>@${notification.pseudoSender}</span>
         <div class="control-holder">
             <button type="button"

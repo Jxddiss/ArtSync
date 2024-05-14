@@ -139,7 +139,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 
     </div>
     <div th:replace="${session.user != null} ? ~{fragment/notificationFragment :: notificationFragment} : ~{}"></div>
-    <script th:src="@{/js/notification.js?v=13}"></script>
+    <script th:src="@{/js/notification.js?v=14}"></script>
     <script th:if="${error != null}">
         showNotification({
             type: 'danger',

@@ -58,32 +58,25 @@ public class ChatController {
     @MessageMapping("/chat/appel/offer/{conversationId}/{userId}")
     @SendTo("/topic/appel/offer/{conversationId}/{userId}")
     public String offer(String offer) {
-        LOGGER.info("Offer came : " + offer);
-        LOGGER.info("Offer : " + offer);
         return offer;
     }
 
     @MessageMapping("/chat/appel/answer/{conversationId}/{userId}")
     @SendTo("/topic/appel/answer/{conversationId}/{userId}")
     public String answer(String answer) {
-        LOGGER.info("Answer came : " + answer);
-        LOGGER.info("Answer : " + answer);
-        LOGGER.info("Answer sent");
         return answer;
     }
 
     @MessageMapping("/chat/appel/candidate/{conversationId}/{userId}")
     @SendTo("/topic/appel/candidate/{conversationId}/{userId}")
     public String candidate(String candidate) {
-        LOGGER.info("Candidate came : " + candidate);
-        LOGGER.info("Candidate : " + candidate);
         return candidate;
     }
 
     @MessageMapping("/chat/appel/remove/{conversationId}")
     @SendTo("/topic/appel/remove/{conversationId}")
     public String remove(String idUserEtIdAmi) {
-        LOGGER.info("idUserEtIdAmi : " + idUserEtIdAmi);
+        LOGGER.info("idUserEtIdAmi Deconnexion : " + idUserEtIdAmi);
         return "{message : 'disconnected'}";
     }
 }

@@ -109,24 +109,19 @@ public class LiveStreamController {
 
     @MessageMapping("/live/offer/{pseudo1}/{pseudo2}")
     @SendTo("/topic/live/offer/{pseudo1}/{pseudo2}")
-    public String liveVideo(@DestinationVariable String pseudo1, String offer){
-        LOGGER.info("offer : " + offer);
+    public String liveVideoOffer(String offer){
         return offer;
     }
 
     @MessageMapping("/live/answer/{pseudo1}/{pseudo2}")
     @SendTo("/topic/live/answer/{pseudo1}/{pseudo2}")
-    public String liveVideoAnswers(@DestinationVariable String pseudo1, String answer){
-        LOGGER.info("Received answer for user: " + pseudo1);
-        LOGGER.info("Answer: " + answer);
+    public String liveVideoAnswers(String answer){
         return answer;
     }
 
     @MessageMapping("/live/candidate/{pseudo1}/{pseudo2}")
     @SendTo("/topic/live/candidate/{pseudo1}/{pseudo2}")
-    public String liveVideoCandidate(@DestinationVariable String pseudo1, String candidate){
-        LOGGER.info("Received candidate for user: " + pseudo1);
-        LOGGER.info("Candidate: " + candidate);
+    public String liveVideoCandidate(String candidate){
         return candidate;
     }
 

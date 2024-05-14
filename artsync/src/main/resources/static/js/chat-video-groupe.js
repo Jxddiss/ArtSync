@@ -434,7 +434,7 @@ document.addEventListener("DOMContentLoaded", function() {
         videoHolderElement.innerHTML = `
                 <video autoplay class="video-box2" playsinline></video>
                 <div class="userInfoHolder">
-                    <img src="/media/images/${user.photoUrl}" alt="">
+                    <img src="/media/images/utilisateur/${user.photoUrl}" alt="">
                     <h4>@${user.pseudo}</h4>
                 </div>
         `

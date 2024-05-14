@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css?v=8}"/>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/style-feed.css?v=7}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style-feed.css?v=8}"/>
 
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
@@ -42,7 +42,7 @@
     <title>Feed</title>
   </head>
 
-  <body th:user-id="${session.user.id}">
+  <body th:user-id="${session.user.id}" id="top">
     <nav th:replace="${session.user == null} ? ~{fragment/fragments :: headerFragment} : ~{fragment/fragments :: headerUserFragment}"></nav>
     <button id="expandButton"><i class="bi bi-caret-right"></i></button>
     <main>
@@ -170,8 +170,10 @@
               </button>
             </form>
           </div>
-        </section  >
-
+        </section >
+        <a href="#top" id="go-to-top">
+          <i class="bi bi-arrow-up"></i>
+        </a>
       </div>
       <div class="dashboard dashboard-right">
         <h4>STORIES</h4>
@@ -281,6 +283,35 @@
     <script>
       const userImage = '[[${session.user.photoUrl}]]';
       const pseudoUser = '[[${session.user.pseudo}]]';
+
+      //===== scroll top button
+      let ancienScrollY = window.scrollY;
+      const btnScrollTop = document.getElementById("go-to-top");
+
+      window.onscroll = function(e) {
+        if(ancienScrollY < window.scrollY){
+          gsap.to(btnScrollTop,{
+            height:'2em',
+            width:'2em',
+            translate:'0 0',
+            opacity:1,
+            fontSize:'1.5rem',
+            duration:1.5,
+            ease:"back"
+          })
+        } else {
+          gsap.to(btnScrollTop,{
+            height:'0.5em',
+            width:'0.5em',
+            translate:'0 3em',
+            opacity:0.5,
+            fontSize:'0',
+            duration:2.65,
+            ease:"back"
+          })
+        }
+        ancienScrollY = window.scrollY;
+      }
     </script>
     <script th:src="@{/js/script-feed.js?v=5}" defer></script>
     <script th:if="${warn != null}">

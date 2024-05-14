@@ -170,7 +170,8 @@ main button {
 .media-holder img,
 .media-holder video {
   width: 100%;
-  max-height: 70vh;
+  min-height: 50dvh;
+  max-height: 70dvh;
   object-fit: cover;
   border-radius: 10px;
   margin: 1em auto;
@@ -236,6 +237,37 @@ main button {
   transition: transform 1.5s ease-in-out;
 }
 
+#go-to-top{
+  position: fixed;
+  right: 15em;
+  bottom: 1em;
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 100000000px;
+  font-size: 0;
+  opacity: 0.5;
+  background: rgb(255, 255, 255);
+  box-shadow: 1px 3px 5px -4px var(--border-color);
+  background: radial-gradient(
+          circle,
+          rgb(233, 231, 231) 0%,
+          rgba(220, 220, 247, 1) 41%,
+          rgb(176, 202, 236) 100%
+  );
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.2s ease-in;
+  translate: 0 3em;
+}
+
+#go-to-top:hover{
+  transform: scale(1.2);
+  box-shadow: 2px 3px 8px -7px var(--border-color);
+  cursor: pointer;
+  background: radial-gradient(circle, rgb(29, 28, 27) 0%, rgb(79, 86, 94) 100%);
+  color: #ffffff !important;
+}
 /*========= Liste des Commentaires ==========*/
 .liste-commentaires {
   display: flex;

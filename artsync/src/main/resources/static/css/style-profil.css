@@ -363,6 +363,32 @@
 
 .liste-commentaires{
     height: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    margin: 0;
+    padding: 0;
+    overflow-y: scroll;
+    flex-grow: 1;
+}
+
+.commentaire {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    margin: 0;
+    flex-wrap: wrap;
+}
+
+.commentaire p {
+    margin: 0;
+    max-width: 70%;
+    flex-grow: 1;
+}
+
+.description{
+    font-size: 1.2rem;
+    margin-bottom: 0.3em;
 }
 
 .env-commentaire{

@@ -65,27 +65,20 @@
     justify-content: center;
     align-items: end;
     width: 100%;
-    height: 18%;
-    gap: 0.5rem;
+    max-height: 50dvh;
+    gap: 2em;
+    margin-top: 20%;
 }
 .podium{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 10rem;
-    height: 3rem;
-    margin-top: 25%;
     border-radius: 7px;
     border-right: 1px solid black;
     border-left: 1px solid black;
     border-top: 1px solid black;
     backdrop-filter: blur(10px) brightness(0.8);
-}
-.podium:hover{
-    scale: 1.05;
-    transition: 0.5s;
-    cursor: pointer;
 }
 .podium h4{
     font-weight: 1000;
@@ -104,6 +97,13 @@
     color: #b08f5c;
     font-size: 25px;
 }
+
+#first,#second,#third{
+    position: fixed;
+    margin: auto;
+    top: 100%;
+}
+
 .imgHolder{
     display: flex;
     justify-content: center;
@@ -176,6 +176,7 @@
     opacity: 0;
     border-radius: 7px;
     backdrop-filter: blur(10px) brightness(0.85);
+    margin-bottom: 5em;
 }
 
 .postHolderHeader{
@@ -290,8 +291,135 @@
     background-color: #b08f5c20;
 }
 
+.card-3d{
+    width: 350px;
+    height: 300px;
+    border-radius: 10px;
+    perspective: 1000px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translateY(-90%);
+}
+
+.content-card{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    transition: transform 0.15s ease-out, box-shadow 0.25s ease-in-out;
+    overflow: hidden;
+
+}
+
+.content-card:hover{
+    box-shadow: 0px 0px 15px 2px rgba(255, 218, 194, 0.8);
+}
+
+.desc{
+    position: absolute;
+    display: flex;
+    gap: 1em;
+    bottom: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    min-height: 20%;
+    border-radius: 5px;
+    color: azure;
+    transform: translateX(-100%);
+    transition: all 0.5s cubic-bezier(.79,.01,.48,.99);
+    z-index: 2;
+}
+
+.profile-pic-card{
+    height: 3.5em;
+    width: 3.5em;
+    border-radius: 100000px;
+    position: relative;
+    top: -20px;
+    left: 5px;
+    object-fit: cover;
+}
+
+.titre{
+    display: block;
+    font-size: 1.2rem;
+    font-weight: 400;
+}
+
+.fleche{
+    height: 40px;
+    width: 40px;
+    border-radius: 100000px;
+    outline: none;
+    border: none;
+    background-color: beige;
+    font-size: 1.5rem;
+    text-align: center;
+    line-height: 0;
+    font-weight: 600;
+    transition: all 0.15s ease-out;
+    text-decoration: none;
+    color: black;
+    margin: 0.3em 0.5em 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.fleche:hover{
+    transform: scale(1.1);
+    text-shadow: 2px 3px 7px rgba(0,0,0,0.9);
+}
+
+.content-card .img-container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease-out;
+    border-radius: 5px;
+    z-index: 0;
+}
+
+.img-container img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.glow{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+    transition: all 0.15s ease-out;
+    border-radius: 5px;
+    background: radial-gradient(circle at 80% 180%, rgba(248, 243, 228, 0.22), transparent);
+    mix-blend-mode: hard-light;
+    pointer-events: none;
+}
+
+.glow-2{
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    height: 97%;
+    width: 97%;
+    border: 20px solid transparent;
+    backdrop-filter: blur(2px);
+    z-index: 1;
+    pointer-events: none;
+}
+
 @media only screen and (max-width: 700px) {
-     .imgHolder img{
+     .imgHolder img, .card-3d{
         height: 6rem;
          width: 6rem;
      }
@@ -303,5 +431,8 @@
     }
     .podium{
         width: 5rem;
+    }
+    .desc{
+        opacity: 0;
     }
 }

@@ -177,7 +177,7 @@ function showNotificationChat(notification) {
     showAppel(notification);
   }else {
     contactsPrivesArray.forEach(contact => {
-      if(contact.getAttribute("pseudo") === notification.pseudoSender){
+      if(contact.getAttribute("pseudo") === notification.pseudoSender && !notification.urlNotif.includes('projet')){
         if(contact.lastElementChild.tagName !== 'span'){
           let notifIndicator = document.createElement("span")
           notifIndicator.classList.add("notification-indicator")

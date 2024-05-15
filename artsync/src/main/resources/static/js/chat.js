@@ -55,17 +55,6 @@ document.addEventListener("DOMContentLoaded", function() {
     $("#local-holder").draggable();
   } );
 
-  // Animer les cartes avec les contacts pour les faire apparaitre
-  const cartes = document.querySelectorAll(".carte");
-  setTimeout(function() {
-    cartes.forEach(function(carte,index) {
-      setTimeout(function() {
-        carte.classList.toggle("animation");
-      },index*60);
-    });
-  },200);
-
-
 });
 
 /**
@@ -188,7 +177,7 @@ function showNotificationChat(notification) {
     showAppel(notification);
   }else {
     contactsPrivesArray.forEach(contact => {
-      if(contact.getAttribute("pseudo") === notification.pseudoSender){
+      if(contact.getAttribute("pseudo") === notification.pseudoSender && !notification.urlNotif.includes('projet')){
         if(contact.lastElementChild.tagName !== 'span'){
           let notifIndicator = document.createElement("span")
           notifIndicator.classList.add("notification-indicator")

@@ -107,7 +107,7 @@
         function addMessageLive(message){
             const chatItem = document.createElement("li");
             chatItem.classList.add("chat-stream");
-            chatItem.innerHTML = `<img class="profil-pic-stream" src=${"/media/images/" + message.senderPhoto} alt="">
+            chatItem.innerHTML = `<img class="profil-pic-stream" src=${"/media/images/utilisateur/" + message.senderPhoto} alt="">
                     <div class="chat-stream-body">
                         <strong>@${message.senderPseudo}</strong>
                         <p>${message.text}</p>
@@ -128,10 +128,9 @@
     <script th:if="${isStreamer}">
         streamVideo.muted = true;
     </script>
-    <script th:src="@{/js/live.js?v=5}"></script>
     <script th:if="${isStreamer}" th:src="@{/js/start-live.js?v=6}"></script>
     <script th:if="${!isStreamer}" th:src="@{/js/join-live.js?v=6}"></script>
     <div th:replace="${session.user != null} ? ~{fragment/notificationFragment :: notificationFragment} : ~{}"></div>
-    <script th:src="@{/js/notification.js?v=14}"></script>
+    <script th:src="@{/js/notification.js?v=15}"></script>
 </body>
 </html>

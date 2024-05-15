@@ -64,7 +64,9 @@ public class NotificationController {
         List<Utilisateur> utilisateursProjet = projetService.getMembers(projetId);
         if (utilisateursProjet != null){
             utilisateursProjet.forEach(user ->{
-                this.simpMessagingTemplate.convertAndSend("/topic/notification/"+user.getId(), notif);
+                notif.setLu(false);
+                notif.setIdDest(user.getId());
+                this.simpMessagingTemplate.convertAndSend("/topic/notification/"+user.getId(), notificationService.saveNotification(notif));
             });
         }
         return notif;

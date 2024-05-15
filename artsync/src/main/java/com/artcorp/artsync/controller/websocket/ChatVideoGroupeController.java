@@ -27,25 +27,18 @@ public class ChatVideoGroupeController {
     @MessageMapping("/chat/appel/groupe/offer/{conversationId}/{userId}/{userId2}")
     @SendTo("/topic/appel/groupe/offer/{conversationId}/{userId}/{userId2}")
     public String offer(String offer) {
-        LOGGER.info("Offer came : " + offer);
-        LOGGER.info("Offer : " + offer);
         return offer;
     }
 
     @MessageMapping("/chat/appel/groupe/answer/{conversationId}/{userId}/{userId2}")
     @SendTo("/topic/appel/groupe/answer/{conversationId}/{userId}/{userId2}")
     public String answer(String answer) {
-        LOGGER.info("Answer came : " + answer);
-        LOGGER.info("Answer : " + answer);
-        LOGGER.info("Answer sent");
         return answer;
     }
 
     @MessageMapping("/chat/appel/groupe/candidate/{conversationId}/{userId}/{userId2}")
     @SendTo("/topic/appel/groupe/candidate/{conversationId}/{userId}/{userId2}")
     public String candidate(String candidate) {
-        LOGGER.info("Candidate came : " + candidate);
-        LOGGER.info("Candidate : " + candidate);
         return candidate;
     }
 

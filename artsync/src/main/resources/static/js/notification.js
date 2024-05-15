@@ -40,7 +40,7 @@ function addNotifContainer(notification){
     const notificationElement = document.createElement("a");
     notificationElement.classList = "notification";
     notificationElement.innerHTML = `${notification.imgSender ?
-        `<img src="media/images/${notification.imgSender}" alt="" class="profile-pic-banner-border-small" />` : ''}
+        `<img src="/media/images/utilisateur/${notification.imgSender}" alt="" class="profile-pic-banner-border-small" />` : ''}
                                               <p class="notification-texte"> ${notification.message}</p>`;
     notificationElement.href = notification.urlNotif;
     notifcationContainer.appendChild(notificationElement);

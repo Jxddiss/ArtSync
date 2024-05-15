@@ -38,8 +38,8 @@
     </header>
     <button id="expandButton"><i class="bi bi-caret-right"></i></button>
     <div class="container-page">
-        <div id="liste-contacts" class="animation">
-            <h4 class="animation delais">CONTACTS</h4>
+        <div id="liste-contacts">
+            <h4>CONTACTS</h4>
             <div id="liste-personne" class="liste-options-contact">
                 <!--/*@thymesVar id="ami" type="com.artcorp.artsync.entity.Utilisateur"*/-->
                 <a th:each="conversation : ${conversationsAmi}" th:href="@{/utilisateur/conversation/{id}(id=${conversation.getId()})}"

@@ -259,6 +259,7 @@ main button {
   align-items: center;
   transition: transform 0.2s ease-in;
   translate: 0 3em;
+  z-index: 100;
 }
 
 #go-to-top:hover{
@@ -539,8 +540,8 @@ hr {
 }
 
 #stories-open-dialog[open] {
-  animation: fadeInStories .7s ease normal;
-  animation-fill-mode: forwards;
+  animation: fadeInStories .7s ease normal !important;
+  animation-fill-mode: forwards !important;
 }
 
 #stories-open-dialog  button{

@@ -32,6 +32,12 @@ public class ChatController {
         this.chatService = chatService;
     }
 
+    @MessageMapping("/chat/is-writing/{conversationId}/{userPseudo}")
+    @SendTo("/topic/chat/is-writing/{conversationId}/{userPseudo}")
+    public boolean isTyping(boolean isWriting){
+        return isWriting;
+    }
+
     @MessageMapping("/chat/{conversationId}")
     @SendTo("/topic/conversation/{conversationId}")
     public Chat sendMessage(Chat chat) {

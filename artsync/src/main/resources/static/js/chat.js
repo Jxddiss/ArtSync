@@ -55,17 +55,6 @@ document.addEventListener("DOMContentLoaded", function() {
     $("#local-holder").draggable();
   } );
 
-  // Animer les cartes avec les contacts pour les faire apparaitre
-  const cartes = document.querySelectorAll(".carte");
-  setTimeout(function() {
-    cartes.forEach(function(carte,index) {
-      setTimeout(function() {
-        carte.classList.toggle("animation");
-      },index*60);
-    });
-  },200);
-
-
 });
 
 /**

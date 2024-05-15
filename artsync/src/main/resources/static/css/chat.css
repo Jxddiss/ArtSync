@@ -172,13 +172,11 @@ ul {
     align-items: center;
     padding-top: 1em;
     gap: 1em;
-    opacity: 0;
 }
 
 #liste-contacts h4{
     width: 100%;
     margin-left: 2em;
-    opacity: 0;
 }
 
 #liste-contacts h4::after{
@@ -206,7 +204,6 @@ ul {
     display: flex;
     align-items: center;
     height: 3.5em;
-    opacity: 0;
 }
 
 .carte:hover{
@@ -509,6 +506,54 @@ ul {
 
 .chat-item-right .date-envoie{
     align-self: flex-end;
+}
+
+.chat-item-left:has(.is-writing){
+    position: relative;
+    bottom: 0;
+}
+
+.is-writing{
+    margin-left: 0.1em;
+    width: 3em;
+}
+
+.is-writing span{
+    content: '';
+    animation: blink 1.5s infinite;
+    animation-fill-mode: both;
+    height: 0.5em;
+    width: 0.5em;
+    background: gray;
+    position: absolute;
+    right:0;
+    bottom:2em;
+    border-radius: 50%;
+}
+
+.is-writing span:nth-child(2){
+    animation-delay: 0.2s;
+    margin-right: calc(0.5em *1.5);
+}
+
+.is-writing span:nth-child(1){
+    margin-right: calc(0.5em *3);
+}
+
+.is-writing span:nth-child(3){
+    animation-delay: 0.4s;
+}
+
+@keyframes blink {
+    0% {
+        opacity: .1;
+    }
+    20% {
+        opacity: 1;
+    }
+    100% {
+        opacity: .1;
+    }
 }
 
 #input-chat{

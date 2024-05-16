@@ -273,6 +273,7 @@ main button {
 .liste-commentaires {
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   gap: 1em;
   margin: 0;
   padding: 0;

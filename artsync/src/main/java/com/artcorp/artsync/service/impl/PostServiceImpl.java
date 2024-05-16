@@ -8,7 +8,6 @@ import com.artcorp.artsync.service.PostService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -16,12 +15,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static com.artcorp.artsync.constant.FileConstant.POST_FOLDER;
-import static com.artcorp.artsync.constant.FileConstant.USER_FOLDER;
+import static com.artcorp.artsync.constant.FileConstant.*;
+import static org.springframework.http.MediaType.*;
 
 @Service
 @Transactional
@@ -71,6 +71,11 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<Post> findAllPosts() {
         return postRepos.findAll();
+    }
+
+    @Override
+    public List<Post> findAllPostsNotVideo() {
+        return postRepos.findAllByTypeNotVideo();
     }
 
     @Override
@@ -163,5 +168,31 @@ public class PostServiceImpl implements PostService {
         Files.copy(image.getInputStream(),saveFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
         image.getInputStream().close();
         this.addPost(post);
+    }
+
+    @Override
+    public boolean checkFileExtension(MultipartFile file,
+                                      Post post,
+                                      Utilisateur utilisateur,
+                                      String originalFilename,
+                                      FichierGeneral fichierGeneral) throws IOException {
+
+        boolean valide = false;
+
+        if (Arrays.asList(VIDEO_EXTENSIONS)
+                .contains(com.google.common.io.Files.getFileExtension(file.getOriginalFilename()))){
+            post.setType("video");
+            valide = true;
+
+        }else if(Arrays.asList(IMAGE_JPEG_VALUE, IMAGE_PNG_VALUE, IMAGE_GIF_VALUE).contains(file.getContentType())){
+            post.setType("image");
+            valide = true;
+        }
+
+        if (valide){
+            this.savePost(file,utilisateur,originalFilename,fichierGeneral,post);
+        }
+
+        return valide;
     }
 }

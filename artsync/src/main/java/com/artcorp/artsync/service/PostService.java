@@ -20,6 +20,7 @@ public interface PostService {
     List<Post> findAllPostsPublique(boolean publique);
     List<Post> findAllPostsEnVedette();
     List<Post> findAllPosts();
+    List<Post> findAllPostsNotVideo();
     List<Post> findByTypeEnVedettePublique(String type, boolean publique);
     List<Post> findAllPostsByTypePublique(String type, boolean publique);
     List<Post> findByTypeEnVedette(String type);
@@ -40,4 +41,6 @@ public interface PostService {
     List<Post>findAllByUtilisateurAndPublique(Utilisateur utilisateur);
     List<Post> findAllPostOfFriends(Utilisateur utilisateur);
     void savePost(MultipartFile file, Utilisateur utilisateur, String originalFilename, FichierGeneral fichierGeneral, Post post) throws FileFormatException, IOException;
+
+    boolean checkFileExtension(MultipartFile image, Post post, Utilisateur utilisateur, String originalFilename, FichierGeneral fichierGeneral) throws IOException;
 }

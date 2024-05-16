@@ -31,7 +31,7 @@ public interface PostRepos extends JpaRepository<Post, Long> {
 
     List<Post> findAllByUtilisateurAndPublique(Utilisateur utilisateur,boolean publique);
 
-    @Query("SELECT p FROM Post p WHERE p.publique = :publique ORDER BY p.nbLikes DESC LIMIT 19")
+    @Query("SELECT p FROM Post p WHERE p.publique = :publique AND p.type != 'video' ORDER BY p.nbLikes DESC LIMIT 19")
     List<Post> findByPubliqueEnVedette(@Param("publique") boolean publique);
 
     @Query("SELECT p from Post p WHERE p.publique = :publique ORDER BY p.date DESC")
@@ -59,4 +59,7 @@ public interface PostRepos extends JpaRepository<Post, Long> {
 
     @Query("SELECT p FROM Post p WHERE p.utilisateur IN :followingList AND p.utilisateur IN :followerList ORDER BY p.date DESC LIMIT 15")
     List<Post> findPostFollowingAndFollower(@Param("followingList") Set<Utilisateur> followingList, @Param("followerList") Set<Utilisateur> followerList);
+
+    @Query("SELECT p FROM Post p WHERE p.type != 'video'")
+    List<Post> findAllByTypeNotVideo();
 }

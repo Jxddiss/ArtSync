@@ -40,4 +40,6 @@ public interface PostService {
     List<Post>findAllByUtilisateurAndPublique(Utilisateur utilisateur);
     List<Post> findAllPostOfFriends(Utilisateur utilisateur);
     void savePost(MultipartFile file, Utilisateur utilisateur, String originalFilename, FichierGeneral fichierGeneral, Post post) throws FileFormatException, IOException;
+
+    boolean checkFileExtension(MultipartFile image, Post post, Utilisateur utilisateur, String originalFilename, FichierGeneral fichierGeneral) throws IOException;
 }

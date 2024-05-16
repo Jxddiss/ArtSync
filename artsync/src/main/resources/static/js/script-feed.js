@@ -159,7 +159,7 @@ function checkFile(form){
         {
           type: 'info',
           pseudoSender: pseudoUser,
-          message: `Nouvelle post de ${pseudoUser}` ,
+          message: `Nouveau post de ${pseudoUser}` ,
           titre: 'Nouveau post',
           imgSender: userImage,
           urlNotif: window.location.origin.toString() + '/feed'

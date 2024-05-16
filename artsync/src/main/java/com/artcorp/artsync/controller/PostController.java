@@ -14,7 +14,6 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -24,16 +23,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
-import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 
-import static com.artcorp.artsync.constant.FileConstant.USER_FOLDER;
+import static com.artcorp.artsync.constant.FileConstant.PLAYABLE_EXTENSIONS;
 import static org.springframework.http.MediaType.*;
 
 @Controller
@@ -101,7 +95,6 @@ public class PostController {
                               @AuthenticationPrincipal String username,
                              @RequestParam("file") MultipartFile image,
                              @RequestParam("description") String texte,
-                             @RequestParam("type") String type,
                              @RequestParam("titre") String titre,
                              @RequestParam(name = "publique", required = false) boolean publique,
                              RedirectAttributes redirectAttributes) throws IOException, FileFormatException, NotConnectedException {
@@ -111,9 +104,7 @@ public class PostController {
             Utilisateur utilisateur = utilisateurService.addUserSessionIfNot(session,username);
             if (image != null){
 
-                if(image.getOriginalFilename() == null
-                        || image.getOriginalFilename().isEmpty()
-                        || !Arrays.asList(IMAGE_JPEG_VALUE, IMAGE_PNG_VALUE, IMAGE_GIF_VALUE).contains(image.getContentType())){
+                if(image.getOriginalFilename() == null || image.getOriginalFilename().isEmpty()){
                     throw new FileFormatException("/utilisateur/profil/" + utilisateur.getPseudo());
                 }
 
@@ -124,10 +115,12 @@ public class PostController {
                 Post post = new Post();
                 post.setUtilisateur(utilisateur);
                 post.setTitre(titre);
-                post.setType(type);
                 post.setTexte(texte);
                 post.setPublique(publique);
-                postService.savePost(image, utilisateur, originalFilename, fichierGeneral, post);
+
+                if (!postService.checkFileExtension(image,post,utilisateur, originalFilename, fichierGeneral)){
+                    throw new FileFormatException("/utilisateur/profil/" + utilisateur.getPseudo());
+                }
                 redirectAttributes.addFlashAttribute("succes","Post ajouté avec succès");
 
             }

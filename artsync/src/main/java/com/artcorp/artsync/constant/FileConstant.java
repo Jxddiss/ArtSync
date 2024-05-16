@@ -9,6 +9,7 @@ public class FileConstant {
     public static final String MEDIA_CHAT_BASE_FOLDER = "src\\main\\resources\\static\\media\\chat\\";
     public static final String RELATIVE_PATH = "/media/chat/";
     public static final String[] ACCEPTED_FILE_EXTENSIONS = {"doc","docx","zip","mp3","mp4","mov","mkv","avi","flv","gltf","ogg"};
-    public static final String[] VIDEO_EXTENSIONS = {"mp4","mov","mkv","avi","flv","mp3","ogg"};
+    public static final String[] PLAYABLE_EXTENSIONS = {"mp4","mov","mkv","avi","flv","mp3","ogg"};
+    public static final String[] VIDEO_EXTENSIONS = {"mp4","mov","ogg"};
     public static final String[] DOWNLOADABLE_FILES = {"doc","docx","zip","mp3","gltf","ogg"};
 }

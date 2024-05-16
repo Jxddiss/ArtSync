@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 import java.util.Arrays;
 
-import static com.artcorp.artsync.constant.FileConstant.VIDEO_EXTENSIONS;
+import static com.artcorp.artsync.constant.FileConstant.PLAYABLE_EXTENSIONS;
 
 @Entity
 public class FichierGeneral {
@@ -88,7 +88,7 @@ public class FichierGeneral {
     }
 
     public void setType(String type) {
-        if (Arrays.asList(VIDEO_EXTENSIONS).contains(type)){
+        if (Arrays.asList(PLAYABLE_EXTENSIONS).contains(type)){
             this.type = "video";
         }else{
             this.type = type;

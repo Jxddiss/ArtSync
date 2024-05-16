@@ -79,11 +79,9 @@
             <form class="postForm" th:action="@{/ajouter-post}" method="POST" enctype="multipart/form-data" onsubmit="return checkFile(this)">
               <div class="form-head">
                 <label for="titre">Titre:</label>
-                <label for="type">Type:</label>
               </div>
               <div class="form-headInput">
                 <input type="text" name="titre" class="form-control" id="titre" placeholder="Entrez le titre" required>
-                <input type="text" name="type" class="form-control" id="type" placeholder="Entrez le type de post" required>
               </div>
               <div class="form-group mt-1">
                 <label for="description">Description:</label>
@@ -113,7 +111,17 @@
           <!-- <img src="image/image1.png" alt="test picture"> -->
           <!-- <video src="media/ArtSync - Google Chrome 2024-03-07 15-10-39.mp4" style="height: 150%; width: 140%; object-fit: cover;"></video> -->
           <div class="media-holder" data-maximiser="true">
-            <img th:src="@{/media/images/post/{image}(image=${post.listeFichiers[0].urlMedia})}" th:alt="${post.listeFichiers[0].urlMedia}" />
+            <img th:if="${!post.type.equalsIgnoreCase('video')}"
+                 th:src="@{/media/images/post/{image}(image=${post.listeFichiers[0].urlMedia})}" th:alt="${post.listeFichiers[0].urlMedia}" />
+
+            <video th:if="${post.type.equalsIgnoreCase('video')}"
+                   th:src="@{/media/images/post/{image}(image=${post.listeFichiers[0].urlMedia})}"
+                   autoplay
+                   muted
+                   loop
+                   controls>
+            </video>
+
             <span class="tooltiptext"
               ><i class="bi bi-arrows-angle-contract"></i
             ></span>
@@ -230,7 +238,7 @@
         ancienScrollY = window.scrollY;
       }
     </script>
-    <script th:src="@{/js/script-feed.js?v=8}" defer></script>
+    <script th:src="@{/js/script-feed.js?v=9}" defer></script>
     <script th:if="${warn != null}">
       showNotification({
         type: 'warn',

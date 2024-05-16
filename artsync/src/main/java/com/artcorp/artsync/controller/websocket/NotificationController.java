@@ -78,7 +78,9 @@ public class NotificationController {
 
         if (utilisateur != null){
             utilisateur.getFollowers().forEach(user ->{
-                this.simpMessagingTemplate.convertAndSend("/topic/notification/"+user.getId(), notification);
+                notification.setLu(false);
+                notification.setIdDest(user.getId());
+                this.simpMessagingTemplate.convertAndSend("/topic/notification/"+user.getId(), notificationService.saveNotification(notification));
             });
         }
     }

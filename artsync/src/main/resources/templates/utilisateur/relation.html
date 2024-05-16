@@ -233,7 +233,7 @@
     <script th:src="@{/js/script-relation.js?v=5}"></script>
 
     <div th:replace="${session.user != null} ? ~{fragment/notificationFragment :: notificationFragment} : ~{}"></div>
-    <script th:src="@{/js/notification.js?v=14}"></script>
+    <script th:src="@{/js/notification.js?v=16}"></script>
     <script th:if="${session.user.getBackgroundTexture()}">
         const bgTexture = '[[${session.user.getBackgroundTexture()}]]'
         document.body.classList.add(bgTexture)

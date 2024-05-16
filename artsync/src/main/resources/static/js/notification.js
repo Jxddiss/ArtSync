@@ -90,7 +90,11 @@ function showAppel(notification){
         ease:"back"
     })
     setTimeout(()=>{notifAppelDialog.classList.toggle("fadeIn");},2000)
-    //setTimeout(()=>{notifAppelDialog.close()},7000)
+    setTimeout(()=>{
+        if (notifAppelDialog.open){
+            notifAppelDialog.close()
+        }
+    },7000)
 
     $.ajax({
         type:'POST',

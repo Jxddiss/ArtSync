@@ -202,7 +202,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         </div>
     </div>
     <div th:replace="${session.user != null} ? ~{fragment/notificationFragment :: notificationFragment} : ~{}"></div>
-    <script th:if="${session.user!=null}" th:src="@{/js/notification.js?v=15}"></script>
+    <script th:if="${session.user!=null}" th:src="@{/js/notification.js?v=16}"></script>
 
     <!--IGNORE c'est pour le js-->
     <img style="display: none" th:if="${session.user!=null}" th:src="@{/media/images/utilisateur/{image}(image=${session.user.getPhotoUrl()})}" th:value="${session.user.getPseudo()}" id="permission">

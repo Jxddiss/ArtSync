@@ -122,12 +122,12 @@ public class FileHandlingControllerRest {
                 while ((bytesRead = in.read(buffer)) != -1) {
                     out.write(buffer, 0, bytesRead);
                 }
+                in.close();
+                out.flush();
+                out.close();
             }catch (Exception exception){
                 LOGGER.error(exception.getMessage());
             }
-            in.close();
-            out.flush();
-            out.close();
         }
     }
 }

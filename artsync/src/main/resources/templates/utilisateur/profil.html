@@ -164,6 +164,7 @@
                        th:src="@{/media/images/post/{image}(image=${post.listeFichiers[0].urlMedia})}"
                        muted
                        loop
+                       playsinline
                        controls>
                 </video>
                 <button th:if="${post.type.equalsIgnoreCase('video')}" type="button" class="btn-open-interraction-video">
@@ -240,6 +241,7 @@
                muted
                autoplay
                loop
+               playsinline
                controls>
         </video>
     </div>

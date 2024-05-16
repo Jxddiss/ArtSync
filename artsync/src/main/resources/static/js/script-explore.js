@@ -1,5 +1,5 @@
+const dialog = document.getElementById("dialog-card-focus");
 document.addEventListener("DOMContentLoaded", function () {
-    let dialog = document.getElementById("dialog-card-focus");
     let imgDialog = dialog.querySelector("img");
 
     let cardSamples = document.querySelectorAll(".card-sample");
@@ -22,6 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
             let cardPostDialog = cardPost.cloneNode(true);
             cardPostDialog.style.display = "flex";
             dialog.querySelector(".poste").appendChild(cardPostDialog)
+
             dialog.showModal();
         })
 
@@ -47,3 +48,60 @@ document.addEventListener("DOMContentLoaded", function () {
     })
 });
 
+//========== commentaire =========
+const listeEnvComm = document.querySelectorAll(".liste-commentaires");
+
+function addComment(commentaireForm, postId){
+    let commentHolder =  dialog.querySelector(".liste-commentaires")
+
+    const comment = commentaireForm.comment.value
+
+    const newComment = document.createElement("li");
+    newComment.classList.add("commentaire")
+    newComment.innerHTML=`
+                    <a href="#!" class="info-comment">
+                    <img
+                      src="/media/images/utilisateur/${userImage}"
+                      alt=""
+                      class="profile-pic-banner-border-small"
+                    />
+                  </a>
+                  <p>
+                    <strong>@${pseudoUser}</strong>
+                    ${comment}
+                  </p>
+                `
+    commentHolder.appendChild(newComment);
+    commentaireForm.comment.value = ""
+}
+
+function ajouterCommentaire(form){
+    $.ajax({
+        type: "POST",
+        url: window.location.origin.toString()+"/post/comment",
+        data: {comment: form.comment.value, postId: form.postId.value},
+        success : function (data) {
+            if(data === "true"){
+                console.log("PASSED")
+                addComment(form,form.postId.value)
+            }else{
+                console.log("FAILED")
+            }
+        },
+    })
+
+    stompClientNotif.send("/app/notification/"+form.ownerId.value,{},JSON.stringify(
+        {
+            type: 'info',
+            pseudoSender: pseudoUser,
+            message: `Nouveau commentaire de ${pseudoUser}`,
+            titre: 'Nouveau commentaire',
+            imgSender: userImage,
+            urlNotif: window.location.origin.toString() + '/feed'
+        }
+    ));
+}
+
+document.addEventListener("submit", event =>{
+    event.preventDefault();
+})

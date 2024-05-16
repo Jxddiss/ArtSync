@@ -105,7 +105,7 @@ postContainer.forEach((post) => {
     },
   });
 });
-
+/*
 //========= Stories =============
 var stories = document.getElementById("stories");
 
@@ -127,7 +127,7 @@ stories.childNodes.forEach((story) => {
     story.classList.toggle("storie-seen");
     dialogOpenStories.showModal();
   });
-})
+})*/
 
 //========= publier Open Dialog =============
 btnPublier.addEventListener('click', function() {
@@ -193,7 +193,7 @@ commentaireForm.forEach(commentForm =>{
       newComment.innerHTML=`
                         <a href="#!" class="info-comment">
                         <img
-                          src="/media/images/${userImage}"
+                          src="/media/images/utilisateur/${userImage}"
                           alt=""
                           class="profile-pic-banner-border-small"
                         />

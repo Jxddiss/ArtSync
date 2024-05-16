@@ -26,7 +26,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-        <script th:src="@{/js/script-explore.js?v=5}"></script>
+        <script th:src="@{/js/script-explore.js?v=6}" defer></script>
     </head>
 
     <body>
@@ -46,7 +46,7 @@
                             <div class="description">
                                 <p>[[${post.texte}]]</p>
                             </div>
-                            <ul class="liste-commentaires">
+                            <ul class="liste-commentaires" th:post-id="${post.id}">
                                 <li class="commentaire" th:each="comm : ${post.listeCommentaires}">
                                     <a th:href="@{/utilisateur/profil/{pseudo}(pseudo=${comm.utilisateur.pseudo})}" class="info-comment">
                                         <img
@@ -72,8 +72,12 @@
                                         </div>
                                     </div>
                                 </div>
-                                <form th:if="${session.user != null}" class="input-box-commentaire">
-                                    <input type="text" placeholder="  Écrire un commentaire...">
+                                <form th:if="${session.user != null}" th:post-id="${post.id}"
+                                      class="input-box-commentaire"
+                                      onsubmit="return ajouterCommentaire(this)">
+                                    <input type="hidden" name="postId" th:value="${post.id}">
+                                    <input type="hidden" name="ownerId" th:value="${post.utilisateur.id}">
+                                    <input type="text" name="comment" placeholder="  Écrire un commentaire...">
                                     <button class="btn-commentaire "><i class="bi bi-send"></i></button>
                                 </form>
                             </div>
@@ -84,6 +88,10 @@
 
     <div th:replace="${session.user != null} ? ~{fragment/notificationFragment :: notificationFragment} : ~{}"></div>
     <script th:src="@{/js/notification.js?v=16}"></script>
+    <script th:if="${session.user != null}">
+        const userImage = '[[${session.user.photoUrl}]]';
+        const pseudoUser = '[[${session.user.pseudo}]]';
+    </script>
     </body>
     <dialog id="dialog-card-focus">
         <button id="close-dialog">

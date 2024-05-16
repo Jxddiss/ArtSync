@@ -256,6 +256,9 @@ publications.forEach(function (publication,index) {
         imgDialog.src = imageUrl;
         let cardPostDialog = cardPost.cloneNode(true);
         cardPostDialog.style.display = "flex";
+        if (userId != null){
+            handleLike(cardPostDialog);
+        }
         dialog.querySelector(".poste").appendChild(cardPostDialog)
         dialog.showModal();
     })
@@ -273,8 +276,16 @@ imgDialog.addEventListener("click", function(){
 
 dialog.querySelector("#close-dialog").addEventListener("click",function (){
     let cardPoste = dialog.querySelector(".card-post");
-    let poste = dialog.querySelector(".poste")
-    poste.removeChild(cardPoste);
+    const posteList = document.querySelectorAll(".publication")
+
+    posteList.forEach(post =>{
+        let card = post.querySelector(".card-post");
+        if ( card.getAttribute("post-id") === cardPoste.getAttribute("post-id")){
+            post.removeChild(card);
+            cardPoste.style.display = 'none';
+            post.appendChild(cardPoste);
+        }
+    })
     dialog.close();
 })
 
@@ -303,16 +314,6 @@ function addComment(commentaireForm, postId){
                 `
     commentHolder.appendChild(newComment);
     commentaireForm.comment.value = ""
-
-    const listeEnvComm = document.querySelectorAll(".liste-commentaires");
-    listeEnvComm.forEach(commEnv =>{
-        if (commEnv.getAttribute("post-id")
-            === commentaireForm.postId.value
-            && commEnv !== commentHolder){
-
-            commEnv.appendChild(newComment.cloneNode(true))
-        }
-    })
 }
 
 function ajouterCommentaire(form){
@@ -347,4 +348,97 @@ function ajouterCommentaire(form){
 
 }
 
+//========= likes ====<
+function handleLike(cardpost){
+    const likeSymbol = cardpost.querySelector(".like")
+    const postId = likeSymbol.getAttribute("post-id");
+    const ownerId = likeSymbol.getAttribute("owner-id")
+    const icon = likeSymbol.querySelector("i");
+
+    if(localStorage.getItem(`like-post-${postId}-${userId}`)){
+        if(localStorage.getItem(`like-post-${postId}-${userId}`) === "true"){
+            if (likeSymbol.dataset.clicked === "false"){
+                likeSymbol.dataset.clicked = "true";
+                icon.style.color = "red";
+                let fill = icon.classList[1] + "-fill";
+                icon.classList.remove(icon.classList[1]);
+                icon.classList.add(fill);
+            }
+        }else{
+            likeSymbol.dataset.clicked = "false";
+        }
+    }else{
+        localStorage.setItem(`like-post-${postId}-${userId}`,`false`);
+    }
+
+    likeSymbol.firstElementChild.addEventListener("mouseout", (e) => {
+        if (likeSymbol.dataset.clicked === "false") {
+            let newIconClass = icon.classList[1].replace("-fill", "");
+            icon.classList.remove(icon.classList[1]);
+            icon.classList.add(newIconClass);
+        }
+    });
+
+    likeSymbol.firstElementChild.addEventListener("mouseover", (e) => {
+        if (likeSymbol.dataset.clicked === "false") {
+            let fill = icon.classList[1] + "-fill";
+            icon.classList.remove(icon.classList[1]);
+            icon.classList.add(fill);
+        }
+    });
+
+    likeSymbol.firstElementChild.addEventListener("click", (e) => {
+        const info = likeSymbol.querySelector("p").innerText
+        let nbLike = +info.split(" ").at(0);
+
+        if (likeSymbol.dataset.clicked === "false") {
+            likeSymbol.dataset.clicked = "true";
+            icon.style.color = "red";
+            likePost("like",postId,ownerId);
+            nbLike++
+            likeSymbol.querySelector("p").innerText = `${nbLike} J'aimes`;
+            localStorage.setItem(`like-post-${postId}-${userId}`,`true`);
+        } else {
+            likePost("unlike", postId,ownerId);
+            let newIconClass = icon.classList[1].replace("-fill", "");
+            icon.classList.remove(icon.classList[1]);
+            icon.classList.add(newIconClass);
+            likeSymbol.dataset.clicked = "false";
+            icon.style.color = "black";
+            nbLike--
+            likeSymbol.querySelector("p").innerText = `${nbLike} J'aimes`;
+            localStorage.setItem(`like-post-${postId}-${userId}`,`false`);
+        }
+    });
+}
+
+function likePost(type, postId,idPostOwner){
+    $.ajax({
+        type: "POST",
+        url: window.location.origin.toString()+"/post/like",
+        data: {like: type, postId: postId},
+        success : function (data) {
+            if(data === "true"){
+                console.log("PASSED")
+            }else{
+                console.log("FAILED")
+            }
+        },
+    })
+
+    if (userId !== idPostOwner){
+        if(type === "like"){
+            stompClientNotif.send("/app/notification/"+idPostOwner,{},JSON.stringify(
+                {
+                    type: 'info',
+                    pseudoSender: pseudoUser,
+                    message: `Nouvelle mention jaime de ${pseudoUser}` ,
+                    titre: 'Nouveau like',
+                    imgSender: userImage,
+                    urlNotif: window.location.origin.toString() + '/feed'
+                }
+            ));
+        }
+    }
+}
 

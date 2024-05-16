@@ -83,7 +83,7 @@ document.querySelectorAll(".like").forEach((likeSymbol) => {
       icon.style.color = "black";
       nbLike--
       likeSymbol.querySelector("p").innerText = `${nbLike} J'aimes`;
-      localStorage.setItem(`like-post-${postId}`,`false`);
+      localStorage.setItem(`like-post-${postId}-${userId}`,`false`);
     }
   });
 });

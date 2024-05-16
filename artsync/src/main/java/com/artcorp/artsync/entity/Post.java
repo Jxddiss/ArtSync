@@ -28,6 +28,7 @@ public class Post {
     @JoinColumn(name = "utilisateur_id")
     private Utilisateur utilisateur;
     @OneToMany(mappedBy = "post")
+    @OrderBy("id ASC")
     private Set<Commentaire> listeCommentaires;
 
     public Long getId() {

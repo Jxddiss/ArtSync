@@ -21,7 +21,9 @@ document.addEventListener("DOMContentLoaded", function () {
             imgDialog.src = imageUrl;
             let cardPostDialog = cardPost.cloneNode(true);
             cardPostDialog.style.display = "flex";
-            handleLike(cardPostDialog);
+            if (userId != null){
+                handleLike(cardPostDialog);
+            }
             dialog.querySelector(".poste").appendChild(cardPostDialog)
             dialog.showModal();
         })
@@ -42,8 +44,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
     dialog.querySelector("#close-dialog").addEventListener("click",function (){
         let cardPoste = dialog.querySelector(".card-post");
-        let poste = dialog.querySelector(".poste")
-        poste.removeChild(cardPoste);
+        const posteList = document.querySelectorAll(".card-sample")
+
+        posteList.forEach(post =>{
+            let card = post.querySelector(".card-post")
+            if ( card.getAttribute("post-id") === cardPoste.getAttribute("post-id")){
+                post.removeChild(card)
+                cardPoste.style.display = 'none';
+                post.appendChild(cardPoste)
+            }
+        })
         dialog.close();
     })
 });
@@ -73,16 +83,6 @@ function addComment(commentaireForm, postId){
                 `
     commentHolder.appendChild(newComment);
     commentaireForm.comment.value = ""
-
-    const listeEnvComm = document.querySelectorAll(".liste-commentaires");
-    listeEnvComm.forEach(commEnv =>{
-        if (commEnv.getAttribute("post-id")
-            === commentaireForm.postId.value
-            && commEnv !== commentHolder){
-
-            commEnv.appendChild(newComment.cloneNode(true))
-        }
-    })
 }
 
 function ajouterCommentaire(form){
@@ -126,11 +126,13 @@ function handleLike(cardpost){
 
     if(localStorage.getItem(`like-post-${postId}-${userId}`)){
         if(localStorage.getItem(`like-post-${postId}-${userId}`) === "true"){
-            likeSymbol.dataset.clicked = "true";
-            icon.style.color = "red";
-            let fill = icon.classList[1] + "-fill";
-            icon.classList.remove(icon.classList[1]);
-            icon.classList.add(fill);
+            if (likeSymbol.dataset.clicked === "false"){
+                likeSymbol.dataset.clicked = "true";
+                icon.style.color = "red";
+                let fill = icon.classList[1] + "-fill";
+                icon.classList.remove(icon.classList[1]);
+                icon.classList.add(fill);
+            }
         }else{
             likeSymbol.dataset.clicked = "false";
         }
@@ -174,7 +176,7 @@ function handleLike(cardpost){
             icon.style.color = "black";
             nbLike--
             likeSymbol.querySelector("p").innerText = `${nbLike} J'aimes`;
-            localStorage.setItem(`like-post-${postId}`,`false`);
+            localStorage.setItem(`like-post-${postId}-${userId}`,`false`);
         }
     });
 }

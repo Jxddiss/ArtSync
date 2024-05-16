@@ -74,6 +74,11 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public List<Post> findAllPostsNotVideo() {
+        return postRepos.findAllByTypeNotVideo();
+    }
+
+    @Override
     public List<Post> findByTypeEnVedettePublique(String type, boolean publique) {
         return postRepos.findByTypeEnVedettePublique(type, publique);
     }

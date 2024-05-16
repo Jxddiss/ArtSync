@@ -244,6 +244,7 @@ applyRainbowEffect('anchorPortfolio');
 
 let dialog = document.getElementById("dialog-card-focus");
 let imgDialog = dialog.querySelector("img");
+let videoDeDialog = dialog.querySelector('video');
 
 let publications = document.querySelectorAll(".publication");
 
@@ -252,8 +253,11 @@ publications.forEach(function (publication,index) {
     publication.addEventListener("click", function () {
         let imageUrl = publication.querySelector("img").src;
         let cardPost = publication.querySelector(".card-post");
+        videoDeDialog.style.display = "none"
+        imgDialog.style.display = 'block'
 
         imgDialog.src = imageUrl;
+
         let cardPostDialog = cardPost.cloneNode(true);
         cardPostDialog.style.display = "flex";
         if (userId != null){
@@ -262,6 +266,27 @@ publications.forEach(function (publication,index) {
         dialog.querySelector(".poste").appendChild(cardPostDialog)
         dialog.showModal();
     })
+
+    let btnInterractionVideo = publication.querySelector(".btn-open-interraction-video")
+    if (btnInterractionVideo){
+        btnInterractionVideo.addEventListener("click", function () {
+            let videoUrl = publication.querySelector("video").src;
+            let cardPost = publication.querySelector(".card-post");
+            videoDeDialog.style.display = "block"
+            imgDialog.style.display = 'none'
+
+            videoDeDialog.src = videoUrl;
+
+            let cardPostDialog = cardPost.cloneNode(true);
+            cardPostDialog.style.display = "flex";
+            if (userId != null){
+                handleLike(cardPostDialog);
+            }
+            dialog.querySelector(".poste").appendChild(cardPostDialog)
+            dialog.showModal();
+        })
+
+    }
 });
 
 imgDialog.addEventListener("click", function(){

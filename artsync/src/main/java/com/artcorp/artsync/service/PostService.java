@@ -20,6 +20,7 @@ public interface PostService {
     List<Post> findAllPostsPublique(boolean publique);
     List<Post> findAllPostsEnVedette();
     List<Post> findAllPosts();
+    List<Post> findAllPostsNotVideo();
     List<Post> findByTypeEnVedettePublique(String type, boolean publique);
     List<Post> findAllPostsByTypePublique(String type, boolean publique);
     List<Post> findByTypeEnVedette(String type);

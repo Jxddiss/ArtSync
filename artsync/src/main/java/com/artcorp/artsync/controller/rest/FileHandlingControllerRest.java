@@ -2,6 +2,8 @@ package com.artcorp.artsync.controller.rest;
 
 import com.artcorp.artsync.exception.domain.FileFormatException;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -10,6 +12,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URLConnection;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
@@ -19,6 +23,8 @@ import static org.springframework.http.MediaType.*;
 
 @RestController
 public class FileHandlingControllerRest {
+    private final Logger LOGGER = LoggerFactory.getLogger(getClass());
+
     @PostMapping("/api/chat/upload")
     public void uploadFile(@RequestParam("file") MultipartFile file) throws IOException, FileFormatException {
         if (!Arrays.asList(IMAGE_JPEG_VALUE, IMAGE_PNG_VALUE, IMAGE_GIF_VALUE).contains(file.getContentType())){
@@ -62,20 +68,29 @@ public class FileHandlingControllerRest {
         File file = new File(dir.getAbsolutePath() + File.separator + fileName);
 
         if (file.exists()) {
-            response.setContentType("image/jpeg");
 
-            response.setHeader("Content-Disposition", "inline; filename=\"" + file.getName() + "\"");
+            String mimeType = URLConnection.guessContentTypeFromName(file.getName());
+            if (mimeType == null) {
+                mimeType = "application/octet-stream";
+            }
+
+            response.setContentType(mimeType);
+            response.setHeader("Content-Disposition", "inline; filename=\"" + URLEncoder.encode(file.getName(), StandardCharsets.UTF_8) + "\"");
             FileInputStream in = new FileInputStream(file);
             OutputStream out = response.getOutputStream();
 
-            byte[] buffer = new byte[1024];
-            int bytesRead;
-            while ((bytesRead = in.read(buffer)) != -1) {
-                out.write(buffer, 0, bytesRead);
-            }
-            in.close();
-            out.flush();
-            out.close();
+           try {
+               byte[] buffer = new byte[1024];
+               int bytesRead;
+               while ((bytesRead = in.read(buffer)) != -1) {
+                   out.write(buffer, 0, bytesRead);
+               }
+               in.close();
+               out.flush();
+               out.close();
+           }catch (Exception exception){
+               LOGGER.error(exception.getMessage());
+           }
         }
 
     }
@@ -92,19 +107,23 @@ public class FileHandlingControllerRest {
             }
 
             if(Arrays.asList(DOWNLOADABLE_FILES).contains(fileExtension)){
-                response.setHeader("Content-Disposition", "attachement; filename=\"" + file.getName() + "\"");
+                response.setHeader("Content-Disposition", "attachement; filename=\"" + URLEncoder.encode(file.getName(), StandardCharsets.UTF_8) + "\"");
             }else{
-                response.setHeader("Content-Disposition", "inline; filename=\"" + file.getName() + "\"");
+                response.setHeader("Content-Disposition", "inline; filename=\"" + URLEncoder.encode(file.getName(), StandardCharsets.UTF_8) + "\"");
             }
             response.setContentType(mimeType);
 
             FileInputStream in = new FileInputStream(file);
             OutputStream out = response.getOutputStream();
 
-            byte[] buffer = new byte[1024];
-            int bytesRead;
-            while ((bytesRead = in.read(buffer)) != -1) {
-                out.write(buffer, 0, bytesRead);
+            try {
+                byte[] buffer = new byte[1024];
+                int bytesRead;
+                while ((bytesRead = in.read(buffer)) != -1) {
+                    out.write(buffer, 0, bytesRead);
+                }
+            }catch (Exception exception){
+                LOGGER.error(exception.getMessage());
             }
             in.close();
             out.flush();

@@ -62,7 +62,7 @@ public class PostController {
         if (session.getAttribute("user") == null) {
             posts = postService.findByPubliqueEnVedette(true);
         }else{
-            posts = postService.findAllPosts();
+            posts = postService.findAllPostsNotVideo();
         }
         model.addAttribute("posts", posts);
         return "explorer";

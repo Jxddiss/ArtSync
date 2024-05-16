@@ -364,7 +364,7 @@
 .liste-commentaires{
     height: 50%;
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     gap: 1em;
     margin: 0;
     padding: 0;

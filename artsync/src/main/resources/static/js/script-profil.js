@@ -278,3 +278,73 @@ dialog.querySelector("#close-dialog").addEventListener("click",function (){
     dialog.close();
 })
 
+//========== commentaire =========
+const listeEnvComm = document.querySelectorAll(".liste-commentaires");
+
+function addComment(commentaireForm, postId){
+    let commentHolder = dialog.querySelector(".liste-commentaires")
+
+    const comment = commentaireForm.comment.value
+
+    const newComment = document.createElement("li");
+    newComment.classList.add("commentaire")
+    newComment.innerHTML=`
+                    <a href="#!" class="info-comment">
+                    <img
+                      src="/media/images/utilisateur/${userImage}"
+                      alt=""
+                      class="profile-pic-banner-border-small"
+                    />
+                  </a>
+                  <p>
+                    <strong>@${pseudoUser}</strong>
+                    ${comment}
+                  </p>
+                `
+    commentHolder.appendChild(newComment);
+    commentaireForm.comment.value = ""
+
+    const listeEnvComm = document.querySelectorAll(".liste-commentaires");
+    listeEnvComm.forEach(commEnv =>{
+        if (commEnv.getAttribute("post-id")
+            === commentaireForm.postId.value
+            && commEnv !== commentHolder){
+
+            commEnv.appendChild(newComment.cloneNode(true))
+        }
+    })
+}
+
+function ajouterCommentaire(form){
+    $.ajax({
+        type: "POST",
+        url: window.location.origin.toString()+"/post/comment",
+        data: {comment: form.comment.value, postId: form.postId.value},
+        success : function (data) {
+            if(data === "true"){
+                console.log("PASSED")
+                addComment(form,form.postId.value)
+            }else{
+                console.log("FAILED")
+            }
+        },
+    })
+
+    if (userId !== form.ownerId.value){
+        stompClientNotif.send("/app/notification/"+form.ownerId.value,{},JSON.stringify(
+            {
+                type: 'info',
+                pseudoSender: pseudoUser,
+                message: `Nouveau commentaire de ${pseudoUser}`,
+                titre: 'Nouveau commentaire',
+                imgSender: userImage,
+                urlNotif: window.location.origin.toString() + '/feed'
+            }
+        ));
+    }
+
+    return false;
+
+}
+
+

@@ -73,6 +73,16 @@ function addComment(commentaireForm, postId){
                 `
     commentHolder.appendChild(newComment);
     commentaireForm.comment.value = ""
+
+    const listeEnvComm = document.querySelectorAll(".liste-commentaires");
+    listeEnvComm.forEach(commEnv =>{
+        if (commEnv.getAttribute("post-id")
+            === commentaireForm.postId.value
+            && commEnv !== commentHolder){
+
+            commEnv.appendChild(newComment.cloneNode(true))
+        }
+    })
 }
 
 function ajouterCommentaire(form){
@@ -90,16 +100,18 @@ function ajouterCommentaire(form){
         },
     })
 
-    stompClientNotif.send("/app/notification/"+form.ownerId.value,{},JSON.stringify(
-        {
-            type: 'info',
-            pseudoSender: pseudoUser,
-            message: `Nouveau commentaire de ${pseudoUser}`,
-            titre: 'Nouveau commentaire',
-            imgSender: userImage,
-            urlNotif: window.location.origin.toString() + '/feed'
-        }
-    ));
+    if (userId !== form.ownerId.value){
+        stompClientNotif.send("/app/notification/"+form.ownerId.value,{},JSON.stringify(
+            {
+                type: 'info',
+                pseudoSender: pseudoUser,
+                message: `Nouveau commentaire de ${pseudoUser}`,
+                titre: 'Nouveau commentaire',
+                imgSender: userImage,
+                urlNotif: window.location.origin.toString() + '/feed'
+            }
+        ));
+    }
 }
 
 document.addEventListener("submit", event =>{

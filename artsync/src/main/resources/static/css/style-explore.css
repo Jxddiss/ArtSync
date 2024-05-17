@@ -370,7 +370,6 @@ body {
 
 .liste-commentaires{
     height: 50%;
-    max-height: 50%;
     display: flex;
     flex-direction: column;
     gap: 1em;

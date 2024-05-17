@@ -251,12 +251,21 @@ let publications = document.querySelectorAll(".publication");
 publications.forEach(function (publication,index) {
 
     publication.addEventListener("click", function () {
-        let imageUrl = publication.querySelector("img").src;
-        let cardPost = publication.querySelector(".card-post");
-        videoDeDialog.style.display = "none"
-        imgDialog.style.display = 'block'
+        if (publication.querySelector('video')){
+            videoDeDialog.src = publication.querySelector('video').src;
+            videoDeDialog.style.display = "block"
+            imgDialog.style.display = 'none'
+            imgDialog.src = ''
+        }else{
+            let imageUrl = publication.querySelector("img").src;
+            videoDeDialog.style.display = "none"
+            imgDialog.style.display = 'block'
+            imgDialog.src = imageUrl;
+            videoDeDialog.src = ""
+        }
 
-        imgDialog.src = imageUrl;
+        let cardPost = publication.querySelector(".card-post");
+
 
         let cardPostDialog = cardPost.cloneNode(true);
         cardPostDialog.style.display = "flex";
@@ -266,27 +275,6 @@ publications.forEach(function (publication,index) {
         dialog.querySelector(".poste").appendChild(cardPostDialog)
         dialog.showModal();
     })
-
-    let btnInterractionVideo = publication.querySelector(".btn-open-interraction-video")
-    if (btnInterractionVideo){
-        btnInterractionVideo.addEventListener("click", function () {
-            let videoUrl = publication.querySelector("video").src;
-            let cardPost = publication.querySelector(".card-post");
-            videoDeDialog.style.display = "block"
-            imgDialog.style.display = 'none'
-
-            videoDeDialog.src = videoUrl;
-
-            let cardPostDialog = cardPost.cloneNode(true);
-            cardPostDialog.style.display = "flex";
-            if (userId != null){
-                handleLike(cardPostDialog);
-            }
-            dialog.querySelector(".poste").appendChild(cardPostDialog)
-            dialog.showModal();
-        })
-
-    }
 });
 
 imgDialog.addEventListener("click", function(){

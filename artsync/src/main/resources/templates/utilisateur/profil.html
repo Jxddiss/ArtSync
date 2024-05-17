@@ -167,9 +167,6 @@
                        playsinline
                        controls>
                 </video>
-                <button th:if="${post.type.equalsIgnoreCase('video')}" type="button" class="btn-open-interraction-video">
-                    <i class="bi bi-arrows-angle-expand"></i>
-                </button>
 
                 <div class="card-post"  style="display: none;"
                      th:post-id="${post.id}">
@@ -256,7 +253,7 @@
     const userId = null;
 </script>
 <script th:src="@{/js/notification.js?v=16}"></script>
-<script th:src="@{/js/script-profil.js?v=11}"></script>
+<script th:src="@{/js/script-profil.js?v=12}"></script>
 <script th:if="${error != null}">
     showNotification({
         type: 'danger',

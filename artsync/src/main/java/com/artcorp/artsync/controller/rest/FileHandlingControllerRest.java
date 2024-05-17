@@ -4,6 +4,8 @@ import com.artcorp.artsync.exception.domain.FileFormatException;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -39,23 +41,27 @@ public class FileHandlingControllerRest {
     }
 
     @GetMapping("/media/chat/{image}")
-    public void getImageChat(@PathVariable("image") String fileName, HttpServletResponse response) throws IOException {
-        readFile(fileName, response, MEDIA_CHAT_BASE_FOLDER);
+    @ResponseBody
+    public ResponseEntity<FileSystemResource> getImageChat(@PathVariable("image") String fileName, HttpServletResponse response) throws IOException {
+        return readFile(fileName, MEDIA_CHAT_BASE_FOLDER);
     }
 
     @GetMapping("/media/images/{image}")
-    public void getGeneralImage(@PathVariable("image") String fileName, HttpServletResponse response) throws IOException {
-        readFile(fileName, response, GENERAL_FOLDER);
+    @ResponseBody
+    public ResponseEntity<FileSystemResource> getGeneralImage(@PathVariable("image") String fileName, HttpServletResponse response) throws IOException {
+        return readFile(fileName, GENERAL_FOLDER);
     }
 
     @GetMapping("/media/images/utilisateur/{image}")
-    public void getImage(@PathVariable("image") String fileName, HttpServletResponse response) throws IOException {
-        readFile(fileName, response, USER_FOLDER);
+    @ResponseBody
+    public ResponseEntity<FileSystemResource> getImage(@PathVariable("image") String fileName, HttpServletResponse response) throws IOException {
+        return readFile(fileName, USER_FOLDER);
     }
 
     @GetMapping("/media/images/post/{image}")
-    public void getImagePost(@PathVariable("image") String fileName, HttpServletResponse response) throws IOException {
-        readFile(fileName, response, POST_FOLDER);
+    @ResponseBody
+    public ResponseEntity<FileSystemResource> getImagePost(@PathVariable("image") String fileName, HttpServletResponse response) throws IOException {
+        return readFile(fileName, POST_FOLDER);
     }
 
     @GetMapping("/media/fichier/groupe/{fichier}")
@@ -63,36 +69,26 @@ public class FileHandlingControllerRest {
         readFileGroupe(fileName, response, FICHIER_GROUPE);
     }
 
-    private void readFile(@PathVariable("image") String fileName, HttpServletResponse response, String baseFolder) throws IOException {
+    private ResponseEntity<FileSystemResource> readFile( String fileName, String baseFolder) throws IOException {
         File dir = new File(baseFolder);
         File file = new File(dir.getAbsolutePath() + File.separator + fileName);
 
         if (file.exists()) {
-
+            FileSystemResource resource = new FileSystemResource(file);
             String mimeType = URLConnection.guessContentTypeFromName(file.getName());
             if (mimeType == null) {
                 mimeType = "application/octet-stream";
             }
 
-            response.setContentType(mimeType);
-            response.setHeader("Content-Disposition", "inline; filename=\"" + URLEncoder.encode(file.getName(), StandardCharsets.UTF_8) + "\"");
-            FileInputStream in = new FileInputStream(file);
-            OutputStream out = response.getOutputStream();
+            HttpHeaders responseHeaders = new HttpHeaders();
+            responseHeaders.setContentDisposition(ContentDisposition.parse("inline; filename=\"" + URLEncoder.encode(file.getName(), StandardCharsets.UTF_8) + "\""));
+            responseHeaders.setContentType(MediaType.valueOf(mimeType));
+            responseHeaders.setContentLength(resource.contentLength());
 
-           try {
-               byte[] buffer = new byte[1024];
-               int bytesRead;
-               while ((bytesRead = in.read(buffer)) != -1) {
-                   out.write(buffer, 0, bytesRead);
-               }
-               in.close();
-               out.flush();
-               out.close();
-           }catch (Exception exception){
-               LOGGER.error(exception.getMessage());
-           }
+           return new ResponseEntity<>(resource,responseHeaders, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
     }
 
     private void readFileGroupe(String fileName, HttpServletResponse response, String baseFolder) throws IOException {
@@ -129,5 +125,10 @@ public class FileHandlingControllerRest {
                 LOGGER.error(exception.getMessage());
             }
         }
+    }
+
+    @ExceptionHandler(IOException.class)
+    private void handleIOException(IOException ioException){
+        LOGGER.error(ioException.getMessage());
     }
 }

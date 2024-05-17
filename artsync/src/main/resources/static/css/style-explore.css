@@ -587,13 +587,20 @@ label:has(>input[type=radio]:checked){
 @media only screen and (max-width: 700px) {
     #dialog-card-focus{
         width: 100vw;
-        height: 100dvh;
+        height: 90vh;
+        top: 95%;
+    }
+
+    #dialog-card-focus > .poste{
+        width: 100vw;
+        height: 90vh;
+        padding-bottom: 1em;
     }
     .poste{
         flex-direction:column;
     }
 
-    .poste img{
+    .poste > img{
         width: 100%;
     }
 

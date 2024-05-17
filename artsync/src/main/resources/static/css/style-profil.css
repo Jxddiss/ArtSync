@@ -756,6 +756,11 @@
     .card-post{
         font-size: 0.7rem;
         width: 100%;
+        padding: 0;
+        justify-content: normal;
+    }
+    .liste-commentaires{
+        max-height: 30%;
     }
 
 }

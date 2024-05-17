@@ -370,6 +370,7 @@ body {
 
 .liste-commentaires{
     height: 50%;
+    max-height: 50%;
     display: flex;
     flex-direction: column;
     gap: 1em;
@@ -588,24 +589,26 @@ label:has(>input[type=radio]:checked){
     #dialog-card-focus{
         width: 100vw;
         height: 90vh;
-        top: 95%;
     }
 
     #dialog-card-focus > .poste{
-        width: 100vw;
         height: 90vh;
+        translate: 0 0;
         padding-bottom: 1em;
     }
     .poste{
         flex-direction:column;
     }
 
-    .poste > img{
+    .poste  img{
         width: 100%;
     }
 
     .card-post{
         font-size: 0.7rem;
         width: 100%;
+    }
+    .liste-commentaires{
+        max-height: 30%;
     }
 }

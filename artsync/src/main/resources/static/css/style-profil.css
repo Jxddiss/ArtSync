@@ -733,15 +733,24 @@
 
     #dialog-card-focus{
         width: 100vw;
-        height: 100dvh;
+        height: 90vh;
         top: 95%;
     }
+
+    #dialog-card-focus > .poste{
+        width: 100vw;
+        height: 90vh;
+        padding-bottom: 1em;
+    }
+
     .poste{
         flex-direction:column;
     }
 
-    .poste img{
+    .poste > img, .poste > video{
         width: 100%;
+        height: 50%;
+        object-fit: contain;
     }
 
     .card-post{

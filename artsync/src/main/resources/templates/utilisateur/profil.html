@@ -184,6 +184,7 @@
                                 />
                             </a>
                             <p><strong>@[[${comm.utilisateur.pseudo}]]</strong> [[${comm.message}]]</p>
+                            <i class="bi bi-x-lg"></i>
                         </li>
                     </ul>
                     <!--Écrire commentaire-->
@@ -228,6 +229,50 @@
 
 </div>
 <dialog id="dialog-card-focus">
+    <i th:if="${utilisateur.getId() == session.user.getId()}" class="bi bi-three-dots menuIcon"></i>
+    <div class="menuPopup">
+        <p>Modifier</p>
+        <p>Supprimer</p>
+    </div>
+    <script th:inline="javascript">
+        let currentUserid = [[${session.user.id.toString()}]]
+        const menuBtn = document.querySelector(".menuIcon")
+        const menuPop = document.querySelector(".menuPopup")
+        if (menuBtn){
+            let menuOpen = false
+            menuBtn.addEventListener("click",function (){
+                if (!menuOpen){
+                    menuOpen = true
+                    gsap.to(menuPop,{
+                        height:"5rem",
+                        ease:"back",
+                        display: "flex",
+                        opacity: 1
+                    })
+                    gsap.to(menuPop.children,{
+                        opacity:1,
+                        stagger:0.1
+                    })
+                }else{
+                    menuOpen = false
+                    gsap.to(menuPop.children,{
+                        opacity:0,
+                        stagger:0.1,
+                        duration:0.1
+                    })
+                    gsap.to(menuPop,{
+                        height: "0rem",
+                        ease: "sine",
+                        display:"none",
+                        opacity: 0,
+                        delay:0.25
+                    })
+                }
+            })
+        }
+
+
+    </script>
     <button id="close-dialog">
         <i class="bi bi-x-lg" ></i>
     </button>

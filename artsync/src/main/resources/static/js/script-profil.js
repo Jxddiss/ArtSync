@@ -324,6 +324,7 @@ function addComment(commentaireForm, postId){
                     <strong>@${pseudoUser}</strong>
                     ${comment}
                   </p>
+                  <i class="bi bi-x-lg"></i>
                 `
     commentHolder.appendChild(newComment);
     commentaireForm.comment.value = ""

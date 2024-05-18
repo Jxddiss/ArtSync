@@ -17,6 +17,15 @@ document.addEventListener("DOMContentLoaded", function () {
         cardSample.addEventListener("click", function () {
             let imageUrl = cardSample.querySelector(".img-card").src;
             let cardPost = cardSample.querySelector(".card-post");
+            let userId = cardSample.querySelector(".img-card").getAttribute("data-user")
+
+            if ( currentUserid === userId){
+                menuBtn.style.display = "block"
+            }
+            else{
+                menuBtn.style.display = "none"
+                menuPop.style.display = "none"
+            }
 
             imgDialog.src = imageUrl;
             let cardPostDialog = cardPost.cloneNode(true);
@@ -80,6 +89,7 @@ function addComment(commentaireForm, postId){
                     <strong>@${pseudoUser}</strong>
                     ${comment}
                   </p>
+                  <i class="bi bi-x-lg"></i>
                 `
     commentHolder.appendChild(newComment);
     commentaireForm.comment.value = ""

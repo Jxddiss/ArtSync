@@ -37,6 +37,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     <h4 class="d-flex justify-content-center">Fichiers de [[${user.getPseudo()}]]</h4>
         <div class="fichiersHolder" id="fichiersHolder">
             <div th:each="fichier : ${fichiers}" class="fichier">
+                <button class="deleteFichierBtn bi bi-x"></button>
                 <div th:switch="${fichier.type}" class="fichierImg">
                     <img th:case="'image'"
                          th:src="@{/media/fichier/groupe/{ficher}(ficher=${fichier.getUrlMedia()})}" alt="">
@@ -86,7 +87,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     </div>
                 </div>
             </div>
-            <div class="createFichier" id="createFichier">
+            <div th:if="${user.getId() == session.user.getId()}" class="createFichier" id="createFichier">
                 <dialog id="dialogFichier" class="dialogFichier">
                     <div class="dialogHeaderFichier">
                         <h4>Ajout de fichier</h4>

@@ -201,6 +201,7 @@ commentaireForm.forEach(commentForm =>{
                       <p>
                         ${comment}
                       </p>
+                       <i class="bi bi-x-lg"></i>
                     `
       commentHolder.appendChild(newComment);
       commentForm.querySelector("input").value = ""

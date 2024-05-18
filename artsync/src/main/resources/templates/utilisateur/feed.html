@@ -154,6 +154,7 @@
                 />
               </a>
               <p th:text="${comm.message}"></p>
+              <i th:if="${comm.utilisateur.getId() == session.user.getId()}" class="bi bi-x-lg"></i>
             </li>
           </ul>
           <div class="env-commentaire">

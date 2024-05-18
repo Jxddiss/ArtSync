@@ -51,6 +51,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     })
 
+
+
     dialog.querySelector("#close-dialog").addEventListener("click",function (){
         let cardPoste = dialog.querySelector(".card-post");
         const posteList = document.querySelectorAll(".card-sample")
@@ -93,6 +95,7 @@ function addComment(commentaireForm, postId){
                 `
     commentHolder.appendChild(newComment);
     commentaireForm.comment.value = ""
+
 }
 
 function ajouterCommentaire(form){
@@ -219,4 +222,21 @@ function likePost(type, postId,idPostOwner){
             ));
         }
     }
+}
+
+function deleteCommentaire(commentaire,commentaireID){
+    console.log(commentaireID)
+    $.ajax({
+        type: "DELETE",
+        url: window.location.origin.toString()+"/commentaire/delete",
+        data: {commentaireId: commentaireID},
+        success : function (data){
+            if(data === "Success"){
+                console.log("COMMENTAIRE EFFACÉ")
+                commentaire.remove()
+            }else{
+                console.log("COMMENTAIRE FAILED")
+            }
+        }
+    })
 }

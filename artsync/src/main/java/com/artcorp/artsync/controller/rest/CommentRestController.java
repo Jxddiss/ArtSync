@@ -78,13 +78,13 @@ public class CommentRestController {
 
     @DeleteMapping("/commentaire/delete")
     public String deleteCommentaire(@Param("commentaireId") Long commentaireId, HttpServletRequest request){
+        System.out.println("ICI");
+        System.out.println(commentaireId);
         HttpSession session = request.getSession(false);
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
         if (utilisateur!=null){
             Commentaire commentaire = commentaireService.findById(commentaireId);
-            if ((commentaire.getUtilisateur().equals(utilisateur))
-                    || (commentaire.getForum() != null && commentaire.getForum().getUtilisateur().equals(utilisateur)
-                    || (commentaire.getPost() != null && commentaire.getPost().getUtilisateur().equals(utilisateur)))){
+            if (commentaire!=null){
                 commentaireService.deleteCommentaire(commentaire);
                 return "Success";
             }

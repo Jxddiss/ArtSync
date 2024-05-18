@@ -180,7 +180,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             <input type="hidden" name="forumId" th:value="${thread.getId()}">
                             <button type="submit">ENVOYER</button>
                         </form>
-                        <div class="comment" th:each="comment:${thread.getListeCommentaires()}">
+                        <div class="comment" th:each="comment:${thread.getListeCommentaires()}" th:data-commentId="${comment.getId()}">
                             <a th:src="@{/utilisateur/profil/{username}(username=${comment.utilisateur.getPseudo()})}"><img th:src="@{/media/images/utilisateur/{image}(image=${comment.utilisateur.getPhotoUrl()})}" alt=""></a>
                             <div class="commentContent">
                                 <b>@[[${comment.utilisateur.pseudo}]]</b>
@@ -263,7 +263,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 commentForm.remove()
             }
         })
-
+        const comments = document.querySelectorAll(".comment")
+        comments.forEach(comment =>{
+            comment.querySelector("i").addEventListener("click",function (){
+                deleteCommentaire(comment,comment.getAttribute("data-commentId"))
+            })
+        })
 
     </script>
     <script th:src="@{/js/script-forum.js?v=5}"></script>

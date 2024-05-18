@@ -10,6 +10,8 @@ const expandBtn = document.getElementById("expandButton")
 const forumContent = document.querySelector(".forumContent")
 let openNavbar   = false
 
+
+
 expandBtn.addEventListener("click",function (){
     if (!openNavbar){
         openNavbar = true
@@ -167,4 +169,20 @@ function ajouterCommentaire(form){
     })
 }
 
+function deleteCommentaire(commentaire,commentaireID){
+    console.log(commentaireID)
+    $.ajax({
+        type: "DELETE",
+        url: window.location.origin.toString()+"/commentaire/delete",
+        data: {commentaireId: commentaireID},
+        success : function (data){
+            if(data === "Success"){
+                console.log("COMMENTAIRE EFFACÉ")
+                commentaire.remove()
+            }else{
+                console.log("COMMENTAIRE FAILED")
+            }
+        }
+    })
+}
 

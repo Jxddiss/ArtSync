@@ -654,3 +654,11 @@ label:has(>input[type=radio]:checked){
     cursor: pointer;
     background-color: rgb(0,0,0,0.15);
 }
+.deleteeBtn{
+    position: relative;
+    z-index: 1005;
+}
+.deleteeBtn:hover{
+    scale: 1.5;
+    cursor: pointer;
+}

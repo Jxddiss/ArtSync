@@ -19,13 +19,6 @@ document.addEventListener("DOMContentLoaded", function () {
             let cardPost = cardSample.querySelector(".card-post");
             let userIdData = cardSample.querySelector(".img-card").getAttribute("data-user")
 
-            if ( userId === userIdData){
-                menuBtn.style.display = "block"
-            }
-            else{
-                menuBtn.style.display = "none"
-                menuPop.style.display = "none"
-            }
 
 
             imgDialog.src = imageUrl;

@@ -176,18 +176,17 @@ function ajouterCommentaire(form){
     })
 }
 
-function deleteCommentaire(commentaire,commentaireID){
-    console.log(commentaireID)
+function deleteForum(forum,forumId){
     $.ajax({
         type: "DELETE",
-        url: window.location.origin.toString()+"/commentaire/delete",
-        data: {commentaireId: commentaireID},
+        url: window.location.origin.toString()+"/api/forum/delete",
+        data: {forumId: forumId},
         success : function (data){
             if(data === "Success"){
-                console.log("COMMENTAIRE EFFACÉ")
-                commentaire.remove()
+                console.log("FORUM EFFACÉ")
+                forum.remove()
             }else{
-                console.log("COMMENTAIRE FAILED")
+                console.log("FORUM FAILED")
             }
         }
     })

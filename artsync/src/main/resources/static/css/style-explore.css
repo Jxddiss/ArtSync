@@ -395,7 +395,6 @@ body {
 }
 
 .description{
-    margin-top: 5rem;
     font-size: 1.2rem;
     margin-bottom: 0.3em;
 }
@@ -611,48 +610,6 @@ label:has(>input[type=radio]:checked){
     .liste-commentaires{
         max-height: 30%;
     }
-}
-
-.menuIcon{
-    position: absolute;
-    top: 1%;
-    right: 5.5%;
-    z-index: 2;
-    font-size: 25px;
-}
-.menuIcon:hover{
-    scale: 1.075;
-    cursor: pointer;
-}
-
-.menuPopup{
-    display: none;
-    width: 9rem;
-    background-color: white;
-    border-radius: 6px;
-    flex-direction: column;
-    position: absolute;
-    top: 5%;
-    right: 5.5%;
-    z-index: 3;
-    gap: 0.25rem;
-    padding-block: 1rem;
-    opacity: 0;
-}
-.menuPopup p{
-    opacity: 0;
-    color: black;
-    position: relative;
-    top: 2%;
-    left: 4%;
-    margin: 0;
-    width: 90%;
-    margin-left: 1%;
-
-}
-.menuPopup p:hover{
-    cursor: pointer;
-    background-color: rgb(0,0,0,0.15);
 }
 .deleteeBtn{
     position: relative;

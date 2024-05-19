@@ -55,7 +55,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     </div>
                     <div class="formHolder">
                         <form class="form" th:object="${forum}" th:action="@{/forum/create}" method="POST" enctype="multipart/form-data">
-                            
+
                             <label for="titre">Titre</label>
                             <div style="height: 5%; width: 100%" class="d-flex">
                                 <input id="titreInput" type="text" name="titre" th:field="*{titre}">
@@ -101,7 +101,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     <i class="bi bi-plus-square"></i> <p>Créer un thread</p>
                 </div>
             </div>
-            <h4 style="margin-top: 7%">FILTRES</h4>
+            <h4 style="margin-top: 10em">FILTRES</h4>
             <hr>
             <div class="sectionFilter">
                 <form action="" class="filterForm" id="filterTags">
@@ -142,7 +142,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 <div th:each="thread : ${threads}" class="forumHolder">
                     <div class="threadHeader">
                         <p>[[${thread.titre}]]</p>
-                        <i th:if="${ (session.user!=null) && thread.utilisateur.getId() == session.user.getId()}" class="bi bi-x-lg deleteIcon"></i>
+                        <i th:if="${ (session.user!=null) && thread.utilisateur.getId() == session.user.getId()}" class="bi bi-x-lg deleteIcon" th:data-threadId="${thread.getId()}"></i>
                     </div>
                     <div class="threadInfo">
                         <div class="threadUserPfp">
@@ -203,6 +203,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             </div>
         </div>
     </div>
+    <dialog th:if="${ session.user != null}" class="deleteDialog">
+        <h6>Voulez-vous vraiment supprimer ce thread</h6>
+        <div>
+            <button id="confirmerDelete">SUPPRIMER</button>
+            <button id="annulerDeleteDialog">ANNULER</button>
+        </div>
+    </dialog>
     <div th:replace="${session.user != null} ? ~{fragment/notificationFragment :: notificationFragment} : ~{}"></div>
     <script th:if="${session.user!=null}" th:src="@{/js/notification.js?v=16}"></script>
 
@@ -273,6 +280,36 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 
         })
 
+    </script>
+    <script th:if="${session.user!=null}">
+        let btnDelete = document.querySelectorAll(".deleteIcon")
+        let confirmerDeleteBtn = document.getElementById("confirmerDelete")
+        const dialog = document.querySelector(".deleteDialog")
+        const closeDeleteDialog = document.getElementById("annulerDeleteDialog")
+        let openDeleteDialog = false
+
+        btnDelete.forEach(btn =>{
+            btn.addEventListener("click", function (){
+                if (!openDeleteDialog){
+                    openDeleteDialog = true
+                    dialog.showModal()
+                    let deleteHandler = function (){
+                        console.log(btn.getAttribute("data-threadId"))
+                        deleteForum(btn.parentElement.parentElement,btn.getAttribute("data-threadId"))
+                        openDeleteDialog = false
+                        dialog.close()
+                        confirmerDeleteBtn.removeEventListener("click",deleteHandler)
+                    }
+                    confirmerDeleteBtn.addEventListener("click",deleteHandler)
+                }
+            })
+        })
+        closeDeleteDialog.addEventListener("click", function (){
+            if (openDeleteDialog){
+                openDeleteDialog = false
+                dialog.close()
+            }
+        })
     </script>
     <script th:src="@{/js/script-forum.js?v=5}"></script>
 </html>

@@ -46,33 +46,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             <div th:each="fichier : ${fichiers}" class="fichier">
 
                 <button th:if="${user.getId() == projet.getAdmin().getId() || session.user.getId() == user.getId() }" class="deleteFichierBtn bi bi-x" th:data-fichierId="${fichier.getId()}"></button>
-                <script th:if="${user.getId() == projet.getAdmin().getId() || session.user.getId() == user.getId() }">
-                    const btnDelete = document.querySelectorAll(".deleteFichierBtn")
-                    const confirmerDeleteBtn = document.getElementById("confirmerDelete")
-                    const dialog = document.querySelector(".deleteDialog")
-                    const closeDeleteDialog = document.getElementById("annulerDeleteDialog")
-                    let openDeleteDialog = false
 
-                    btnDelete.forEach(btn =>{
-                        btn.addEventListener("click",function (){
-                            if (!openDeleteDialog){
-                                openDeleteDialog = true
-                                dialog.showModal()
-                                confirmerDeleteBtn.addEventListener("click",function (){
-                                    deleteFichier(btn.parentElement,btn.getAttribute("data-fichierId"))
-                                    openDeleteDialog = false
-                                    dialog.close()
-                                })
-                            }
-                        })
-                    })
-                    closeDeleteDialog.addEventListener("click", function (){
-                        if (openDeleteDialog){
-                            openDeleteDialog = false
-                            dialog.close()
-                        }
-                    })
-                </script>
                 <div th:switch="${fichier.type}" class="fichierImg">
                     <img th:case="'image'"
                          th:src="@{/media/fichier/groupe/{ficher}(ficher=${fichier.getUrlMedia()})}" alt="">
@@ -154,6 +128,34 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             titre: 'Succès',
         })
     </script>
+    <script th:if="${user.getId() == projet.getAdmin().getId() || session.user.getId() == user.getId() }">
+        let btnDelete = document.querySelectorAll(".deleteFichierBtn")
+        const confirmerDeleteBtn = document.getElementById("confirmerDelete")
+        const dialog = document.querySelector(".deleteDialog")
+        const closeDeleteDialog = document.getElementById("annulerDeleteDialog")
+        let openDeleteDialog = false
+
+        btnDelete.forEach(btn =>{
+            btn.addEventListener("click",function (){
+                if (!openDeleteDialog){
+                    openDeleteDialog = true
+                    dialog.showModal()
+                    confirmerDeleteBtn.addEventListener("click",function (){
+                        deleteFichier(btn.parentElement,btn.getAttribute("data-fichierId"))
+                        openDeleteDialog = false
+                        dialog.close()
+                    })
+                }
+            })
+        })
+        closeDeleteDialog.addEventListener("click", function (){
+            if (openDeleteDialog){
+                openDeleteDialog = false
+                dialog.close()
+            }
+        })
+    </script>
     </body>
+
     <script th:src="@{/js/script-group.js?v=5}"></script>
 </html>

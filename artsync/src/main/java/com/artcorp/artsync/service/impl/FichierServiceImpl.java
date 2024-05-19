@@ -77,7 +77,15 @@ public class FichierServiceImpl implements FichierService {
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void deleteById(Long id, String origin) {
+        FichierGeneral fichierGeneral = fichierGeneralRepository.findById(id).isPresent()?fichierGeneralRepository.findById(id).get():null;
+        if (origin.equals("groupe")){
+            File parentDir = new File(FICHIER_GROUPE);
+            File fichier = new File(parentDir.getAbsolutePath()+File.separator+fichierGeneral.getUrlMedia());
+            if (fichier.exists()){
+                fichier.delete();
+            }
+        }
         fichierGeneralRepository.deleteById(id);
     }
 

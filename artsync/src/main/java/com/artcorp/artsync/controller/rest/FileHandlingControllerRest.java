@@ -142,13 +142,15 @@ public class FileHandlingControllerRest {
     }
 
     @DeleteMapping("/api/fichier/delete")
-    private String deleteFichier(@Param("fichierId") Long fichierId, HttpServletRequest request){
+    private String deleteFichier(@Param("fichierId") Long fichierId, @Param("origin") String origin, HttpServletRequest request){
         HttpSession session = request.getSession(false);
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+        System.out.println("------------FICHIER DELETED-------------");
         if (utilisateur!=null){
-            fichierService.deleteById(fichierId);
+            fichierService.deleteById(fichierId,origin);
             return "Success";
         }
+
         return "Failed";
     }
 }

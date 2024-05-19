@@ -195,7 +195,7 @@ function deleteFichier(fichier,ficherId){
     $.ajax({
         type: "DELETE",
         url: window.location.origin.toString()+"/api/fichier/delete",
-        data: {fichierId: ficherId},
+        data: {fichierId: ficherId, origin:"groupe"},
         success : function (data){
             if(data === "Success"){
                 console.log("FiCHIER EFFACÉ")

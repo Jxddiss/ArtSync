@@ -130,21 +130,24 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     </script>
     <script th:if="${user.getId() == projet.getAdmin().getId() || session.user.getId() == user.getId() }">
         let btnDelete = document.querySelectorAll(".deleteFichierBtn")
-        const confirmerDeleteBtn = document.getElementById("confirmerDelete")
+        let confirmerDeleteBtn = document.getElementById("confirmerDelete")
         const dialog = document.querySelector(".deleteDialog")
         const closeDeleteDialog = document.getElementById("annulerDeleteDialog")
         let openDeleteDialog = false
 
         btnDelete.forEach(btn =>{
-            btn.addEventListener("click",function (){
+
+            btn.addEventListener("click", function (){
                 if (!openDeleteDialog){
                     openDeleteDialog = true
                     dialog.showModal()
-                    confirmerDeleteBtn.addEventListener("click",function (){
+                    let deleteHandler = function (){
                         deleteFichier(btn.parentElement,btn.getAttribute("data-fichierId"))
                         openDeleteDialog = false
                         dialog.close()
-                    })
+                        confirmerDeleteBtn.removeEventListener("click",deleteHandler)
+                    }
+                    confirmerDeleteBtn.addEventListener("click",deleteHandler)
                 }
             })
         })

@@ -18,8 +18,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.artcorp.artsync.constant.FileConstant.ACCEPTED_FILE_EXTENSIONS;
-import static com.artcorp.artsync.constant.FileConstant.FICHIER_GROUPE;
+import static com.artcorp.artsync.constant.FileConstant.*;
 import static org.springframework.http.MediaType.*;
 
 @Service
@@ -79,13 +78,21 @@ public class FichierServiceImpl implements FichierService {
     @Override
     public void deleteById(Long id, String origin) {
         FichierGeneral fichierGeneral = fichierGeneralRepository.findById(id).isPresent()?fichierGeneralRepository.findById(id).get():null;
+        File parentDir = null;
         if (origin.equals("groupe")){
-            File parentDir = new File(FICHIER_GROUPE);
+            parentDir = new File(FICHIER_GROUPE);
+
+        }
+        else if (origin.equals("post")){
+            parentDir = new File(POST_FOLDER);
+        }
+        if (parentDir != null) {
             File fichier = new File(parentDir.getAbsolutePath()+File.separator+fichierGeneral.getUrlMedia());
             if (fichier.exists()){
                 fichier.delete();
             }
         }
+
         fichierGeneralRepository.deleteById(id);
     }
 

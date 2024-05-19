@@ -232,7 +232,7 @@
     <i th:if="${ (session.user!=null) && utilisateur.getId() == session.user.getId()}" class="bi bi-three-dots menuIcon"></i>
     <div class="menuPopup">
         <p>Modifier</p>
-        <p>Supprimer</p>
+        <p id="supprimerBtn" data-postid="">Supprimer</p>
     </div>
     <script th:if="${session.user!=null}" th:inline="javascript">
         const menuBtn = document.querySelector(".menuIcon")
@@ -285,8 +285,19 @@
                playsinline
                controls>
         </video>
+        <dialog th:if="${ session.user!=null && utilisateur.getId() == session.user.getId() }" class="deleteDialog">
+            <h6>Voulez-vous vraiment supprimer votre publication?</h6>
+            <div>
+                <button id="confirmerDelete">SUPPRIMER</button>
+                <button id="annulerDeleteDialog">ANNULER</button>
+            </div>
+        </dialog>
     </div>
+
+
 </dialog>
+
+
 <div th:replace="${session.user != null} ? ~{fragment/notificationFragment :: notificationFragment} : ~{}"></div>
 <script th:if="${session.user != null}">
     const userImage = '[[${session.user.photoUrl}]]';
@@ -352,6 +363,38 @@
     const overlay = document.querySelector(".overlay")
     overlay.style.display = "block"
     overlay.classList.add(bgTexture)
+</script>
+<script th:if="${session.user!=null && utilisateur.getId() == session.user.getId()}">
+    let btnDelete = document.getElementById("supprimerBtn")
+    let confirmerDeleteBtn = document.getElementById("confirmerDelete")
+    const dialogDeleteDialog = document.querySelector(".deleteDialog")
+    const closeDeleteDialog = document.getElementById("annulerDeleteDialog")
+    let openDeleteDialog = false
+
+
+    btnDelete.addEventListener("click", function (){
+        console.log("TEST")
+        if (!openDeleteDialog){
+            openDeleteDialog = true
+            dialogDeleteDialog.showModal()
+            let deleteHandler = function (){
+                console.log(btnDelete.parentElement.parentElement.parentElement.querySelector(".card-post").getAttribute("post-id"))
+                deletePost(currentPublication.querySelector(".card-post").getAttribute("post-id"))
+                openDeleteDialog = false
+                dialogDeleteDialog.close()
+                dialog.close()
+                currentPublication.remove()
+                confirmerDeleteBtn.removeEventListener("click",deleteHandler)
+            }
+            confirmerDeleteBtn.addEventListener("click",deleteHandler)
+        }
+    })
+    closeDeleteDialog.addEventListener("click", function (){
+        if (openDeleteDialog){
+            openDeleteDialog = false
+            dialogDeleteDialog.close()
+        }
+    })
 </script>
 </body>
 </html>

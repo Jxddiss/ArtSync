@@ -1,9 +1,12 @@
 package com.artcorp.artsync.controller.rest;
 
 import com.artcorp.artsync.entity.Commentaire;
+import com.artcorp.artsync.entity.Post;
 import com.artcorp.artsync.entity.Utilisateur;
 import com.artcorp.artsync.exception.domain.FileFormatException;
 import com.artcorp.artsync.service.FichierService;
+import com.artcorp.artsync.service.PostService;
+import com.artcorp.artsync.service.ProjetService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -33,8 +36,16 @@ import static org.springframework.http.MediaType.*;
 @RestController
 public class FileHandlingControllerRest {
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
-    @Autowired
+
     private FichierService fichierService;
+    private PostService postService;
+
+    @Autowired
+    public FileHandlingControllerRest(FichierService fichierService, PostService postService) {
+        this.fichierService = fichierService;
+        this.postService = postService;
+    }
+
 
     @PostMapping("/api/chat/upload")
     public void uploadFile(@RequestParam("file") MultipartFile file) throws IOException, FileFormatException {
@@ -142,15 +153,30 @@ public class FileHandlingControllerRest {
     }
 
     @DeleteMapping("/api/fichier/delete")
-    private String deleteFichier(@Param("fichierId") Long fichierId, @Param("origin") String origin, HttpServletRequest request){
+    private String deleteFichier(@Param("fichierId") Long fichierId, HttpServletRequest request){
         HttpSession session = request.getSession(false);
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
         System.out.println("------------FICHIER DELETED-------------");
         if (utilisateur!=null){
-            fichierService.deleteById(fichierId,origin);
+            fichierService.deleteById(fichierId,"groupe");
             return "Success";
         }
 
+        return "Failed";
+    }
+    @DeleteMapping("/api/post/delete")
+    private String deletePost(@Param("postId") Long postId, HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+        Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+        System.out.println("------------POST DELETED-------------");
+        if (utilisateur!=null){
+            Post post = postService.findById(postId);
+            post.getListeFichiers().forEach(fichierGeneral -> {
+                fichierService.deleteById(fichierGeneral.getId(),"post");
+            });
+            postService.deletePost(post);
+            return "Success";
+        }
         return "Failed";
     }
 }

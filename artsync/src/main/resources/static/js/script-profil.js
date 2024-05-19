@@ -247,7 +247,7 @@ let imgDialog = dialog.querySelector("img");
 let videoDeDialog = dialog.querySelector('video');
 
 let publications = document.querySelectorAll(".publication");
-
+let currentPublication
 publications.forEach(function (publication,index) {
 
     publication.addEventListener("click", function () {
@@ -265,7 +265,7 @@ publications.forEach(function (publication,index) {
         }
 
         let cardPost = publication.querySelector(".card-post");
-
+        currentPublication = publication
 
         let cardPostDialog = cardPost.cloneNode(true);
         cardPostDialog.style.display = "flex";
@@ -478,6 +478,22 @@ function deleteCommentaire(commentaire,commentaireID){
                 commentaire.remove()
             }else{
                 console.log("COMMENTAIRE FAILED")
+            }
+        }
+    })
+}
+
+function deletePost(postId){
+    console.log(postId)
+    $.ajax({
+        type: "DELETE",
+        url: window.location.origin.toString()+"/api/post/delete",
+        data: {postId: postId},
+        success : function (data){
+            if(data === "Success"){
+                console.log("POST EFFACÉ")
+            }else{
+                console.log("POST FAILED")
             }
         }
     })

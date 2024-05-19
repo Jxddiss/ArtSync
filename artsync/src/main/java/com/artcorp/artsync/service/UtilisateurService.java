@@ -23,6 +23,7 @@ public interface UtilisateurService {
     void delete(Long id);
     Utilisateur findById(Long idUtilisateur);
 
+    String genLinkPasswordReset(String pseudo);
     boolean emailIsValid(String email, Long userId);
     boolean pseudoIsValid(String pseudo, Long userId);
     Utilisateur addUserSessionIfNot(HttpSession session, String username) throws NotConnectedException;

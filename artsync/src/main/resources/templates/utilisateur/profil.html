@@ -175,7 +175,7 @@
                         <p>[[${post.texte}]]</p>
                     </div>
                     <ul class="liste-commentaires" th:post-id="${post.id}">
-                        <li class="commentaire" th:each="comm : ${post.listeCommentaires}">
+                        <li class="commentaire" th:each="comm : ${post.listeCommentaires}" th:data-commentId="${comm.getId()}">
                             <a th:href="@{/utilisateur/profil/{pseudo}(pseudo=${comm.utilisateur.pseudo})}" class="info-comment">
                                 <img
                                         th:src="@{/media/images/utilisateur/{image}(image=${comm.utilisateur.photoUrl})}"
@@ -235,7 +235,6 @@
         <p>Supprimer</p>
     </div>
     <script th:if="${session.user!=null}" th:inline="javascript">
-        let currentUserid = [[${session.user.id.toString()}]]
         const menuBtn = document.querySelector(".menuIcon")
         const menuPop = document.querySelector(".menuPopup")
         if (menuBtn){

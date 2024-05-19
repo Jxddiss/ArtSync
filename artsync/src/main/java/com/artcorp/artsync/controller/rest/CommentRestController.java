@@ -78,8 +78,6 @@ public class CommentRestController {
 
     @DeleteMapping("/commentaire/delete")
     public String deleteCommentaire(@Param("commentaireId") Long commentaireId, HttpServletRequest request){
-        System.out.println("ICI");
-        System.out.println(commentaireId);
         HttpSession session = request.getSession(false);
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
         if (utilisateur!=null){
@@ -91,5 +89,4 @@ public class CommentRestController {
         }
         return "Failed";
     }
-
 }

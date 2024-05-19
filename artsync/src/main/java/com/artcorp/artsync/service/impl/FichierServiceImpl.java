@@ -76,6 +76,11 @@ public class FichierServiceImpl implements FichierService {
         fichierGeneralRepository.deleteAllByProjet(projet);
     }
 
+    @Override
+    public void deleteById(Long id) {
+        fichierGeneralRepository.deleteById(id);
+    }
+
     private boolean checkFileExtension(MultipartFile file){
         if (file.getOriginalFilename() != null){
             return Arrays.asList(ACCEPTED_FILE_EXTENSIONS)

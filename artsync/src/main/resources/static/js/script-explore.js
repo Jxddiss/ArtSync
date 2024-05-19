@@ -17,15 +17,25 @@ document.addEventListener("DOMContentLoaded", function () {
         cardSample.addEventListener("click", function () {
             let imageUrl = cardSample.querySelector(".img-card").src;
             let cardPost = cardSample.querySelector(".card-post");
+            let userIdData = cardSample.querySelector(".img-card").getAttribute("data-user")
+
+
 
             imgDialog.src = imageUrl;
             let cardPostDialog = cardPost.cloneNode(true);
             cardPostDialog.style.display = "flex";
-            if (userId != null){
+            if (userIdData != null){
                 handleLike(cardPostDialog);
             }
             dialog.querySelector(".poste").appendChild(cardPostDialog)
             dialog.showModal();
+
+            const comments = cardPostDialog.querySelectorAll(".commentaire")
+            comments.forEach(comment =>{
+                comment.querySelector("i").addEventListener("click",function (){
+                    deleteCommentaire(comment,comment.getAttribute("data-commentId"))
+                })
+            })
         })
 
         const gridStyle = 1 + Math.floor(Math.random() * 4);
@@ -41,6 +51,8 @@ document.addEventListener("DOMContentLoaded", function () {
             imgDialog.dataset.maximiser = "true";
         }
     })
+
+
 
     dialog.querySelector("#close-dialog").addEventListener("click",function (){
         let cardPoste = dialog.querySelector(".card-post");
@@ -80,9 +92,11 @@ function addComment(commentaireForm, postId){
                     <strong>@${pseudoUser}</strong>
                     ${comment}
                   </p>
+                  <i class="bi bi-x-lg"></i>
                 `
     commentHolder.appendChild(newComment);
     commentaireForm.comment.value = ""
+
 }
 
 function ajouterCommentaire(form){
@@ -209,4 +223,21 @@ function likePost(type, postId,idPostOwner){
             ));
         }
     }
+}
+
+function deleteCommentaire(commentaire,commentaireID){
+    console.log(commentaireID)
+    $.ajax({
+        type: "DELETE",
+        url: window.location.origin.toString()+"/commentaire/delete",
+        data: {commentaireId: commentaireID},
+        success : function (data){
+            if(data === "Success"){
+                console.log("COMMENTAIRE EFFACÉ")
+                commentaire.remove()
+            }else{
+                console.log("COMMENTAIRE FAILED")
+            }
+        }
+    })
 }

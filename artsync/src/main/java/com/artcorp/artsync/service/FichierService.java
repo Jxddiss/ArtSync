@@ -16,4 +16,5 @@ public interface FichierService {
     public List<FichierGeneral> findAllByProjetAndUtilisateur(Projet projet, Utilisateur utilisateur);
     Long countByProjet(Projet projet);
     void deleteAllByProjet(Projet projet);
+    void deleteById(Long id,String origin);
 }

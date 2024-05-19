@@ -11,4 +11,5 @@ public interface CommentaireService {
     List<Commentaire> findAllByForum(Forum forum);
     void deleteCommentaire(Commentaire commentaire);
     List<Commentaire> findAllByUser(Utilisateur utilisateur);
+    Commentaire findById(Long id);
 }

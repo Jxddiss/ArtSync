@@ -56,7 +56,7 @@
                                         />
                                     </a>
                                     <p><strong>@[[${comm.utilisateur.pseudo}]]</strong> [[${comm.message}]]</p>
-                                    <i class="bi bi-x-lg deleteeBtn"></i>
+                                    <i th:if="${ (session.user!=null) && ((post.utilisateur.getId() == session.user.getId()) || (comm.utilisateur.getId() == session.user.getId()))}" class="bi bi-x-lg deleteeBtn"></i>
                                 </li>
                             </ul>
                             <!--Écrire commentaire-->
@@ -109,7 +109,8 @@
             <p>Supprimer</p>
         </div>
         <script th:inline="javascript">
-            let currentUserid = [[${session.user.id.toString()}]]
+
+
             const menuBtn = document.querySelector(".menuIcon")
             const menuPop = document.querySelector(".menuPopup")
             if (menuBtn){

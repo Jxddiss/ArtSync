@@ -111,48 +111,55 @@ filterTags.forEach(filter => {
 });
 
 threads.forEach(thread => {
-    const chevron = thread.querySelector(".threadOptions").querySelector(".chevronDiv").querySelector("i")
-    chevron.addEventListener("click", function(){
-        const commentSection = thread.querySelector(".commentSection")
-        const formContainer = thread.querySelector(".commentForm")
-        const comments = thread.querySelectorAll(".comment")
-        if (commentSection.style.minHeight !== "8rem"){
-            gsap.to(commentSection,{
-                height:"fit-content",
-                minHeight:"8rem",
-                ease:"back",
-                delay:0.1,
-                duration:0.5,
-                paddingBottom: "10%",
-            })
-            gsap.to(formContainer,{
-                opacity: 1
-            })
-            gsap.to(comments,{
-                minHeight:"5rem",
-                opacity:1,
-                duration:0.5,
-                stagger:0.1,
-            })
-        }else{
-            gsap.to(commentSection,{
-                minHeight:"0",
-                height:"0",
-                duration:0.5,
-                ease:"back",
-                paddingBottom: "0"
-            })
-            gsap.to(formContainer,{
-                opacity: 0,
-                duration:0.15,
-            })
-            gsap.to(comments,{
-                opacity:0,
-                duration:0.05
+    const chevronHolder = thread.querySelector(".threadOptions")
+
+    if (chevronHolder) {
+        const chevronDiv = chevronHolder.querySelector(".chevronDiv")
+
+        if (chevronDiv){
+            const chevron = chevronDiv.querySelector("i")
+            chevron.addEventListener("click", function(){
+                const commentSection = thread.querySelector(".commentSection")
+                const formContainer = thread.querySelector(".commentForm")
+                const comments = thread.querySelectorAll(".comment")
+                if (commentSection.style.minHeight !== "8rem"){
+                    gsap.to(commentSection,{
+                        height:"fit-content",
+                        minHeight:"8rem",
+                        ease:"back",
+                        delay:0.1,
+                        duration:0.5,
+                        paddingBottom: "10%",
+                    })
+                    gsap.to(formContainer,{
+                        opacity: 1
+                    })
+                    gsap.to(comments,{
+                        minHeight:"5rem",
+                        opacity:1,
+                        duration:0.5,
+                        stagger:0.1,
+                    })
+                }else{
+                    gsap.to(commentSection,{
+                        minHeight:"0",
+                        height:"0",
+                        duration:0.5,
+                        ease:"back",
+                        paddingBottom: "0"
+                    })
+                    gsap.to(formContainer,{
+                        opacity: 0,
+                        duration:0.15,
+                    })
+                    gsap.to(comments,{
+                        opacity:0,
+                        duration:0.05
+                    })
+                }
             })
         }
-
-    })
+    }
 })
 function ajouterCommentaire(form){
     $.ajax({

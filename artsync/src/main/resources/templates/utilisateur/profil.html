@@ -184,7 +184,7 @@
                                 />
                             </a>
                             <p><strong>@[[${comm.utilisateur.pseudo}]]</strong> [[${comm.message}]]</p>
-                            <i class="bi bi-x-lg"></i>
+                            <i th:if="${ (session.user!=null) && ((utilisateur.getId() == session.user.getId()) || (comm.utilisateur.getId() == session.user.getId()))}" class="bi bi-x-lg"></i>
                         </li>
                     </ul>
                     <!--Écrire commentaire-->
@@ -229,12 +229,12 @@
 
 </div>
 <dialog id="dialog-card-focus">
-    <i th:if="${utilisateur.getId() == session.user.getId()}" class="bi bi-three-dots menuIcon"></i>
+    <i th:if="${ (session.user!=null) && utilisateur.getId() == session.user.getId()}" class="bi bi-three-dots menuIcon"></i>
     <div class="menuPopup">
         <p>Modifier</p>
         <p>Supprimer</p>
     </div>
-    <script th:inline="javascript">
+    <script th:if="${session.user!=null}" th:inline="javascript">
         let currentUserid = [[${session.user.id.toString()}]]
         const menuBtn = document.querySelector(".menuIcon")
         const menuPop = document.querySelector(".menuPopup")

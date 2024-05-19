@@ -17,9 +17,9 @@ document.addEventListener("DOMContentLoaded", function () {
         cardSample.addEventListener("click", function () {
             let imageUrl = cardSample.querySelector(".img-card").src;
             let cardPost = cardSample.querySelector(".card-post");
-            let userId = cardSample.querySelector(".img-card").getAttribute("data-user")
+            let userIdData = cardSample.querySelector(".img-card").getAttribute("data-user")
 
-            if ( currentUserid === userId){
+            if ( userId === userIdData){
                 menuBtn.style.display = "block"
             }
             else{
@@ -27,14 +27,22 @@ document.addEventListener("DOMContentLoaded", function () {
                 menuPop.style.display = "none"
             }
 
+
             imgDialog.src = imageUrl;
             let cardPostDialog = cardPost.cloneNode(true);
             cardPostDialog.style.display = "flex";
-            if (userId != null){
+            if (userIdData != null){
                 handleLike(cardPostDialog);
             }
             dialog.querySelector(".poste").appendChild(cardPostDialog)
             dialog.showModal();
+
+            const comments = cardPostDialog.querySelectorAll(".commentaire")
+            comments.forEach(comment =>{
+                comment.querySelector("i").addEventListener("click",function (){
+                    deleteCommentaire(comment,comment.getAttribute("data-commentId"))
+                })
+            })
         })
 
         const gridStyle = 1 + Math.floor(Math.random() * 4);

@@ -995,10 +995,11 @@
 .fichiersHolder{
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: 2rem;
     height: 55rem;
     width: 100%;
     padding: 2%;
+    align-content: flex-start;
 }
 
 .folder{
@@ -1189,7 +1190,57 @@
     top: 8%;
     float: right;
 }
+.deleteFichierBtn{
+    background-color: #e85256;
+    color: white;
+    border: 1px solid #e85256;
+    border-radius: 7px;
+    height: 2.5rem;
+    font-size: 25px;
+    width: 2.5rem;
+    position: absolute;
+    right: -6%;
+    top: -5%;
 
+}
+.deleteFichierBtn:hover{
+    background-color: transparent;
+    color: #e85256;
+    transition: 0.25s;
+}
+.deleteDialog[open]{
+    height: 15rem;
+    width: 28rem;
+    border: none;
+    border-radius: 7px;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    text-align: center;
+}
+.deleteDialog h6{
+    font-size: 18px;
+}
+.deleteDialog div{
+    margin-top: 5%;
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+}
+.deleteDialog button{
+    border: 3px solid #5381ff;
+    border-radius: 8px;
+    background-color: #5381ff;
+    color: white;
+    width: 8rem;
+    height: 3rem;
+}
+.deleteDialog button:hover{
+    background-color: transparent;
+    color: #5381ff;
+    transition: 0.25s;
+}
 @media only screen and (max-width: 700px) {
     .verticalNavbar{
         display: none;

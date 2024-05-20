@@ -189,3 +189,21 @@ annonceBtn.addEventListener("click",function (){
     }
     console.log(openAnnonceMobile)
 })
+
+function deleteFichier(fichier,ficherId){
+    console.log(ficherId)
+    $.ajax({
+        type: "DELETE",
+        url: window.location.origin.toString()+"/api/fichier/delete",
+        data: {fichierId: ficherId},
+        success : function (data){
+            if(data === "Success"){
+                console.log("FiCHIER EFFACÉ")
+                fichier.remove()
+            }else{
+                console.log("FiCHIER FAILED")
+            }
+        }
+    })
+}
+

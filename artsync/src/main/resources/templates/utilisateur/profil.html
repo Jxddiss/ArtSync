@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css?v=8}"/>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/style-profil.css?v=13}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style-profil.css?v=14}"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -175,7 +175,7 @@
                         <p>[[${post.texte}]]</p>
                     </div>
                     <ul class="liste-commentaires" th:post-id="${post.id}">
-                        <li class="commentaire" th:each="comm : ${post.listeCommentaires}">
+                        <li class="commentaire" th:each="comm : ${post.listeCommentaires}" th:data-commentId="${comm.getId()}">
                             <a th:href="@{/utilisateur/profil/{pseudo}(pseudo=${comm.utilisateur.pseudo})}" class="info-comment">
                                 <img
                                         th:src="@{/media/images/utilisateur/{image}(image=${comm.utilisateur.photoUrl})}"
@@ -184,6 +184,7 @@
                                 />
                             </a>
                             <p><strong>@[[${comm.utilisateur.pseudo}]]</strong> [[${comm.message}]]</p>
+                            <i th:if="${ (session.user!=null) && ((utilisateur.getId() == session.user.getId()) || (comm.utilisateur.getId() == session.user.getId()))}" class="bi bi-x-lg"></i>
                         </li>
                     </ul>
                     <!--Écrire commentaire-->
@@ -228,6 +229,49 @@
 
 </div>
 <dialog id="dialog-card-focus">
+    <i th:if="${ (session.user!=null) && utilisateur.getId() == session.user.getId()}" class="bi bi-three-dots menuIcon"></i>
+    <div class="menuPopup">
+        <p>Modifier</p>
+        <p id="supprimerBtn" data-postid="">Supprimer</p>
+    </div>
+    <script th:if="${session.user!=null}" th:inline="javascript">
+        const menuBtn = document.querySelector(".menuIcon")
+        const menuPop = document.querySelector(".menuPopup")
+        if (menuBtn){
+            let menuOpen = false
+            menuBtn.addEventListener("click",function (){
+                if (!menuOpen){
+                    menuOpen = true
+                    gsap.to(menuPop,{
+                        height:"5rem",
+                        ease:"back",
+                        display: "flex",
+                        opacity: 1
+                    })
+                    gsap.to(menuPop.children,{
+                        opacity:1,
+                        stagger:0.1
+                    })
+                }else{
+                    menuOpen = false
+                    gsap.to(menuPop.children,{
+                        opacity:0,
+                        stagger:0.1,
+                        duration:0.1
+                    })
+                    gsap.to(menuPop,{
+                        height: "0rem",
+                        ease: "sine",
+                        display:"none",
+                        opacity: 0,
+                        delay:0.25
+                    })
+                }
+            })
+        }
+
+
+    </script>
     <button id="close-dialog">
         <i class="bi bi-x-lg" ></i>
     </button>
@@ -241,8 +285,19 @@
                playsinline
                controls>
         </video>
+        <dialog th:if="${ session.user!=null && utilisateur.getId() == session.user.getId() }" class="deleteDialog">
+            <h6>Voulez-vous vraiment supprimer votre publication?</h6>
+            <div>
+                <button id="confirmerDelete">SUPPRIMER</button>
+                <button id="annulerDeleteDialog">ANNULER</button>
+            </div>
+        </dialog>
     </div>
+
+
 </dialog>
+
+
 <div th:replace="${session.user != null} ? ~{fragment/notificationFragment :: notificationFragment} : ~{}"></div>
 <script th:if="${session.user != null}">
     const userImage = '[[${session.user.photoUrl}]]';
@@ -253,7 +308,7 @@
     const userId = null;
 </script>
 <script th:src="@{/js/notification.js?v=16}"></script>
-<script th:src="@{/js/script-profil.js?v=12}"></script>
+<script th:src="@{/js/script-profil.js?v=13}"></script>
 <script th:if="${error != null}">
     showNotification({
         type: 'danger',
@@ -308,6 +363,38 @@
     const overlay = document.querySelector(".overlay")
     overlay.style.display = "block"
     overlay.classList.add(bgTexture)
+</script>
+<script th:if="${session.user!=null && utilisateur.getId() == session.user.getId()}">
+    let btnDelete = document.getElementById("supprimerBtn")
+    let confirmerDeleteBtn = document.getElementById("confirmerDelete")
+    const dialogDeleteDialog = document.querySelector(".deleteDialog")
+    const closeDeleteDialog = document.getElementById("annulerDeleteDialog")
+    let openDeleteDialog = false
+
+
+    btnDelete.addEventListener("click", function (){
+        console.log("TEST")
+        if (!openDeleteDialog){
+            openDeleteDialog = true
+            dialogDeleteDialog.showModal()
+            let deleteHandler = function (){
+                console.log(btnDelete.parentElement.parentElement.parentElement.querySelector(".card-post").getAttribute("post-id"))
+                deletePost(currentPublication.querySelector(".card-post").getAttribute("post-id"))
+                openDeleteDialog = false
+                dialogDeleteDialog.close()
+                dialog.close()
+                currentPublication.remove()
+                confirmerDeleteBtn.removeEventListener("click",deleteHandler)
+            }
+            confirmerDeleteBtn.addEventListener("click",deleteHandler)
+        }
+    })
+    closeDeleteDialog.addEventListener("click", function (){
+        if (openDeleteDialog){
+            openDeleteDialog = false
+            dialogDeleteDialog.close()
+        }
+    })
 </script>
 </body>
 </html>

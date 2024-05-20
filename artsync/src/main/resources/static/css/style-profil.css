@@ -38,7 +38,7 @@
     position: relative;
     z-index: 1;
     top: -15%;
-    left: 10%;
+    left: 3%;
     width: 15rem;
     height: 15rem;
     border-radius: 50%;
@@ -625,7 +625,7 @@
     border: none;
     box-sizing: content-box;
     position: fixed;
-    top: 50%;
+    top: 75%;
     left: 50%;
     translate: -50% -50%;
     z-index: 1000;
@@ -668,6 +668,82 @@
 
 #dialog-card-focus::backdrop{
     backdrop-filter: blur(10px);
+}
+
+.menuIcon{
+    position: absolute;
+    top: 1%;
+    right: 5.5%;
+    z-index: 2;
+    font-size: 25px;
+}
+.menuIcon:hover{
+    scale: 1.075;
+    cursor: pointer;
+}
+
+.menuPopup{
+    display: none;
+    width: 9rem;
+    background-color: white;
+    border-radius: 6px;
+    flex-direction: column;
+    position: absolute;
+    top: 5%;
+    right: 5.5%;
+    z-index: 3;
+    gap: 0.25rem;
+    padding-block: 1rem;
+    opacity: 0;
+}
+.menuPopup p{
+    opacity: 0;
+    color: black;
+    position: relative;
+    top: 2%;
+    left: 4%;
+    margin: 0;
+    width: 90%;
+    margin-left: 1%;
+
+}
+.menuPopup p:hover{
+    cursor: pointer;
+    background-color: rgb(0,0,0,0.15);
+}
+
+.deleteDialog[open]{
+    height: 15rem;
+    width: 28rem;
+    border: none;
+    border-radius: 7px;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    text-align: center;
+}
+.deleteDialog h6{
+    font-size: 18px;
+}
+.deleteDialog div{
+    margin-top: 5%;
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+}
+.deleteDialog button{
+    border: 3px solid #5381ff;
+    border-radius: 8px;
+    background-color: #5381ff;
+    color: white;
+    width: 8rem;
+    height: 3rem;
+}
+.deleteDialog button:hover{
+    background-color: transparent;
+    color: #5381ff;
+    transition: 0.25s;
 }
 
 @media only screen and (max-width: 700px) {

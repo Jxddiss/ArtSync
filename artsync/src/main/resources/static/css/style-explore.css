@@ -390,7 +390,7 @@ body {
 
 .commentaire p {
     margin: 0;
-    max-width: 70%;
+    max-width: 64%;
     flex-grow: 1;
 }
 
@@ -610,4 +610,12 @@ label:has(>input[type=radio]:checked){
     .liste-commentaires{
         max-height: 30%;
     }
+}
+.deleteeBtn{
+    position: relative;
+    z-index: 1005;
+}
+.deleteeBtn:hover{
+    scale: 1.5;
+    cursor: pointer;
 }

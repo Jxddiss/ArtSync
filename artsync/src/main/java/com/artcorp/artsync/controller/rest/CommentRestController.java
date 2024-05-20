@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -75,4 +76,17 @@ public class CommentRestController {
         return "false";
     }
 
+    @DeleteMapping("/commentaire/delete")
+    public String deleteCommentaire(@Param("commentaireId") Long commentaireId, HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+        Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+        if (utilisateur!=null){
+            Commentaire commentaire = commentaireService.findById(commentaireId);
+            if (commentaire!=null){
+                commentaireService.deleteCommentaire(commentaire);
+                return "Success";
+            }
+        }
+        return "Failed";
+    }
 }

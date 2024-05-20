@@ -177,7 +177,6 @@ commentaireForm.forEach(commentForm =>{
     let commentHolder;
     listeEnvComm.forEach(commEnv =>{
       if (commEnv.getAttribute("post-id") === commentForm.getAttribute("post-id")){
-        console.log("----------------------- ici -------------------")
         commentHolder = commEnv;
       }
     })
@@ -201,6 +200,7 @@ commentaireForm.forEach(commentForm =>{
                       <p>
                         ${comment}
                       </p>
+                       <i class="bi bi-x-lg"></i>
                     `
       commentHolder.appendChild(newComment);
       commentForm.querySelector("input").value = ""
@@ -233,7 +233,16 @@ function ajouterCommentaire(form){
   ));
 }
 
-
+const comments = document.querySelectorAll(".commentaire")
+comments.forEach(comment =>{
+  const commentIcon = comment.querySelector("i")
+  console.log("salut ")
+  if (commentIcon){
+    commentIcon.addEventListener("click",function (){
+      deleteCommentaire(comment,comment.getAttribute("data-commentId"))
+    })
+  }
+})
 
 function likePost(type, postId,idPostOwner){
   $.ajax({
@@ -322,4 +331,21 @@ expandBtn.addEventListener("click",function (){
     })
   }
 })
+function deleteCommentaire(commentaire,commentaireID){
+  console.log(commentaireID)
+  $.ajax({
+    type: "DELETE",
+    url: window.location.origin.toString()+"/commentaire/delete",
+    data: {commentaireId: commentaireID},
+    success : function (data){
+      if(data === "Success"){
+        console.log("COMMENTAIRE EFFACÉ")
+        commentaire.remove()
+      }else{
+        console.log("COMMENTAIRE FAILED")
+      }
+    }
+  })
+}
+
 

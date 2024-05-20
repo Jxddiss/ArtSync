@@ -39,4 +39,9 @@ public class CommentaireServiceImpl implements CommentaireService {
     public List<Commentaire> findAllByUser(Utilisateur utilisateur) {
         return commentaireRepos.findAllByUtilisateur(utilisateur);
     }
+
+    @Override
+    public Commentaire findById(Long id) {
+        return commentaireRepos.findCommentaireById(id);
+    }
 }

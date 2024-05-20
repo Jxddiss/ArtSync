@@ -364,8 +364,4 @@ public class UserController {
         return jwtTokenProvider.generateJwtToken(userPrincipal);
     }
 
-    private void authenticate(String username, String password) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-    }
-
 }

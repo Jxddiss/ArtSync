@@ -22,7 +22,8 @@ public interface UtilisateurService {
     void enable(Long id);
     void delete(Long id);
     Utilisateur findById(Long idUtilisateur);
-
+    String genLinkPasswordReset(String pseudo);
+    boolean changePasswordFromToken(String password, Long id,String token);
     boolean emailIsValid(String email, Long userId);
     boolean pseudoIsValid(String pseudo, Long userId);
     Utilisateur addUserSessionIfNot(HttpSession session, String username) throws NotConnectedException;

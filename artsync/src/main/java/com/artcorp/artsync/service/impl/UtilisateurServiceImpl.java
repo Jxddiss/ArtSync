@@ -1,11 +1,9 @@
 package com.artcorp.artsync.service.impl;
 
-import com.artcorp.artsync.entity.Conversation;
-import com.artcorp.artsync.entity.Notification;
-import com.artcorp.artsync.entity.UserPrincipal;
-import com.artcorp.artsync.entity.Utilisateur;
+import com.artcorp.artsync.entity.*;
 import com.artcorp.artsync.exception.domain.MauvaisIdentifiantException;
 import com.artcorp.artsync.exception.domain.NotConnectedException;
+import com.artcorp.artsync.repos.ConfirmationTokenRepos;
 import com.artcorp.artsync.repos.ConversationRepos;
 import com.artcorp.artsync.repos.UtilisateurRepos;
 import com.artcorp.artsync.service.UtilisateurService;
@@ -20,21 +18,27 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.UUID;
+
+import static com.artcorp.artsync.constant.EmailConstant.BASE_SITE_ADDRESS;
 
 @Service
 @Transactional
 public class UtilisateurServiceImpl implements UtilisateurService, UserDetailsService {
     private UtilisateurRepos repos;
     private ConversationRepos conversationRepos;
+    private ConfirmationTokenRepos confirmationTokenRepos;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     private Logger LOGGER = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    public UtilisateurServiceImpl(UtilisateurRepos repos, ConversationRepos conversationRepos, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UtilisateurServiceImpl(UtilisateurRepos repos, ConversationRepos conversationRepos, ConfirmationTokenRepos confirmationTokenRepos, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.repos = repos;
         this.conversationRepos = conversationRepos;
+        this.confirmationTokenRepos = confirmationTokenRepos;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
@@ -102,6 +106,29 @@ public class UtilisateurServiceImpl implements UtilisateurService, UserDetailsSe
 
     @Override
     public Utilisateur findById(Long idUtilisateur) { return repos.findById(idUtilisateur).get(); }
+
+    @Override
+    public String genLinkPasswordReset(String email) {
+        Utilisateur user = findByEmail(email);
+        if (user != null){
+            String token = String.valueOf(UUID.randomUUID());
+            ConfirmationToken confirmationToken = new ConfirmationToken();
+            confirmationToken.setUserId(user.getId());
+            confirmationToken.setToken(token);
+            confirmationToken.setType("PASSWORD_RESET");
+            confirmationToken.setDateExpiration(java.sql.Date.valueOf(java.time.LocalDate.now().plusDays(1)));
+            confirmationTokenRepos.save(confirmationToken);
+            return BASE_SITE_ADDRESS+token;
+        }
+        return "";
+    }
+
+    @Override
+    public boolean changePasswordFromToken(String password, Long userId,String token) {
+        int i = repos.changePassword(encodePassword(password),userId);
+        confirmationTokenRepos.delete(confirmationTokenRepos.findByToken(token,new Date()));
+        return i == 1;
+    }
 
     @Override
     public boolean emailIsValid(String email, Long userId) {

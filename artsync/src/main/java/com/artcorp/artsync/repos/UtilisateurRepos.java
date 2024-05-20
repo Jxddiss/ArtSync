@@ -4,6 +4,7 @@ import com.artcorp.artsync.entity.Utilisateur;
 import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
@@ -17,7 +18,6 @@ public interface UtilisateurRepos extends JpaRepository<Utilisateur, Long> {
     @NonNull
     @Query("select u from Utilisateur u where u.isActive = true")
     List<Utilisateur> findAll();
-
     @Query("select u from Utilisateur u where u.isActive = true and u.email = ?1")
     Utilisateur findByEmailAndActive(String email);
     @Query("select u from Utilisateur u where u.pseudo = ?1 and u.isActive = true")
@@ -29,4 +29,7 @@ public interface UtilisateurRepos extends JpaRepository<Utilisateur, Long> {
     List<Utilisateur> findByKeyword(String keyword);
     boolean existsByPseudoAndIdNot(String pseudo, Long id);
     boolean existsByEmailAndIdNot(String pseudo, Long id);
+    @Modifying
+    @Query("UPDATE Utilisateur u SET u.password = ?1 WHERE u.id = ?2")
+    int changePassword(String password, Long id);
 }

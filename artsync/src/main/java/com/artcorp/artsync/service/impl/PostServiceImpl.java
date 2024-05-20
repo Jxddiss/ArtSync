@@ -3,6 +3,7 @@ package com.artcorp.artsync.service.impl;
 import com.artcorp.artsync.entity.FichierGeneral;
 import com.artcorp.artsync.entity.Post;
 import com.artcorp.artsync.entity.Utilisateur;
+import com.artcorp.artsync.repos.CommentaireRepos;
 import com.artcorp.artsync.repos.PostRepos;
 import com.artcorp.artsync.service.PostService;
 import jakarta.transaction.Transactional;
@@ -27,10 +28,12 @@ import static org.springframework.http.MediaType.*;
 @Transactional
 public class PostServiceImpl implements PostService {
     private final PostRepos postRepos;
+    private final CommentaireRepos commentaireRepos;
 
     @Autowired
-    public PostServiceImpl(PostRepos postRepos) {
+    public PostServiceImpl(PostRepos postRepos, CommentaireRepos commentaireRepos) {
         this.postRepos = postRepos;
+        this.commentaireRepos = commentaireRepos;
     }
 
     @Override
@@ -100,6 +103,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void deletePost(Post post) {
+        commentaireRepos.deleteAll(post.getListeCommentaires());
         postRepos.delete(post);
     }
 

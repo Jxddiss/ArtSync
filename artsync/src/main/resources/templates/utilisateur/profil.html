@@ -36,7 +36,7 @@
         <dialog th:if="${session.user!=null && utilisateur.getId() == session.user.getId()}" id="dialogBanner" >
             <div class="dialogHeader">
                 <h3>Changement de bannière</h3>
-                <form method="modal">
+                <form method="dialog">
                     <button class="button-dialog">
                         <i class="bi bi-x-lg" id="fermerBanner"></i>
                     </button>

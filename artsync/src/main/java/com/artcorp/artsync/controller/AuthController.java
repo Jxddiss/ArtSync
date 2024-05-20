@@ -4,6 +4,7 @@ import com.artcorp.artsync.entity.ConfirmationToken;
 import com.artcorp.artsync.entity.UserPrincipal;
 import com.artcorp.artsync.entity.Utilisateur;
 import com.artcorp.artsync.exception.domain.MauvaisIdentifiantException;
+import com.artcorp.artsync.service.EmailService;
 import com.artcorp.artsync.service.impl.ConfirmationTokenServiceImpl;
 import com.artcorp.artsync.service.impl.UtilisateurServiceImpl;
 import com.artcorp.artsync.utils.JWTTokenProvider;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.mail.MessagingException;
 import java.util.Date;
 
 import static com.artcorp.artsync.constant.FileConstant.DEFAULT_USER_IMAGE;
@@ -33,13 +35,15 @@ import static com.artcorp.artsync.constant.SecurityConstant.JWT_TOKEN_HEADER;
 public class AuthController {
     private UtilisateurServiceImpl utilisateurService;
     private ConfirmationTokenServiceImpl confirmationTokenService;
+    private EmailService emailService;
     private AuthenticationManager authenticationManager;
     private JWTTokenProvider jwtTokenProvider;
 
     @Autowired
-    public AuthController(UtilisateurServiceImpl utilisateurService, ConfirmationTokenServiceImpl confirmationTokenService, AuthenticationManager authenticationManager, JWTTokenProvider jwtTokenProvider) {
+    public AuthController(UtilisateurServiceImpl utilisateurService, ConfirmationTokenServiceImpl confirmationTokenService, EmailService emailService, AuthenticationManager authenticationManager, JWTTokenProvider jwtTokenProvider) {
         this.utilisateurService = utilisateurService;
         this.confirmationTokenService = confirmationTokenService;
+        this.emailService = emailService;
         this.authenticationManager = authenticationManager;
         this.jwtTokenProvider = jwtTokenProvider;
     }
@@ -106,15 +110,16 @@ public class AuthController {
     }
 
     @PostMapping("/password-reset")
-    public String genLinkPasswordReset(@RequestParam("email") String pseudo,
-                                       RedirectAttributes redirectAttributes){
-        String link = utilisateurService.genLinkPasswordReset(pseudo);
-        if (link != null){
-            System.out.println(link);
+    public String genLinkPasswordReset(@RequestParam("email") String email,
+                                       RedirectAttributes redirectAttributes) throws MessagingException {
+        String link = utilisateurService.genLinkPasswordReset(email);
+        if (link != null && !link.isEmpty()){
+            //System.out.println(link);
+            emailService.sendPasswordChangeLink(link,email);
             redirectAttributes.addFlashAttribute("success","Lien envoyé");
             return "redirect:/authentification";
         }
-        redirectAttributes.addFlashAttribute("error","Lien non envoyé");
+        redirectAttributes.addFlashAttribute("success","Lien envoyé!");
         return "redirect:/authentification";
     }
 
@@ -122,11 +127,13 @@ public class AuthController {
     public String changePassword(@RequestParam("token") String token,
                                  Model model,
                                  RedirectAttributes redirectAttributes){
-        ConfirmationToken confirmationToken = confirmationTokenService.findByToken(token,new Date());
-        if(token != null){
-            model.addAttribute("userId",confirmationToken.getUserId());
-            model.addAttribute("token",confirmationToken.getToken());
-            return "change-password";
+        if (token != null && !token.isEmpty()){
+            ConfirmationToken confirmationToken = confirmationTokenService.findByToken(token,new Date());
+            if(confirmationToken != null){
+                model.addAttribute("userId",confirmationToken.getUserId());
+                model.addAttribute("token",confirmationToken.getToken());
+                return "change-password";
+            }
         }
         redirectAttributes.addFlashAttribute("error","Lien non valide");
         return "redirect:/authentification";

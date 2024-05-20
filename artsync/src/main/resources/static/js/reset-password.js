@@ -1,6 +1,4 @@
 const demandeForm = document.getElementById("formulaire-reset");
-const changePwdForm = document.getElementById("formulaire-changement-pwd")
-const messageBoxes = document.querySelectorAll(".auth-box");
 const pwd = document.getElementById("pwd");
 const conf = document.getElementById("conf");
 
@@ -9,9 +7,6 @@ if (demandeForm){
         event.preventDefault();
         let input = demandeForm.querySelector("input");
         if (input.value.trim() !== ""){
-            messageBoxes[1].querySelector("h5").innerText = input.value;
-            messageBoxes[0].style.display = "none";
-            messageBoxes[1].style.display = "flex";
             demandeForm.submit()
         }
     })

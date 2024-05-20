@@ -23,6 +23,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 
+import static com.artcorp.artsync.constant.EmailConstant.BASE_SITE_ADDRESS;
+
 @Service
 @Transactional
 public class UtilisateurServiceImpl implements UtilisateurService, UserDetailsService {
@@ -116,7 +118,7 @@ public class UtilisateurServiceImpl implements UtilisateurService, UserDetailsSe
             confirmationToken.setType("PASSWORD_RESET");
             confirmationToken.setDateExpiration(java.sql.Date.valueOf(java.time.LocalDate.now().plusDays(1)));
             confirmationTokenRepos.save(confirmationToken);
-            return "https://localhost:8443/change-password?token="+token;
+            return BASE_SITE_ADDRESS+token;
         }
         return "";
     }

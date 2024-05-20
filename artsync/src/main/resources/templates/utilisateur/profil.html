@@ -49,7 +49,7 @@
                      class="profile-banner" alt="Bannière du profile" id="bannerImgPreview">
             </div>
             <div class="bannerForm">
-                <form th:action="@{changeBanner}" method="post" enctype="multipart/form-data" onsubmit="return checkFile(this)">
+                <form th:action="@{changeBanner}" method="post" enctype="multipart/form-data" onsubmit="return checkFile(this,'post')">
                     <input type="file" name="file" id="file-input3" class="form-control-file" accept=".jpg,.png,.webp,.gif">
                     <div class="d-flex justify-content-center mt-2">
                         <button type="submit" class="post-button">Confirmer</button>
@@ -76,7 +76,7 @@
 
             </div>
             <div class="container mt-5">
-                <form th:action="@{changePfp}" method="POST" enctype="multipart/form-data" onsubmit="return checkFile(this)">
+                <form th:action="@{changePfp}" method="POST" enctype="multipart/form-data" onsubmit="return checkFile(this,'pfp')">
                     <div class="container mt-2">
                         <div id="drop-area2" class="form-group d-flex justify-content-center">
                             <input type="file" name="file" id="file-input2" class="form-control-file" accept=".jpg,.png,.webp,.gif">
@@ -118,7 +118,7 @@
                         <i class="bi bi-image" id="placeholderIcon"></i>
                     </div>
                     <div>
-                        <form class="postForm" th:action="@{/ajouter-post}" method="POST" enctype="multipart/form-data" onsubmit="return checkFile(this)">
+                        <form class="postForm" th:action="@{/ajouter-post}" method="POST" enctype="multipart/form-data" onsubmit="return checkFile(this,'post')">
                             <div class="form-head">
                                 <label for="titre">Titre:</label>
                             </div>
@@ -308,7 +308,7 @@
     const userId = null;
 </script>
 <script th:src="@{/js/notification.js?v=16}"></script>
-<script th:src="@{/js/script-profil.js?v=13}"></script>
+<script th:src="@{/js/script-profil.js?v=14}"></script>
 <script th:if="${error != null}">
     showNotification({
         type: 'danger',
@@ -378,15 +378,17 @@
             openDeleteDialog = true
             dialogDeleteDialog.showModal()
             let deleteHandler = function (){
-                console.log(btnDelete.parentElement.parentElement.parentElement.querySelector(".card-post").getAttribute("post-id"))
-                deletePost(currentPublication.querySelector(".card-post").getAttribute("post-id"))
-                openDeleteDialog = false
-                dialogDeleteDialog.close()
-                dialog.close()
-                currentPublication.remove()
-                confirmerDeleteBtn.removeEventListener("click",deleteHandler)
+                console.log(btnDelete.parentElement.parentElement.parentElement.querySelector(".card-post").getAttribute("post-id"));
+                deletePost(currentPublication.querySelector(".card-post").getAttribute("post-id"));
+                openDeleteDialog = false;
+                dialog.querySelector(".card-post").remove();
+                dialogDeleteDialog.close();
+                dialog.close();
+                currentPublication.remove();
+                confirmerDeleteBtn.removeEventListener("click",deleteHandler);
+                menuBtn.click()
             }
-            confirmerDeleteBtn.addEventListener("click",deleteHandler)
+            confirmerDeleteBtn.addEventListener("click",deleteHandler);
         }
     })
     closeDeleteDialog.addEventListener("click", function (){

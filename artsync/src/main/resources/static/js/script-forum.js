@@ -192,3 +192,20 @@ function deleteForum(forum,forumId){
     })
 }
 
+function deleteCommentaire(commentaire,commentaireID){
+    console.log(commentaireID)
+    $.ajax({
+        type: "DELETE",
+        url: window.location.origin.toString()+"/commentaire/delete",
+        data: {commentaireId: commentaireID},
+        success : function (data){
+            if(data === "Success"){
+                console.log("COMMENTAIRE EFFACÉ")
+                commentaire.remove()
+            }else{
+                console.log("COMMENTAIRE FAILED")
+            }
+        }
+    })
+}
+

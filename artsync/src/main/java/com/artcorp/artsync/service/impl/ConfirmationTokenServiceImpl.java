@@ -19,8 +19,8 @@ public class ConfirmationTokenServiceImpl implements ConfirmationTokenService {
         this.confirmationTokenRepos = confirmationTokenRepos;
     }
     @Override
-    public ConfirmationToken findByUserIdReset(Long userId, Date dateCourrate) {
-        return confirmationTokenRepos.findByUserIdReset(userId, dateCourrate);
+    public ConfirmationToken findByToken(String token, Date dateCourrante) {
+        return confirmationTokenRepos.findByToken(token, dateCourrante);
     }
 
     @Override

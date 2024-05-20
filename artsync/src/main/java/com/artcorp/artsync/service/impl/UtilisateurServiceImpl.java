@@ -18,6 +18,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
@@ -105,16 +106,26 @@ public class UtilisateurServiceImpl implements UtilisateurService, UserDetailsSe
     public Utilisateur findById(Long idUtilisateur) { return repos.findById(idUtilisateur).get(); }
 
     @Override
-    public String genLinkPasswordReset(String pseudo) {
-        Utilisateur user = findByPseudo(pseudo);
-        String token = String.valueOf(UUID.randomUUID());
-        ConfirmationToken confirmationToken = new ConfirmationToken();
-        confirmationToken.setUserId(user.getId());
-        confirmationToken.setToken(token);
-        confirmationToken.setType("PASSWORD_RESET");
-        confirmationToken.setDateExpiration(java.sql.Date.valueOf(java.time.LocalDate.now().plusDays(1)));
-        confirmationTokenRepos.save(confirmationToken);
-        return token;
+    public String genLinkPasswordReset(String email) {
+        Utilisateur user = findByEmail(email);
+        if (user != null){
+            String token = String.valueOf(UUID.randomUUID());
+            ConfirmationToken confirmationToken = new ConfirmationToken();
+            confirmationToken.setUserId(user.getId());
+            confirmationToken.setToken(token);
+            confirmationToken.setType("PASSWORD_RESET");
+            confirmationToken.setDateExpiration(java.sql.Date.valueOf(java.time.LocalDate.now().plusDays(1)));
+            confirmationTokenRepos.save(confirmationToken);
+            return "https://localhost:8443/change-password?token="+token;
+        }
+        return "";
+    }
+
+    @Override
+    public boolean changePasswordFromToken(String password, Long userId,String token) {
+        int i = repos.changePassword(encodePassword(password),userId);
+        confirmationTokenRepos.delete(confirmationTokenRepos.findByToken(token,new Date()));
+        return i == 1;
     }
 
     @Override

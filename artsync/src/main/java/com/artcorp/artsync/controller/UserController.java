@@ -360,16 +360,6 @@ public class UserController {
         return "redirect:/authentification";
     }
 
-    @GetMapping("/password-reset")
-    public String passwordReset(){
-        return "reset-password";
-    }
-
-    @PostMapping("/password-reset")
-    public void genLinkPasswordReset(@RequestParam("pseudo") String pseudo){
-        utilisateurService.genLinkPasswordReset(pseudo);
-    }
-
     private String getJwtCookie(UserPrincipal userPrincipal) {
         return jwtTokenProvider.generateJwtToken(userPrincipal);
     }

@@ -6,7 +6,7 @@ import java.util.Date;
 
 public interface ConfirmationTokenService {
 
-    ConfirmationToken findByUserIdReset(Long userId, Date dateCourrate);
+    ConfirmationToken findByToken(String token, Date dateCourrate);
 
     void save(ConfirmationToken confirmationToken);
 

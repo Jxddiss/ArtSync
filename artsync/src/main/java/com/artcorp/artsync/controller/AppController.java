@@ -215,4 +215,13 @@ public class AppController {
             throw new NotConnectedException("Veuillez vous connecter");
         }
     }
+    @GetMapping("/forge")
+    public String manageFollow(HttpServletRequest request) throws NotConnectedException {
+        HttpSession session = request.getSession(false);
+        if (session != null){
+            return "forge";
+        }else {
+            throw new NotConnectedException("Veuillez vous connecter");
+        }
+    }
 }

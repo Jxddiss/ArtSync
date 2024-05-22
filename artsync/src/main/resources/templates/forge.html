@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Image Generator</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/style.css?v=8}">
+    <link rel="stylesheet" th:href="@{/css/style-forge.css?v=1}">
+</head>
+<body>
+    <!--Header-->
+    <nav th:replace="${session.user == null} ? ~{fragment/fragments :: headerFragment} : ~{fragment/fragments :: headerUserFragment}"></nav>
+    <div class="titre">
+        <h3>FORGE D'IMAGERIE</h3>
+    </div>
+    <div class="loadingHolder">
+        <div class="ld-ripple">
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <div class="imageResultHolder">
+        <div class="generatedImage">
+        </div>
+
+    </div>
+    <div class="btnHolder">
+        <a th:href="${'/'}">Recommencer</a>
+        <a id="downloadBtn" class="bi bi-download" ></a>
+    </div>
+
+    <div class="ai-input">
+        <p>ALIMENTÉ PAR L'IA <span><i class="bi bi-robot"></i></span></p>
+        <form th:action="@{/generate}" method="post">
+            <input type="text" id="prompt" name="prompt" placeholder="Entrer votre imagination">
+        </form>
+        <hr>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            gsap.to($(".titre"),{
+                y:40
+            })
+            $('form').submit(function(event) {
+                if (!debounce){
+                    debounce = true
+                    console.log("CLICKED!")
+                    document.querySelector("form").firstElementChild.readOnly = true
+                    event.preventDefault();
+                    gsap.to($(".titre"),{
+                        y:-15,
+                        ease:"back"
+                    })
+                    gsap.to(loadingHolder,{
+                        opacity:1,
+                        delay:0.15
+                    })
+
+
+                    var prompt = $('#prompt').val();
+                    $.ajax({
+                        url: '/generate',
+                        type: 'POST',
+                        data: { prompt: prompt },
+                        success: function(response) {
+                            if (response) {
+                                var img = new Image();
+                                img.src = 'data:image/png;base64,'+ response
+                                document.querySelector(".generatedImage").appendChild(img);
+                                const downloadButton = document.getElementById("downloadBtn")
+                                downloadButton.addEventListener('click', function() {
+                                    downloadButton.href = img.src;
+                                    downloadButton.download = 'image.png';
+                                    downloadButton.click();
+                                });
+                                img.style.opacity=0;
+                                gsap.to($(".generatedImage"),{
+                                    opacity:1,
+                                    height:"25rem",
+                                    width:"25rem",
+                                    duration:2,
+                                    ease: "back",
+                                    delay: 0.5
+                                })
+                                gsap.to(loadingHolder,{
+                                    opacity:0,
+                                    delay:0.3,
+                                    display:"none",
+                                })
+                                gsap.to($(".titre"),{
+                                    opacity:0,
+                                    display:"none",
+                                })
+                                gsap.to($("form"),{
+                                    opacity:0,
+                                    display:"none",
+                                })
+                                gsap.to($(".ai-input"),{
+                                    opacity:0,
+                                    display:"none",
+                                })
+                                gsap.to(img,{
+                                    opacity:1,
+                                    duration: 1.25,
+                                    delay:1.25
+                                })
+                                gsap.to(btnHolder,{
+                                    display:"flex",
+                                    delay:1.25
+                                })
+                                gsap.to(btnHolder.children,{
+                                    opacity:1,
+                                    duration:0.75,
+                                    stagger:0.25,
+                                    delay:1.5
+                                })
+                                gsap.to($('.imageResultHolder'),{
+                                    height: "65vh",
+                                    duration:0
+                                })
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.log("Une erreur est survenue")
+                        }
+                    });
+                }
+
+            });
+        });
+    </script>
+    <script th:src="@{/js/script-forge.js}"></script>
+</body>
+</html>

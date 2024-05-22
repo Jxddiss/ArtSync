@@ -1,0 +1,214 @@
+body{
+    background:
+            radial-gradient(circle at 10% 20%, #d4fffd 0%, transparent 70%) fixed,
+            radial-gradient(circle at 90% 20%, #abc6ff 0%, transparent 70%) fixed,
+            radial-gradient(circle at 50% 60%, #9ebde3 0%, transparent 70%) fixed,
+            radial-gradient(circle at 90% 80%, #cab3d9 0%, transparent 70%) fixed;
+    overflow-y: hidden;
+    font-family: 'system-ui';
+}
+.titre{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center ;
+    margin-top:12%;
+    margin-inline: 25%;
+}
+.titre h3{
+    text-align: center;
+    font-size: 2.5rem;
+    letter-spacing: 1.5px;
+    font-weight: 400;
+    color: #000000;
+}
+.titre h5{
+    text-align: center;
+    font-size: 1.75rem;
+    letter-spacing: 1.5px;
+    font-weight: 300;
+    color: #000000;
+    height: 25px;
+}
+
+.ai-input{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    margin-inline: 25%;
+}
+.ai-input form input{
+    backdrop-filter: blur(5px);
+    width: 100%;
+    height: 2.25rem;
+    font-weight: 200;
+    padding-inline:10px ;
+    border-radius: 10px;
+    border: 1px solid rgb(0,0,0,0.5);
+    background-color: rgb(0,0,0,0);
+}
+.ai-input form input:focus{
+    scale: 1.05;
+    transition: 1s;
+
+}
+.ai-input p{
+    opacity: 0.5;
+    text-align: right;
+    width: 100%;
+    font-weight: 100;
+    font-size: 17px;
+    margin-bottom: 0.3rem;
+    margin-inline: 0.5rem
+}
+.ai-input p:hover{
+    opacity: 1;
+    transition: 0.5s;
+    cursor: pointer;
+}
+/*Image holder*/
+.imageResultHolder{
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    width: 100%;
+    /*height: 65vh;*/
+}
+.generatedImage{
+    position: relative;
+    border-radius: 8px;
+    transition: transform 0.15s ease-out, box-shadow 0.25s ease-in-out;
+    overflow: hidden;
+    backdrop-filter: blur(12px);
+    background-color: rgb(255,255,255,0.25);
+    border: 3px solid rgb(255,255,255,0.25);
+    box-shadow: 0px 0px 15px 15px rgb(255,255,255,0.35);
+    opacity: 0;
+}
+.generatedImage img{
+    width: 25rem;
+    height: 25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease-out;
+    border-radius: 5px;
+    z-index: 0;
+    object-fit: cover;
+
+}
+.glow{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+    transition: all 0.15s ease-out;
+    border-radius: 5px;
+    background: radial-gradient(circle at 80% 180%, rgba(248, 243, 228, 0.22), transparent);
+    mix-blend-mode: hard-light;
+    pointer-events: none;
+}
+
+.glow-2{
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    height: 97%;
+    width: 97%;
+    border: 20px solid transparent;
+    backdrop-filter: blur(2px);
+    z-index: 1;
+    pointer-events: none;
+}
+
+/*Loading icon*/
+.loadingHolder{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-content: center ;
+}
+.ld-ripple {
+    position: relative;
+    width: 80px;
+    height: 80px;
+}
+
+.ld-ripple div {
+    position: absolute;
+    border: 4px solid #6e95ff;
+    opacity: 1;
+    border-radius: 50%;
+    animation: ld-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+
+.ld-ripple div:nth-child(2) {
+    animation-delay: -0.5s;
+}
+
+@keyframes ld-ripple {
+    0% {
+        top: 36px;
+        left: 36px;
+        width: 0;
+        height: 0;
+        opacity: 0;
+    }
+
+    4.9% {
+        top: 36px;
+        left: 36px;
+        width: 0;
+        height: 0;
+        opacity: 0;
+    }
+
+    5% {
+        top: 36px;
+        left: 36px;
+        width: 0;
+        height: 0;
+        opacity: 1;
+    }
+
+    100% {
+        top: 0px;
+        left: 0px;
+        width: 72px;
+        height: 72px;
+        opacity: 0;
+    }
+}
+
+/*Buttons*/
+.btnHolder{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    gap: 1rem;
+    display: none;
+    margin-top: 1rem;
+}
+.btnHolder a,.btnHolder button{
+    border: 1.5px solid rgba(0, 0, 0, 0.4);
+    background-color: transparent;
+    color: rgba(0, 0, 0, 0.4);
+    text-decoration: none;
+    padding-inline: 1.25rem;
+    padding-block: 0.5rem;
+    border-radius: 7px;
+    font-size: 20px;
+    opacity: 0;
+}
+
+.btnHolder a:hover,.btnHolder button:hover{
+    border: 1.5px solid rgba(0, 0, 0, 0.7);
+    color: rgba(0, 0, 0, 0.7);
+    transition: 0.25s;
+    scale: 1.05;
+}

@@ -27,14 +27,14 @@
 
     </div>
     <div class="btnHolder">
-        <a th:href="${'/'}">Recommencer</a>
+        <a th:href="${'/forge'}">Recommencer</a>
         <a id="downloadBtn" class="bi bi-download" ></a>
     </div>
 
     <div class="ai-input">
-        <p>ALIMENTÉ PAR L'IA <span><i class="bi bi-robot"></i></span></p>
+        <p>ALIMENTÉ PAR L'IA <span><i title="Stability.ai" class="bi bi-robot"></i></span></p>
         <form th:action="@{/generate}" method="post">
-            <input type="text" id="prompt" name="prompt" placeholder="Entrer votre imagination">
+            <input type="text" id="prompt" name="prompt" placeholder="Décrivez l'image que vous souhaitez">
         </form>
         <hr>
     </div>
@@ -47,7 +47,6 @@
             $('form').submit(function(event) {
                 if (!debounce){
                     debounce = true
-                    console.log("CLICKED!")
                     document.querySelector("form").firstElementChild.readOnly = true
                     event.preventDefault();
                     gsap.to($(".titre"),{

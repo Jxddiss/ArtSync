@@ -20,16 +20,16 @@ public class ForgeController {
 
     @PostMapping("/generate")
     public ResponseEntity<String> generateImage(@RequestParam("prompt") String prompt) {
-
+        //lien api
         String apiUrl = "https://api.stability.ai/v2beta/stable-image/generate/sd3";
 
-        // Set up headers with API key
+        // header
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + apiConfig.getApiKey());
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
         headers.setAccept(Arrays.asList(MediaType.parseMediaType("image/*"), MediaType.APPLICATION_JSON));
 
-        // Set up request body
+        // body
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
         body.add("mode", "text-to-image");
         body.add("prompt", prompt);
@@ -37,18 +37,18 @@ public class ForgeController {
         body.add("output_format", "png");
         body.add("model", "sd3");
 
-        // Set up request entity with headers and body
+        // request
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
-        // Call the external API
+        //appel à l'api + retour
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<byte[]> response = restTemplate.exchange(apiUrl, HttpMethod.POST, requestEntity, byte[].class);
 
         if (response.getStatusCodeValue() == 200) {
+            //envoie de l'image
             String base64EncodedImage = Base64.getEncoder().encodeToString(response.getBody());
             return ResponseEntity.ok().body(base64EncodedImage);
         } else {
-            // Handle error scenario
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred while generating image.");
         }
     }

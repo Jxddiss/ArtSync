@@ -118,7 +118,7 @@
                     </div>
                     <form id="input-box" enctype="multipart/form-data">
                         <img th:src="@{/media/images/utilisateur/{image}(image=${session.user.getPhotoUrl()})}" alt="" id="img-profil-input">
-                        <input type="text" id="input-chat" name="message">
+                        <input type="text" id="input-chat" autocomplete="off" name="message">
                         <label class="option-send-chat" for="file">
                             <i class="fa-solid fa-file"></i>
                             <input type="file" id="file"  name="file">

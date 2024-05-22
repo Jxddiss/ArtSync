@@ -70,11 +70,8 @@
                                 img.src = 'data:image/png;base64,'+ response
                                 document.querySelector(".generatedImage").appendChild(img);
                                 const downloadButton = document.getElementById("downloadBtn")
-                                downloadButton.addEventListener('click', function() {
-                                    downloadButton.href = img.src;
-                                    downloadButton.download = 'image.png';
-                                    downloadButton.click();
-                                });
+                                downloadButton.href = img.src;
+                                downloadButton.download = 'image.png';
                                 img.style.opacity=0;
                                 gsap.to($(".generatedImage"),{
                                     opacity:1,

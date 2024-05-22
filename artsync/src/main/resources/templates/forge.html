@@ -71,7 +71,7 @@
                                 document.querySelector(".generatedImage").appendChild(img);
                                 const downloadButton = document.getElementById("downloadBtn")
                                 downloadButton.href = img.src;
-                                downloadButton.download = 'image.png';
+                                downloadButton.download = window.crypto.randomUUID()+'.png';
                                 img.style.opacity=0;
                                 gsap.to($(".generatedImage"),{
                                     opacity:1,

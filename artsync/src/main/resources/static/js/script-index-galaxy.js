@@ -1,12 +1,13 @@
 import { GLTFLoader } from "https://cdn.skypack.dev/three@0.129.0/examples/jsm/loaders/GLTFLoader.js";
 
+const containerGalaxy = document.getElementById('containerGalaxy')
 const renderer = new THREE.WebGLRenderer({alpha: true });
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.getElementById('containerGalaxy').appendChild(renderer.domElement);
+renderer.setSize(containerGalaxy.clientWidth, containerGalaxy.clientHeight);
+containerGalaxy.appendChild(renderer.domElement);
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
     45,
-    window.innerWidth / window.innerHeight,
+    containerGalaxy.clientWidth / containerGalaxy.clientHeight,
     0.0001,
     1000
 );
@@ -133,7 +134,6 @@ if (!mobile){
 
 function animate() {
     if (!mobile){
-        console.log(window.innerWidth)
         if (t<1 ) {
             const time = Date.now();
             t = (time/400 % 6)/6;
@@ -233,8 +233,8 @@ window.addEventListener("resize", updateCamera);
 
 updateCamera();
 window.addEventListener("resize", () => {
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    camera.aspect = window.innerWidth / window.innerHeight;
+    renderer.setSize(containerGalaxy.clientWidth, containerGalaxy.clientHeight);
+    camera.aspect = containerGalaxy.clientWidth / containerGalaxy.clientHeight;
     camera.updateProjectionMatrix();
 });
 

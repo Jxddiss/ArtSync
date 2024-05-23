@@ -164,4 +164,7 @@ span{
         height: fit-content !important;
         word-wrap: break-word;
     }
+    .ai-input{
+        margin-inline: 5%;
+    }
 }

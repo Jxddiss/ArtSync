@@ -212,3 +212,9 @@ body{
     transition: 0.25s;
     scale: 1.05;
 }
+@media only screen and (max-width: 700px) {
+    .ai-input{
+        justify-content: center;
+        margin-inline: 5%;
+    }
+}

@@ -389,9 +389,16 @@ border-radius: 25px;
     background-color: #faf3f3;
     transform: scale(1.13);
 }
-
+.navbar-collapse{
+    flex-basis: 0 !important;
+    flex-grow: 0 !important;
+}
 .button-video:hover i{
     color: #1b1b1b !important;
+}
+.navbar-nav{
+    display: flex !important;
+    flex-direction: row !important;
 }
 /*-------THEME--------*/
 

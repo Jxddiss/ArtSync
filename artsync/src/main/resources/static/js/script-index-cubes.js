@@ -1,10 +1,11 @@
 import { OrbitControls } from 'https://threejsfundamentals.org/threejs/resources/threejs/r122/examples/jsm/controls/OrbitControls.js';
 import { GLTFLoader } from "https://cdn.skypack.dev/three@0.129.0/examples/jsm/loaders/GLTFLoader.js";
 //Renderer
+const container3d = document.getElementById('container3D')
 const renderer = new THREE.WebGLRenderer({ alpha: true });
-renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setSize(container3d.clientWidth, container3d.clientHeight);
 renderer.shadowMap.enabled = true;
-document.getElementById('container3D').appendChild(renderer.domElement);
+container3d.appendChild(renderer.domElement);
 //Scene
 const scene = new THREE.Scene();
 //Camera
@@ -264,7 +265,7 @@ window.onload = function() {
 };
 
 window.addEventListener('resize', () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.aspect = container3d.clientWidth / container3d.clientHeight;
     camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setSize(container3d.clientWidth, container3d.clientHeight);
 });

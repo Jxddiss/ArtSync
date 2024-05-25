@@ -21,10 +21,13 @@
 .anim_gradient {
     background-color: white;
 }
-.slogan{
+.sloganHolder{
     position: absolute;
     top: 40%;
     left: 17%;
+}
+.slogan{
+    margin-bottom: 2%;
     width: fit-content;
     line-height: 1rem;
     z-index: 0;
@@ -36,13 +39,10 @@
     font-weight: 1000;
 }
 .slogan2{
-    position: absolute;
-    top: 63%;
-    left: 17%;
     font-size: 1.25rem;
     color: #000000;
     font-weight: 200;
-    margin-top: 2rem;
+    margin-top: 5%;
     margin-bottom: 2rem;
     z-index: 1;
 }
@@ -170,6 +170,10 @@
     width: 100%;
     padding: 5rem;
 }
+.serivceContainer{
+    margin-inline: 5%;
+    justify-content: center;
+}
 .serviceHolder h4{
     font-size: 35px;
     font-weight: lighter;
@@ -239,6 +243,7 @@
     letter-spacing: 10px;
     color: #ffffff;
     margin-top: 10rem;
+    overflow: hidden;
 }
 #milestone1{
     transform: translateX(275%);
@@ -291,6 +296,7 @@
     opacity: 0;
 }
 .dashLevel1{
+    overflow: hidden;
     margin-top: -15rem;
     display: flex;
     justify-content: center;
@@ -331,6 +337,7 @@
 }
 
 .dashLevel2{
+    overflow: hidden;
     margin-top: -15rem;
     display: flex;
     justify-content: center;
@@ -371,6 +378,7 @@
     transform: rotate(-55deg);
 }
 .dashLevel3{
+    overflow: hidden;
     margin-top: -15rem;
     display: flex;
     justify-content: center;
@@ -715,19 +723,16 @@
     #container3D{
         display: none;
     }
-    .slogan{
+    .sloganHolder{
+        margin-block: 40%;
         position: static;
-        margin-top: 5%;
+        height: 20rem
+    }
+    .slogan{
         margin-left: 5%;
-        display: flex;
-        flex-direction: column;
     }
     .slogan2{
-        position: static;
-        margin-top: 5%;
         margin-left: 5%;
-        margin-bottom: 40rem;
-
     }
     .slogan h3{
         font-size: 2rem;
@@ -754,6 +759,7 @@
     .serviceHolder{
         text-align: center;
         height: fit-content;
+
     }
     .imageContainer{
         opacity: 0;
@@ -815,6 +821,7 @@
         margin-top: 60%;
     }
     .comment{
+        scale: 0.85;
         width: 10rem;
     }
     .comment i{
@@ -830,6 +837,7 @@
     }
     .descHolder{
         width: 10rem;
+        font-size: 12px;
     }
     .pod{
         width: 6.5rem;

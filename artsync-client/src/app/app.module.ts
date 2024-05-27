@@ -8,6 +8,7 @@ import { GeneralViewComponent } from './general-view/general-view.component';
 import { SpecificViewComponent } from './specific-view/specific-view.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { SearchComponent } from './search/search.component';
+import { GroupListComponent } from './group-list/group-list.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { SearchComponent } from './search/search.component';
     GeneralViewComponent,
     SpecificViewComponent,
     UserListComponent,
-    SearchComponent
+    SearchComponent,
+    GroupListComponent
   ],
   imports: [
     BrowserModule,

@@ -110,7 +110,7 @@ public class ExceptionHandling {
     }
 
 
-    @ExceptionHandler(Exception.class)
+    /*@ExceptionHandler(Exception.class)
     public void exception(HttpServletRequest request,
                             HttpServletResponse response,
                             Exception ex) throws IOException {
@@ -130,7 +130,7 @@ public class ExceptionHandling {
             flashMapManager.saveOutputFlashMap(flashMap,request,response);
             response.sendRedirect(request.getContextPath() + "/");
         }
-    }
+    }*/
 
     @ExceptionHandler(IOException.class)
     private ResponseEntity<HttpResponse> handleIOException(IOException ioException){

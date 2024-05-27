@@ -17,6 +17,7 @@ import { SearchSpecificComponent } from './search-specific/search-specific.compo
 import { PostListSpecificComponent } from './post-list-specific/post-list-specific.component';
 import { GroupeListSpecificComponent } from './groupe-list-specific/groupe-list-specific.component';
 import { ForumListSpecificComponent } from './forum-list-specific/forum-list-specific.component';
+import { FichierListSpecificComponent } from './fichier-list-specific/fichier-list-specific.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { ForumListSpecificComponent } from './forum-list-specific/forum-list-spe
     PostListSpecificComponent,
     GroupeListSpecificComponent,
     ForumListSpecificComponent,
+    FichierListSpecificComponent,
   ],
   imports: [
     BrowserModule,

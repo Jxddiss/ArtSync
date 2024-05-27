@@ -29,7 +29,7 @@ public class UserAdminRestController {
 
     @GetMapping("/api/users")
     public ResponseEntity<List<Utilisateur>> getAllUsers(){
-        List<Utilisateur> listUtilisateur = utilisateurService.findAll();
+        List<Utilisateur> listUtilisateur = utilisateurService.findAllAdmin();
         return new ResponseEntity<>(listUtilisateur, HttpStatus.OK);
     }
 
@@ -60,5 +60,17 @@ public class UserAdminRestController {
         HttpResponse httpResponse = new HttpResponse(HttpStatus.OK.value(),
                 HttpStatus.OK,HttpStatus.OK.getReasonPhrase(), "Utilisateur supprimé id : "+ userId);
         return new ResponseEntity<>(httpResponse,HttpStatus.OK);
+    }
+
+    @PutMapping("/api/users/update")
+    @PreAuthorize("hasAnyAuthority('user:update')")
+    public ResponseEntity<Utilisateur> updateUser(@RequestBody Utilisateur utilisateur){
+        Utilisateur savedUser = utilisateurService.findByPseudo(utilisateur.getPseudo());
+        savedUser.setRole(utilisateur.getRole());
+        savedUser.setActive(utilisateur.isActive());
+        utilisateurService.update(savedUser);
+        HttpResponse httpResponse = new HttpResponse(HttpStatus.OK.value(),
+                HttpStatus.OK,HttpStatus.OK.getReasonPhrase(), "Utilisateur modifié id : "+ utilisateur.getId());
+        return new ResponseEntity<>(savedUser,HttpStatus.OK);
     }
 }

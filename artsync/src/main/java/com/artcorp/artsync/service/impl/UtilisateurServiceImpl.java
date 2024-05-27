@@ -4,13 +4,11 @@ import com.artcorp.artsync.entity.*;
 import com.artcorp.artsync.exception.domain.MauvaisIdentifiantException;
 import com.artcorp.artsync.exception.domain.NotConnectedException;
 import com.artcorp.artsync.repos.*;
-import com.artcorp.artsync.service.AnnonceService;
 import com.artcorp.artsync.service.UtilisateurService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -73,7 +71,7 @@ public class UtilisateurServiceImpl implements UtilisateurService, UserDetailsSe
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Utilisateur user = repos.findByPseudoAndActive(username);
+        Utilisateur user = repos.findByPseudo(username);
         if (user == null){
             LOGGER.error("Utilisateur non trouvé avec le pseudo : "+username);
             throw new UsernameNotFoundException("Utilisateur non trouvé avec le pseudo : "+username);
@@ -87,7 +85,7 @@ public class UtilisateurServiceImpl implements UtilisateurService, UserDetailsSe
     @Override
     public Utilisateur connexion(String username, String password) throws MauvaisIdentifiantException {
 
-        Utilisateur user = repos.findByPseudoAndActive(username);
+        Utilisateur user = repos.findByPseudo(username);
         if(user != null){
             if(bCryptPasswordEncoder.matches(password, user.getPassword())){
                 return user;
@@ -124,8 +122,14 @@ public class UtilisateurServiceImpl implements UtilisateurService, UserDetailsSe
     }
 
     @Override
+    public List<Utilisateur> findAllAdmin() {
+        return repos.findAllAdmin();
+    }
+
+
+    @Override
     public Utilisateur findByPseudo(String pseudo) {
-        return repos.findByPseudoAndActive(pseudo);
+        return repos.findByPseudo(pseudo);
     }
 
     @Override
@@ -186,7 +190,7 @@ public class UtilisateurServiceImpl implements UtilisateurService, UserDetailsSe
         System.out.println(username);
         if (repos.existsByPseudoAndIdNot(username,0L)){
             if(user == null){
-                user = repos.findByPseudoAndActive(username);
+                user = repos.findByPseudo(username);
                 if (user == null){
                     throw new NotConnectedException("Veuiller vous connecter");
                 }

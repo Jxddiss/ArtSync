@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -37,6 +38,12 @@ public class ExceptionHandling {
     @ExceptionHandler(BadCredentialsException.class)
     public String mauvaisIdentifiants(RedirectAttributes redirectAttributes){
         redirectAttributes.addFlashAttribute(WARN, MAUVAIS_IDENTIFIANTS);
+        return "redirect:/authentification";
+    }
+
+    @ExceptionHandler(DisabledException.class)
+    public String compteDesactive(RedirectAttributes redirectAttributes){
+        redirectAttributes.addFlashAttribute(WARN, COMPTE_DESACTIVE);
         return "redirect:/authentification";
     }
 

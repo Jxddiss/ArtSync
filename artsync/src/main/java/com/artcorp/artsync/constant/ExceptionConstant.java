@@ -6,6 +6,7 @@ public class ExceptionConstant {
     public static final String FICHIER_TROP_LOURD = "Fichier trop lourd";
     public static final String FICHIER_NON_PRIS_EN_CHARGE = "Fichier non pris en charge";
     public static final String MAUVAIS_IDENTIFIANTS = "Mauvais identifiants";
+    public static final String COMPTE_DESACTIVE = "Votre compte est désactivé, veuillez contacter l'administration";
     public static final String VEUILLER_VOUS_CONNECTER = "Veuiller vous connecter";
     public static final String UNAUTHORIZED = "Non authorisé!";
     public static final String TOKEN_NON_VALIDE = "Connexion non valide";

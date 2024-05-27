@@ -10,11 +10,14 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.artcorp.artsync.constant.ExceptionConstant.MAUVAIS_IDENTIFIANTS;
 import static com.artcorp.artsync.constant.SecurityConstant.JWT_TOKEN_HEADER;
 
 @RestController
@@ -50,5 +53,10 @@ public class AdminAuthController {
 
     private void authenticate(String username, String password) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<String> mauvaisIdentifiants(){
+        return new ResponseEntity<>(MAUVAIS_IDENTIFIANTS,HttpStatus.BAD_REQUEST);
     }
 }

@@ -105,7 +105,13 @@ public class UtilisateurServiceImpl implements UtilisateurService, UserDetailsSe
     }
 
     @Override
-    public Utilisateur findById(Long idUtilisateur) { return repos.findById(idUtilisateur).get(); }
+    public Utilisateur findById(Long idUtilisateur) {
+        Utilisateur utilisateur = null;
+        if (repos.findById(idUtilisateur).isPresent()){
+            utilisateur = repos.findById(idUtilisateur).get();
+        }
+        return utilisateur;
+    }
 
     @Override
     public String genLinkPasswordReset(String email) {

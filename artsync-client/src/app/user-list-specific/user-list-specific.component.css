@@ -1,9 +1,7 @@
 .user-container{
     display: flex;
     flex-wrap: wrap;
-    width: fit-content;
-    min-width: 25%;
-    max-width: 95%;
+    width: 25rem;
     height: 35rem;
     gap: 2rem;
     margin-inline: 2.5%;

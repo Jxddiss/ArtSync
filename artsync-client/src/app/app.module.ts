@@ -11,6 +11,9 @@ import { SearchComponent } from './search/search.component';
 import { GroupListComponent } from './group-list/group-list.component';
 import { PostListComponent } from './post-list/post-list.component';
 import { ForumListComponent } from './forum-list/forum-list.component';
+import { UserPreviewComponent } from './user-preview/user-preview.component';
+import { UserListSpecificComponent } from './user-list-specific/user-list-specific.component';
+import { SearchSpecificComponent } from './search-specific/search-specific.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +25,10 @@ import { ForumListComponent } from './forum-list/forum-list.component';
     SearchComponent,
     GroupListComponent,
     PostListComponent,
-    ForumListComponent
+    ForumListComponent,
+    UserPreviewComponent,
+    UserListSpecificComponent,
+    SearchSpecificComponent
   ],
   imports: [
     BrowserModule,

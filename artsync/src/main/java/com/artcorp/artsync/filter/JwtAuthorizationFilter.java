@@ -63,7 +63,11 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                     Authentication authentication = jwtTokenProvider.getAuthentication(username, authorities, request);
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 } else {
+                    Cookie jwtCookie = new Cookie("jwt","");
+                    jwtCookie.setHttpOnly(true);
+                    response.addCookie(jwtCookie);
                     SecurityContextHolder.clearContext();
+                    request.getSession().invalidate();
                 }
             }catch (JWTVerificationException ex){
                 resolver.resolveException(request,response,null,ex);

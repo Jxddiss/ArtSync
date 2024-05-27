@@ -54,7 +54,6 @@ public class PostController {
         HttpSession session = request.getSession();
 
         if(!username.equalsIgnoreCase("anonymousUser")){
-            System.out.println(username);
             utilisateurService.addUserSessionIfNot(session,username);
         }
 

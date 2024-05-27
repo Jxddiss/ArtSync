@@ -11,6 +11,7 @@ import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -176,17 +177,24 @@ public class UtilisateurServiceImpl implements UtilisateurService, UserDetailsSe
 
     @Override
     public Utilisateur addUserSessionIfNot(HttpSession session,String username) throws NotConnectedException {
-        Utilisateur user = (Utilisateur) session.getAttribute("user");
-        System.out.println(username);
+
         if(username.equalsIgnoreCase("anonymousUser")){
             throw new NotConnectedException("Veuiller vous connecter");
         }
-        if(user == null){
-            user = repos.findByPseudoAndActive(username);
-            if (user == null){
-                throw new NotConnectedException("Veuiller vous connecter");
+
+        Utilisateur user = (Utilisateur) session.getAttribute("user");
+        System.out.println(username);
+        if (repos.existsByPseudoAndIdNot(username,0L)){
+            if(user == null){
+                user = repos.findByPseudoAndActive(username);
+                if (user == null){
+                    throw new NotConnectedException("Veuiller vous connecter");
+                }
+                session.setAttribute("user",user);
             }
-            session.setAttribute("user",user);
+        }else {
+            SecurityContextHolder.clearContext();
+            session.invalidate();
         }
         return user;
     }
@@ -306,12 +314,12 @@ public class UtilisateurServiceImpl implements UtilisateurService, UserDetailsSe
                 }
             }
             System.out.println("PROJETS SUPPRIMÉS");
-            Set<Utilisateur> followers = user.getFollowers();
+            Set<Utilisateur> followers = new HashSet<>(user.getFollowers());
             for (Utilisateur follower: followers){
                 updateRelations(user.getId(),follower.getId());
             }
             System.out.println("FOLLOWERS RETIRÉS");
-            Set<Utilisateur> followings = user.getFollowing();
+            Set<Utilisateur> followings = new HashSet<>(user.getFollowing());
             for (Utilisateur following: followings){
                 updateRelations(following.getId(),user.getId());
             }

@@ -99,7 +99,9 @@ public class AuthController {
 
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
         if (utilisateur != null || !username.equalsIgnoreCase("anonymousUser")){
-            return "redirect:/feed";
+            if (!utilisateurService.pseudoIsValid(username,0L)){
+                return "redirect:/feed";
+            }
         }
         return "auth";
     }

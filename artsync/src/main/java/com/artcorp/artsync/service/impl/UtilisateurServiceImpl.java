@@ -353,7 +353,7 @@ public class UtilisateurServiceImpl implements UtilisateurService, UserDetailsSe
         notification.setIdDest(followed.getId());
         notification.setImgSender(follower.getPhotoUrl());
         notification.setType("info");
-        notification.setTitre("Nouvelle abonné");
+        notification.setTitre("Nouvel abonné");
         notification.setMessage(follower.getPseudo() + " s'est abonné à votre compte");
         notification.setUrlNotif("/utilisateur/profil/"+follower.getPseudo());
         return notification;

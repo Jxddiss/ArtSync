@@ -1,5 +1,6 @@
 package com.artcorp.artsync.controller.admin;
 
+import com.artcorp.artsync.entity.Commentaire;
 import com.artcorp.artsync.entity.Post;
 import com.artcorp.artsync.service.PostService;
 import org.springframework.http.HttpMethod;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 public class PostAdminRestController {
@@ -34,5 +36,15 @@ public class PostAdminRestController {
             throw new NoResourceFoundException(method,"Post id: "+ postId);
         }
         return new ResponseEntity<>(post, HttpStatus.OK);
+    }
+
+    @GetMapping("/api/posts/commentaires/{postId}")
+    public ResponseEntity<Set<Commentaire>> getAllCommentairesOnePostAdmin(@PathVariable("postId") Long postId,
+                                                                           HttpMethod method) throws NoResourceFoundException {
+        Post post = postService.findById(postId);
+        if (post == null){
+            throw new NoResourceFoundException(method,"Post id: "+ postId);
+        }
+        return new ResponseEntity<>(post.getListeCommentaires(), HttpStatus.OK);
     }
 }

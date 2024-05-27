@@ -1,5 +1,6 @@
 package com.artcorp.artsync.controller.admin;
 
+import com.artcorp.artsync.entity.Commentaire;
 import com.artcorp.artsync.entity.Forum;
 import com.artcorp.artsync.service.ForumService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,5 +38,16 @@ public class ForumAdminRestController {
             throw new NoResourceFoundException(method,"Forum id: "+ forumId);
         }
         return new ResponseEntity<>(forum, HttpStatus.OK);
+    }
+
+    @GetMapping("/api/forums/commentaires/{forumId}")
+    public ResponseEntity<List<Commentaire>> getCommentaireOneForumAdmin(@PathVariable("forumId") Long forumId,
+                                                                         HttpMethod method) throws NoResourceFoundException {
+
+        Forum forum = forumService.findById(forumId);
+        if (forum == null) {
+            throw new NoResourceFoundException(method,"Forum id: "+ forumId);
+        }
+        return new ResponseEntity<>(forum.getListeCommentaires(), HttpStatus.OK);
     }
 }

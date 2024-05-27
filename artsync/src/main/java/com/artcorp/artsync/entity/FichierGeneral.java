@@ -1,5 +1,6 @@
 package com.artcorp.artsync.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.util.Arrays;
@@ -14,12 +15,15 @@ public class FichierGeneral {
     private String urlMedia;
     @ManyToOne
     @JoinColumn(name = "post_id")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Post post;
     @ManyToOne
     @JoinColumn(name = "forum_id")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Forum forum;
     @ManyToOne
     @JoinColumn(name = "projet_id")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Projet projet;
     @ManyToOne
     @JoinColumn(name = "utilisateur_id")

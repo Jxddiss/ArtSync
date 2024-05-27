@@ -99,7 +99,9 @@ public class AuthController {
 
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
         if (utilisateur != null || !username.equalsIgnoreCase("anonymousUser")){
-            return "redirect:/feed";
+            if (!utilisateurService.pseudoIsValid(username,0L)){
+                return "redirect:/feed";
+            }
         }
         return "auth";
     }
@@ -150,12 +152,6 @@ public class AuthController {
         }
         redirectAttributes.addFlashAttribute("error","Mot de passe non mis à jour");
         return "redirect:/authentification";
-    }
-
-    private HttpHeaders getJwtHeader(UserPrincipal userPrincipal) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(JWT_TOKEN_HEADER, jwtTokenProvider.generateJwtToken(userPrincipal));
-        return headers;
     }
 
     private String getJwtCookie(UserPrincipal userPrincipal) {

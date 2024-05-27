@@ -40,36 +40,24 @@ public class UserController {
     private final ProjetRepos projetRepos;
     private final PostServiceImpl postService;
     private final PortfolioServiceImpl portfolioService;
-    private final ConversationServiceImpl conversationService;
-    private final ChatServiceImpl chatService;
     private final ProjetServiceImpl projetService;
-    private final TacheServiceImpl tacheService;
-    private final AnnonceServiceImpl annonceService;
-    private final FichierServiceImpl fichierService;
-    private final DemandeServiceImpl demandeService;
-    private final ForumServiceImpl forumService;
-    private final CommentaireServiceImpl commentaireService;
     private final BCryptPasswordEncoder passwordEncoder;
-    private final AuthenticationManager authenticationManager;
     private final JWTTokenProvider jwtTokenProvider;
 
     @Autowired
-    public UserController(UtilisateurServiceImpl utilisateurService, ProjetRepos projetRepos, PostServiceImpl postService, PortfolioServiceImpl portfolioService, ConversationServiceImpl conversationService, ChatServiceImpl chatService, ProjetServiceImpl projetService, TacheServiceImpl tacheService, AnnonceServiceImpl annonceService, FichierServiceImpl fichierService, DemandeServiceImpl demandeService, ForumServiceImpl forumService, CommentaireServiceImpl commentaireService, BCryptPasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JWTTokenProvider jwtTokenProvider) {
+    public UserController(UtilisateurServiceImpl utilisateurService,
+                          ProjetRepos projetRepos,
+                          PostServiceImpl postService,
+                          PortfolioServiceImpl portfolioService,
+                          ProjetServiceImpl projetService,
+                          BCryptPasswordEncoder passwordEncoder,
+                          JWTTokenProvider jwtTokenProvider) {
         this.utilisateurService = utilisateurService;
         this.projetRepos = projetRepos;
         this.postService = postService;
         this.portfolioService = portfolioService;
-        this.conversationService = conversationService;
-        this.chatService = chatService;
         this.projetService = projetService;
-        this.tacheService = tacheService;
-        this.annonceService = annonceService;
-        this.fichierService = fichierService;
-        this.demandeService = demandeService;
-        this.forumService = forumService;
-        this.commentaireService = commentaireService;
         this.passwordEncoder = passwordEncoder;
-        this.authenticationManager = authenticationManager;
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
@@ -283,72 +271,11 @@ public class UserController {
         }
     }
     @GetMapping("/utilisateur/profil/settings/delete")
-    public String deleteUser(HttpServletRequest request, HttpServletResponse response){
+    public String deleteUser(HttpServletRequest request,
+                             HttpServletResponse response){
         HttpSession session = request.getSession(false);
         if (session!=null){
             Utilisateur user = (Utilisateur) session.getAttribute("user");
-            List<Post> posts = postService.findPostByUser(user);
-            for (Post post: posts){
-                postService.deletePost(post);
-            }
-            System.out.println("POSTS SUPPRIMÉS");
-            List<Conversation> conversations = conversationService.findByAllByUtilisateur(user);
-            for (Conversation conversation: conversations){
-                if (conversation.getProjet()==null){
-                    chatService.deleteAllByConversationId(conversation.getId());
-                    conversationService.deleteById(conversation.getId());
-                }
-            }
-            chatService.deleteAllByUtilisateurUnId(user.getId());
-            System.out.println("CONVERSATION ET CHATS SUPPRIMÉES");
-            List<Projet> projets = projetService.findProjectsOfUser(user.getId());
-            for (Projet projet:projets){
-                if (projet.getAdmin().getId().equals(user.getId())){
-                    List<Utilisateur> users = projetService.getMembers(projet.getId());
-                    for (Utilisateur utilisateur : users) {
-                        projetService.removeUtilisateurFromProjet(projet.getId(), user.getId());
-                    }
-                    fichierService.deleteAllByProjet(projetService.findById(projet.getId()));
-                    annonceService.deleteAllByProjetId(projet.getId());
-                    tacheService.deleteAllByProjetId(projet.getId());
-                    demandeService.deleteAllByProjetId(projet.getId());
-                    chatService.deleteAllByConversationId(conversationService.findByProjet(projetService.findById(projet.getId())).getId());
-                    conversationService.deleteAllByProjetId(projet.getId());
-                    projetService.deleteProjet(projet.getId());
-                }
-                else {
-                    projetService.removeUtilisateurFromProjet(projet.getId(),user.getId());
-                }
-            }
-            System.out.println("PROJETS SUPPRIMÉS");
-            Set<Utilisateur> followers = user.getFollowers();
-            for (Utilisateur follower: followers){
-                utilisateurService.updateRelations(user.getId(),follower.getId());
-            }
-            System.out.println("FOLLOWERS RETIRÉS");
-            Set<Utilisateur> followings = user.getFollowing();
-            for (Utilisateur following: followings){
-                utilisateurService.updateRelations(following.getId(),user.getId());
-            }
-            System.out.println("FOLLOWINGS RETIRÉS");
-            if (portfolioService.findByUtilisateur(user)!=null){
-                portfolioService.deletePortfolio(portfolioService.findByUtilisateur(user));
-            }
-            System.out.println("PORTFOLIO SUPPRIMÉ");
-            List<Forum> forums = forumService.findAllByUtilisateur(user);
-            for (Forum forum:forums){
-                List<Commentaire> commentaires = commentaireService.findAllByForum(forum);
-                for (Commentaire commentaire:commentaires){
-                    commentaireService.deleteCommentaire(commentaire);
-                }
-                forumService.deleteForum(forum);
-            }
-            System.out.println("FORUM SUPPRIMÉS");
-            List<Commentaire> commentaires = commentaireService.findAllByUser(user);
-            for (Commentaire commentaire:commentaires){
-                commentaireService.deleteCommentaire(commentaire);
-            }
-            System.out.println("COMMENTAIRES SUPPRIMÉS");
             utilisateurService.delete(user.getId());
             System.out.println("UTILISATEUR SUPPRIMÉ");
             Cookie cookie = new Cookie("jwt",null);

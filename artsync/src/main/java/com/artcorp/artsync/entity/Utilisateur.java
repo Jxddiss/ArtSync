@@ -1,5 +1,6 @@
 package com.artcorp.artsync.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class Utilisateur {
     @Column(nullable = false, length = 64,unique = true)
     private String email;
     @Column(nullable = false)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
     @Column(nullable = false)
     private String photoUrl;
@@ -36,6 +38,7 @@ public class Utilisateur {
             inverseJoinColumns = @JoinColumn(name = "utilisateur_deux_id"),
             uniqueConstraints = @UniqueConstraint(columnNames = {"id"})
     )
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Set<Utilisateur> followers;
 
     @ManyToMany
@@ -44,6 +47,7 @@ public class Utilisateur {
             inverseJoinColumns = @JoinColumn(name = "utilisateur_un_id"),
             uniqueConstraints = @UniqueConstraint(columnNames = {"id"})
     )
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Set<Utilisateur> following;
 
     @ManyToMany
@@ -52,6 +56,7 @@ public class Utilisateur {
             inverseJoinColumns = @JoinColumn(name = "utilisateur_deux_id"),
             uniqueConstraints = @UniqueConstraint(columnNames = {"id"})
     )
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Set<Utilisateur> amis;
     private boolean isActive;
     @Transient

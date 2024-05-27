@@ -1,6 +1,7 @@
 package com.artcorp.artsync.utils;
 
 import com.artcorp.artsync.entity.UserPrincipal;
+import com.artcorp.artsync.service.UtilisateurService;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -31,7 +32,12 @@ public class JWTTokenProvider {
 
     @Value("${jwt.secret}")
     private String secret;
-    private Logger LOGGER = LoggerFactory.getLogger(getClass());
+    private final Logger LOGGER = LoggerFactory.getLogger(getClass());
+    private final UtilisateurService utilisateurService;
+
+    public JWTTokenProvider(UtilisateurService utilisateurService) {
+        this.utilisateurService = utilisateurService;
+    }
 
     public String generateJwtToken(UserPrincipal userPrincipal){
         String[] claims = getClaimsFromUser(userPrincipal);
@@ -72,7 +78,9 @@ public class JWTTokenProvider {
 
     public boolean isTokenValid(String username, String token){
         JWTVerifier verifier = getJWTVerifier();
-        return StringUtils.isNotEmpty(username) && !isTokenExpired(verifier, token);
+        return StringUtils.isNotEmpty(username)
+                && !isTokenExpired(verifier, token)
+                && !utilisateurService.pseudoIsValid(username,0L);
     }
 
     public String getSubject(String token){

@@ -3,25 +3,20 @@ package com.artcorp.artsync.service.impl;
 import com.artcorp.artsync.entity.*;
 import com.artcorp.artsync.exception.domain.MauvaisIdentifiantException;
 import com.artcorp.artsync.exception.domain.NotConnectedException;
-import com.artcorp.artsync.repos.ConfirmationTokenRepos;
-import com.artcorp.artsync.repos.ConversationRepos;
-import com.artcorp.artsync.repos.UtilisateurRepos;
+import com.artcorp.artsync.repos.*;
 import com.artcorp.artsync.service.UtilisateurService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static com.artcorp.artsync.constant.EmailConstant.BASE_SITE_ADDRESS;
 
@@ -33,18 +28,50 @@ public class UtilisateurServiceImpl implements UtilisateurService, UserDetailsSe
     private ConfirmationTokenRepos confirmationTokenRepos;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     private Logger LOGGER = LoggerFactory.getLogger(getClass());
+    private final TacheRepos tacheRepos;
+    private final AnnonceRepos annonceRepos;
+    private final FichierServiceImpl fichierService;
+    private final DemandeRepos demandeRepos;
+    private final ForumRepos forumRepos;
+    private final CommentaireRepos commentaireRepos;
+    private final ChatRepos chatRepos;
+    private final PostServiceImpl postService;
+    private final ProjetServiceImpl projetService;
+    private final PortfolioRepos portfolioRepos;
 
-    @Autowired
-    public UtilisateurServiceImpl(UtilisateurRepos repos, ConversationRepos conversationRepos, ConfirmationTokenRepos confirmationTokenRepos, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UtilisateurServiceImpl(UtilisateurRepos repos,
+                                  ConversationRepos conversationRepos,
+                                  ConfirmationTokenRepos confirmationTokenRepos,
+                                  BCryptPasswordEncoder bCryptPasswordEncoder,
+                                  TacheRepos tacheRepos,
+                                  AnnonceRepos annonceRepos,
+                                  FichierServiceImpl fichierService,
+                                  DemandeRepos demandeRepos,
+                                  ForumRepos forumRepos,
+                                  CommentaireRepos commentaireRepos,
+                                  ChatRepos chatRepos,
+                                  PostServiceImpl postService,
+                                  ProjetServiceImpl projetService,
+                                  PortfolioRepos portfolioRepos) {
         this.repos = repos;
         this.conversationRepos = conversationRepos;
         this.confirmationTokenRepos = confirmationTokenRepos;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.tacheRepos = tacheRepos;
+        this.annonceRepos = annonceRepos;
+        this.fichierService = fichierService;
+        this.demandeRepos = demandeRepos;
+        this.forumRepos = forumRepos;
+        this.commentaireRepos = commentaireRepos;
+        this.chatRepos = chatRepos;
+        this.postService = postService;
+        this.projetService = projetService;
+        this.portfolioRepos = portfolioRepos;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Utilisateur user = repos.findByPseudoAndActive(username);
+        Utilisateur user = repos.findByPseudo(username);
         if (user == null){
             LOGGER.error("Utilisateur non trouvé avec le pseudo : "+username);
             throw new UsernameNotFoundException("Utilisateur non trouvé avec le pseudo : "+username);
@@ -58,7 +85,7 @@ public class UtilisateurServiceImpl implements UtilisateurService, UserDetailsSe
     @Override
     public Utilisateur connexion(String username, String password) throws MauvaisIdentifiantException {
 
-        Utilisateur user = repos.findByPseudoAndActive(username);
+        Utilisateur user = repos.findByPseudo(username);
         if(user != null){
             if(bCryptPasswordEncoder.matches(password, user.getPassword())){
                 return user;
@@ -95,8 +122,14 @@ public class UtilisateurServiceImpl implements UtilisateurService, UserDetailsSe
     }
 
     @Override
+    public List<Utilisateur> findAllAdmin() {
+        return repos.findAllAdmin();
+    }
+
+
+    @Override
     public Utilisateur findByPseudo(String pseudo) {
-        return repos.findByPseudoAndActive(pseudo);
+        return repos.findByPseudo(pseudo);
     }
 
     @Override
@@ -105,7 +138,13 @@ public class UtilisateurServiceImpl implements UtilisateurService, UserDetailsSe
     }
 
     @Override
-    public Utilisateur findById(Long idUtilisateur) { return repos.findById(idUtilisateur).get(); }
+    public Utilisateur findById(Long idUtilisateur) {
+        Utilisateur utilisateur = null;
+        if (repos.findById(idUtilisateur).isPresent()){
+            utilisateur = repos.findById(idUtilisateur).get();
+        }
+        return utilisateur;
+    }
 
     @Override
     public String genLinkPasswordReset(String email) {
@@ -142,17 +181,24 @@ public class UtilisateurServiceImpl implements UtilisateurService, UserDetailsSe
 
     @Override
     public Utilisateur addUserSessionIfNot(HttpSession session,String username) throws NotConnectedException {
-        Utilisateur user = (Utilisateur) session.getAttribute("user");
-        System.out.println(username);
+
         if(username.equalsIgnoreCase("anonymousUser")){
             throw new NotConnectedException("Veuiller vous connecter");
         }
-        if(user == null){
-            user = repos.findByPseudoAndActive(username);
-            if (user == null){
-                throw new NotConnectedException("Veuiller vous connecter");
+
+        Utilisateur user = (Utilisateur) session.getAttribute("user");
+        System.out.println(username);
+        if (repos.existsByPseudoAndIdNot(username,0L)){
+            if(user == null){
+                user = repos.findByPseudo(username);
+                if (user == null){
+                    throw new NotConnectedException("Veuiller vous connecter");
+                }
+                session.setAttribute("user",user);
             }
-            session.setAttribute("user",user);
+        }else {
+            SecurityContextHolder.clearContext();
+            session.invalidate();
         }
         return user;
     }
@@ -232,8 +278,72 @@ public class UtilisateurServiceImpl implements UtilisateurService, UserDetailsSe
     }
 
     @Override
-    public void delete(Long id) {
-        repos.deleteById(id);
+    public void delete(Long userId) {
+        if (repos.findById(userId).isPresent()){
+            Utilisateur user = repos.findById(userId).get();
+            List<Post> posts = postService.findPostByUser(user);
+            for (Post post: posts){
+                post.getListeFichiers().forEach(fichierGeneral -> {
+                    fichierService.deleteById(fichierGeneral.getId(),"post");
+                });
+                postService.deletePost(post);
+            }
+            System.out.println("POSTS SUPPRIMÉS");
+            List<Conversation> conversations = conversationRepos.findByAllByUtilisateur(user);
+            for (Conversation conversation: conversations){
+                if (conversation.getProjet()==null){
+                    chatRepos.deleteAllByConversationId(conversation.getId());
+                    conversationRepos.deleteById(conversation.getId());
+                }
+            }
+            chatRepos.deleteAllByUtilisateurUnId(user.getId());
+            System.out.println("CONVERSATION ET CHATS SUPPRIMÉES");
+            List<Projet> projets = projetService.findProjectsOfUser(user.getId());
+            for (Projet projet:projets){
+                if (projet.getAdmin().getId().equals(user.getId())){
+                    List<Utilisateur> users = projetService.getMembers(projet.getId());
+                    for (Utilisateur utilisateur : users) {
+                        projetService.removeUtilisateurFromProjet(projet.getId(), user.getId());
+                    }
+                    fichierService.deleteAllByProjet(projetService.findById(projet.getId()));
+                    annonceRepos.deleteAllByProjetId(projet.getId());
+                    tacheRepos.deleteAllByProjetId(projet.getId());
+                    demandeRepos.deleteAllByProjetId(projet.getId());
+                    chatRepos.deleteAllByConversationId(conversationRepos.findByProjet(projetService.findById(projet.getId())).getId());
+                    conversationRepos.deleteAllByProjetId(projet.getId());
+                    projetService.deleteProjet(projet.getId());
+                }
+                else {
+                    projetService.removeUtilisateurFromProjet(projet.getId(),user.getId());
+                }
+            }
+            System.out.println("PROJETS SUPPRIMÉS");
+            Set<Utilisateur> followers = new HashSet<>(user.getFollowers());
+            for (Utilisateur follower: followers){
+                updateRelations(user.getId(),follower.getId());
+            }
+            System.out.println("FOLLOWERS RETIRÉS");
+            Set<Utilisateur> followings = new HashSet<>(user.getFollowing());
+            for (Utilisateur following: followings){
+                updateRelations(following.getId(),user.getId());
+            }
+            System.out.println("FOLLOWINGS RETIRÉS");
+            if (portfolioRepos.findByUtilisateur(user)!=null){
+                portfolioRepos.delete(portfolioRepos.findByUtilisateur(user));
+            }
+            System.out.println("PORTFOLIO SUPPRIMÉ");
+            List<Forum> forums = forumRepos.findAllByUtilisateur(user);
+            for (Forum forum:forums){
+                List<Commentaire> commentaires = commentaireRepos.findAllByForum(forum);
+                commentaireRepos.deleteAll(commentaires);
+                forumRepos.delete(forum);
+            }
+            System.out.println("FORUM SUPPRIMÉS");
+            List<Commentaire> commentaires = commentaireRepos.findAllByUtilisateur(user);
+            commentaireRepos.deleteAll(commentaires);
+            System.out.println("COMMENTAIRES SUPPRIMÉS");
+            repos.delete(user);
+        }
     }
 
     private String encodePassword(String password) {
@@ -247,7 +357,7 @@ public class UtilisateurServiceImpl implements UtilisateurService, UserDetailsSe
         notification.setIdDest(followed.getId());
         notification.setImgSender(follower.getPhotoUrl());
         notification.setType("info");
-        notification.setTitre("Nouvelle abonné");
+        notification.setTitre("Nouvel abonné");
         notification.setMessage(follower.getPseudo() + " s'est abonné à votre compte");
         notification.setUrlNotif("/utilisateur/profil/"+follower.getPseudo());
         return notification;

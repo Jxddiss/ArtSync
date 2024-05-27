@@ -12,6 +12,7 @@ public interface UtilisateurService {
     Utilisateur connexion(String username, String password) throws MauvaisIdentifiantException;
     Utilisateur inscription(String pseudo, String prenom, String nom, String email, String password, String photoUrl, String specialisation, String statut);
     List<Utilisateur> findAll();
+    List<Utilisateur> findAllAdmin();
     Utilisateur findByPseudo(String pseudo);
     Utilisateur findByEmail(String email);
     Utilisateur update(Utilisateur utilisateur);

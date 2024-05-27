@@ -1,0 +1,63 @@
+.forum-container{
+    display: flex;
+    flex-wrap: wrap;
+    width: 30rem;
+    height: 35rem;
+    gap: 2rem;
+    margin-inline: 2.5%;
+    margin-top: 3.5%;
+    overflow-y: auto;
+    padding: 0.5rem;
+}
+.forum{
+    padding: 1rem;
+    padding-block: 1.5rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+    min-height: 5rem;
+    height: fit-content;
+    width: 35rem;
+    border-radius: 12px;
+    border: 3px solid rgb(0,0,0,0.25);
+}
+.forum:hover{
+    background-color: rgba(242, 128, 168, 0.034);
+    transition: 0.25s;
+    cursor: pointer;
+    scale: 1.0125;
+}
+
+.forum-info{
+    display: flex;
+    flex-direction: column;
+    align-self: start;
+    padding-inline: 1.25rem;
+}
+.forum-info h4{
+    font-size: 1.55rem;
+    font-weight: 400;
+    margin: 0;
+}
+.forum-info p{
+    margin: 0;
+    font-weight: 400;
+    font-size: 1rem;
+    text-align: left;
+}
+.forum-info b{
+    margin-top: 1rem;
+}
+.forum svg:first-child{
+    height: 8rem;
+    width: 8rem;
+}
+.forum svg:last-child{
+    height: 6rem;
+    fill: rgba(0,0,0,0.75);
+}
+.forum svg:last-child:hover{
+    fill: rgba(0,0,0,0.85);
+    cursor: pointer;
+}

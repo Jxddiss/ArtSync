@@ -16,6 +16,7 @@ import { UserListSpecificComponent } from './user-list-specific/user-list-specif
 import { SearchSpecificComponent } from './search-specific/search-specific.component';
 import { PostListSpecificComponent } from './post-list-specific/post-list-specific.component';
 import { GroupeListSpecificComponent } from './groupe-list-specific/groupe-list-specific.component';
+import { ForumListSpecificComponent } from './forum-list-specific/forum-list-specific.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { GroupeListSpecificComponent } from './groupe-list-specific/groupe-list-
     UserListSpecificComponent,
     SearchSpecificComponent,
     PostListSpecificComponent,
-    GroupeListSpecificComponent
+    GroupeListSpecificComponent,
+    ForumListSpecificComponent,
   ],
   imports: [
     BrowserModule,

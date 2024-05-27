@@ -20,6 +20,7 @@ import { ForumListSpecificComponent } from './forum-list-specific/forum-list-spe
 import { FichierListSpecificComponent } from './fichier-list-specific/fichier-list-specific.component';
 import { CommentListSpecificComponent } from './comment-list-specific/comment-list-specific.component';
 import { ForumPreviewComponent } from './forum-preview/forum-preview.component';
+import { GroupPreviewComponent } from './group-preview/group-preview.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { ForumPreviewComponent } from './forum-preview/forum-preview.component';
     FichierListSpecificComponent,
     CommentListSpecificComponent,
     ForumPreviewComponent,
+    GroupPreviewComponent,
   ],
   imports: [
     BrowserModule,

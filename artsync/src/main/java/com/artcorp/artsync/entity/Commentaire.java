@@ -1,5 +1,6 @@
 package com.artcorp.artsync.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 @Entity
@@ -11,10 +12,12 @@ public class Commentaire {
     private String message;
     @ManyToOne
     @JoinColumn(name = "post_id")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Post post;
 
     @ManyToOne
     @JoinColumn(name = "forum_id")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Forum forum;
 
     @ManyToOne

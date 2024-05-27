@@ -9,6 +9,7 @@ import { SpecificViewComponent } from './specific-view/specific-view.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { SearchComponent } from './search/search.component';
 import { GroupListComponent } from './group-list/group-list.component';
+import { PostListComponent } from './post-list/post-list.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { GroupListComponent } from './group-list/group-list.component';
     SpecificViewComponent,
     UserListComponent,
     SearchComponent,
-    GroupListComponent
+    GroupListComponent,
+    PostListComponent
   ],
   imports: [
     BrowserModule,

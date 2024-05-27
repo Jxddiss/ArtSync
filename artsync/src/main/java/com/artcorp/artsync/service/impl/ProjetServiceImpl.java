@@ -31,7 +31,11 @@ public class ProjetServiceImpl implements ProjetService {
     }
     @Override
     public Projet findById(Long id) {
-        return repos.findById(id).get();
+        Projet projet = null;
+        if (repos.findById(id).isPresent()){
+            projet = repos.findById(id).get();
+        }
+        return projet;
     }
     @Override
     public Projet addUtilisateurToProjet(Long idProjet, Long idUtilisateur) {

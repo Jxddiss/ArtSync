@@ -5,12 +5,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { OptionsComponent } from './options/options.component';
 import { GeneralViewComponent } from './general-view/general-view.component';
+import { SpecificViewComponent } from './specific-view/specific-view.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     OptionsComponent,
-    GeneralViewComponent
+    GeneralViewComponent,
+    SpecificViewComponent
   ],
   imports: [
     BrowserModule,

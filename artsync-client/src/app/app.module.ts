@@ -6,13 +6,17 @@ import { AppComponent } from './app.component';
 import { OptionsComponent } from './options/options.component';
 import { GeneralViewComponent } from './general-view/general-view.component';
 import { SpecificViewComponent } from './specific-view/specific-view.component';
+import { UserListComponent } from './user-list/user-list.component';
+import { SearchComponent } from './search/search.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     OptionsComponent,
     GeneralViewComponent,
-    SpecificViewComponent
+    SpecificViewComponent,
+    UserListComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,

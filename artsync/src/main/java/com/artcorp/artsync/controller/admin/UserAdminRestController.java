@@ -1,6 +1,8 @@
 package com.artcorp.artsync.controller.admin;
 
+import com.artcorp.artsync.entity.Commentaire;
 import com.artcorp.artsync.entity.Utilisateur;
+import com.artcorp.artsync.service.CommentaireService;
 import com.artcorp.artsync.service.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
@@ -16,10 +18,12 @@ import java.util.List;
 @RestController
 public class UserAdminRestController {
     private final UtilisateurService utilisateurService;
+    private final CommentaireService commentaireService;
 
     @Autowired
-    public UserAdminRestController(UtilisateurService utilisateurService) {
+    public UserAdminRestController(UtilisateurService utilisateurService, CommentaireService commentaireService) {
         this.utilisateurService = utilisateurService;
+        this.commentaireService = commentaireService;
     }
 
     @GetMapping("/api/users")
@@ -35,5 +39,16 @@ public class UserAdminRestController {
             throw new NoResourceFoundException(method,"Utilisateur id: "+userId);
         }
         return new ResponseEntity<>(utilisateur, HttpStatus.OK);
+    }
+
+    @GetMapping("/api/users/commentaires/{userId}")
+    public ResponseEntity<List<Commentaire>> getCommentaireByOneUser(@PathVariable("userId") Long userId,
+                                                                     HttpMethod method) throws NoResourceFoundException {
+        Utilisateur utilisateur = utilisateurService.findById(userId);
+        if (utilisateur == null){
+            throw new NoResourceFoundException(method,"Utilisateur id: "+userId);
+        }
+        List<Commentaire> listCommentaires = commentaireService.findAllByUser(utilisateur);
+        return new ResponseEntity<>(listCommentaires,HttpStatus.OK);
     }
 }

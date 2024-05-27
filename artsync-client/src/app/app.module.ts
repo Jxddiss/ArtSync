@@ -10,6 +10,7 @@ import { UserListComponent } from './user-list/user-list.component';
 import { SearchComponent } from './search/search.component';
 import { GroupListComponent } from './group-list/group-list.component';
 import { PostListComponent } from './post-list/post-list.component';
+import { ForumListComponent } from './forum-list/forum-list.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { PostListComponent } from './post-list/post-list.component';
     UserListComponent,
     SearchComponent,
     GroupListComponent,
-    PostListComponent
+    PostListComponent,
+    ForumListComponent
   ],
   imports: [
     BrowserModule,

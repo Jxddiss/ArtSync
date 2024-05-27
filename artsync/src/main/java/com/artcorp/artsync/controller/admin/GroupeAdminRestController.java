@@ -32,7 +32,7 @@ public class GroupeAdminRestController {
     public ResponseEntity<Projet> getOneGroupeAdmin(@PathVariable("groupeId") Long groupId, HttpMethod method) throws NoResourceFoundException {
         Projet projet = projetService.findById(groupId);
         if (projet == null){
-            throw new NoResourceFoundException(method,"Projet : "+groupId);
+            throw new NoResourceFoundException(method,"Projet id: "+groupId);
         }
         return new ResponseEntity<>(projet, HttpStatus.OK);
     }

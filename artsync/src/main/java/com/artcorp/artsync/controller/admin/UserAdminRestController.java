@@ -32,7 +32,7 @@ public class UserAdminRestController {
     public ResponseEntity<Utilisateur> getOneUsers(@PathVariable("userId") Long userId, HttpMethod method) throws NoResourceFoundException {
         Utilisateur utilisateur = utilisateurService.findById(userId);
         if (utilisateur == null){
-            throw new NoResourceFoundException(method,"Utilisateur");
+            throw new NoResourceFoundException(method,"Utilisateur id: "+userId);
         }
         return new ResponseEntity<>(utilisateur, HttpStatus.OK);
     }

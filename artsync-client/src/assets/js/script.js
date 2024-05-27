@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     const verticalNavbar = document.querySelector('.vertical-header');
     const options = document.querySelectorAll('.option');
-    const closeBtn = options.item(0).firstElementChild;
+    const closeBtn = options.item(0);
 
     let menuOpen = true;
     closeBtn.addEventListener('click', function() {

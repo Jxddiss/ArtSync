@@ -124,7 +124,11 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Post findById(Long postId) {
-        return postRepos.findById(postId).get();
+        Post post = null;
+        if (postRepos.findById(postId).isPresent()){
+            post = postRepos.findById(postId).get();
+        }
+        return post;
     }
 
     @Override

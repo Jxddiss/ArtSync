@@ -152,12 +152,6 @@ public class AuthController {
         return "redirect:/authentification";
     }
 
-    private HttpHeaders getJwtHeader(UserPrincipal userPrincipal) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(JWT_TOKEN_HEADER, jwtTokenProvider.generateJwtToken(userPrincipal));
-        return headers;
-    }
-
     private String getJwtCookie(UserPrincipal userPrincipal) {
         return jwtTokenProvider.generateJwtToken(userPrincipal);
     }

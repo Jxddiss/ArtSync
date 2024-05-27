@@ -15,6 +15,7 @@ import { UserPreviewComponent } from './user-preview/user-preview.component';
 import { UserListSpecificComponent } from './user-list-specific/user-list-specific.component';
 import { SearchSpecificComponent } from './search-specific/search-specific.component';
 import { PostListSpecificComponent } from './post-list-specific/post-list-specific.component';
+import { GroupeListSpecificComponent } from './groupe-list-specific/groupe-list-specific.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { PostListSpecificComponent } from './post-list-specific/post-list-specif
     UserPreviewComponent,
     UserListSpecificComponent,
     SearchSpecificComponent,
-    PostListSpecificComponent
+    PostListSpecificComponent,
+    GroupeListSpecificComponent
   ],
   imports: [
     BrowserModule,

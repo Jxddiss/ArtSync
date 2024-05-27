@@ -8,6 +8,8 @@ public class ExceptionConstant {
     public static final String MAUVAIS_IDENTIFIANTS = "Mauvais identifiants";
     public static final String VEUILLER_VOUS_CONNECTER = "Veuiller vous connecter";
     public static final String UNAUTHORIZED = "Non authorisé!";
+    public static final String TOKEN_NON_VALIDE = "Connexion non valide";
+    public static final String NOT_FOUND = "Ressources impossible à trouvé";
     public static final String WARN = "warn";
     public static final String ERROR = "error";
 }

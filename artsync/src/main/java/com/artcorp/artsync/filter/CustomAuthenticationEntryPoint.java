@@ -1,5 +1,7 @@
 package com.artcorp.artsync.filter;
 
+import com.artcorp.artsync.dto.HttpResponse;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
@@ -19,11 +21,14 @@ public class CustomAuthenticationEntryPoint extends Http403ForbiddenEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException {
         boolean isApiRequest = request.getRequestURI().startsWith("/api");
         if (isApiRequest) {
+            HttpStatus httpStatus = HttpStatus.FORBIDDEN;
+            HttpResponse httpResponse = new HttpResponse(httpStatus.value(),
+                    httpStatus, httpStatus.getReasonPhrase(), UNAUTHORIZED);
+            ObjectMapper objectMapper = new ObjectMapper();
             response.setStatus(HttpStatus.FORBIDDEN.value());
             response.setContentType("application/json");
-            String responseBody = "{\"error\": \"" + UNAUTHORIZED+ "\"}";
+            String responseBody = objectMapper.writeValueAsString(httpResponse);
             response.getWriter().write(responseBody);
-
         } else {
             final FlashMap flashMap = new FlashMap();
             flashMap.put(WARN,UNAUTHORIZED);

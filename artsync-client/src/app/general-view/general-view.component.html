@@ -1,9 +1,9 @@
 <div class="general-view">
     <div class="section-container">
-        <a [routerLink]="[{ outlets: { generalView: ['users'] } }]" class="section">Utilisateurs</a>
-        <a [routerLink]="[{ outlets: { generalView: ['groups'] } }]" class="section">Groupes</a>
-        <a [routerLink]="[{ outlets: { generalView: ['posts'] } }]" class="section">Publications</a>
-        <a [routerLink]="[{ outlets: { generalView: ['forums'] } }]" class="section">Forums</a>
+        <a [routerLink]="'/'" class="section">Utilisateurs</a>
+        <a [routerLink]="['/generalView', { outlets: { generalView: 'groups' } }]" class="section">Groupes</a>
+        <a [routerLink]="['/generalView', { outlets: { generalView: 'posts' } }]" class="section">Publications</a>
+        <a [routerLink]="['/generalView', { outlets: { generalView: 'forums' } }]" class="section">Forums</a>
     </div>
     <div class="general-content">
         <router-outlet name="generalView"></router-outlet>

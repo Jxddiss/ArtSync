@@ -111,7 +111,7 @@
     margin-top: 1rem;
     width: 30rem;
 }
-.group-options button{
+.group-options a{
     width: 8rem;
     height: 8rem;
     border-radius: 8px;
@@ -121,17 +121,21 @@
     font-size: 1.2rem;
     font-weight: 500;
     cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    color: black;
 }
-.group-options button svg{
+.group-options a svg{
     height: 2rem;
     width: 2rem;
+    margin-top: 1rem;
 }
-.group-options button p{
+.group-options a p{
     margin: 0;
     margin-top: 1rem;
     font-size: 1rem;
 }
-.group-options button:hover{
+.group-options a:hover{
     background-color: rgb(0,0,0,0.1);
     transition: 0.25s;
 }

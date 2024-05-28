@@ -2,8 +2,10 @@ package com.artcorp.artsync.controller.admin;
 
 import com.artcorp.artsync.dto.HttpResponse;
 import com.artcorp.artsync.entity.Commentaire;
+import com.artcorp.artsync.entity.Projet;
 import com.artcorp.artsync.entity.Utilisateur;
 import com.artcorp.artsync.service.CommentaireService;
+import com.artcorp.artsync.service.ProjetService;
 import com.artcorp.artsync.service.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
@@ -20,11 +22,13 @@ import java.util.List;
 public class UserAdminRestController {
     private final UtilisateurService utilisateurService;
     private final CommentaireService commentaireService;
+    private final ProjetService projetService;
 
     @Autowired
-    public UserAdminRestController(UtilisateurService utilisateurService, CommentaireService commentaireService) {
+    public UserAdminRestController(UtilisateurService utilisateurService, CommentaireService commentaireService, ProjetService projetService) {
         this.utilisateurService = utilisateurService;
         this.commentaireService = commentaireService;
+        this.projetService = projetService;
     }
 
     @GetMapping("/api/users")
@@ -51,6 +55,16 @@ public class UserAdminRestController {
         }
         List<Commentaire> listCommentaires = commentaireService.findAllByUser(utilisateur);
         return new ResponseEntity<>(listCommentaires,HttpStatus.OK);
+    }
+
+    @GetMapping("/api/users/groups/{userId}")
+    public ResponseEntity<List<Projet>> getGroupsByOneUser(@PathVariable("userId") Long userId,
+                                                                     HttpMethod method) throws NoResourceFoundException {
+        List<Projet> listProjets = projetService.findProjectsOfUser(userId);
+        if (listProjets.isEmpty()){
+            throw new NoResourceFoundException(method,"Utilisateur id: "+userId);
+        }
+        return new ResponseEntity<>(listProjets,HttpStatus.OK);
     }
 
     @DeleteMapping("/api/users/delete")

@@ -134,7 +134,7 @@ public class UtilisateurServiceImpl implements UtilisateurService, UserDetailsSe
 
     @Override
     public Utilisateur findByEmail(String email) {
-        return repos.findByEmailAndActive(email);
+        return repos.findByEmail(email);
     }
 
     @Override

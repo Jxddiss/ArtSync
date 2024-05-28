@@ -22,19 +22,17 @@
     </div>
     <div class="container">
         <div class="auth-box" style="width: 90%;">
-            <form method="post" id="formulaire-changement-pwd"
-                  th:action="@{/change-password}"
-                  style="flex-direction: column;"
-                  onsubmit="return validateFormPwdChange()">
-
+            <form id="formulaire-demande" style="flex-direction: column;">
                 <div class="input-holder" id="holder-input" style="width: 150%;">
-                    <h3 style="margin-bottom: 2em;">NOUVEAU MOT DE PASSE</h3>
-                    <input type="password" placeholder="Nouveau mot de passe" name="mdp" id="pwd"  required>
-                    <input type="password" placeholder="Confirmer le mot de passe" name="confirmer" id="conf" required>
-                    <input hidden type="text" th:value="${userId}" name="userId">
-                    <input hidden type="text" th:value="${token}" name="token">
+                    <h3 style="margin-bottom: 2em;">DEMANDE</h3>
+                    <input type="email" placeholder="Addresse courriel " name="email" id="input-1"  required>
+                    <textarea
+                            name="message"
+                            placeholder="Message pour l'administration"
+                            style="max-height: 20vh;"
+                            required></textarea>
                 </div>
-                <button type="submit" class="boutton-connexion" id="confirmation">ENVOYER</button>
+                <button type="submit" class="boutton-connexion" id="confirmation">ENVOYER LA DEMANDE</button>
             </form>
         </div>
     </div>
@@ -54,7 +52,7 @@
             ARTSYNC
       </div>
     </footer>
-    <div id="notification-pop-liste" ></div>
+    <div id="notification-pop-liste" style="z-index: 10000"></div>
 
     <script th:src="@{/js/notification.js?v=16}"></script>
     <script th:if="${warn != null}">
@@ -71,7 +69,14 @@
             titre: 'Avertissement',
         })
     </script>
+    <script th:if="${success != null}">
+        showNotification({
+            type: 'success',
+            message: '[[${success}]]',
+            titre: 'Avertissement',
+        })
+    </script>
     <script th:src="@{/js/script-auth.js?v=6}"></script>
-    <script th:src="@{/js/reset-password.js?v=1}"></script>
+    <script th:src="@{/js/demande-admin.js?v=1}"></script>
   </body>
 </html>

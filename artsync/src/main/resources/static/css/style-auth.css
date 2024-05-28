@@ -166,7 +166,7 @@ form{
     display: flex;
     align-items: center;;
 }
-form input{
+form input, form textarea{
     padding: 7px;
     margin-top: 25px;
     width: 150%;

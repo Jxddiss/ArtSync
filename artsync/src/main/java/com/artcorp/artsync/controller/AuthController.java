@@ -154,6 +154,11 @@ public class AuthController {
         return "redirect:/authentification";
     }
 
+    @GetMapping("/demande-admin")
+    public String demandeAdmin(){
+        return "demande-admin";
+    }
+
     private String getJwtCookie(UserPrincipal userPrincipal) {
         return jwtTokenProvider.generateJwtToken(userPrincipal);
     }

@@ -1,4 +1,4 @@
-<app-search></app-search>
+<app-search (searchQuery)="searchGroup($event)"></app-search>
 <div class="group-container">
     <a [routerLink]="['/overview/group/users']" class="group">
         <img src="../../assets/images/ultraRealisticTotoro.png" alt="">

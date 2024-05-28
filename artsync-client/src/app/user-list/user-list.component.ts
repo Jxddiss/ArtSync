@@ -12,4 +12,10 @@ export class UserListComponent {
   onUserClick() {
     this.router.navigate([{ outlets: { mainView: ['specific'], specificPreview: ['user'] } }]);
   }
+  searchUser(name: string): void {
+    if (!name) {
+      //Ajouter la methode
+      return;
+    }
+  }
 }

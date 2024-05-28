@@ -6,5 +6,10 @@ import { Component } from '@angular/core';
   styleUrl: './comment-list-specific.component.css'
 })
 export class CommentListSpecificComponent {
-
+  searchComment(name: string): void {
+    if (!name) {
+      //Ajouter la methode
+      return;
+    }
+  }
 }

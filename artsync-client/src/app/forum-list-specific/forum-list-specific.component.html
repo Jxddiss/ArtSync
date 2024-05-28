@@ -1,4 +1,4 @@
-<app-search-specific></app-search-specific>
+<app-search-specific (searchQuery)="searchForum($event)"></app-search-specific>
 <div class="forum-container">
     <a [routerLink]="['/overview/forum/comments']" class="forum">
         <div class="forum-info">

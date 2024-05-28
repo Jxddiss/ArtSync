@@ -6,5 +6,10 @@ import { Component } from '@angular/core';
   styleUrl: './forum-list-specific.component.css'
 })
 export class ForumListSpecificComponent {
-
+  searchForum(name: string): void {
+    if (!name) {
+      //Ajouter la methode
+      return;
+    }
+  }
 }

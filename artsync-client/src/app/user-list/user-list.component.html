@@ -1,4 +1,4 @@
-<app-search></app-search>
+<app-search (searchQuery)="searchUser($event)"></app-search>
 <div class="user-container">
     <a [routerLink]="['/overview/user/posts']" class="user">
         <img src="../../assets/images/ultraRealisticTotoro.png" alt="">

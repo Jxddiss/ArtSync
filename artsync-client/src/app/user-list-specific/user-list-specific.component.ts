@@ -6,5 +6,10 @@ import { Component } from '@angular/core';
   styleUrl: './user-list-specific.component.css'
 })
 export class UserListSpecificComponent {
-
+  searchUser(name: string): void {
+    if (!name) {
+      //Ajouter la methode
+      return;
+    }
+  }
 }

@@ -6,5 +6,10 @@ import { Component } from '@angular/core';
   styleUrl: './post-list.component.css'
 })
 export class PostListComponent {
-
+  searchPost(name: string): void {
+    if (!name) {
+      //Ajouter la methode
+      return;
+    }
+  }
 }

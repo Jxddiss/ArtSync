@@ -1,4 +1,4 @@
-<app-search></app-search>
+<app-search (searchQuery)="searchPost($event)"></app-search>
 <div class="post-container">
     <a [routerLink]="['/overview/post/comments']" class="post">
         <h4>Totori IRL</h4>

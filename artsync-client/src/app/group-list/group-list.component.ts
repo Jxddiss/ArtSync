@@ -6,5 +6,10 @@ import { Component } from '@angular/core';
   styleUrl: './group-list.component.css'
 })
 export class GroupListComponent {
-
+  searchGroup(name: string): void {
+    if (!name) {
+      //Ajouter la methode
+      return;
+    }
+  }
 }

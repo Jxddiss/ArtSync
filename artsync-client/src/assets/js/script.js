@@ -41,3 +41,16 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+//Pour user preview
+function toggleReadonly() {
+    const inputs = document.querySelectorAll('.user-info-holder input');
+    inputs.forEach(input => {
+        input.readOnly = !input.readOnly;
+        if (input.readOnly) {
+            input.style.border = "none";
+        } else {
+            input.style.border = "1px solid black";
+        }
+    });
+}

@@ -140,3 +140,6 @@
     background-color: rgb(0,0,0,0.1);
     transition: 0.25s;
 }
+.selected{
+    background-color: rgb(0,0,0,0.1) !important;
+}

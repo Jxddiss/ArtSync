@@ -1,7 +1,7 @@
 <div class="forum-container">
     <div class="forum-header">
         <div class="forum-identity">
-            <p>J'adore Totoro!</p>
+            <p>{{forum?.title}}</p>
         </div>
         <button (click)="showDialog()">
             <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
@@ -16,17 +16,17 @@
             <a [routerLink]="['/overview/user/posts']" class="author">
                 <img src="../../assets/images/ultraRealisticTotoro.png" alt="">
                 <div>
-                    <h5>John Doe</h5>
-                    <p>johnDoe</p>
+                    <h5>{{forum?.user?.prenom}} {{forum?.user?.nom}}</h5>
+                    <p>{{forum?.user?.pseudo}}</p>
                 </div>
             </a>
             <div class="forum-cell">
                 <h5>Contenu : </h5>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, ducimus deserunt quasi necessitatibus incidunt magni nulla, enim quo corporis ipsam ad beatae porro dolores itaque provident. Fugit est itaque autem?</p>
+                <p>{{forum?.content}}</p>
             </div>
             <div class="forum-cell">
                 <h5>Date de création : </h5>
-                <p>2024-05-27</p>
+                <p>{{forum?.date}}</p>
             </div>
         </div>
     </div>

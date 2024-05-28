@@ -108,7 +108,7 @@ const routes: Routes = [
   //------------FORUM PREVIEW---------------- <<<<<<<<<<
   //FORUM COMMENTS
   { 
-    path: 'overview/forum/comments',
+    path: 'overview/forum/comments/:id',
     component: SpecificViewComponent,
     children: [
       { path: '', component: ForumPreviewComponent, outlet: 'specificPreview' },

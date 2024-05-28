@@ -26,11 +26,8 @@ export class GroupPreviewComponent implements OnInit{
   }
 
   getGroup(): void {
-    console.log(this.route.snapshot.paramMap.get('id'));
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.group = this.groupService.getGroupById(id);
-    console.log(this.group);
-
   }
 
   @ViewChild('dialog') dialog!: ElementRef;

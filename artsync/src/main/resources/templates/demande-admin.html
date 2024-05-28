@@ -22,19 +22,13 @@
     </div>
     <div class="container">
         <div class="auth-box" style="width: 90%;">
-            <form method="post" id="formulaire-changement-pwd"
-                  th:action="@{/change-password}"
-                  style="flex-direction: column;"
-                  onsubmit="return validateFormPwdChange()">
-
+            <form method="post" id="formulaire-reset" style="flex-direction: column;">
                 <div class="input-holder" id="holder-input" style="width: 150%;">
-                    <h3 style="margin-bottom: 2em;">NOUVEAU MOT DE PASSE</h3>
-                    <input type="password" placeholder="Nouveau mot de passe" name="mdp" id="pwd"  required>
-                    <input type="password" placeholder="Confirmer le mot de passe" name="confirmer" id="conf" required>
-                    <input hidden type="text" th:value="${userId}" name="userId">
-                    <input hidden type="text" th:value="${token}" name="token">
+                    <h3 style="margin-bottom: 2em;">DEMANDE</h3>
+                    <input type="email" placeholder="Addresse courriel " name="email" id="input-1"  required>
+                    <textarea name="message" placeholder="Message pour l'administration" style="max-height: 20vh;"></textarea>
                 </div>
-                <button type="submit" class="boutton-connexion" id="confirmation">ENVOYER</button>
+                <button type="submit" class="boutton-connexion" id="confirmation">ENVOYER LA DEMANDE</button>
             </form>
         </div>
     </div>
@@ -68,6 +62,13 @@
         showNotification({
             type: 'danger',
             message: '[[${error}]]',
+            titre: 'Avertissement',
+        })
+    </script>
+    <script th:if="${success != null}">
+        showNotification({
+            type: 'success',
+            message: '[[${success}]]',
             titre: 'Avertissement',
         })
     </script>

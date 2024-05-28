@@ -156,7 +156,7 @@ public class AuthController {
 
     @GetMapping("/demande-admin")
     public String demandeAdmin(){
-        return "reset-password";
+        return "demande-admin";
     }
 
     private String getJwtCookie(UserPrincipal userPrincipal) {

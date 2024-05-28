@@ -1,0 +1,40 @@
+<div class="post-container">
+    <div class="post-header">
+        <div class="post-identity">
+            <p>TOTORO IRL!</p>
+        </div>
+        <button (click)="showDialog()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+            </svg>
+        </button>
+    </div>
+    <div class="post-info">
+        <img class="post-image" src="../../assets/images/ultraRealisticTotoro.png" alt="">
+        <h4>Informations</h4>
+        <div  class="post-info-holder">
+            <h5>Auteur:</h5>
+            <a [routerLink]="['/overview/user/posts']" class="author">
+                <img src="../../assets/images/ultraRealisticTotoro.png" alt="">
+                <div>
+                    <h5>John Doe</h5>
+                    <p>johnDoe</p>
+                </div>
+            </a>
+            <div class="post-cell">
+                <h5>Date de création : </h5>
+                <p>2024-05-27</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="dialog" #dialog style="display: none;">
+    <div class="dialog-content">
+        <h4>VOULEZ-VOUS VRAIMENT SUPPRIMER [ENTITÉ] ?</h4>
+        <div class="dialog-buttons">
+            <a>CONFIRMER</a>
+            <a (click)="hideDialog()">ANNULER</a>
+        </div>
+    </div>
+</div>

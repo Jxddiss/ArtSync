@@ -1,0 +1,29 @@
+form{
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 4rem;
+}
+form input{
+    width: 100%;
+    height: 50%;
+    font-size: 1.5rem;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1.5px solid rgb(0,0,0,0.4) ;
+    padding-left: 2.25rem;
+    padding-bottom: 0.5rem;
+}
+form input:focus
+{
+    outline: none;
+    border-bottom: 1px solid rgb(0,0,0,0.85) ;
+    transition: 0.25s;
+}
+form svg{
+    width: 1.75rem;
+    height: 1.75rem;
+    transform: translate(100%);
+    padding-bottom: 0.5rem;
+}

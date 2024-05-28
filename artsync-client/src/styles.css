@@ -1,1 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+body{
+    font-family: system-ui;
+    background: radial-gradient(ellipse at bottom right, #ffffff 35%,#edebf8 100%) fixed;
+}

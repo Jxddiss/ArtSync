@@ -1,0 +1,10 @@
+#title{
+    font-weight: 500;
+    font-size: 35px;
+    margin-inline: 8%;
+}
+.content-holder{
+    display: flex;
+    width: 100%;
+    gap: 2rem;
+}

@@ -1,0 +1,15 @@
+<div class="general-view">
+    <div class="section-container">
+        <a (click)="selectSection($event)" [routerLink]="'/'" class="section">Utilisateurs</a>
+        <a (click)="selectSection($event)" [routerLink]="['/generalView', { outlets: { generalView: 'groups' } }]" class="section">Groupes</a>
+        <a (click)="selectSection($event)" [routerLink]="['/generalView', { outlets: { generalView: 'posts' } }]" class="section">Publications</a>
+        <a (click)="selectSection($event)" [routerLink]="['/generalView', { outlets: { generalView: 'forums' } }]" class="section">Forums</a>
+    </div>
+    <div class="general-content">
+        <router-outlet name="generalView"></router-outlet>
+        <!-- <app-group-list></app-group-list> -->
+        <!-- <app-post-list></app-post-list> -->
+        <!--<app-forum-list></app-forum-list> -->
+
+    </div>
+</div>

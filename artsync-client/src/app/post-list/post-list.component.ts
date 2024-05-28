@@ -22,7 +22,9 @@ export class PostListComponent {
   }
 
   searchPost(name: string): void {
+    const searchResults : Post[] = this._allPosts
     if (!name) {
+      this._posts = searchResults
       return;
     }
 

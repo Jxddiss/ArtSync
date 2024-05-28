@@ -11,7 +11,8 @@ export const GROUPS: Group[] = [
         '2020-01-01',
         '2020-01-01',
         '2020-01-01',
-        USERS[0]
+        USERS[0],
+        5
     ),
     new Group(
         2,
@@ -22,7 +23,8 @@ export const GROUPS: Group[] = [
         '2020-01-01',
         '2020-01-01',
         '2020-01-01',
-        USERS[1]
+        USERS[1],
+        8
     ),
     new Group(
         3,
@@ -33,7 +35,8 @@ export const GROUPS: Group[] = [
         '2020-01-01',
         '2020-01-01',
         '2020-01-01',
-        USERS[2]
+        USERS[2],
+        2
     ),
     new Group(
         4,
@@ -44,7 +47,8 @@ export const GROUPS: Group[] = [
         '2020-01-01',
         '2020-01-01',
         '2020-01-01',
-        USERS[3]
+        USERS[3],
+        4
     ),
     new Group(
         5,
@@ -55,5 +59,6 @@ export const GROUPS: Group[] = [
         '2020-01-01',
         '2020-01-01',
         '2020-01-01',
-        USERS[4]
+        USERS[4],
+        4
     )]

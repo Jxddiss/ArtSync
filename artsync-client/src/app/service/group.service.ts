@@ -15,4 +15,7 @@ export class GroupService {
     getGroupByTitle(title: string) {
         return GROUPS.find(group => group.titre === title);
     }
+    getGroupById(id: number) {
+        return GROUPS.find(group => group.id === id);
+    }
 }

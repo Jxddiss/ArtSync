@@ -77,7 +77,7 @@ const routes: Routes = [
   //------------GROUP PREVIEW---------------- <<<<<<<<<<
   //GROUP USERS
   { 
-    path: 'overview/group/users',
+    path: 'overview/group/users/:id',
     component: SpecificViewComponent,
     children: [
       { path: '', component: GroupPreviewComponent, outlet: 'specificPreview' },
@@ -86,7 +86,7 @@ const routes: Routes = [
   },
   //GROUP FILES
   {
-    path: 'overview/group/files',
+    path: 'overview/group/files/:id',
     component: SpecificViewComponent,
     children: [
       { path: '', component: GroupPreviewComponent, outlet: 'specificPreview' },

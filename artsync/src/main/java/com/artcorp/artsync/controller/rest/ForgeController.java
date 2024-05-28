@@ -18,7 +18,7 @@ public class ForgeController {
     @Autowired
     private ApiConfig apiConfig;
 
-    @PostMapping("/generate")
+    @PostMapping("/api/generate")
     public ResponseEntity<String> generateImage(@RequestParam("prompt") String prompt) {
         //lien api
         String apiUrl = "https://api.stability.ai/v2beta/stable-image/generate/sd3";

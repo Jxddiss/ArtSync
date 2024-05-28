@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             gsap.to(verticalNavbar,{
                 borderRadius: "0px 15px 0px 0px",
-                width:"3rem",
+                width:"4.5rem",
                 ease: "sine",
                 delay: 0.2
             })

@@ -1,3 +1,8 @@
+:host{
+    height: 80%;
+    max-height: 60vh;
+}
+
 .general-view{
     position: relative;
     display: flex;
@@ -5,8 +10,7 @@
     align-items: center;
     margin-top: 2rem;
     min-height: 41rem;
-    height: 53%;
-    max-height: 74rem;
+    height: 90%;
     width: 93%;
     min-width: 72rem;
     border-radius: 13px;

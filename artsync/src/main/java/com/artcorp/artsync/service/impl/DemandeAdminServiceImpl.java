@@ -13,7 +13,6 @@ public class DemandeAdminServiceImpl implements DemandeAdminService {
         this.demandeAdminRepos = demandeAdminRepos;
     }
 
-
     @Override
     public List<DemandeAdmin> findAll() {
         return demandeAdminRepos.findAll();

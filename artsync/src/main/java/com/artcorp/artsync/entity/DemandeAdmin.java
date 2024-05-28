@@ -9,6 +9,8 @@ public class DemandeAdmin {
     private Long id;
     @Column(nullable = false)
     private Long userId;
+    @Lob
+    @Column(columnDefinition = "LONGTEXT")
     private String message;
 
     public DemandeAdmin() {

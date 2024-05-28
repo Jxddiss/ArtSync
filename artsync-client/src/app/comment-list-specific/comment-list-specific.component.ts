@@ -12,7 +12,6 @@ import { Comment } from '../models/comment.model';
 })
 export class CommentListSpecificComponent implements OnInit {
   comments: Comment[] = [];
-  
 
   constructor(
     private router: Router,
@@ -20,7 +19,6 @@ export class CommentListSpecificComponent implements OnInit {
     private location: Location,
     private commentService: CommentService
   ) { }
-
 
   ngOnInit(): void {
     this.getComments();
@@ -33,6 +31,8 @@ export class CommentListSpecificComponent implements OnInit {
       this.comments = this.commentService.getCommentByForumId(id);
     } else if (path.includes('user')) {
       this.comments = this.commentService.getCommentByUserIds(id);
+    } else if (path.includes('post')) {
+      this.comments = this.commentService.getCommentByPostId(id);
     }
   }
 

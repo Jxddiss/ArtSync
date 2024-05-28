@@ -97,7 +97,7 @@ const routes: Routes = [
   //------------POST PREVIEW---------------- <<<<<<<<<<
   //POST COMMENTS
   {
-    path: 'overview/post/comments',
+    path: 'overview/post/comments/:id',
     component: SpecificViewComponent,
     children: [
       { path: '', component: PostPreviewComponent, outlet: 'specificPreview' },

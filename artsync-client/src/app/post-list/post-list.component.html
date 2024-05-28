@@ -1,7 +1,7 @@
 <app-search (searchQuery)="searchPost($event)"></app-search>
 <div class="post-container">
     @for (post of posts; track $index) {
-        <a [routerLink]="['/overview/post/comments']" class="post">
+        <a [routerLink]="['/overview/post/comments/',post.id]" class="post">
             <h4>{{post.titre}}</h4>
             <img src="{{post.listeFichiers[0].urlMedia}}" alt="">
             <div class="post-info">

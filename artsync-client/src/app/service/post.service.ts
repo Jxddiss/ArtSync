@@ -6,6 +6,9 @@ import { POSTS } from './mock-post';
 })
 export class PostService {
 
+  getPostById(id: number) {
+    return POSTS.find(post => post.id === id);
+  }
   getAllPosts() {
     return POSTS;
   }

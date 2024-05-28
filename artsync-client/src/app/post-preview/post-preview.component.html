@@ -1,7 +1,7 @@
 <div class="post-container">
     <div class="post-header">
         <div class="post-identity">
-            <p>TOTORO IRL!</p>
+            <p>{{post?.titre}}</p>
         </div>
         <button (click)="showDialog()">
             <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
@@ -10,20 +10,20 @@
         </button>
     </div>
     <div class="post-info">
-        <img class="post-image" src="../../assets/images/ultraRealisticTotoro.png" alt="">
+        <img class="post-image" [src]="post?.listeFichiers[0]?.urlMedia" alt="">
         <h4>Informations</h4>
         <div  class="post-info-holder">
             <h5>Auteur:</h5>
-            <a [routerLink]="['/overview/user/posts']" class="author">
-                <img src="../../assets/images/ultraRealisticTotoro.png" alt="">
+            <a [routerLink]="['/overview/user/posts/',post.utilisateur.id]" class="author">
+                <img [src]="post.utilisateur.photoUrl" alt="">
                 <div>
-                    <h5>John Doe</h5>
-                    <p>johnDoe</p>
+                    <h5>{{post.utilisateur.prenom}} {{post.utilisateur.nom}}</h5>
+                    <p>{{post.utilisateur.pseudo}}</p>
                 </div>
             </a>
             <div class="post-cell">
                 <h5>Date de création : </h5>
-                <p>2024-05-27</p>
+                <p>{{post.date}}</p>
             </div>
         </div>
     </div>

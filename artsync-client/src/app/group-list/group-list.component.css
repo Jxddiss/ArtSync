@@ -1,6 +1,7 @@
 .group-container{
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-around;
     width: 95%;
     height: 72%;
     gap: 2rem;

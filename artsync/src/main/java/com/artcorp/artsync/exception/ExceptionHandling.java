@@ -43,7 +43,7 @@ public class ExceptionHandling {
 
     @ExceptionHandler(DisabledException.class)
     public String compteDesactive(RedirectAttributes redirectAttributes){
-        redirectAttributes.addFlashAttribute(WARN, COMPTE_DESACTIVE);
+        redirectAttributes.addFlashAttribute(DEMANDE, COMPTE_DESACTIVE);
         return "redirect:/authentification";
     }
 

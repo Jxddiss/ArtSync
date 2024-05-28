@@ -96,11 +96,19 @@
             titre: 'Avertissement',
         })
     </script>
+    <script th:if="${demande != null}">
+        showNotification({
+            type: 'warn',
+            message: '[[${demande}]]',
+            titre: 'Avertissement',
+            urlNotif:'/demande-admin',
+        })
+    </script>
     <script th:if="${error != null}">
         showNotification({
             type: 'danger',
             message: '[[${error}]]',
-            titre: 'Avertissement',
+            titre: 'Erreur',
         })
     </script>
     <script th:if="${success != null}">

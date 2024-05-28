@@ -3,8 +3,8 @@
     flex-wrap: wrap;
     width: fit-content;
     min-width: 25%;
-    max-width: 95%;
-    height: 35rem;
+    max-width: 98%;
+    height: 72%;
     gap: 2rem;
     margin-inline: 2.5%;
     margin-top: 3.5%;
@@ -19,7 +19,7 @@
     gap: 1rem;
     min-height: 5rem;
     height: fit-content;
-    width: 35rem;
+    width: 44%;
     border-radius: 12px;
     border: 3px solid rgb(0,0,0,0.25);
     color: black;
@@ -58,18 +58,9 @@
 
 .lock{
     align-self: start;
-    height: 1.9rem;
+    height: 1.25rem;
     text-align: center;
     margin: 0;
+    margin-top: 0.5rem;
     fill: rgba(38, 146, 29, 0.669);
-}
-
-.user svg:last-child{
-    height: 2.5rem;
-    margin-left: auto;
-    fill: rgba(0,0,0,0.75);
-}
-.user svg:last-child:hover{
-    fill: rgba(0,0,0,0.85);
-    cursor: pointer;
 }

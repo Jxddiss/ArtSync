@@ -1,20 +1,12 @@
 <div class="general-view">
     <div class="section-container">
-        <div class="section">
-            <p>Utilisateurs</p>
-        </div>
-        <div class="section">
-            <p>Groupes</p>
-        </div>
-        <div class="section">
-            <p>Publications</p>
-        </div>
-        <div class="section">
-            <p>Forums</p>
-        </div>
+        <a [routerLink]="[{ outlets: { generalView: ['users'] } }]" class="section">Utilisateurs</a>
+        <a [routerLink]="[{ outlets: { generalView: ['groups'] } }]" class="section">Groupes</a>
+        <a [routerLink]="[{ outlets: { generalView: ['posts'] } }]" class="section">Publications</a>
+        <a [routerLink]="[{ outlets: { generalView: ['forums'] } }]" class="section">Forums</a>
     </div>
     <div class="general-content">
-        <app-user-list></app-user-list>
+        <router-outlet name="generalView"></router-outlet>
         <!-- <app-group-list></app-group-list> -->
         <!-- <app-post-list></app-post-list> -->
         <!--<app-forum-list></app-forum-list> -->

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild  } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 declare function toggleReadonly(): void;
 @Component({
@@ -7,6 +7,7 @@ declare function toggleReadonly(): void;
   styleUrl: './user-preview.component.css'
 })
 export class UserPreviewComponent {
+  @ViewChild('dialog') dialog!: ElementRef;
   constructor(private router: Router, private route: ActivatedRoute) { }
 
   isActive(url: string): boolean {
@@ -14,5 +15,13 @@ export class UserPreviewComponent {
   }
   toggleReadonly() {
     toggleReadonly();
+  }
+  
+  showDialog(): void {
+    this.dialog.nativeElement.style.display = 'flex';
+  }
+
+  hideDialog(): void {
+    this.dialog.nativeElement.style.display = 'none';
   }
 }

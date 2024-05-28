@@ -30,7 +30,7 @@ const routes: Routes = [
   //------------USER PREVIEW---------------- <<<<<<<<<<
   //USER POSTS
   {
-    path: 'overview/user/posts',
+    path: 'overview/user/posts/:id',
     component: SpecificViewComponent,
     children: [
       { path: '', component: UserPreviewComponent, outlet: 'specificPreview' },
@@ -39,7 +39,7 @@ const routes: Routes = [
   },
   //USER GROUPS
   {
-    path: 'overview/user/groups',
+    path: 'overview/user/groups/:id',
     component: SpecificViewComponent,
     children: [
       { path: '', component: UserPreviewComponent, outlet: 'specificPreview'},
@@ -48,7 +48,7 @@ const routes: Routes = [
   },
   //USER FILES
   {
-    path: 'overview/user/files',
+    path: 'overview/user/files/:id',
     component: SpecificViewComponent,
     children: [
       { path: '', component: UserPreviewComponent, outlet: 'specificPreview' },
@@ -57,7 +57,7 @@ const routes: Routes = [
   },
   //USER FORUMS
   {
-    path: 'overview/user/forums',
+    path: 'overview/user/forums/:id',
     component: SpecificViewComponent,
     children: [
       { path: '', component: UserPreviewComponent, outlet: 'specificPreview' },
@@ -66,7 +66,7 @@ const routes: Routes = [
   },
   //USER COMMENTS
   {
-    path: 'overview/user/comments',
+    path: 'overview/user/comments/:id',
     component: SpecificViewComponent,
     children: [
       { path: '', component: UserPreviewComponent, outlet: 'specificPreview' },

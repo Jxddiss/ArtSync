@@ -4,6 +4,7 @@ import { Location } from '@angular/common';
 
 import { CommentService } from '../service/comment.service';
 import { Comment } from '../models/comment.model';
+
 @Component({
   selector: 'app-comment-list-specific',
   templateUrl: './comment-list-specific.component.html',

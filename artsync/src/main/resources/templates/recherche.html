@@ -24,7 +24,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
     </head>
 
-    <body class="body-content">
+    <body class="body-content" style="margin-bottom: 3em;">
 
     <!--Header-->
     <nav th:replace="${session.user == null} ? ~{fragment/fragments :: headerFragment} : ~{fragment/fragments :: headerUserFragment}"></nav>
@@ -233,7 +233,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 
             }
         </script>
-        <script th:src="@{/js/notification.js?v=16}"></script>
+        <script th:src="@{/js/notification.js?v=17}"></script>
 
     </body>
     <script th:src="@{/js/script-recherche.js?v=5}"></script>

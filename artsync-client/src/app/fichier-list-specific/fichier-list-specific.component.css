@@ -59,8 +59,8 @@
 }
 .file svg:last-child{
     position: absolute;
-    height: 1.15rem;
-    width: 1.15rem;
+    height: 2rem;
+    width: 2rem;
     fill: rgba(0,0,0,0.75);
     background-color: rgba(234, 154, 154, 0.45);
     padding: 0.5rem;

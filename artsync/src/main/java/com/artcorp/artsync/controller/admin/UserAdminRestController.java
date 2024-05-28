@@ -2,9 +2,11 @@ package com.artcorp.artsync.controller.admin;
 
 import com.artcorp.artsync.dto.HttpResponse;
 import com.artcorp.artsync.entity.Commentaire;
+import com.artcorp.artsync.entity.Post;
 import com.artcorp.artsync.entity.Projet;
 import com.artcorp.artsync.entity.Utilisateur;
 import com.artcorp.artsync.service.CommentaireService;
+import com.artcorp.artsync.service.PostService;
 import com.artcorp.artsync.service.ProjetService;
 import com.artcorp.artsync.service.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +25,14 @@ public class UserAdminRestController {
     private final UtilisateurService utilisateurService;
     private final CommentaireService commentaireService;
     private final ProjetService projetService;
+    private final PostService postService;
 
     @Autowired
-    public UserAdminRestController(UtilisateurService utilisateurService, CommentaireService commentaireService, ProjetService projetService) {
+    public UserAdminRestController(UtilisateurService utilisateurService, CommentaireService commentaireService, ProjetService projetService, PostService postService) {
         this.utilisateurService = utilisateurService;
         this.commentaireService = commentaireService;
         this.projetService = projetService;
+        this.postService = postService;
     }
 
     @GetMapping("/api/users")
@@ -61,10 +65,17 @@ public class UserAdminRestController {
     public ResponseEntity<List<Projet>> getGroupsByOneUser(@PathVariable("userId") Long userId,
                                                                      HttpMethod method) throws NoResourceFoundException {
         List<Projet> listProjets = projetService.findProjectsOfUser(userId);
-        if (listProjets.isEmpty()){
+        return new ResponseEntity<>(listProjets,HttpStatus.OK);
+    }
+    @GetMapping("/api/users/posts/{userId}")
+    public ResponseEntity<List<Post>> getPostsByOneUser(@PathVariable("userId") Long userId,
+                                                        HttpMethod method) throws NoResourceFoundException {
+        Utilisateur utilisateur = utilisateurService.findById(userId);
+        if (utilisateur == null){
             throw new NoResourceFoundException(method,"Utilisateur id: "+userId);
         }
-        return new ResponseEntity<>(listProjets,HttpStatus.OK);
+        List<Post> listPost = postService.findPostByUser(utilisateur);
+        return new ResponseEntity<>(listPost,HttpStatus.OK);
     }
 
     @DeleteMapping("/api/users/delete")

@@ -1,6 +1,6 @@
 import { Post } from "../models/post.model";
 import { Utilisateur } from "../models/utilisateur.model";
-
+import { USERS } from "./mock-user";
 export const POSTS: Post[] = [];
 
 for (let i = 1; i <= 10; i++) {
@@ -14,7 +14,7 @@ for (let i = 1; i <= 10; i++) {
             id: 0,
             groupId: 0,
             postId: 0,
-            userId: 0,
+            user: USERS[0],
             type: ""
         }],
         "Type",

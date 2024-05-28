@@ -1,29 +1,30 @@
 import { Comment } from '../models/comment.model';
+import { USERS } from './mock-user';
 
 export const COMMENTS: Comment[] = [
     new Comment(
         1,
         'Superbe!',
-        1
+        USERS[0]
     ),
     new Comment(
         2,
         'Magnifique!',
-        2
+        USERS[1]
     ),
     new Comment(
         3,
         'Bravo!',
-        3
+        USERS[2]
     ),
     new Comment(
         4,
         'Splendide!',
-        4
+        USERS[3]
     ),
     new Comment(
         5,
         'Excellent!',
-        5
+        USERS[4]
     )
 ]

@@ -1,3 +1,5 @@
+import { Utilisateur } from './utilisateur.model';
+
 export class Forum{
     constructor(
         public id: number,
@@ -5,6 +7,6 @@ export class Forum{
         public content: string,
         public date: string,
         public publique: boolean,
-        public userId : number,
+        public user : Utilisateur,
     ) {}
 }

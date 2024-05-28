@@ -1,3 +1,5 @@
+import { Utilisateur } from './utilisateur.model';
+
 export class Group{
     constructor(
         public id: number,
@@ -8,6 +10,6 @@ export class Group{
         public dateCreation: string,
         public dateModification: string,
         public dateSuppression: string,
-        public idAmin : number,
+        public userAdmin : Utilisateur,
     ) {}
 }

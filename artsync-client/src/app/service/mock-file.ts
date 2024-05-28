@@ -1,4 +1,5 @@
 import { File } from '../models/file.model';
+import { USERS } from './mock-user';
 
 export const FILES: File[] = [
     new File(
@@ -6,7 +7,7 @@ export const FILES: File[] = [
         '../../assets/images/retro.jpg',
         1,
         1,
-        1,
+        USERS[0],
         'image'
     ),
     new File(
@@ -14,7 +15,7 @@ export const FILES: File[] = [
         '../../assets/images/moderne.jpg',
         2,
         2,
-        2,
+        USERS[1],
         'image'
     ),
     new File(
@@ -22,7 +23,7 @@ export const FILES: File[] = [
         '../../assets/images/contemporain.jpg',
         3,
         3,
-        3,
+        USERS[2],
         'image'
     ),
     new File(
@@ -30,7 +31,7 @@ export const FILES: File[] = [
         '../../assets/images/abstrait.jpg',
         4,
         4,
-        4,
+        USERS[3],
         'image'
     ),
     new File(
@@ -38,7 +39,7 @@ export const FILES: File[] = [
         '../../assets/images/impressionniste.jpg',
         5,
         5,
-        5,
+        USERS[4],
         'image'
     )
 ]

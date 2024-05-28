@@ -1,4 +1,5 @@
 import { Forum } from "../models/forum.model";
+import { USERS } from './mock-user';
 
 export const FORUMS: Forum[] = [
     new Forum(
@@ -7,7 +8,7 @@ export const FORUMS: Forum[] = [
         'Moi je trouve les abeilles sont des créatures formidables!',
         '2020-01-01',
         true, 
-        1
+        USERS[0]
     ),
     new Forum(
         2,
@@ -15,7 +16,7 @@ export const FORUMS: Forum[] = [
         'Moi que les lions sont des créatures assez impressionnantes mais aussi dangereuses!',
         '2020-01-01',
         true, 
-        1
+        USERS[1]
     ),
     new Forum(
         3,
@@ -23,7 +24,7 @@ export const FORUMS: Forum[] = [
         'Les éléphants sont des animaux très intelligents et très sociables! Ils sont également très protecteurs envers leur famille!',
         '2020-01-01',
         true, 
-        1
+        USERS[2]
     ),
     new Forum(
         4,
@@ -31,7 +32,7 @@ export const FORUMS: Forum[] = [
         'Les singes sont des animaux très intelligents et très sociables! Ils sont également très protecteurs envers leur famille!',
         '2020-01-01',
         true, 
-        1
+        USERS[3]
     ),
     new Forum(
         5,
@@ -39,6 +40,6 @@ export const FORUMS: Forum[] = [
         'Les chats sont des animaux très intelligents et très sociables! Ils sont également très protecteurs envers leur famille!',
         '2020-01-01',
         true, 
-        1
+        USERS[4]
     ),
 ]

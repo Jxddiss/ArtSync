@@ -1,4 +1,5 @@
 import { Group } from '../models/group.model';
+import { USERS } from './mock-user';
 
 export const GROUPS: Group[] = [
     new Group(
@@ -10,7 +11,7 @@ export const GROUPS: Group[] = [
         '2020-01-01',
         '2020-01-01',
         '2020-01-01',
-        1
+        USERS[0]
     ),
     new Group(
         2,
@@ -21,7 +22,7 @@ export const GROUPS: Group[] = [
         '2020-01-01',
         '2020-01-01',
         '2020-01-01',
-        1
+        USERS[1]
     ),
     new Group(
         3,
@@ -32,7 +33,7 @@ export const GROUPS: Group[] = [
         '2020-01-01',
         '2020-01-01',
         '2020-01-01',
-        1
+        USERS[2]
     ),
     new Group(
         4,
@@ -43,7 +44,7 @@ export const GROUPS: Group[] = [
         '2020-01-01',
         '2020-01-01',
         '2020-01-01',
-        1
+        USERS[3]
     ),
     new Group(
         5,
@@ -54,5 +55,5 @@ export const GROUPS: Group[] = [
         '2020-01-01',
         '2020-01-01',
         '2020-01-01',
-        1
+        USERS[4]
     )]

@@ -1,10 +1,10 @@
 export class File{
     constructor(
-        private id: number,
-        private urlMedia: string,
-        private groupId: number,
-        private postId: number,
-        private userId : number,
-        private type: string,
+        public id: number,
+        public urlMedia: string,
+        public groupId: number,
+        public postId: number,
+        public userId : number,
+        public type: string,
     ){}
 }

@@ -9,7 +9,14 @@ for (let i = 1; i <= 10; i++) {
         new Date(),
         `Post ${i}`,
         `Description ${i}`,
-        [{ urlMedia: `image${i}.jpg` }],
+        [{
+            urlMedia: `image${i}.jpg`,
+            id: 0,
+            groupId: 0,
+            postId: 0,
+            userId: 0,
+            type: ""
+        }],
         "Type",
         new Utilisateur(
             i,

@@ -15,4 +15,10 @@ export class ForumService {
     getForumByTitle(title: string) {
         return FORUMS.find(forum => forum.title === title);
     }
+    getForumById(id: number) {
+        return FORUMS.find(forum => forum.id === id);
+    }
+    getForumsByUserId(id: number) {
+        return FORUMS.filter(forum => forum.user.id === id);
+    }
 }

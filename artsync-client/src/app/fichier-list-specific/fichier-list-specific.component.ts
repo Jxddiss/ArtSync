@@ -1,6 +1,10 @@
 import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
+
 import { FileService } from '../service/file.service';
 import { File } from '../models/file.model';
+
 @Component({
   selector: 'app-fichier-list-specific',
   templateUrl: './fichier-list-specific.component.html',
@@ -8,12 +12,29 @@ import { File } from '../models/file.model';
 })
 export class FichierListSpecificComponent implements OnInit {
   files: File[] = [];
-  @ViewChild('dialog') dialog!: ElementRef;
-  constructor(private fileService: FileService) {}
+
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private location: Location,
+    private fileService: FileService
+  ) { }
   
   ngOnInit(): void {
-    this.files = this.fileService.getAllFiles();
+    this.getFiles();
   }
+
+  getFiles(): void {
+    const path = this.router.url.split('/');
+    const id = Number(path[path.length - 1]);
+    if (path.includes('group')) {
+      this.files = this.fileService.getFilesByGroupId(id);
+    } else if (path.includes('user')) {
+      this.files = this.fileService.getFilesByUserId(id);
+    }
+  }
+
+  @ViewChild('dialog') dialog!: ElementRef;
 
   showDialog(): void {
     this.dialog.nativeElement.style.display = 'flex';

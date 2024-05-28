@@ -1,7 +1,7 @@
 <app-search (searchQuery)="searchUser($event)"></app-search>
 <div class="user-container">
     @for (utilisateur of utilisateurs; track $index) {
-        <a [routerLink]="['/overview/user/posts']" class="user">
+        <a [routerLink]="['/overview/user/posts',utilisateur.id]" class="user">
             <img src="{{utilisateur.photoUrl}}" alt="">
             <div class="user-info">
                 <p>{{utilisateur.prenom}} {{utilisateur.nom}}</p>

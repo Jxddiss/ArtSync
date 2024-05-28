@@ -15,4 +15,10 @@ export class FileService {
     getFileById(id: number) {
         return FILES.find(file => file.id === id);
     }
+    getFilesByGroupId(groupId: number) {
+        return FILES.filter(file => file.groupId === groupId);
+    }
+    getFilesByUserId(userId: number) {
+        return FILES.filter(file => file.user.id === userId);
+    }
 }

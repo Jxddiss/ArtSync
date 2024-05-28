@@ -11,5 +11,6 @@ export class Group{
         public dateModification: string,
         public dateSuppression: string,
         public userAdmin : Utilisateur,
+        public userCount : number
     ) {}
 }

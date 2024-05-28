@@ -1,65 +1,15 @@
 <app-search-specific (searchQuery)="searchForum($event)"></app-search-specific>
 <div class="forum-container">
-    <a [routerLink]="['/overview/forum/comments']" class="forum">
+    <a [routerLink]="['/overview/forum/comments/',forum.id]" *ngFor="let forum of forums" class="forum">
         <div class="forum-info">
-            <h4>J'adore Totoro</h4>
+            <h4>{{forum.title}}</h4>
             <p>
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ullam quo 
-                repellat nam perspiciatis similique fuga dolore dolorum! 
-                Repellat amet praesentium distinctio deserunt quis quo, incidunt libero 
-                iste nisi est vitae?
+                {{forum.content}}
             </p>
-            <b>&#64;johnDoe</b>
+            <b>&#64;{{forum.user.pseudo}}</b>
         </div>
     </a> 
 
     <!--EFFACE À PARTIR D'ICI-->
-    <a [routerLink]="['/overview/forum/comments']" class="forum">
-        <div class="forum-info">
-            <h4>J'adore Totoro</h4>
-            <p>
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ullam quo 
-                repellat nam perspiciatis similique fuga dolore dolorum! 
-                Repellat amet praesentium distinctio deserunt quis quo, incidunt libero 
-                iste nisi est vitae?
-            </p>
-            <b>&#64;johnDoe</b>
-        </div>
-    </a> 
-    <a [routerLink]="['/overview/forum/comments']" class="forum">
-        <div class="forum-info">
-            <h4>J'adore Totoro</h4>
-            <p>
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ullam quo 
-                repellat nam perspiciatis similique fuga dolore dolorum! 
-                Repellat amet praesentium distinctio deserunt quis quo, incidunt libero 
-                iste nisi est vitae?
-            </p>
-            <b>&#64;johnDoe</b>
-        </div>
-    </a> 
-    <a [routerLink]="['/overview/forum/comments']" class="forum">
-        <div class="forum-info">
-            <h4>J'adore Totoro</h4>
-            <p>
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ullam quo 
-                repellat nam perspiciatis similique fuga dolore dolorum! 
-                Repellat amet praesentium distinctio deserunt quis quo, incidunt libero 
-                iste nisi est vitae?
-            </p>
-            <b>&#64;johnDoe</b>
-        </div>
-    </a> 
-    <a [routerLink]="['/overview/forum/comments']" class="forum">
-        <div class="forum-info">
-            <h4>J'adore Totoro</h4>
-            <p>
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ullam quo 
-                repellat nam perspiciatis similique fuga dolore dolorum! 
-                Repellat amet praesentium distinctio deserunt quis quo, incidunt libero 
-                iste nisi est vitae?
-            </p>
-            <b>&#64;johnDoe</b>
-        </div>
-    </a> 
+
 </div>

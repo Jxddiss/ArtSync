@@ -76,3 +76,20 @@ body{
     color: rgb(113, 171, 242);
     transition: 0.25s;
 }
+/* Scroll wheel*/
+::-webkit-scrollbar {
+    width: 7.5px;
+    margin-right: 125px;
+    background-color: transparent;
+}
+::-webkit-scrollbar-track {
+    background: rgb(255,255,255,0); 
+}  
+::-webkit-scrollbar-thumb {
+background: #888; 
+border-radius: 25px;
+}
+  
+::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}

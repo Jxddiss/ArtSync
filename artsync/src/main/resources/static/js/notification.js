@@ -105,7 +105,7 @@ function showAppel(notification){
 
 
 document.addEventListener("click",(ev)=>{
-    if(ev.target.id === 'btn-decline' || ev.target.parentElement.id === 'btn-decline'){
+    if(ev.target.id === 'btn-decline' || (ev.target.parentElement !== null && ev.target.parentElement.id === 'btn-decline')){
         audio.pause();
         notifAppelDialog.close();
     }
@@ -116,7 +116,7 @@ document.addEventListener("click",(ev)=>{
         }else{
             video.click();
         }
-    }else if(ev.target.parentElement.id === 'btn-answer'){
+    }else if(ev.target.parentElement !== null && ev.target.parentElement.id === 'btn-answer'){
         if(!ev.target.parentElement.dataset.url.includes(window.location.pathname.toString())){
             window.location.href = ev.target.parentElement.dataset.url;
         }else{

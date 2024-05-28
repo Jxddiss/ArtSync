@@ -6,5 +6,5 @@ export class Forum{
         public date: string,
         public publique: boolean,
         public userId : number,
-    ){}
+    ) {}
 }

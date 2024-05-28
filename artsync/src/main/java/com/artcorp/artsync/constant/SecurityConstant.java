@@ -13,6 +13,7 @@ public class SecurityConstant {
     public static final String[] PUBLIC_URLS = {"/","/favicon.ico","/fonts/*","/css/*","/js/*",
             "/index","/authentification", "/inscription", "/media/**","/recherche","/utilisateur/profil/*",
             "/classement","/explorer","/deconnexion","/forum","/forum/search","/api/utilisateur/check-email",
-    "/api/utilisateur/check-pseudo","/password-reset","/change-password","/api/admin/login","/demande-admin"};
+    "/api/utilisateur/check-pseudo","/password-reset","/change-password","/api/admin/login","/demande-admin",
+            "/api/demandes-admin/envoyer"};
     //public static final String[] PUBLIC_URLS = {"**"};
 }

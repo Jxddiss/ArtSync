@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DemandeAdminRepos extends JpaRepository<DemandeAdmin,Long> {
+    boolean existsByUserId(Long userId);
 }

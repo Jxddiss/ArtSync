@@ -19,8 +19,8 @@ public interface UtilisateurRepos extends JpaRepository<Utilisateur, Long> {
     @NonNull
     @Query("select u from Utilisateur u")
     List<Utilisateur> findAllAdmin();
-    @Query("select u from Utilisateur u where u.isActive = true and u.email = ?1")
-    Utilisateur findByEmailAndActive(String email);
+    @Query("select u from Utilisateur u where u.email = ?1")
+    Utilisateur findByEmail(String email);
     @Query("select u from Utilisateur u where u.pseudo = ?1")
     @EntityGraph(attributePaths = {"amis", "following", "followers"})
     Utilisateur findByPseudo(String pseudo);

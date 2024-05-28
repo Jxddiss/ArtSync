@@ -15,6 +15,7 @@ import { PostListSpecificComponent } from './post-list-specific/post-list-specif
 import { GroupeListSpecificComponent } from './groupe-list-specific/groupe-list-specific.component';
 import { FichierListSpecificComponent } from './fichier-list-specific/fichier-list-specific.component';
 import { UserListSpecificComponent } from './user-list-specific/user-list-specific.component';
+import { PostPreviewComponent } from './post-preview/post-preview.component';
 
 const routes: Routes = [
   //---------------------------------------------------------------------------------GENERAL VIEWS---------------------------------------------------------------------------------
@@ -94,7 +95,15 @@ const routes: Routes = [
   },
 
   //------------POST PREVIEW---------------- <<<<<<<<<<
-  //À faire!
+  //POST COMMENTS
+  {
+    path: 'overview/post/comments',
+    component: SpecificViewComponent,
+    children: [
+      { path: '', component: PostPreviewComponent, outlet: 'specificPreview' },
+      { path: '', component: CommentListSpecificComponent, outlet: 'specificListView' }
+    ]
+  },
 
   //------------FORUM PREVIEW---------------- <<<<<<<<<<
   //FORUM COMMENTS

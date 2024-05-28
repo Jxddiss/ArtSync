@@ -21,6 +21,7 @@ import { FichierListSpecificComponent } from './fichier-list-specific/fichier-li
 import { CommentListSpecificComponent } from './comment-list-specific/comment-list-specific.component';
 import { ForumPreviewComponent } from './forum-preview/forum-preview.component';
 import { GroupPreviewComponent } from './group-preview/group-preview.component';
+import { PostPreviewComponent } from './post-preview/post-preview.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { GroupPreviewComponent } from './group-preview/group-preview.component';
     CommentListSpecificComponent,
     ForumPreviewComponent,
     GroupPreviewComponent,
+    PostPreviewComponent,
   ],
   imports: [
     BrowserModule,

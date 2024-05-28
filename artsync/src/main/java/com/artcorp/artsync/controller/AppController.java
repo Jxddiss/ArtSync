@@ -1,14 +1,8 @@
 package com.artcorp.artsync.controller;
 
-import com.artcorp.artsync.entity.LiveStream;
-import com.artcorp.artsync.entity.Post;
-import com.artcorp.artsync.entity.Projet;
-import com.artcorp.artsync.entity.Utilisateur;
+import com.artcorp.artsync.entity.*;
 import com.artcorp.artsync.exception.domain.NotConnectedException;
-import com.artcorp.artsync.service.LiveStreamService;
-import com.artcorp.artsync.service.PostService;
-import com.artcorp.artsync.service.UtilisateurService;
-import com.artcorp.artsync.service.ProjetService;
+import com.artcorp.artsync.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -19,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -26,10 +21,13 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 
+import static com.artcorp.artsync.constant.ExceptionConstant.WARN;
 import static com.artcorp.artsync.constant.FileConstant.USER_FOLDER;
 
 @Controller
 public class AppController {
+    public static final String BOITE_A_DESACTIVE = "Boite à idées désactivée par l'administration";
+    public static final String FORGE_DESACTIVE = "Forge d'images désactivée par l'administration";
     @Autowired
     UtilisateurService userService;
     @Autowired
@@ -38,6 +36,8 @@ public class AppController {
     LiveStreamService liveStreamService;
     @Autowired
     PostService postService;
+    @Autowired
+    AppSettingService appSettingService;
 
     @GetMapping("/")
     public String Index(@AuthenticationPrincipal String username,
@@ -63,12 +63,18 @@ public class AppController {
 
     @GetMapping("/idee")
     public String redirigerVersIdee(@AuthenticationPrincipal String username,
-                                    HttpServletRequest request) throws NotConnectedException {
+                                    HttpServletRequest request,
+                                    RedirectAttributes redirectAttributes) throws NotConnectedException {
         HttpSession session = request.getSession(false);
         if (session != null){
-            userService.addUserSessionIfNot(session,username);
-
-            return "boite-idee";
+            AppSetting appSetting = appSettingService.getAppSetting();
+            if (appSetting != null && appSetting.isBoiteIdeeActive()){
+                    userService.addUserSessionIfNot(session,username);
+                    return "boite-idee";
+            }else{
+                redirectAttributes.addFlashAttribute(WARN, BOITE_A_DESACTIVE);
+                return "redirect:/feed";
+            }
         }else{
             throw new NotConnectedException("Veuillez vous connecter");
         }
@@ -216,10 +222,19 @@ public class AppController {
         }
     }
     @GetMapping("/forge")
-    public String manageFollow(HttpServletRequest request) throws NotConnectedException {
+    public String manageFollow(HttpServletRequest request,
+                               @AuthenticationPrincipal String username,
+                               RedirectAttributes redirectAttributes) throws NotConnectedException {
         HttpSession session = request.getSession(false);
         if (session != null){
-            return "forge";
+            AppSetting appSetting = appSettingService.getAppSetting();
+            if (appSetting != null && appSetting.isForgeImageActive()){
+                userService.addUserSessionIfNot(session,username);
+                return "forge";
+            }else{
+                redirectAttributes.addFlashAttribute(WARN, FORGE_DESACTIVE);
+                return "redirect:/feed";
+            }
         }else {
             throw new NotConnectedException("Veuillez vous connecter");
         }

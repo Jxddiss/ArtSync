@@ -39,7 +39,7 @@
             <hr>
             <div class="idee-output-container" id="outputHolder">
                 <div th:if="${listOutputs != null and listOutputs.size() > 0}" th:each="output : ${listOutputs}" class="idee-output">
-                    <h6>[[${output.text}]]</h6>
+                    <h6>[[${output}]]</h6>
                 </div>
             </div>
         </div>

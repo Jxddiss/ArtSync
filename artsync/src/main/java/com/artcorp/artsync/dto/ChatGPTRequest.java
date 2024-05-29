@@ -4,12 +4,12 @@ public class ChatGPTRequest {
     private String model;
     private String prompt;
 
-    private double temperature = 2; //CONTROLE LA CREATIVITE DE LA REPONSE
-    private int max_tokens = 145; //CONTROLE LA LONGUEUR DE LA REPONSE
+    private double temperature = 0.7; //CONTROLE LA CREATIVITE DE LA REPONSE
+    private int max_tokens = 125; //CONTROLE LA LONGUEUR DE LA REPONSE
     private double top_p = 0.8; //CONTROLE LA PROBABILITE D'APPARITION DES MOTS
-    private double frequency_penalty = 2; //CONTROLE LA DIVERSITE DES MOTS
-    private double presence_penalty = 0.05; //CONTROLE LA PROBABILITE D'APPARITION DES MOTS
-    private int n = 12;
+    private double frequency_penalty = 0.5; //CONTROLE LA DIVERSITE DES MOTS
+    private double presence_penalty = 0.5; //CONTROLE LA PROBABILITE D'APPARITION DES MOTS
+    private int n = 1;
 
     public ChatGPTRequest() {
     }

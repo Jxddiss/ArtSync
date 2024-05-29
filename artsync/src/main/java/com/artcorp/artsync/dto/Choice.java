@@ -11,7 +11,7 @@ public class Choice {
 
     public Choice(int index, String text) {
         this.index = index;
-        this.text = cleanText(text);
+        this.text = text;
 
     }
     public int getIndex() {
@@ -27,10 +27,7 @@ public class Choice {
     }
 
     public void setText(String text) {
-        this.text = cleanText(text);
-    }
-    public String cleanText(String text){
-        return text.replaceAll("[.,']", "");
+        this.text = text;
     }
     @Override
     public boolean equals(Object o) {

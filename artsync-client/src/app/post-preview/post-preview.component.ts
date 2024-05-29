@@ -4,6 +4,8 @@ import { Location } from '@angular/common';
 
 import { PostService } from '../service/post.service';
 import { Post } from '../models/post.model';
+import { Subscription } from 'rxjs';
+import { environment } from '../constants/environment.constant';
 
 @Component({
   selector: 'app-post-preview',
@@ -12,7 +14,11 @@ import { Post } from '../models/post.model';
 })
 
 export class PostPreviewComponent implements OnInit {
-  post: Post | any;
+  private _post: Post | any;
+  private _subscriptions: Subscription[] = []
+  private _BASE_PUBLICATION_PHOTO_PATH : string = environment.apiUrl + '/media/images/post/';
+  private _BASE_UTILISATEUR_PHOTO_PATH : string = environment.apiUrl + '/media/images/utilisateur/';
+  
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -24,9 +30,29 @@ export class PostPreviewComponent implements OnInit {
     this.getPost();
   }
 
+  ngOnDestroy(){
+    this._subscriptions.forEach(subscription => subscription.unsubscribe())
+  }
+
   getPost(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.post = this.postService.getPostById(id);
+    this._subscriptions.push(
+      this.postService.getPostById(id).subscribe(post =>{
+        this._post = post
+      })
+    )
+  }
+
+  get post(){
+    return this._post;
+  }
+
+  get BASE_PUBLICATION_PHOTO_PATH(){
+    return this._BASE_PUBLICATION_PHOTO_PATH
+  }
+
+  get BASE_UTILISATEUR_PHOTO_PATH():string{
+    return this._BASE_UTILISATEUR_PHOTO_PATH
   }
 
   @ViewChild('dialog') dialog!: ElementRef;
@@ -37,4 +63,5 @@ export class PostPreviewComponent implements OnInit {
   hideDialog(): void {
     this.dialog.nativeElement.style.display = 'none';
   }
+
 }

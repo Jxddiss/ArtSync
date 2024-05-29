@@ -10,8 +10,9 @@
 }
 
 body{
+    background: radial-gradient(ellipse at bottom, #1e0f11 25%,#2e0a0a 100%);
+    color: white;
     font-family: system-ui;
-    background: radial-gradient(ellipse at bottom right, #ffffff 35%,#edebf8 100%) fixed;
     overflow: hidden;
     height: 100vh;
     max-height: 100vh;

@@ -7,6 +7,7 @@ import com.artcorp.artsync.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +15,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.io.File;
 import java.io.IOException;
@@ -521,16 +523,20 @@ public class GroupController {
         return "redirect:/utilisateur/relation/groupes";
     }
     @GetMapping("/groupe/group/supprimer/{projetId}")
-    public String supprimerProjet(@PathVariable("projetId") Long projetId, HttpServletRequest request) {
+    public String supprimerProjet(@PathVariable("projetId") Long projetId, HttpServletRequest request, HttpMethod method) throws NoResourceFoundException {
         HttpSession session = request.getSession(false);
         if (session == null) {
             return "auth";
+        }
+        Projet projet = projetService.findById(projetId);
+        if (projet == null){
+            throw new NoResourceFoundException(method,"Projet id: "+projetId);
         }
         List<Utilisateur> users = projetService.getMembers(projetId);
         for (Utilisateur user : users) {
             projetService.removeUtilisateurFromProjet(projetId, user.getId());
         }
-        fichierService.deleteAllByProjet(projetService.findById(projetId));
+        fichierService.deleteAllByProjet(projet);
         annonceService.deleteAllByProjetId(projetId);
         tacheService.deleteAllByProjetId(projetId);
         demandeService.deleteAllByProjetId(projetId);

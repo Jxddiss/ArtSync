@@ -16,6 +16,12 @@ export class AuthenticationGuard implements CanActivate {
     return this.isUserLoggedIn();
   }
 
+  canActivateChild(
+    next: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    return this.isUserLoggedIn();
+  }
+
   private isUserLoggedIn(): boolean {
     if (this.authenticationService.isLoggedIn()) {
       return true;

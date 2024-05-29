@@ -15,6 +15,7 @@ import { UtilisateurService } from '../service/utilisateur.service';
   styleUrl: './comment-list-specific.component.css'
 })
 export class CommentListSpecificComponent implements OnInit {
+  private _selectedComment : Comment | undefined
   comments: Comment[] = [];
   private _subscriptions: Subscription[] = [];
 
@@ -60,11 +61,27 @@ export class CommentListSpecificComponent implements OnInit {
 
   @ViewChild('dialog') dialog!: ElementRef;
 
-  showDialog(): void {
+  showDialog(comment : Comment): void {
+    this._selectedComment = comment
     this.dialog.nativeElement.style.display = 'flex';
   }
 
   hideDialog(): void {
     this.dialog.nativeElement.style.display = 'none';
+  }
+
+  onDeleteComment(){
+    if(!this._selectedComment) return
+
+    this._subscriptions.push(
+      this.commentService.deleteCommentaire(this._selectedComment.id).subscribe(
+        (reponse) => {
+          if (reponse.message === 'Success') {
+            this.getComments()
+          }
+        }
+      )
+    )
+    this.hideDialog()
   }
 }

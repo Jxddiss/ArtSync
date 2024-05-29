@@ -50,6 +50,7 @@
 }
 .user-identity{
     margin-top: 0.15rem;
+    margin-left: 12rem;
     display: flex;
     flex-direction: column;
     gap: 0.1rem;
@@ -70,7 +71,7 @@
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    margin-top: 0.9rem;
+    margin-top: 3rem;
     align-items: center;
 }
 .user-info h4{

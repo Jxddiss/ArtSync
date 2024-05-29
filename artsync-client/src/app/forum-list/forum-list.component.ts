@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ForumService } from '../service/forum.service';
 import { Forum } from '../models/forum.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-forum-list',
@@ -8,18 +9,41 @@ import { Forum } from '../models/forum.model';
   styleUrl: './forum-list.component.css'
 })
 export class ForumListComponent implements OnInit {
-  forums: Forum[];
-  constructor(private forumService: ForumService) {
-    this.forums = [];    
+  private _forums : Forum[]
+  private _allForums : Forum[]
+  private _subscriptions : Subscription[] = []
+  
+  constructor(private forumService : ForumService) {
+    this._forums = []
+    this._allForums = []
   }
-  ngOnInit(): void {
-    this.forums = this.forumService.getAllForums();
+
+  ngOnInit(){
+    this._subscriptions.push(
+      this.forumService.getAllForums().subscribe(forums => {
+        this._forums = forums
+        this._allForums = forums
+      })
+    )
+  }
+
+  ngOnDestroy(){
+    this._subscriptions.forEach(subscription => subscription.unsubscribe())
   }
 
   searchForum(name: string): void {
-    if (name != null) {
-      const result = this.forumService.getForumByTitle(name);
-      this.forums = result ? [result] : []
+    const searchResults : Forum[] = this._allForums
+    if (!name) {
+      this._forums = searchResults
+      return;
     }
+
+    this._forums = searchResults.filter((forum : Forum) =>
+        forum.titre.toLowerCase().indexOf(name.toLowerCase()) !== -1
+    )
+  }
+
+  get forums():Forum[]{
+    return this._forums
   }
 }

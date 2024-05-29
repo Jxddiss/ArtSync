@@ -24,6 +24,7 @@ import { CommentListSpecificComponent } from './comment-list-specific/comment-li
 import { ForumPreviewComponent } from './forum-preview/forum-preview.component';
 import { GroupPreviewComponent } from './group-preview/group-preview.component';
 import { PostPreviewComponent } from './post-preview/post-preview.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { PostPreviewComponent } from './post-preview/post-preview.component';
     ForumPreviewComponent,
     GroupPreviewComponent,
     PostPreviewComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,

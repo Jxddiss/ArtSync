@@ -1,0 +1,23 @@
+<div class="container">
+    <div class="division">
+        <div class="auth-box">
+            <div>
+                <h3 class="titre">ArtSync - admin</h3>
+            </div>
+            <form #loginForm="ngForm">
+                <div class="input-holder">
+                    <input type="text" name="username" placeholder="Username" 
+                    ngModel #usernameInput="ngModel" required>
+                    <span class="help-block" 
+                    *ngIf="!usernameInput.valid && usernameInput.touched">Please enter a username</span>
+                    <input type="password" name="password" placeholder="Password" 
+                    ngModel #passwordInput="ngModel" required>
+                    <span class="help-block" 
+                    *ngIf="!passwordInput.valid && passwordInput.touched">Please enter a password.</span>
+                </div>
+                <button class="boutton-connexion" type="submit" name="button">
+                    SE CONNECTER
+                </button>
+            </form>
+        </div>
+    </div>

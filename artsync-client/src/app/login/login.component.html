@@ -4,12 +4,12 @@
             <div>
                 <h3 class="titre">ArtSync - admin</h3>
             </div>
-            <form #loginForm="ngForm">
+            <form #loginForm="ngForm" (ngSubmit)="onLogin(loginForm.value)">
                 <div class="input-holder">
-                    <input type="text" name="username" placeholder="Username" 
+                    <input type="text" name="pseudo" placeholder="Pseudo" 
                     ngModel #usernameInput="ngModel" required>
                     <span class="help-block" 
-                    *ngIf="!usernameInput.valid && usernameInput.touched">Please enter a username</span>
+                    *ngIf="!usernameInput.valid && usernameInput.touched">Veuillez entrer votre pseudo</span>
                     <input type="password" name="password" placeholder="Password" 
                     ngModel #passwordInput="ngModel" required>
                     <span class="help-block" 

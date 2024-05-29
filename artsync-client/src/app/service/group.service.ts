@@ -20,6 +20,11 @@ export class GroupService {
     getGroupById(id: number) {
         return this.http.get<Group>(this.host_url + '/api/groups/' + id);
     }
+
+    deleteGroupById(id: number) {
+        return this.http.delete<any>(this.host_url + '/api/admin/groups/delete', { params: { 'projetId': id } });
+    }
+
     get membresGroupe(): Utilisateur[] {
         return this._membresGroupe;
     }

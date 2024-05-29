@@ -58,4 +58,16 @@ export class GroupPreviewComponent implements OnInit{
   isActive(url: string): boolean {
     return this.router.url === url;
   } 
+
+  onDeleteGroup(): void {
+    if (!this.group) return
+    this._subscriptions.push(
+      this.groupService.deleteGroupById(this.group.id).subscribe((response) => {
+        if (response.message === 'Success') {
+          this.router.navigate(['/generalView', { outlets: { generalView: 'groups' } }]);
+        }
+      })
+    )
+    this.hideDialog();
+  }
 }

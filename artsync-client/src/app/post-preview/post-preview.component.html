@@ -10,20 +10,26 @@
         </button>
     </div>
     <div class="post-info">
-        <img class="post-image" [src]="post?.listeFichiers[0]?.urlMedia" alt="">
+        @if(post?.type !== 'video' && post?.listeFichiers[0].urlMedia !== null){
+            <img class="post-image" src="{{BASE_PUBLICATION_PHOTO_PATH+post?.listeFichiers[0].urlMedia}}" alt="">
+        }@else if(post?.listeFichiers[0].urlMedia !== null){
+            <video class="post-image" src="{{BASE_PUBLICATION_PHOTO_PATH+post?.listeFichiers[0].urlMedia}}" controls playsinline ></video>
+        }
         <h4>Informations</h4>
         <div  class="post-info-holder">
             <h5>Auteur:</h5>
-            <a [routerLink]="['/overview/user/posts/',post.utilisateur.id]" class="author">
-                <img [src]="post.utilisateur.photoUrl" alt="">
+            <a [routerLink]="['/overview/user/posts/',post?.utilisateur?.id]" class="author">
+                @if(post?.utilisateur?.photoUrl !== null){
+                   <img src="{{BASE_UTILISATEUR_PHOTO_PATH+post?.utilisateur?.photoUrl}}" alt="">
+                }
                 <div>
-                    <h5>{{post.utilisateur.prenom}} {{post.utilisateur.nom}}</h5>
-                    <p>{{post.utilisateur.pseudo}}</p>
+                    <h5>{{post?.utilisateur?.prenom}} {{post?.utilisateur?.nom}}</h5>
+                    <p>{{post?.utilisateur?.pseudo}}</p>
                 </div>
             </a>
             <div class="post-cell">
                 <h5>Date de création : </h5>
-                <p>{{post.date}}</p>
+                <p>{{post?.date}}</p>
             </div>
         </div>
     </div>

@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Post } from '../models/post.model';
 import { PostService } from '../service/post.service';
+import { Subscription } from 'rxjs';
+import { environment } from '../constants/environment.constant';
 
 @Component({
   selector: 'app-post-list',
@@ -10,6 +12,8 @@ import { PostService } from '../service/post.service';
 export class PostListComponent {
   private _posts:Post[]
   private _allPosts:Post[]
+  private subscriptions:Subscription[] = []
+  private _BASE_PUBLICATION_PHOTO_PATH : string = environment.apiUrl + '/media/images/post/';
 
   constructor(private postService : PostService){
     this._posts = []
@@ -17,8 +21,12 @@ export class PostListComponent {
   }
 
   ngOnInit(){
-    this._posts = this.postService.getAllPosts()
-    this._allPosts = this._posts
+    this.subscriptions.push(
+      this.postService.getAllPosts().subscribe(posts =>{
+        this._posts = posts
+        this._allPosts = posts
+      })
+    )
   }
 
   searchPost(name: string): void {
@@ -35,5 +43,9 @@ export class PostListComponent {
 
   get posts():Post[]{
     return this._posts
+  }
+
+  get BASE_PUBLICATION_PHOTO_PATH(){
+    return this._BASE_PUBLICATION_PHOTO_PATH
   }
 }

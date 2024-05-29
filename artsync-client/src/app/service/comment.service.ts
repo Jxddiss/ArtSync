@@ -11,6 +11,6 @@ export class CommentService {
     constructor(private http: HttpClient) {}
 
     deleteCommentaire(id: number) {
-        return this.http.delete<any>(this.host_url + "/api/commentaires/delete", { params: { 'commentaireId': id } });
+        return this.http.delete<any>(this.host_url + "/api/admin/commentaires/delete", { params: { 'commentaireId': id } });
     }
 }

@@ -29,4 +29,8 @@ export class PostService {
   getCommentaireByPostId(id: number) : Observable<Comment[]> {
     return this.http.get<Comment[]>(this.host_url + '/api/posts/commentaires/' + id);
   }
+
+  deletePost(id: number) {
+    return this.http.delete<any>(this.host_url + "/api/admin/posts/delete", { params: { 'postId': id } });
+  }
 }

@@ -26,6 +26,7 @@ import { PostPreviewComponent } from './post-preview/post-preview.component';
 import { LoginComponent } from './login/login.component';
 import { AuthInterceptor } from './interceptor/auth.interceptor';
 import { DemandesComponent } from './demandes/demandes.component';
+import { SettingsComponent } from './settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { DemandesComponent } from './demandes/demandes.component';
     PostPreviewComponent,
     LoginComponent,
     DemandesComponent,
+    SettingsComponent,
   ],
   imports: [
     BrowserModule,

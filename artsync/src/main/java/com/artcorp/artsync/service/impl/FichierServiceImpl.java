@@ -67,6 +67,10 @@ public class FichierServiceImpl implements FichierService {
         return fichierGeneralRepository.findAllByProjetAndUtilisateur(projet, utilisateur);
     }
     @Override
+    public List<FichierGeneral> findAllByUtilisateur(Utilisateur utilisateur) {
+        return fichierGeneralRepository.findAllByUtilisateur(utilisateur);
+    }
+    @Override
     public Long countByProjet(Projet projet) {
         return fichierGeneralRepository.countByProjet(projet);
     }

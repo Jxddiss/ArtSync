@@ -31,7 +31,7 @@ public class Projet {
     )
     private List<Utilisateur> utilisateurs;
     @OneToMany
-    @JoinColumn (name = "fichier_id")
+    @JoinColumn (name = "projet_id")
     private List<FichierGeneral> fichiers;
     @ManyToOne
     @JoinColumn(name = "admin_user_id")

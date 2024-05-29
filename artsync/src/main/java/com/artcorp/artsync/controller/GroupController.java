@@ -543,7 +543,7 @@ public class GroupController {
         chatService.deleteAllByConversationId(conversationService.findByProjet(projetService.findById(projetId)).getId());
         conversationService.deleteAllByProjetId(projetId);
         projetService.deleteProjet(projetId);
-        return "recherche";
+        return "redirect:/utilisateur/relation/groupes";
     }
     @GetMapping("/groupe/group/supprimer/user/{projetId}/{userId}")
     public String supprimerUtilisateur(@PathVariable("projetId") Long projetId, @PathVariable("userId") Long userId) {

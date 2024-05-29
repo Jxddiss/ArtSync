@@ -207,3 +207,16 @@ function deleteFichier(fichier,ficherId){
     })
 }
 
+
+const openDialogDelete = document.getElementById('deleteDialogBtn');
+if (openDialogDelete) {
+    const deleteProjetDialog = document.querySelector('.deleteProjetDialog');
+    const annulerDeleteDialog = document.getElementById('annulerDeleteDialog');
+    openDialogDelete.addEventListener('click', () => {
+        console.log(deleteProjetDialog);
+        deleteProjetDialog.showModal();
+    });
+    annulerDeleteDialog.addEventListener('click', () => {
+        deleteProjetDialog.close();
+    });
+}

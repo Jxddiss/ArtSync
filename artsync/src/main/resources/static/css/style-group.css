@@ -118,6 +118,7 @@
     background-color: rgb(255, 105, 105);
     color: white;
     transition: 0.25s;
+    cursor: pointer;
 }
 
 /* --------SECTION PROJET---------*/
@@ -1240,6 +1241,46 @@
     background-color: transparent;
     color: #5381ff;
     transition: 0.25s;
+}
+
+.deleteProjetDialog[open]{
+    height: 15rem;
+    width: 28rem;
+    border: none;
+    border-radius: 7px;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    text-align: center;
+}
+.deleteProjetDialog h6{
+    font-size: 18px;
+}
+.deleteProjetDialog div{
+    margin-top: 5%;
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    align-items: center;
+}
+.deleteProjetDialog a{
+    border: 3px solid #5381ff;
+    border-radius: 8px;
+    background-color: #5381ff;
+    text-align: center;
+    text-decoration: none;
+    color: white !important;
+    width: 8rem;
+    height: 100%;
+    padding-block: 1rem;
+    outline: none;
+}
+.deleteProjetDialog a:hover{
+    background-color: transparent;
+    color: #5381ff !important;
+    transition: 0.25s;
+    cursor: pointer;
 }
 @media only screen and (max-width: 700px) {
     .verticalNavbar{

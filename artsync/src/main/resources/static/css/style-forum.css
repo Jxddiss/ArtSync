@@ -3,7 +3,7 @@ body{
 }
 
 .body-content{
-    background: radial-gradient(ellipse at top, #ededed 25%,#a7c9d5 100%) fixed;
+    background: radial-gradient(ellipse at top, #ededed 25%, #c4dbe8 100%) fixed;
 }
 .content{
     display: flex;

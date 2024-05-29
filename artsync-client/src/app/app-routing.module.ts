@@ -16,16 +16,24 @@ import { GroupeListSpecificComponent } from './groupe-list-specific/groupe-list-
 import { FichierListSpecificComponent } from './fichier-list-specific/fichier-list-specific.component';
 import { UserListSpecificComponent } from './user-list-specific/user-list-specific.component';
 import { PostPreviewComponent } from './post-preview/post-preview.component';
+import { LoginComponent } from './login/login.component';
+import { AuthenticationGuard } from './guard/authentication.guard';
 
 const routes: Routes = [
   //---------------------------------------------------------------------------------GENERAL VIEWS---------------------------------------------------------------------------------
-  { path: '', redirectTo: '/generalView', pathMatch: 'full' },
-  { path: 'generalView', component: GeneralViewComponent, children: [
-    { path: '', component: UserListComponent, outlet: 'generalView' },
-    { path: 'groups', component: GroupListComponent, outlet: 'generalView' },
-    { path: 'posts', component: PostListComponent, outlet: 'generalView' },
-    { path: 'forums', component: ForumListComponent, outlet: 'generalView' }
-  ]},
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  {path:'login',component:LoginComponent},
+  { 
+    path: 'generalView', 
+    component: GeneralViewComponent, 
+    children: [
+      { path: '', component: UserListComponent, outlet: 'generalView' },
+      { path: 'groups', component: GroupListComponent, outlet: 'generalView' },
+      { path: 'posts', component: PostListComponent, outlet: 'generalView' },
+      { path: 'forums', component: ForumListComponent, outlet: 'generalView' }
+    ],
+    canActivate: [AuthenticationGuard]
+  },
   //---------------------------------------------------------------------------------SPECIAL VIEWS---------------------------------------------------------------------------------
   //------------USER PREVIEW---------------- <<<<<<<<<<
   //USER POSTS
@@ -35,7 +43,8 @@ const routes: Routes = [
     children: [
       { path: '', component: UserPreviewComponent, outlet: 'specificPreview' },
       { path: '', component: PostListSpecificComponent, outlet: 'specificListView' }
-    ]
+    ],
+    canActivate: [AuthenticationGuard]
   },
   //USER GROUPS
   {
@@ -44,7 +53,8 @@ const routes: Routes = [
     children: [
       { path: '', component: UserPreviewComponent, outlet: 'specificPreview'},
       { path: '', component: GroupeListSpecificComponent, outlet: 'specificListView' }
-    ]
+    ],
+    canActivate: [AuthenticationGuard]
   },
   //USER FILES
   {
@@ -53,7 +63,8 @@ const routes: Routes = [
     children: [
       { path: '', component: UserPreviewComponent, outlet: 'specificPreview' },
       { path: '', component: FichierListSpecificComponent, outlet: 'specificListView'}
-    ]
+    ],
+    canActivate: [AuthenticationGuard]
   },
   //USER FORUMS
   {
@@ -62,7 +73,8 @@ const routes: Routes = [
     children: [
       { path: '', component: UserPreviewComponent, outlet: 'specificPreview' },
       { path: '', component: ForumListSpecificComponent, outlet: 'specificListView' }
-    ]
+    ],
+    canActivate: [AuthenticationGuard]
   },
   //USER COMMENTS
   {
@@ -71,7 +83,8 @@ const routes: Routes = [
     children: [
       { path: '', component: UserPreviewComponent, outlet: 'specificPreview' },
       { path: '', component: CommentListSpecificComponent, outlet: 'specificListView' }
-    ]
+    ],
+    canActivate: [AuthenticationGuard]
   },
 
   //------------GROUP PREVIEW---------------- <<<<<<<<<<
@@ -82,7 +95,8 @@ const routes: Routes = [
     children: [
       { path: '', component: GroupPreviewComponent, outlet: 'specificPreview' },
       { path: '', component: UserListSpecificComponent, outlet: 'specificListView' }
-    ]
+    ],
+    canActivate: [AuthenticationGuard]
   },
   //GROUP FILES
   {
@@ -91,7 +105,8 @@ const routes: Routes = [
     children: [
       { path: '', component: GroupPreviewComponent, outlet: 'specificPreview' },
       { path: '', component: FichierListSpecificComponent, outlet: 'specificListView' }
-    ]
+    ],
+    canActivate: [AuthenticationGuard]
   },
 
   //------------POST PREVIEW---------------- <<<<<<<<<<
@@ -102,7 +117,8 @@ const routes: Routes = [
     children: [
       { path: '', component: PostPreviewComponent, outlet: 'specificPreview' },
       { path: '', component: CommentListSpecificComponent, outlet: 'specificListView' }
-    ]
+    ],
+    canActivate: [AuthenticationGuard]
   },
 
   //------------FORUM PREVIEW---------------- <<<<<<<<<<
@@ -113,7 +129,8 @@ const routes: Routes = [
     children: [
       { path: '', component: ForumPreviewComponent, outlet: 'specificPreview' },
       { path: '', component: CommentListSpecificComponent, outlet: 'specificListView' }
-    ]
+    ],
+    canActivate: [AuthenticationGuard]
   },
   { path: '**', redirectTo: 'generalView/users' }
 

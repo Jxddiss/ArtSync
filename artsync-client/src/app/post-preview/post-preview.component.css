@@ -2,7 +2,7 @@
     width: 35rem;
     height: 42rem;
     background-color: transparent;
-    border: 2px solid rgb(0,0,0,0.25);
+    border: 2px solid rgba(255, 255, 255, 0.25);
     border-radius: 15px;
     display: flex;
     flex-direction: column;
@@ -30,7 +30,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    color: rgb(58, 58, 58);
+    color: rgb(255, 255, 255);
 }
 .post-header button svg{
     font-weight: 600;
@@ -73,11 +73,11 @@
     align-items: center;
     margin-top: 0.5rem;
     border-radius: 8px;
-    border: 2px solid rgb(0,0,0,0.25);
+    border: 2px solid rgba(255, 255, 255, 0.25);
     width: 24rem;
     padding: 1rem;
     text-decoration: none;
-    color: black;
+    color: rgb(255, 255, 255);
 }
 .author:hover{
     background-color: rgba(253, 157, 157, 0.07);
@@ -113,7 +113,7 @@
 .post-info h4{
     font-size: 1.8rem;
     font-weight: 400;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid rgb(255, 255, 255);
     width: 12rem;
     align-self: flex-start;
     margin-bottom: 0.15rem;

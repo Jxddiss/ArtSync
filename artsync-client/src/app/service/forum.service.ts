@@ -1,24 +1,31 @@
 import { Injectable } from '@angular/core';
-import { FORUMS } from './mock-forum';
+import { environment } from '../constants/environment.constant';
+import { HttpClient } from '@angular/common/http';
+import { Forum } from '../models/forum.model';
+import { Observable } from 'rxjs';
+import { Utilisateur } from '../models/utilisateur.model';
+import {Comment } from '../models/comment.model';
 
 @Injectable({
     providedIn: 'root'
 })
-
 export class ForumService {
-    constructor() {
-        this.getAllForums();
-    }
-    getAllForums() {
-        return FORUMS;
-    }
-    getForumByTitle(title: string) {
-        return FORUMS.find(forum => forum.title === title);
+    private host_url = environment.apiUrl;
+    constructor(private http: HttpClient) {}
+    getAllForums() : Observable<Forum[]> {
+        return this.http.get<Forum[]>(this.host_url + '/api/forums');
     }
     getForumById(id: number) {
-        return FORUMS.find(forum => forum.id === id);
+        return this.http.get<Forum>(this.host_url + '/api/forums/' + id);
     }
-    getForumsByUserId(id: number) {
-        return FORUMS.filter(forum => forum.user.id === id);
+    getCommentaireByForumId(id: number) : Observable<Comment[]> {
+        return this.http.get<Comment[]>(this.host_url + '/api/forums/commentaires/' + id);
+    }
+    getAllForumByUtilisateurId(id: number) : Observable<Forum[]> {
+        return this.http.get<Forum[]>(this.host_url + '/api/users/forums/' + id);
+    }
+
+    deleteForum(id: number) {
+        return this.http.delete<any>(this.host_url + "/api/admin/forums/delete", { params: { 'forumId': id } });
     }
 }

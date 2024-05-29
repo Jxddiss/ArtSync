@@ -1,27 +1,16 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { COMMENTS } from './mock-comment';
+import { environment } from '../constants/environment.constant';
 
 @Injectable({
     providedIn: 'root'
 })
 
 export class CommentService {
-    constructor() {
-        this.getAllComments();
-    }
-    getAllComments() {
-        return COMMENTS;
-    }
-    getCommentById(id: number) {
-        return COMMENTS.find(comment => comment.id === id);
-    }
-    getCommentByUserIds(userId: number) {
-        return COMMENTS.filter(comment => comment.user.id === userId);
-    }
-    getCommentByPostId(postId: number) {
-        return COMMENTS.filter(comment => comment.postId === postId);
-    }
-    getCommentByForumId(forumId: number) {
-        return COMMENTS.filter(comment => comment.forumId === forumId);
+    private host_url = environment.apiUrl;
+    constructor(private http: HttpClient) {}
+
+    deleteCommentaire(id: number) {
+        return this.http.delete<any>(this.host_url + "/api/admin/commentaires/delete", { params: { 'commentaireId': id } });
     }
 }

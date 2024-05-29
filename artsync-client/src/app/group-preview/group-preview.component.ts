@@ -4,7 +4,9 @@ import { Location } from '@angular/common';
 
 import { GroupService } from '../service/group.service';
 import { Group } from '../models/group.model';
-import { Utilisateur } from '../models/utilisateur.model';
+
+import { environment } from '../constants/environment.constant';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-group-preview',
@@ -13,6 +15,9 @@ import { Utilisateur } from '../models/utilisateur.model';
 })
 export class GroupPreviewComponent implements OnInit{
   group : Group | undefined;
+  private _subscriptions : Subscription[] = [];
+  private _BASE_GROUPE_PHOTO_PATH : string = environment.apiUrl + '/media/images/utilisateur/';
+  currentPhoto = ""
 
   constructor(
     private router: Router,
@@ -23,11 +28,21 @@ export class GroupPreviewComponent implements OnInit{
 
   ngOnInit(): void {
     this.getGroup();
+
+  }
+  ngOnDestroy(): void {
+    this._subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
   getGroup(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.group = this.groupService.getGroupById(id);
+    this._subscriptions.push(
+      this.groupService.getGroupById(id).subscribe(
+        group => {
+        this.group = group
+        this.currentPhoto = this._BASE_GROUPE_PHOTO_PATH+group.projetPhoto
+      })
+    );
   }
 
   @ViewChild('dialog') dialog!: ElementRef;
@@ -42,6 +57,17 @@ export class GroupPreviewComponent implements OnInit{
 
   isActive(url: string): boolean {
     return this.router.url === url;
+  } 
+
+  onDeleteGroup(): void {
+    if (!this.group) return
+    this._subscriptions.push(
+      this.groupService.deleteGroupById(this.group.id).subscribe((response) => {
+        if (response.message === 'Success') {
+          this.router.navigate(['/generalView', { outlets: { generalView: 'groups' } }]);
+        }
+      })
+    )
+    this.hideDialog();
   }
-  
 }

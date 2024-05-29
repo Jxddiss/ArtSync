@@ -1,5 +1,3 @@
-const BASE_UTILISATEUR_PHOTO_PATH : string= "https://robohash.org/";
-
 export class Utilisateur {
     constructor(
         public id: number,
@@ -9,9 +7,7 @@ export class Utilisateur {
         public email:string,
         public photoUrl:string,
         public specialisation:string,
-        public roleName:string,
-        public isActive:boolean
-    ){
-        this.photoUrl = BASE_UTILISATEUR_PHOTO_PATH + photoUrl
-    }
+        public role:string,
+        public active:boolean
+    ){}
 }

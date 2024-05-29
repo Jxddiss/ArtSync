@@ -2,8 +2,11 @@ import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
+import { GroupService } from '../service/group.service';
 import { FileService } from '../service/file.service';
 import { File } from '../models/file.model';
+import { Subscription } from 'rxjs';
+import { environment } from '../constants/environment.constant';
 
 @Component({
   selector: 'app-fichier-list-specific',
@@ -11,13 +14,15 @@ import { File } from '../models/file.model';
   styleUrl: './fichier-list-specific.component.css'
 })
 export class FichierListSpecificComponent implements OnInit {
-  files: File[] = [];
-
+  _files: File[] = [];
+  private _subscriptions: Subscription[] = [];
+  private _BASE_FILE_PATH_PROJET: string = environment.apiUrl + '/media/fichier/groupe/';
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private location: Location,
-    private fileService: FileService
+    private fileService: FileService,
+    private groupService: GroupService
   ) { }
   
   ngOnInit(): void {
@@ -28,9 +33,21 @@ export class FichierListSpecificComponent implements OnInit {
     const path = this.router.url.split('/');
     const id = Number(path[path.length - 1]);
     if (path.includes('group')) {
-      this.files = this.fileService.getFilesByGroupId(id);
+      this._subscriptions.push(
+        this.groupService.getGroupById(id).subscribe(
+          group => {
+            this._files = group.fichiers;
+          }
+        )
+      );
     } else if (path.includes('user')) {
-      this.files = this.fileService.getFilesByUserId(id);
+      this._subscriptions.push(
+        this.fileService.getFileByUserId(id).subscribe(
+          files => {
+            this._files = files;
+          }
+        )
+      );
     }
   }
 
@@ -43,12 +60,7 @@ export class FichierListSpecificComponent implements OnInit {
   hideDialog(): void {
     this.dialog.nativeElement.style.display = 'none';
   }
-
-  searchFile(name: string): void {
-    if (name != null) {
-      const nameNumber = parseInt(name);
-      const result = this.fileService.getFileById(nameNumber);
-      this.files = result ? [result] : [];
-    }
+  get BASE_FILE_PATH_PROJET(): string {
+    return this._BASE_FILE_PATH_PROJET;
   }
 }

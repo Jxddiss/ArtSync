@@ -44,14 +44,29 @@ document.addEventListener('DOMContentLoaded', function() {
 
 //Pour user preview
 function toggleReadonly() {
-    const inputs = document.querySelectorAll('.user-info-holder input');
-    inputs.forEach(input => {
-        input.readOnly = !input.readOnly;
-        if (input.readOnly) {
-            input.style.border = "none";
-        } else {
-            input.style.border = "1px solid black";
-        }
-    });
+    const inputs = document.querySelectorAll('.modifiable');
+    setTimeout(() => {
+
+        inputs.forEach(input => {
+            input.disabled = !input.disabled;
+            const bouton = document.getElementById('modifierButton');
+            if (input.disabled) {
+                input.style.border = "none";
+                gsap.to(bouton,{
+                    opacity: 0,
+                    duration: 0.1,
+                })
+                bouton.disabled = true;
+            } else {
+                input.style.border = "1px solid black";
+                bouton.style.display = "block";
+                bouton.disabled = false;
+                gsap.to(bouton,{
+                    opacity: 1,
+                    duration: 0.1,
+                })
+            }
+        });
+    }, 150);
 }
 

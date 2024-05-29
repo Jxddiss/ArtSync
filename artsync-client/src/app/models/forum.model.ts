@@ -3,10 +3,10 @@ import { Utilisateur } from './utilisateur.model';
 export class Forum{
     constructor(
         public id: number,
-        public title: string,
-        public content: string,
+        public titre: string,
+        public contenu: string,
         public date: string,
         public publique: boolean,
-        public user : Utilisateur,
+        public utilisateur : Utilisateur,
     ) {}
 }

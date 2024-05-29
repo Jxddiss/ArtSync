@@ -1,14 +1,8 @@
 package com.artcorp.artsync.controller.admin;
 
 import com.artcorp.artsync.dto.HttpResponse;
-import com.artcorp.artsync.entity.Commentaire;
-import com.artcorp.artsync.entity.Post;
-import com.artcorp.artsync.entity.Projet;
-import com.artcorp.artsync.entity.Utilisateur;
-import com.artcorp.artsync.service.CommentaireService;
-import com.artcorp.artsync.service.PostService;
-import com.artcorp.artsync.service.ProjetService;
-import com.artcorp.artsync.service.UtilisateurService;
+import com.artcorp.artsync.entity.*;
+import com.artcorp.artsync.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -26,13 +20,17 @@ public class UserAdminRestController {
     private final CommentaireService commentaireService;
     private final ProjetService projetService;
     private final PostService postService;
+    private final ForumService forumService;
+    private final FichierService fichierService;
 
     @Autowired
-    public UserAdminRestController(UtilisateurService utilisateurService, CommentaireService commentaireService, ProjetService projetService, PostService postService) {
+    public UserAdminRestController(UtilisateurService utilisateurService, CommentaireService commentaireService, ProjetService projetService, PostService postService, ForumService forumService, FichierService fichierService) {
         this.utilisateurService = utilisateurService;
         this.commentaireService = commentaireService;
         this.projetService = projetService;
         this.postService = postService;
+        this.forumService = forumService;
+        this.fichierService = fichierService;
     }
 
     @GetMapping("/api/users")
@@ -67,6 +65,7 @@ public class UserAdminRestController {
         List<Projet> listProjets = projetService.findProjectsOfUser(userId);
         return new ResponseEntity<>(listProjets,HttpStatus.OK);
     }
+
     @GetMapping("/api/users/posts/{userId}")
     public ResponseEntity<List<Post>> getPostsByOneUser(@PathVariable("userId") Long userId,
                                                         HttpMethod method) throws NoResourceFoundException {
@@ -77,6 +76,30 @@ public class UserAdminRestController {
         List<Post> listPost = postService.findPostByUser(utilisateur);
         return new ResponseEntity<>(listPost,HttpStatus.OK);
     }
+
+    @GetMapping("/api/users/fichiers/{userId}")
+    public ResponseEntity<List<FichierGeneral>> getFichiersByOneUser(@PathVariable("userId") Long userId,
+                                                                     HttpMethod method) throws NoResourceFoundException {
+        Utilisateur utilisateur = utilisateurService.findById(userId);
+        if (utilisateur == null){
+            throw new NoResourceFoundException(method,"Utilisateur id: "+userId);
+        }
+        List<FichierGeneral> listFichiers = fichierService.findAllByUtilisateur(utilisateur);
+        return new ResponseEntity<>(listFichiers,HttpStatus.OK);
+    }
+
+    @GetMapping("/api/users/forums/{userId}")
+    public ResponseEntity<List<Forum>> getForumsByOneUser(@PathVariable("userId") Long userId,
+                                                         HttpMethod method) throws NoResourceFoundException {
+        Utilisateur utilisateur = utilisateurService.findById(userId);
+        if (utilisateur == null){
+            throw new NoResourceFoundException(method,"Utilisateur id: "+userId);
+        }
+        List<Forum> listPost = forumService.findAllByUtilisateur(utilisateur);
+        return new ResponseEntity<>(listPost,HttpStatus.OK);
+    }
+
+
 
     @DeleteMapping("/api/users/delete")
     @PreAuthorize("hasAnyAuthority('user:delete')")

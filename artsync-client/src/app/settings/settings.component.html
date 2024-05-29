@@ -1,0 +1,19 @@
+<div class="setting-form">
+    <form #settingForm="ngForm" (ngSubmit)="onUpdateSettings()">
+        <div class="input">
+            <label for="boiteIdeeActive">Boite a idées : </label>
+            <select [(ngModel)]="settings.boiteIdeeActive" name="boiteIdeeActive" class="modifiable">
+                <option value="true">ACTIVÉ</option>
+                <option value="false">DÉSACTIVÉ</option>
+            </select>
+        </div>
+        <div class="input">
+            <label for="forgeImageActive">Forge à image :</label>
+            <select [(ngModel)]="settings.forgeImageActive" name="forgeImageActive" class="modifiable">
+                <option value="true">ACTIVÉ</option>
+                <option value="false">DÉSACTIVÉ</option>
+            </select>
+        </div>
+        <button id="btn-sauvegarder" type="submit">SAUVEGARDER</button>
+    </form>
+</div>

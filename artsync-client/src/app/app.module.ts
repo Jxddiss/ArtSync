@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -24,6 +24,9 @@ import { ForumPreviewComponent } from './forum-preview/forum-preview.component';
 import { GroupPreviewComponent } from './group-preview/group-preview.component';
 import { PostPreviewComponent } from './post-preview/post-preview.component';
 import { LoginComponent } from './login/login.component';
+import { AuthInterceptor } from './interceptor/auth.interceptor';
+import { DemandesComponent } from './demandes/demandes.component';
+import { SettingsComponent } from './settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +50,8 @@ import { LoginComponent } from './login/login.component';
     GroupPreviewComponent,
     PostPreviewComponent,
     LoginComponent,
+    DemandesComponent,
+    SettingsComponent,
   ],
   imports: [
     BrowserModule,
@@ -54,7 +59,7 @@ import { LoginComponent } from './login/login.component';
     HttpClientModule,
     FormsModule
   ],
-  providers: [],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

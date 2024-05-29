@@ -1,11 +1,11 @@
 <div class="forum-container">
     <a [routerLink]="['/overview/forum/comments/',forum.id]" *ngFor="let forum of forums" class="forum">
         <div class="forum-info">
-            <h4>{{forum.title}}</h4>
+            <h4>{{forum.titre}}</h4>
             <p>
-                {{forum.content}}
+                {{forum.contenu}}
             </p>
-            <b>&#64;{{forum.user.pseudo}}</b>
+            <b>&#64;{{forum.utilisateur.pseudo}}</b>
         </div>
     </a> 
 

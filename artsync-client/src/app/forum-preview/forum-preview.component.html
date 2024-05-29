@@ -1,7 +1,7 @@
 <div class="forum-container">
     <div class="forum-header">
         <div class="forum-identity">
-            <p>{{forum?.title}}</p>
+            <p>{{forum?.titre}}</p>
         </div>
         <button (click)="showDialog()">
             <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
@@ -13,20 +13,16 @@
         <h4>Informations</h4>
         <div  class="forum-info-holder">
             <h5>Auteur:</h5>
-            <a [routerLink]="['/overview/user/posts/',forum?.user?.id]" class="author">
-                <img src="../../assets/images/ultraRealisticTotoro.png" alt="">
+            <a [routerLink]="['/overview/user/posts/',forum?.utilisateur?.id]" class="author">
+                <img src="{{currentPhoto}}" alt="">
                 <div>
-                    <h5>{{forum?.user?.prenom}} {{forum?.user?.nom}}</h5>
-                    <p>{{forum?.user?.pseudo}}</p>
+                    <h5>{{forum?.utilisateur?.prenom}} {{forum?.utilisateur?.nom}}</h5>
+                    <p>{{forum?.utilisateur?.pseudo}}</p>
                 </div>
             </a>
             <div class="forum-cell">
                 <h5>Contenu : </h5>
-                <p>{{forum?.content}}</p>
-            </div>
-            <div class="forum-cell">
-                <h5>Date de création : </h5>
-                <p>{{forum?.date}}</p>
+                <p>{{forum?.contenu}}</p>
             </div>
         </div>
     </div>
@@ -34,9 +30,9 @@
 
 <div class="dialog" #dialog style="display: none;">
     <div class="dialog-content">
-        <h4>VOULEZ-VOUS VRAIMENT SUPPRIMER [ENTITÉ] ?</h4>
+        <h4>VOULEZ-VOUS VRAIMENT SUPPRIMER CE FORUM ?</h4>
         <div class="dialog-buttons">
-            <a>CONFIRMER</a>
+            <a (click)="onDeleteForum()">CONFIRMER</a>
             <a (click)="hideDialog()">ANNULER</a>
         </div>
     </div>

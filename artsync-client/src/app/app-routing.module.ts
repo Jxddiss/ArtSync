@@ -18,11 +18,15 @@ import { UserListSpecificComponent } from './user-list-specific/user-list-specif
 import { PostPreviewComponent } from './post-preview/post-preview.component';
 import { LoginComponent } from './login/login.component';
 import { AuthenticationGuard } from './guard/authentication.guard';
+import { DemandesComponent } from './demandes/demandes.component';
+import { SettingsComponent } from './settings/settings.component';
 
 const routes: Routes = [
   //---------------------------------------------------------------------------------GENERAL VIEWS---------------------------------------------------------------------------------
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   {path:'login',component:LoginComponent},
+  {path:'demandes',component:DemandesComponent},
+  {path:'settings',component:SettingsComponent},
   { 
     path: 'generalView', 
     component: GeneralViewComponent, 

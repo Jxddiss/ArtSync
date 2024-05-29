@@ -4,9 +4,7 @@ export class File{
     constructor(
         public id: number,
         public urlMedia: string,
-        public groupId: number | null,
-        public postId: number | null,
-        public user : Utilisateur,
+        public utilisateur : Utilisateur,
         public type: string,
     ){}
 }

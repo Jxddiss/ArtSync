@@ -15,6 +15,7 @@ import { environment } from '../constants/environment.constant';
 })
 export class FichierListSpecificComponent implements OnInit {
   _files: File[] = [];
+  private _selectedFile: File | undefined;
   private _subscriptions: Subscription[] = [];
   private _BASE_FILE_PATH_PROJET: string = environment.apiUrl + '/media/fichier/groupe/';
   constructor(
@@ -53,13 +54,30 @@ export class FichierListSpecificComponent implements OnInit {
 
   @ViewChild('dialog') dialog!: ElementRef;
 
-  showDialog(): void {
+  showDialog(fichier : File): void {
+    this._selectedFile = fichier
     this.dialog.nativeElement.style.display = 'flex';
   }
 
   hideDialog(): void {
     this.dialog.nativeElement.style.display = 'none';
   }
+
+  onDeleteFile(): void {
+    if (this._selectedFile) {
+      this._subscriptions.push(
+        this.fileService.deleteFile(this._selectedFile.id).subscribe(
+          (reponse) => {
+            if (reponse.message === 'Success') {
+              this.getFiles();
+            }
+          }
+        )
+      );
+    }
+    this.hideDialog();
+  }
+
   get BASE_FILE_PATH_PROJET(): string {
     return this._BASE_FILE_PATH_PROJET;
   }

@@ -14,4 +14,8 @@ export class FileService {
         return this.http.get<File[]>(this.host_url + '/api/users/fichiers/' + id);
     }
 
+    deleteFile(id: number) {
+        return this.http.delete<any>(this.host_url + '/api/admin/fichiers/delete', { params: { 'fichierId': id } });
+    }
+
 }

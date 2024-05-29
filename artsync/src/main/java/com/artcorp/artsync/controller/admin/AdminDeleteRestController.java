@@ -121,4 +121,13 @@ public class AdminDeleteRestController {
 
         return new ResponseEntity<>(httpResponse, HttpStatus.OK);
     }
+
+    @DeleteMapping("/api/admin/fichiers/delete")
+    public ResponseEntity<HttpResponse> deleteFichier(@RequestParam("fichierId") Long fichierId){
+        fichierService.deleteById(fichierId,"groupe");
+        HttpResponse httpResponse = new HttpResponse(HttpStatus.OK.value(),
+                HttpStatus.OK,HttpStatus.OK.getReasonPhrase(),"Success" );
+
+        return new ResponseEntity<>(httpResponse, HttpStatus.OK);
+    }
 }

@@ -36,6 +36,7 @@ groupes, fichiers, forums, commentaires<br>
 **GSAP** (GreenSock Animation Platform) : Bibliothèque JavaScript puissante pour créer des animations fluides et performantes. <br>
 **Three.js** : Bibliothèque JavaScript pour créer et afficher des graphiques 3D dans le navigateur. <br>
 **WebRTC** : Technologie pour les communications en temps réel, utilisée pour les appels vidéo. <br>
+**Thymeleaf** : Language de templating utilisé lors de la création d'application mvc avec Spring <br>
 
 ## Back End
 
@@ -59,6 +60,7 @@ Assurez-vous d'avoir MySQL installé sur votre système.<br>
 Configuration de la base de données :<br>
 
 Créez une base de données MySQL nommée artsync. L'injection des tables sera automatique lors du lancement de l'application.<br>
+Vous pouvez également lancer le script sql ou se trouve des données préparé<br>
 
 ## Configuration des API :
 

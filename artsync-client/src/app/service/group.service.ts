@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Group } from '../models/group.model';
 import { Utilisateur } from '../models/utilisateur.model';
-
+import { File } from '../models/file.model';
 @Injectable({
     providedIn: 'root'
 })
@@ -12,6 +12,7 @@ import { Utilisateur } from '../models/utilisateur.model';
 export class GroupService {
     private host_url = environment.apiUrl;
     private _membresGroupe : Utilisateur[] = [];
+    private _fichiersGroupe : File[] = [];
     constructor(private http: HttpClient) {}
     getAllGroups() : Observable<Group[]> {
         return this.http.get<Group[]>(this.host_url + '/api/groups');
@@ -24,6 +25,12 @@ export class GroupService {
     }
     set membresGroupe(membresGroupe: Utilisateur[]) {
         this._membresGroupe = membresGroupe;
+    }
+    get fichiersGroupe(): File[] {
+        return this._fichiersGroupe;
+    }
+    set fichiersGroupe(fichiersGroupe: File[]) {
+        this._fichiersGroupe = fichiersGroupe;
     }
 
 }

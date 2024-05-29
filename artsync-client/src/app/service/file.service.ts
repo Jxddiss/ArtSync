@@ -1,24 +1,17 @@
 import { Injectable } from '@angular/core';
-import { FILES } from './mock-file';
+import { environment } from '../constants/environment.constant';
+import { HttpClient } from '@angular/common/http';
+import { File } from '../models/file.model';
 
 @Injectable({
     providedIn: 'root'
 })
 
 export class FileService {
-    constructor() {
-        this.getAllFiles();
+    private host_url = environment.apiUrl;
+    constructor(private http:HttpClient) {}
+    getFileByUserId(id: number) {
+        return this.http.get<File[]>(this.host_url + '/api/users/fichiers/' + id);
     }
-    getAllFiles() {
-        return FILES;
-    }
-    getFileById(id: number) {
-        return FILES.find(file => file.id === id);
-    }
-    getFilesByGroupId(groupId: number) {
-        return FILES.filter(file => file.groupId === groupId);
-    }
-    getFilesByUserId(userId: number) {
-        return FILES.filter(file => file.user.id === userId);
-    }
+
 }

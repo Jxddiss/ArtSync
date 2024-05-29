@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { POSTS } from './mock-post';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../constants/environment.constant';
 import { Post } from '../models/post.model';
@@ -21,11 +20,11 @@ export class PostService {
     return this.http.get<Post>(this.host_url + '/api/posts/'+id);
   }
 
-  getPostByUserId(id: number) {
-    return POSTS.find(post => post.utilisateur.id === id);
-  }
+  // getPostByUserId(id: number) {
+  //   return POSTS.find(post => post.utilisateur.id === id);
+  // }
   getAllPostByUserId(id: number) {
-    return POSTS.filter(post => post.utilisateur.id === id);
+    return this.http.get<Post[]>(this.host_url + '/api/users/posts/' + id);
   }
   getCommentaireByPostId(id: number) : Observable<Comment[]> {
     return this.http.get<Comment[]>(this.host_url + '/api/posts/commentaires/' + id);

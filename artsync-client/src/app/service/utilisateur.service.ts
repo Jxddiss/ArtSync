@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Utilisateur } from '../models/utilisateur.model';
 import { Observable } from 'rxjs';
 import { Group } from '../models/group.model';
+import { Comment } from '../models/comment.model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,4 +21,7 @@ export class UtilisateurService {
   getGroupByUserId(id: number) {
     return this.http.get<Group[]>(this.host_url + '/api/users/groups/' + id);
   } 
+  getCommentByUserId(id: number) {
+    return this.http.get<Comment[]>(this.host_url + '/api/users/commentaires/' + id);
+  }
 }

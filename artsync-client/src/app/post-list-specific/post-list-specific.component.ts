@@ -4,6 +4,8 @@ import { Location } from '@angular/common';
 
 import { PostService } from '../service/post.service';
 import { Post } from '../models/post.model';
+import { Subscription } from 'rxjs';
+import { environment } from '../constants/environment.constant';
 
 @Component({
   selector: 'app-post-list-specific',
@@ -12,7 +14,8 @@ import { Post } from '../models/post.model';
 })
 export class PostListSpecificComponent implements OnInit{
   posts : Post[] = [];
-
+  _subscriptions: Subscription[] = [];
+  private _BASE_PUBLICATION_PHOTO_PATH : string = environment.apiUrl + '/media/images/post/';
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -26,13 +29,22 @@ export class PostListSpecificComponent implements OnInit{
 
   getPosts(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.posts = this.postService.getAllPostByUserId(id);
+    if (this.router.url.includes('user')) {
+      this._subscriptions.push(
+        this.postService.getAllPostByUserId(id).subscribe(
+          posts => {
+            this.posts = posts;
+          }
+        )
+      );
+    }
   }
 
-  searchPost(name: string): void {
-    if (!name) {
-      //Ajouter la methode
-      return;
-    }
+  ngOnDestroy(): void {
+    this._subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
+
+  get BASE_PUBLICATION_PHOTO_PATH(): string {
+    return this._BASE_PUBLICATION_PHOTO_PATH;
   }
 }

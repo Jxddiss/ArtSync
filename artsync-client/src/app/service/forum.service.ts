@@ -21,4 +21,7 @@ export class ForumService {
     getCommentaireByForumId(id: number) : Observable<Comment[]> {
         return this.http.get<Comment[]>(this.host_url + '/api/forums/commentaires/' + id);
     }
+    getAllForumByUtilisateurId(id: number) : Observable<Forum[]> {
+        return this.http.get<Forum[]>(this.host_url + '/api/users/forums/' + id);
+    }
 }

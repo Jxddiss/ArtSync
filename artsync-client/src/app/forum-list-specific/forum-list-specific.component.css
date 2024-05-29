@@ -2,7 +2,7 @@
     display: flex;
     flex-wrap: wrap;
     width: 28rem;
-    height: 32rem;
+    height: 38rem;
     gap: 2rem;
     margin-inline: 2.5%;
     margin-top: 3.5%;
@@ -16,8 +16,7 @@
     flex-direction: row;
     align-items: center;
     gap: 1rem;
-    min-height: 5rem;
-    height: fit-content;
+    min-height: 15rem;
     width: 100%;
     border-radius: 12px;
     border: 3px solid rgba(255, 255, 255, 0.25);

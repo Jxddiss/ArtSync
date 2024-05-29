@@ -1,4 +1,5 @@
 import { Utilisateur } from './utilisateur.model';
+import { File } from './file.model';
 
 export class Group{
     constructor(
@@ -12,5 +13,6 @@ export class Group{
         public dateSuppression: Date,
         public admin : Utilisateur,
         public utilisateurs: Utilisateur[],
+        public fichiers: File[],
     ) {}
 }

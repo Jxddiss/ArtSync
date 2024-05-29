@@ -62,7 +62,6 @@ public class IdeaController {
         ChatGPTResponse chatGPTResponse = template.postForObject(url, chatGPTRequest, ChatGPTResponse.class);
         List<String> choix = cleanText(chatGPTResponse.getChoices().get(0).getText());
         choix.remove(choix.get(0));
-        System.out.println(choix);
         modelSent.addAttribute("listOutputs", choix);
         modelSent.addAttribute("promptWritten", prompt);
         return "boite-idee";

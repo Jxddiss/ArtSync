@@ -34,6 +34,8 @@ const btnCouleurs = document.querySelectorAll(".colorHolder");
 let slider = document.getElementById("myRange");
 let output = document.getElementById("valueSlider");
 
+const colorPicker = document.getElementById("colorPicker")
+
 const btnRetour = document.getElementById("retour");
 const btnContinuer = document.getElementById("continuer");
 
@@ -391,6 +393,31 @@ btnCouleurs.forEach(element => {
         }
     });
 });
+colorPicker.addEventListener("change", () =>{
+    colorPicker.setAttribute('data-color', colorPicker.value)
+    const color = colorPicker.getAttribute('data-color');
+    if (selectedOption >= -1) {
+        currentCase = getCurrentCase();
+        if (currentCase === null) {
+            switch (option) {
+                case 'background':
+                    templatePreview.style.backgroundColor = color;
+                    break;
+                case 'border':
+                    templatePreview.style.borderColor = color;
+                    break;
+            }
+        }
+        switch (option) {
+            case 'background':
+                currentCase.style.backgroundColor = color;
+                break;
+            case 'border':
+                currentCase.style.borderColor = color;
+                break;
+        }
+    }
+})
 
 slider.oninput = function() {
     output.innerHTML = this.value;

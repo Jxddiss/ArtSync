@@ -445,6 +445,27 @@
     border: 2px solid rgb(0,0,0,0.25);
     border-radius: 50%;
 }
+
+.colorPickerContainer-color {
+    display: flex;
+    align-items: center;
+    font-size: 2rem;
+    width: 200px;
+    border: 4px solid lightgrey;
+    border-radius: 10px;
+}
+
+input[type="color"] {
+    border: none;
+    background-color: transparent;
+    width: 2rem;
+    height: 2rem;
+    outline: none;
+}
+
+#colorPicker::-webkit-color-swatch {
+    border-radius: 100%;
+}
 .color1{
     background-color: rgba(147, 194, 255, 0.5);
 }

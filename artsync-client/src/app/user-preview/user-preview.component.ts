@@ -16,7 +16,7 @@ declare function toggleReadonly(): void;
 })
 export class UserPreviewComponent implements OnInit{
 
-  utilisateur : Utilisateur | undefined;
+  utilisateur : Utilisateur  = {} as Utilisateur;
   private _subscriptions : Subscription[] = [];
   private _BASE_UTILISATEUR_PHOTO_PATH : string = environment.apiUrl + '/media/images/utilisateur/';
   currentPhoto = ""
@@ -59,5 +59,13 @@ export class UserPreviewComponent implements OnInit{
 
   hideDialog(): void {
     this.dialog.nativeElement.style.display = 'none';
+  }
+
+  onUserModified(): void {
+    this._subscriptions.push(
+      this.utilisateurService.updateUser(this.utilisateur as Utilisateur).subscribe((user: Utilisateur) => {
+        this.utilisateur = user;
+      })
+    );
   }
 }

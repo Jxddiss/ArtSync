@@ -24,4 +24,7 @@ export class UtilisateurService {
   getCommentByUserId(id: number) {
     return this.http.get<Comment[]>(this.host_url + '/api/users/commentaires/' + id);
   }
+  updateUser(user: Utilisateur) {
+    return this.http.put<Utilisateur>(this.host_url + '/api/users/update', user);
+  }
 }

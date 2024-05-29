@@ -27,4 +27,7 @@ export class UtilisateurService {
   updateUser(user: Utilisateur) {
     return this.http.put<Utilisateur>(this.host_url + '/api/users/update', user);
   }
+  deleteUser(id: number) {
+    return this.http.delete<any>(this.host_url + '/api/users/delete', { params: { 'userId': id } });
+  }
 }

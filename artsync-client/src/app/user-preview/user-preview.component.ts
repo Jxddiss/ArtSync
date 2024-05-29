@@ -68,4 +68,15 @@ export class UserPreviewComponent implements OnInit{
       })
     );
   }
+
+  onUserDelete(): void {
+    this._subscriptions.push(
+      this.utilisateurService.deleteUser(this.utilisateur.id).subscribe((response) => {
+        if (response.message.includes('Utilisateur supprimé')) {
+          this.router.navigate(['/']);
+        }
+      })
+    );
+    this.hideDialog();
+  }
 }

@@ -1,93 +1,76 @@
-# PlateformeDeCollaborationArtistiqueNicholsonAliMartinVanettaSpring
+## PlateformeDeCollaborationArtistiqueNicholsonAliMartinVanettaSpring
+Projet pour le cours 420-G26-RO - Applications Web 2 - H2024
+Présenté à : Dini Ahamada
+Type de Projet : Platforme de collaboration artistique
 
+# Lien du site https://artsync.tech
 
+##  Présentation de l'application
+Notre application est une plateforme de collaboration artistique, intégrant des fonctionnalités variées inspirées de logiciels populaires tels qu'Instagram, GitLab, Twitch et Pinterest. Conçue pour favoriser la créativité et l'interaction, elle propose une multitude de services pour répondre aux besoins des utilisateurs.
 
-## Getting started
+Parmi les fonctionnalités principales, on retrouve :
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+    Publications : Partagez vos idées et créations avec la communauté.
+    Personnalisation du profil et du portfolio : Affichez et organisez vos œuvres de manière unique.
+    Forums : Participez à des discussions thématiques et échangez avec d'autres créateurs.
+    Intelligence artificielle : Utilisez des outils de génération d'idées et d'images pour stimuler votre créativité.
+    Appels vidéo : Communiquez en face à face ou en groupe grâce à des appels vidéo de haute qualité.
+    Livestreaming : Diffusez vos sessions créatives en direct et interagissez avec votre audience en temps réel.
+    Gestion de projets artistiques : Créez et gérez vos projets avec des dépôts de fichiers intégrés.
+    Classement des meilleures publications : Découvrez et soyez inspiré par les œuvres les plus appréciées.
+    Messagerie instantanée : Restez connecté avec vos contacts grâce à une messagerie réactive et intuitive.
+    Système de notification en live : Recevez des mises à jour en temps réel pour ne rien manquer.
+    Réseautage social : Élargissez votre réseau en connectant avec des créateurs et professionnels du monde entier.
+    Cette plateforme tout-en-un est idéale pour les artistes, créateurs de contenu, développeurs et toute personne souhaitant collaborer et innover dans un environnement dynamique et inspirant.
+    Administration : Gérez le contenus des utilisateurs que ce soit les utilisateurs eux même que ce soit leurs publications,
+    groupes, fichiers, forums, commentaires
+    Optimisier pour mobile : Profitez d'une experience optimisié sur mobile
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+## Technologies Utilisées
 
-## Add your files
+# Front End
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+HTML, CSS, JavaScript : Technologies de base pour la structure et le style des pages web.
+Angular : Framework de développement d'applications web côté client utilisant TypeScript.
+TypeScript : Superset de JavaScript qui ajoute des types statiques, améliorant ainsi la robustesse et la maintenabilité du code.
+GSAP (GreenSock Animation Platform) : Bibliothèque JavaScript puissante pour créer des animations fluides et performantes.
+Three.js : Bibliothèque JavaScript pour créer et afficher des graphiques 3D dans le navigateur.
+WebRTC : Technologie pour les communications en temps réel, utilisée pour les appels vidéo.
 
-```
-cd existing_repo
-git remote add origin https://git.dti.crosemont.quebec/projetweb2/plateformedecollaborationartistiquenicholsonalimartinvanettaspring.git
-git branch -M main
-git push -uf origin main
-```
+# Back End
 
-## Integrate with your tools
+Spring Boot : Framework Java pour développer des applications web robustes et scalables.
+MySQL : Système de gestion de base de données relationnelle pour stocker les données de l'application.
+Spring Security : Module de sécurité de Spring Framework pour gérer l'authentification et l'autorisation.
+Java : Langage de programmation utilisé pour le développement côté serveur.
 
-- [ ] [Set up project integrations](https://git.dti.crosemont.quebec/projetweb2/plateformedecollaborationartistiquenicholsonalimartinvanettaspring/-/settings/integrations)
+# Autres
 
-## Collaborate with your team
+API OpenAI : Utilisée pour générer des idées grâce à des modèles d'intelligence artificielle avancés.
+Stability AI API : Utilisée pour la génération d'images basée sur l'intelligence artificielle.
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+## Installation et configuration
 
-## Test and Deploy
+Pour installer et configurer ce projet Spring Boot, suivez les étapes ci-dessous :
 
-Use the built-in continuous integration in GitLab.
+# Pré-requis :
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+Assurez-vous d'avoir MySQL installé sur votre système.
+Configuration de la base de données :
 
-***
+Créez une base de données MySQL nommée artsync. L'injection des tables sera automatique lors du lancement de l'application.
 
-# Editing this README
+# Configuration des API :
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+API OpenAI (Générateur d'idée) :
+Ajoutez votre clé API OpenAI dans le fichier openai.properties (remplacez [Insert nom fichier] par le nom exact du fichier).
+API Stability AI (Générateur d'image) :
+Ajoutez votre clé API dans le fichier application.properties.
 
-## Suggestions for a good README
+# Lancer l'application :
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+Démarrez l'application sur intellij. Toutes les configurations nécessaires seront prises en compte et votre environnement sera prêt à être utilisé.
 
-## Name
-Choose a self-explaining name for your project.
+## Statut du projet
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+Le projet a débuté en février 2024 et s'est achevé le 30 mai 2024. Toutes les fonctionnalités prévues ont été implémentées et testées, et l'application est désormais prête à être utilisée.

@@ -6,6 +6,7 @@ import { CommentService } from '../service/comment.service';
 import { Comment } from '../models/comment.model';
 import { ForumService } from '../service/forum.service';
 import { Subscription } from 'rxjs';
+import { PostService } from '../service/post.service';
 
 @Component({
   selector: 'app-comment-list-specific',
@@ -22,7 +23,8 @@ export class CommentListSpecificComponent implements OnInit {
     private route: ActivatedRoute,
     private location: Location,
     private commentService: CommentService,
-    private forumService: ForumService
+    private forumService: ForumService,
+    private postService:PostService
   ) { }
 
   ngOnInit(): void {
@@ -41,7 +43,9 @@ export class CommentListSpecificComponent implements OnInit {
     } else if (path.includes('user')) {
       // Pour utilisateurs
     } else if (path.includes('post')) {
-      // Pour posts
+      this._subscriptions.push(
+        this.postService.getCommentaireByPostId(id).subscribe(comments => this.comments = comments)
+      );
     }
   }
 

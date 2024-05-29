@@ -3,6 +3,8 @@ import { POSTS } from './mock-post';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../constants/environment.constant';
 import { Post } from '../models/post.model';
+import { Observable } from 'rxjs';
+import { Comment } from '../models/comment.model';
 
 @Injectable({
   providedIn: 'root'
@@ -24,5 +26,8 @@ export class PostService {
   }
   getAllPostByUserId(id: number) {
     return POSTS.filter(post => post.utilisateur.id === id);
+  }
+  getCommentaireByPostId(id: number) : Observable<Comment[]> {
+    return this.http.get<Comment[]>(this.host_url + '/api/posts/commentaires/' + id);
   }
 }

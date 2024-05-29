@@ -45,7 +45,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 <a th:href="@{/forum/following}" class="section">
                     <i class="bi bi-person-vcard"></i> <p>Threads de vos abonnements</p>
                 </a>
-                <a class="section">
+                <a class="section" id="favoriteForums">
                     <i class="bi bi-bookmark-check"></i> <p>Threads enregistrés</p>
                 </a>
                 <dialog id="creationDialog">
@@ -101,7 +101,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     <i class="bi bi-plus-square"></i> <p>Créer un thread</p>
                 </div>
             </div>
-            <h4 style="margin-top: 10em">FILTRES</h4>
+            <h4>FILTRES</h4>
             <hr>
             <div class="sectionFilter">
                 <form action="" class="filterForm" id="filterTags">
@@ -139,7 +139,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 
             <div class="resultHolder">
                 <h4 th:if="${message}" th:text="${message}"></h4>
-                <div th:each="thread : ${threads}" class="forumHolder">
+                <div th:each="thread : ${threads}" class="forumHolder" th:data-threadForumId="${thread.id}">
                     <div class="threadHeader">
                         <p>[[${thread.titre}]]</p>
                         <i th:if="${ (session.user!=null) && thread.utilisateur.getId() == session.user.getId()}" class="bi bi-x-lg deleteIcon" th:data-threadId="${thread.getId()}"></i>
@@ -168,7 +168,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     </div>
                     <div class="threadOptions">
                         <div class="d-flex gap-3">
-                            <p class="chatThread"><i class="bi bi-bookmark"></i></p>
+                            <p class="chatThread" th:data-forum="${thread.getId()}"><i class="bi bi-bookmark"></i></p>
                         </div>
                         <div th:if="${!thread.getListeCommentaires().isEmpty() || session.user != null }" class="chevronDiv">
                             <i class="bi bi-chevron-down" id="chevron"></i>

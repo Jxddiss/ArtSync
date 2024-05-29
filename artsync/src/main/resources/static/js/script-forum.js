@@ -209,3 +209,51 @@ function deleteCommentaire(commentaire,commentaireID){
     })
 }
 
+const favoriteForumsBtn = document.getElementById("favoriteForums")
+let favoriteShown = false
+const bookmarks = document.querySelectorAll(".chatThread")
+bookmarks.forEach(bookmark =>{
+
+    const favForums = JSON.parse(localStorage.getItem("favoriteForums")) || [];
+    if (favForums.includes(bookmark.getAttribute("data-forum"))){
+        bookmark.innerHTML='<i class="bi bi-bookmark-fill" style="color: rgb(229,172,71)"></i>'
+    }
+    
+
+    bookmark.addEventListener("click",function (){
+        const forumId = bookmark.getAttribute("data-forum")
+        let favoriteForums = JSON.parse(localStorage.getItem("favoriteForums")) || [];
+
+        if (!favoriteForums.includes(forumId)){
+            bookmark.innerHTML='<i class="bi bi-bookmark-fill" style="color: rgb(229,172,71)"></i>'
+            favoriteForums.push(forumId)
+        }else{
+            bookmark.innerHTML='<i class="bi bi-bookmark"></i>'
+            favoriteForums = favoriteForums.filter(forum => forum !== forumId)
+        }
+        localStorage.setItem("favoriteForums",JSON.stringify(favoriteForums))
+    })
+})
+
+favoriteForumsBtn.addEventListener("click",function (){
+    const favoriteForums = JSON.parse(localStorage.getItem("favoriteForums")) || [];
+    if (!favoriteShown){
+        favoriteShown = true
+        threads.forEach(thread => {
+            const threadId = thread.getAttribute("data-threadForumId")
+            if (!favoriteForums.includes(threadId)){
+                thread.style.display = "none"
+            }else{
+                thread.style.display = "flex"
+            }
+        })
+    }
+    else{
+        favoriteShown = false
+        threads.forEach(thread => {
+            thread.style.display = "flex"
+        })
+    }
+})
+
+

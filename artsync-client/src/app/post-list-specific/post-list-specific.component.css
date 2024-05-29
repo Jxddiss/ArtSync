@@ -30,7 +30,7 @@
     cursor: pointer;
     scale: 1.0125;
 }
-.post img{
+.post img, .post video{
     height: 17rem;
     width: 100%;
     object-fit: cover;

@@ -25,6 +25,7 @@ import { GroupPreviewComponent } from './group-preview/group-preview.component';
 import { PostPreviewComponent } from './post-preview/post-preview.component';
 import { LoginComponent } from './login/login.component';
 import { AuthInterceptor } from './interceptor/auth.interceptor';
+import { DemandesComponent } from './demandes/demandes.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { AuthInterceptor } from './interceptor/auth.interceptor';
     GroupPreviewComponent,
     PostPreviewComponent,
     LoginComponent,
+    DemandesComponent,
   ],
   imports: [
     BrowserModule,

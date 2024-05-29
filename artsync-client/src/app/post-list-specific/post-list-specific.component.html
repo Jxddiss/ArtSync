@@ -5,7 +5,7 @@
             @if(post.type !== 'video'){
                 <img src="{{BASE_PUBLICATION_PHOTO_PATH+post.listeFichiers[0].urlMedia}}" alt="">
             }@else{
-                <video src="{{BASE_PUBLICATION_PHOTO_PATH+post.listeFichiers[0].urlMedia}}" controls playsinline ></video>
+                <video src="{{BASE_PUBLICATION_PHOTO_PATH+post.listeFichiers[0].urlMedia}}" controls playsinline muted></video>
             }
             <div class="post-info">
                 <p>{{post.texte}}</p>

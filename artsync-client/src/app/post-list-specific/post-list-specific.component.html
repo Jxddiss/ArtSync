@@ -1,4 +1,3 @@
-<app-search-specific (searchQuery)="searchPost($event)"></app-search-specific>
 <div class="post-container">
     <a [routerLink]="['/overview/post/comments',post.id]" *ngFor="let post of posts" class="post">
         <h4>{{post.id}}</h4>

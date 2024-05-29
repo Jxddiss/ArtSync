@@ -1,4 +1,3 @@
-<app-search-specific (searchQuery)="searchForum($event)"></app-search-specific>
 <div class="forum-container">
     <a [routerLink]="['/overview/forum/comments/',forum.id]" *ngFor="let forum of forums" class="forum">
         <div class="forum-info">

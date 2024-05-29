@@ -15,7 +15,6 @@ import { PostListComponent } from './post-list/post-list.component';
 import { ForumListComponent } from './forum-list/forum-list.component';
 import { UserPreviewComponent } from './user-preview/user-preview.component';
 import { UserListSpecificComponent } from './user-list-specific/user-list-specific.component';
-import { SearchSpecificComponent } from './search-specific/search-specific.component';
 import { PostListSpecificComponent } from './post-list-specific/post-list-specific.component';
 import { GroupeListSpecificComponent } from './groupe-list-specific/groupe-list-specific.component';
 import { ForumListSpecificComponent } from './forum-list-specific/forum-list-specific.component';
@@ -39,7 +38,6 @@ import { LoginComponent } from './login/login.component';
     ForumListComponent,
     UserPreviewComponent,
     UserListSpecificComponent,
-    SearchSpecificComponent,
     PostListSpecificComponent,
     GroupeListSpecificComponent,
     ForumListSpecificComponent,

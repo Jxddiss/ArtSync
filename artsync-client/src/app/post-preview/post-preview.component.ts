@@ -68,7 +68,7 @@ export class PostPreviewComponent implements OnInit {
     this._subscriptions.push(
       this.postService.deletePost(this._post.id).subscribe((response) => {
         if (response.message === 'Success') {
-          this.location.back();
+          this.router.navigate(['/generalView', { outlets: { generalView: 'posts' } }]);
         }
       })
     )

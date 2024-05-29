@@ -55,4 +55,17 @@ export class ForumPreviewComponent {
   hideDialog(): void {
     this.dialog.nativeElement.style.display = 'none';
   }
+
+  onDeleteForum(): void {
+    if (!this.forum) return
+
+    this._subscriptions.push(
+      this.forumService.deleteForum(this.forum.id).subscribe((response) => {
+        if (response.message === 'Success') {
+          this.router.navigate(['/generalView', { outlets: { generalView: 'forums' } }]);
+        }
+      })
+    );
+    this.hideDialog();
+  }
 }

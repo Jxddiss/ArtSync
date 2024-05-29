@@ -29,7 +29,7 @@
             </a>
             <div class="post-cell">
                 <h5>Date de création : </h5>
-                <p>{{post?.date}}</p>
+                <p [textContent]="post?.date | date" ></p>
             </div>
         </div>
     </div>

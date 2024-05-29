@@ -24,4 +24,8 @@ export class ForumService {
     getAllForumByUtilisateurId(id: number) : Observable<Forum[]> {
         return this.http.get<Forum[]>(this.host_url + '/api/users/forums/' + id);
     }
+
+    deleteForum(id: number) {
+        return this.http.delete<any>(this.host_url + "/api/admin/forums/delete", { params: { 'forumId': id } });
+    }
 }

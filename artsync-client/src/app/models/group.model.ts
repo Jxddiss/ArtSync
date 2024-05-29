@@ -5,12 +5,12 @@ export class Group{
         public id: number,
         public titre: string,
         public description: string,
-        public projectPhoto: string,
+        public projetPhoto: string,
         public publique: boolean,
-        public dateCreation: string,
-        public dateModification: string,
-        public dateSuppression: string,
-        public userAdmin : Utilisateur,
-        public userCount : number
+        public dateCreation: Date,
+        public dateModification: Date,
+        public dateSuppression: Date,
+        public admin : Utilisateur,
+        public utilisateurs: Utilisateur[],
     ) {}
 }

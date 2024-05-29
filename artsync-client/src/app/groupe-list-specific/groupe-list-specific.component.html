@@ -1,11 +1,15 @@
 <div class="group-container">
-    <a [routerLink]="['/overview/group/users']" class="group"> <!-- <-------------- RAJOUTER L'ID DU GROUPE APRÈS -->
-        <img src="../../assets/images/ultraRealisticTotoro.png" alt="">
-        <div class="group-info">
-            <p>Mystic Quest</p>
-            <p>À la recherche d'artiste compétant en art numérique, 3D ou pixel. Les autres vous pouvez également rejoindre pour apprendre!</p>
-        </div>
-    </a>
 
+    @for (group of groupes; track $index) {
+
+        <a [routerLink]="['/overview/group/users/',group.id]" class="group"> <!-- <-------------- RAJOUTER L'ID DU GROUPE APRÈS -->
+            <img src="{{BASE_GROUPE_PHOTO_PATH+group.projetPhoto}}" alt="">
+            <div class="group-info">
+                <p>{{group.titre}}t</p>
+                <p>{{group.description}}</p>
+            </div>
+        </a
+        >
+    }
     <!--EFFACE À PARTIR DE LÀ-->
 </div>

@@ -1,6 +1,6 @@
 <div class="user-container">
     <div class="user-header">
-        <img [src]="utilisateur?.photoUrl" alt="">
+        <img [src]="currentPhoto" alt="">
         <div class="user-identity">
             <p>{{utilisateur?.nom}} {{utilisateur?.prenom}}</p>
             <p><b>&#64;{{utilisateur?.pseudo}}</b></p>
@@ -20,7 +20,7 @@
             </div>
             <div class="user-cell">
                 <h5>Statut : </h5>
-                <input type="text" name="statut" [value]="utilisateur?.isActive" placeholder="Statut" readonly>
+                <input type="text" name="statut" [value]="utilisateur?.active" placeholder="Statut" readonly>
             </div>
             <div class="user-cell">
                 <h5>Spécialisation : </h5>
@@ -28,7 +28,7 @@
             </div>
             <div class="user-cell">
                 <h5>Role : </h5>
-                <input type="text" name="role" [value]="utilisateur?.roleName" placeholder="Role" readonly>
+                <input type="text" name="role" [value]="utilisateur?.role" placeholder="Role" readonly>
             </div>
         </form>
     </div>

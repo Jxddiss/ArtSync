@@ -1,21 +1,29 @@
 import { Injectable } from '@angular/core';
-import { GROUPS } from './mock-group';
+import { environment } from '../constants/environment.constant';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Group } from '../models/group.model';
+import { Utilisateur } from '../models/utilisateur.model';
 
 @Injectable({
     providedIn: 'root'
 })
 
 export class GroupService {
-    constructor() {
-        this.getAllGroups();
-    }
-    getAllGroups() {
-        return GROUPS;
-    }
-    getGroupByTitle(title: string) {
-        return GROUPS.find(group => group.titre === title);
+    private host_url = environment.apiUrl;
+    private _membresGroupe : Utilisateur[] = [];
+    constructor(private http: HttpClient) {}
+    getAllGroups() : Observable<Group[]> {
+        return this.http.get<Group[]>(this.host_url + '/api/groups');
     }
     getGroupById(id: number) {
-        return GROUPS.find(group => group.id === id);
+        return this.http.get<Group>(this.host_url + '/api/groups/' + id);
     }
+    get membresGroupe(): Utilisateur[] {
+        return this._membresGroupe;
+    }
+    set membresGroupe(membresGroupe: Utilisateur[]) {
+        this._membresGroupe = membresGroupe;
+    }
+
 }

@@ -4,6 +4,8 @@ import { Location } from '@angular/common';
 
 import { UtilisateurService } from '../service/utilisateur.service';
 import { Utilisateur } from '../models/utilisateur.model';
+import { Subscription } from 'rxjs';
+import { environment } from '../constants/environment.constant';
 
 declare function toggleReadonly(): void;
 
@@ -15,7 +17,9 @@ declare function toggleReadonly(): void;
 export class UserPreviewComponent implements OnInit{
 
   utilisateur : Utilisateur | undefined;
-
+  private _subscriptions : Subscription[] = [];
+  private _BASE_UTILISATEUR_PHOTO_PATH : string = environment.apiUrl + '/media/images/utilisateur/';
+  currentPhoto = ""
   constructor( 
     private router: Router,
     private route: ActivatedRoute,
@@ -29,7 +33,15 @@ export class UserPreviewComponent implements OnInit{
 
   getUtilisateur(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.utilisateur = this.utilisateurService.getUserById(id);
+    this._subscriptions.push(
+      this.utilisateurService.getUserById(id).subscribe(utilisateur => {
+        this.utilisateur = utilisateur
+        this.currentPhoto = this._BASE_UTILISATEUR_PHOTO_PATH+utilisateur.photoUrl
+    })
+    );
+  }
+  ngOnDestroy(): void {
+    this._subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
   isActive(url: string): boolean {

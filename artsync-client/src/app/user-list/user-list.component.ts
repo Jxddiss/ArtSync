@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { UtilisateurService } from '../service/utilisateur.service';
 import { Utilisateur } from '../models/utilisateur.model';
+import { Subscription } from 'rxjs';
+import { environment } from '../constants/environment.constant';
 
 @Component({
   selector: 'app-user-list',
@@ -11,15 +13,23 @@ import { Utilisateur } from '../models/utilisateur.model';
 export class UserListComponent {
   private _utilisateurs : Utilisateur[]
   private _allUtilisateurs : Utilisateur[]
-
+  private _subscriptions : Subscription[] = []
+  private _BASE_UTILISATEUR_PHOTO_PATH : string = environment.apiUrl + '/media/images/utilisateur/';
   constructor(private router: Router, private utilisateurService : UtilisateurService) {
     this._utilisateurs = []
     this._allUtilisateurs = []
   }
 
   ngOnInit(){
-    this._utilisateurs = this.utilisateurService.getAllUsers()
-    this._allUtilisateurs = this._utilisateurs
+    this._subscriptions.push(
+      this.utilisateurService.getAllUsers().subscribe(utilisateurs => {
+        this._utilisateurs = utilisateurs
+        this._allUtilisateurs = utilisateurs
+      })
+    )
+  }
+  ngOnDestroy(){
+    this._subscriptions.forEach(subscription => subscription.unsubscribe())
   }
 
   onUserClick() {
@@ -43,5 +53,8 @@ export class UserListComponent {
 
   get utilisateurs():Utilisateur[]{
     return this._utilisateurs
+  }
+  get BASE_UTILISATEUR_PHOTO_PATH():string{
+    return this._BASE_UTILISATEUR_PHOTO_PATH
   }
 }

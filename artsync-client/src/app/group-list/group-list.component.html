@@ -1,7 +1,7 @@
 <app-search (searchQuery)="searchGroup($event)"></app-search>
 <div class="group-container">
     <a [routerLink]="['/overview/group/users/', group.id]" *ngFor="let group of groups" class="group">
-        <img [src]="group.projectPhoto" alt="">
+        <img src="{{BASE_GROUPE_PHOTO_PATH+group.projetPhoto}}" alt="">
         <div class="group-info">
             <p>{{group.titre}}</p>
             <p>{{group.description}}</p>

@@ -8,6 +8,7 @@
     margin-top: 3.5%;
     overflow-y: auto;
     padding: 0.5rem;
+    justify-content: center;
 }
 .post{
     padding: 1rem;

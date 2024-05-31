@@ -24,7 +24,7 @@ import { SettingsComponent } from './settings/settings.component';
 const routes: Routes = [
   //---------------------------------------------------------------------------------GENERAL VIEWS---------------------------------------------------------------------------------
   { path: '', redirectTo: '/login', pathMatch: 'full' },
-  {path:'login',component:LoginComponent},
+  {path:'login',component:LoginComponent, pathMatch: 'full'},
   {path:'demandes',component:DemandesComponent},
   {path:'settings',component:SettingsComponent},
   { 

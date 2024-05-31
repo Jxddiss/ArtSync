@@ -62,6 +62,10 @@ Configuration de la base de données :<br>
 Créez une base de données MySQL nommée artsync. L'injection des tables sera automatique lors du lancement de l'application.<br>
 Vous pouvez également lancer le script sql ou se trouve des données préparé<br>
 
+Voici des utilisateur pour tester l'application dans votre environnement : <br>
+- Pseudo : mark09y, Mot de passe : 123, Role: Administrateur (Pour se connecter à l'application angular)
+- Pseudo : quitta, Mot de passe : 1, Role: Utilisateur
+
 ## Configuration des API :
 
 **API OpenAI** (Générateur d'idée) :<br>

@@ -55,7 +55,10 @@
     font-weight: 400;
     font-size: 1rem;
     text-align: left;
-
+    max-height: 10vh;
+    overflow: scroll;
+    max-width: 100%;
+    word-break: break-word;
 }
 
 .post-info svg:last-child{

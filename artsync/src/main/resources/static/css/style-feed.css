@@ -223,6 +223,10 @@ main button {
 .description {
   margin-left: 1em;
   margin-top: 1em;
+  max-height: 30vh;
+  overflow: scroll;
+  max-width: 100%;
+  word-break: break-word;
 }
 
 .description::after {

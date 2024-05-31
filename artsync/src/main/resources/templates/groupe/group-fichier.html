@@ -39,7 +39,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             <dialog th:if="${user.getId() == projet.getAdmin().getId() || session.user.getId() == user.getId() }" class="deleteDialog">
                 <h6>Voulez-vous vraiment supprimé ce fichier</h6>
                 <div>
-                    <button id="confirmerDelete">SUPPRIMER</button>
+                    <button id="confirmerDeleteFichier">SUPPRIMER</button>
                     <button id="annulerDeleteDialog">ANNULER</button>
                 </div>
             </dialog>
@@ -130,7 +130,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     </script>
     <script th:if="${user.getId() == projet.getAdmin().getId() || session.user.getId() == user.getId() }">
         let btnDelete = document.querySelectorAll(".deleteFichierBtn")
-        let confirmerDeleteBtn = document.getElementById("confirmerDelete")
+        let confirmerDeleteBtn = document.getElementById("confirmerDeleteFichier")
         const dialog = document.querySelector(".deleteDialog")
         const closeDeleteDialog = document.getElementById("annulerDeleteDialog")
         let openDeleteDialog = false

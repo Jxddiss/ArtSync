@@ -63,7 +63,7 @@ public class AdminDeleteRestController {
     }
 
     @DeleteMapping("/api/admin/posts/delete")
-    private ResponseEntity<HttpResponse> deletePost(@RequestParam("postId") Long postId,
+    public ResponseEntity<HttpResponse> deletePost(@RequestParam("postId") Long postId,
                                                     HttpMethod method) throws NoResourceFoundException{
         Post post = postService.findById(postId);
         if (post == null){

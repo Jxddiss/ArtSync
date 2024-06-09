@@ -128,7 +128,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             titre: 'Succès',
         })
     </script>
-    <script th:if="${user.getId() == projet.getAdmin().getId() || session.user.getId() == user.getId() }">
+    <script th:if="${session.user.getId() == projet.getAdmin().getId() || session.user.getId() == user.getId() }">
         let btnDelete = document.querySelectorAll(".deleteFichierBtn")
         let confirmerDeleteBtn = document.getElementById("confirmerDeleteFichier")
         const dialog = document.querySelector(".deleteDialog")

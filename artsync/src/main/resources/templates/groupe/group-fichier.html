@@ -36,7 +36,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     </div>
     <h4 class="d-flex justify-content-center">Fichiers de [[${user.getPseudo()}]]</h4>
         <div class="fichiersHolder" id="fichiersHolder">
-            <dialog th:if="${user.getId() == projet.getAdmin().getId() || session.user.getId() == user.getId() }" class="deleteDialog">
+            <dialog th:if="${session.user.getId() == projet.getAdmin().getId() || session.user.getId() == user.getId() }" class="deleteDialog">
                 <h6>Voulez-vous vraiment supprimé ce fichier</h6>
                 <div>
                     <button id="confirmerDeleteFichier">SUPPRIMER</button>
@@ -45,7 +45,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             </dialog>
             <div th:each="fichier : ${fichiers}" class="fichier">
 
-                <button th:if="${user.getId() == projet.getAdmin().getId() || session.user.getId() == user.getId() }" class="deleteFichierBtn bi bi-x" th:data-fichierId="${fichier.getId()}"></button>
+                <button th:if="${session.user.getId() == projet.getAdmin().getId() || session.user.getId() == user.getId() }" class="deleteFichierBtn bi bi-x" th:data-fichierId="${fichier.getId()}"></button>
 
                 <div th:switch="${fichier.type}" class="fichierImg">
                     <img th:case="'image'"

@@ -1,4 +1,4 @@
-# PlateformeDeCollaborationArtistiqueNicholsonAliMartinVanettaSpring
+# ArtSync
 Projet pour le cours 420-G26-RO - Applications Web 2 - H2024<br>
 Présenté à : Dini Ahamada<br>
 Type de Projet : Platforme de collaboration artistique<br>
